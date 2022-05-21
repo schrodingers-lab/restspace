@@ -1,0 +1,11 @@
+CREATE OR REPLACE FUNCTION geo_rest_areas(x numeric, y numeric, distance int)
+  RETURNS setof rest_areas as $$
+    select * 
+    from rest_areas
+    where ST_DWithin(
+            geom, 
+            ST_MakePoint(x, y)::geography,
+            distance, 
+            true 
+      );
+$$ language sql;

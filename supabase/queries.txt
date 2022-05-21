@@ -1,0 +1,10 @@
+
+select * 
+from "public"."rest_areas" 
+-- where "id" =  23821
+where 1=1
+and ST_DWithin(
+        geom, 
+        ST_MakePoint(-71.064544, 42.3150676015829)::geography,
+        20000, 
+        true );

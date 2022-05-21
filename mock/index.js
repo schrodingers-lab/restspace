@@ -1,36 +1,91 @@
-export const images = [
-  'https://images.unsplash.com/photo-1610235554447-41505d7962f8?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=882&q=80',
-  'https://images.unsplash.com/photo-1610212594948-370947a3ba0b?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=934&q=80',
-  'https://images.unsplash.com/photo-1610155180433-9994da6a323b?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80',
-];
-
-export const homeItems = [
+export const restAreas = [
   {
-    title: 'Exploring Maui',
-    type: 'Blog',
-    text: 'We just got back from a trip to Maui, and we had a great time...',
-    author: 'Max Lynch',
-    authorAvatar: '/img/max.jpg',
-    image: images[0],
+    id: 2381,
+    name: 'unnamed (Ref:2381)',
+    region: 'MOUNT ISA CITY',
+    author: 'TMR',
+    bbq: false,
+    fuel: false,
+    lights: false,
+    showers: false,
+    toilets: true,
+    tables: true,
+    power: false,
+    road_surface: 'sealed',
+    dangerous_bays: 1,
+    dangerous_bays_available: 1,
+    type: "HVSB",
+    geom: {
+      type: 'Point',
+      coordinates: [-20.41969,139.38479]
+    },
+    longitude: -20.41969,
+    latitude: 139.38479,
+    images: [
+      'https://s3-ap-southeast-2.amazonaws.com/restspace-restarea-photo-prod/images/0bb42b58d9284cf9b07701557c88b30c.png',
+      'https://s3-ap-southeast-2.amazonaws.com/restspace-restarea-photo-prod/images/79df81ebc27c4c15b2ac85560acae48b.png',
+      'https://s3-ap-southeast-2.amazonaws.com/restspace-restarea-photo-prod/images/30db36a7262f46668995e1ef94c36262.png',
+      'https://s3-ap-southeast-2.amazonaws.com/restspace-restarea-photo-prod/images/cca2d97e510f49059f14e871803c7658.png'
+    ]
   },
   {
-    title: 'Arctic Adventures',
-    type: 'Blog',
-    text:
-      'Last month we took a trek to the Arctic Circle. The isolation was just what we needed after...',
-    author: 'Max Lynch',
-    authorAvatar: '/img/max.jpg',
-    image: images[1],
+    id: 2381,
+    name: 'unnamed (Ref:2382)',
+    region: 'MOUNT ISA CITY2',
+    author: 'TMR',
+    bbq: false,
+    fuel: false,
+    lights: false,
+    showers: false,
+    toilets: true,
+    tables: true,
+    power: false,
+    road_surface: 'sealed',
+    dangerous_bays: 1,
+    dangerous_bays_available: 1,
+    type: "HVSB",
+    geom: {
+      type: 'Point',
+      coordinates: [-20.41969,139.38479]
+    },
+    longitude: -20.41969,
+    latitude: 139.38479,
+    images: [
+      'https://s3-ap-southeast-2.amazonaws.com/restspace-restarea-photo-prod/images/0bb42b58d9284cf9b07701557c88b30c.png',
+      'https://s3-ap-southeast-2.amazonaws.com/restspace-restarea-photo-prod/images/79df81ebc27c4c15b2ac85560acae48b.png',
+      'https://s3-ap-southeast-2.amazonaws.com/restspace-restarea-photo-prod/images/30db36a7262f46668995e1ef94c36262.png',
+      'https://s3-ap-southeast-2.amazonaws.com/restspace-restarea-photo-prod/images/cca2d97e510f49059f14e871803c7658.png'
+    ]
   },
   {
-    title: 'Frolicking in the Faroe Islands',
-    type: 'Blog',
-    text:
-      'The Faroe Islands are a North Atlantic archipelago located 320 kilometres (200 mi) north-northwest of Scotland...',
-    author: 'Max Lynch',
-    authorAvatar: '/img/max.jpg',
-    image: images[2],
-  },
+    id: 2381,
+    name: 'unnamed (Ref:2383)',
+    region: 'MOUNT ISA CITY3',
+    author: 'TMR',
+    bbq: false,
+    fuel: false,
+    lights: false,
+    showers: false,
+    toilets: true,
+    tables: true,
+    power: false,
+    road_surface: 'sealed',
+    dangerous_bays: 1,
+    dangerous_bays_available: 1,
+    type: "HVSB",
+    geom: {
+      type: 'Point',
+      coordinates: [-20.41969,139.38479]
+    },
+    longitude: -20.41969,
+    latitude: 139.38479,
+    images: [
+      'https://s3-ap-southeast-2.amazonaws.com/restspace-restarea-photo-prod/images/0bb42b58d9284cf9b07701557c88b30c.png',
+      'https://s3-ap-southeast-2.amazonaws.com/restspace-restarea-photo-prod/images/79df81ebc27c4c15b2ac85560acae48b.png',
+      'https://s3-ap-southeast-2.amazonaws.com/restspace-restarea-photo-prod/images/30db36a7262f46668995e1ef94c36262.png',
+      'https://s3-ap-southeast-2.amazonaws.com/restspace-restarea-photo-prod/images/cca2d97e510f49059f14e871803c7658.png'
+    ]
+  }
 ];
 
 export const notifications = [

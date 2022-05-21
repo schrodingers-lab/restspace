@@ -12,13 +12,18 @@ import {
   IonToolbar,
 } from '@ionic/react';
 import { useEffect, useState } from 'react';
-import { cog, flash, list } from 'ionicons/icons';
+import { cog, bookmark, map, list } from 'ionicons/icons';
 
 const pages = [
   {
-    title: 'Feed',
-    icon: flash,
-    url: '/tabs/feed',
+    title: 'Map',
+    icon: map,
+    url: '/tabs/map',
+  },
+  {
+    title: 'Bookmarked',
+    icon: bookmark,
+    url: '/tabs/bookmarked',
   },
   {
     title: 'Lists',
@@ -58,7 +63,7 @@ const Menu = () => {
     <IonMenu side="start" contentId="main" onIonDidOpen={handleOpen} onIonDidClose={handleClose}>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Menu</IonTitle>
+          <IonTitle>Restspace</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent>
