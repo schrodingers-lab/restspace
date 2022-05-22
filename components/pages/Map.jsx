@@ -14,7 +14,7 @@ import {
   IonContent,
   IonMenuButton,
 } from '@ionic/react';
-import { search, filter, bookmark } from 'ionicons/icons';
+import { search, filter, bookmark, locate } from 'ionicons/icons';
 import Notifications from './Notifications';
 import React, { useRef, useEffect, useState } from 'react';
 import { notificationsOutline } from 'ionicons/icons';
@@ -126,20 +126,27 @@ const Map = () => {
           </IonButtons>
         </IonToolbar>
       </IonHeader>
-      <IonContent className="ion-padding" fullscreen>
-        <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonTitle size="large">Map</IonTitle>
-          </IonToolbar>
-        </IonHeader>
+      <IonContent fullscreen>
         <Notifications open={showNotifications} onDidDismiss={() => setShowNotifications(false)} />
         <div className="map-section">
           <div ref={mapContainer} className="map-container"/>
         </div>
         {/*-- fab placed to the (vertical) center and end --*/}
-        <IonFab  vertical="top" horizontal="end" slot="fixed">
+        <IonFab  vertical="bottom" horizontal="center" slot="fixed">
           <IonFabButton  onClick={() => geoMapSearch()}>
             <IonIcon icon={search} />
+          </IonFabButton>
+        </IonFab>
+
+        <IonFab  vertical="top" horizontal="start" slot="fixed">
+          <IonFabButton  onClick={() => geoMapSearch()}>
+            <IonIcon icon={filter} />
+          </IonFabButton>
+        </IonFab>
+
+        <IonFab  vertical="top" horizontal="end" slot="fixed">
+          <IonFabButton  onClick={() => geoMapSearch()}>
+            <IonIcon icon={locate} />
           </IonFabButton>
         </IonFab>
       </IonContent>
