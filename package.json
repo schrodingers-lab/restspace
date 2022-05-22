@@ -20,6 +20,7 @@
     "@ionic/react": "^5.5.2",
     "@ionic/react-router": "^5.5.2",
     "@supabase/supabase-js": "^1.35.3",
+    "@turf/distance": "^6.5.0",
     "autoprefixer": "^10.2.6",
     "classnames": "^2.2.6",
     "mapbox-gl": "^2.8.2",

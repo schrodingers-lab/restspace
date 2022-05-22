@@ -13,21 +13,21 @@ const Tabs = () => {
   return (
     <IonTabs>
       <IonRouterOutlet>
-        <Route path="/tabs/bookmarked" component={Bookmarked} exact={true} />
         <Route path="/tabs/map" component={Map} exact={true} />
+        <Route path="/tabs/bookmarked" component={Bookmarked} exact={true} />
         <Route path="/tabs/lists" component={Lists} exact={true} />
         <Route path="/tabs/lists/:listId" component={ListDetail} exact={true} />
         <Route path="/tabs/settings" component={Settings} exact={true} />
-        <Route path="/tabs" render={() => <Redirect to="/tabs/bookmarked" />} exact={true} />
+        <Route path="/tabs" render={() => <Redirect to="/tabs/map" />} exact={true} />
       </IonRouterOutlet>
       <IonTabBar slot="bottom">
-        <IonTabButton tab="tab1" href="/tabs/bookmarked">
-          <IonIcon icon={bookmark} />
-          <IonLabel>Bookmarked</IonLabel>
-        </IonTabButton>
-        <IonTabButton tab="tab2" href="/tabs/map">
+        <IonTabButton tab="tab1" href="/tabs/map">
           <IonIcon icon={map} />
           <IonLabel>Map</IonLabel>
+        </IonTabButton>
+        <IonTabButton tab="tab2" href="/tabs/bookmarked">
+          <IonIcon icon={bookmark} />
+          <IonLabel>Bookmarked</IonLabel>
         </IonTabButton>
         <IonTabButton tab="tab3" href="/tabs/lists">
           <IonIcon icon={list} />
