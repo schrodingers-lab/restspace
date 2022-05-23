@@ -33,10 +33,10 @@ const Map = () => {
   const mapContainer = useRef(null);
   const map = useRef(null);
   const filterFabRef = useRef(null);
-  const [lng, setLng] = useState(139.38479);
-  const [lat, setLat] = useState(-20.41969);
-  const [distance, setDistance] = useState(1000);
-  const [zoom, setZoom] = useState(9);
+  const [lng, setLng] = useState(151.69370392926862);
+  const [lat, setLat] = useState(-25.94497349642141);
+  const [distance, setDistance] = useState(400000);
+  const [zoom, setZoom] = useState(6);
   const [restAreas, setRestAreas] = useState([]);
   const [markers, setMarkers] = useState([]);
 
