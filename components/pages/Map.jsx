@@ -15,7 +15,7 @@ import {
   IonMenuButton,
   IonFabList
 } from '@ionic/react';
-import { search, filter, bookmark, locate } from 'ionicons/icons';
+import { search, filter, bookmark, locate, trendingUpOutline } from 'ionicons/icons';
 import Notifications from './Notifications';
 import React, { useRef, useEffect, useState } from 'react';
 import { notificationsOutline } from 'ionicons/icons';
@@ -40,11 +40,10 @@ const Map = () => {
   const [restAreas, setRestAreas] = useState([]);
   const [markers, setMarkers] = useState([]);
 
-
+  const [filterOpen, setFilterOpen] = useState(false);
   const [toiletFilter, setToiletFilter] = useState(false);
   const [waterFilter, setWaterFilter] = useState(false);
   const [showerFilter, setShowerFilter] = useState(false);
-  const [binFilter, setBinFilter] = useState(false);
   const [tableFilter, setTableFilter] = useState(false);
   const [bbqFilter, setBbqFilter] = useState(false);
   const [fuelFilter, setFuelFilter] = useState(false);
@@ -52,13 +51,6 @@ const Map = () => {
 
   // Create a single supabase client for interacting with your database 
   const supabase = createClient('https://arvqjbylexvdpyooykji.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFydnFqYnlsZXh2ZHB5b295a2ppIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NTMxMTk1MzUsImV4cCI6MTk2ODY5NTUzNX0.09341SKltY0PCODodzrDD1RQDXB5tA5dnMc-jQbKPag');
-  
-  const dat1 = async () => {
-    const { data, error } = await supabase
-      .from('rest_areas')
-      .select()
-    console.log("supabase dat1", data);
-  }
 
   const geoSearch = async () => {
     const query = supabase
@@ -73,9 +65,6 @@ const Map = () => {
     }
     if (waterFilter){
       query.eq('water', true);
-    }
-    if (binFilter){
-      query.eq('bin', true);
     }
     if (fuelFilter){
       query.eq('fuel', true);
@@ -193,15 +182,9 @@ const Map = () => {
             <IonIcon icon={search} />
           </IonFabButton>
         </IonFab>
-{/* 
-        <IonFab  vertical="top" horizontal="end" slot="fixed">
-          <IonFabButton color="light" onClick={() => geoMapSearch()}>
-            <IonIcon icon={locate} />
-          </IonFabButton>
-        </IonFab> */}
 
-        <IonFab ref={filterFabRef} horizontal="start" vertical="top" slot="fixed" >
-          <IonFabButton color={(waterFilter || toiletFilter || showerFilter || binFilter || tableFilter || fuelFilter || bbqFilter || lightsFilter) ? "dark" : "light" } >
+        <IonFab ref={filterFabRef} horizontal="start" vertical="top"  slot="fixed" activated={filterOpen}>
+          <IonFabButton onClick={() => { setFilterOpen(!filterOpen) }} size="small" color={(waterFilter || toiletFilter || showerFilter || tableFilter || fuelFilter || bbqFilter || lightsFilter) ? "dark" : "light" } >
             <IonIcon icon={filter} />
           </IonFabButton>
           <IonFabList side="bottom">
@@ -213,17 +196,14 @@ const Map = () => {
             </IonFabButton>
             <IonFabButton color={showerFilter ? "dark" : "light" } onClick={() => { setShowerFilter(!showerFilter); }}>
               <IonIcon src="/svgs/001-shower.svg" />
-            </IonFabButton>
-            <IonFabButton color={binFilter ? "dark" : "light" } onClick={() => { setBinFilter(!binFilter); }}>
-              <IonIcon src="/svgs/i-rubbish.svg" />
-            </IonFabButton>   
+            </IonFabButton>  
             <IonFabButton color={tableFilter ? "dark" : "light" } onClick={() => { setTableFilter(!tableFilter); }}>
               <IonIcon src="/svgs/002-picnic.svg" />
             </IonFabButton>
             <IonFabButton color={bbqFilter ? "dark" : "light" } onClick={() => { setBbqFilter(!bbqFilter); }}>
               <IonIcon src="/svgs/grill.svg" />
             </IonFabButton>
-            <IonFabButton color={fuelFilter ? "dark" : "light" } onClick={() => { setFuelFilter(!fuelFilter); }}>
+            <IonFabButton color={fuelFilter ? "dark" : "light" } onClick={(event) => {setFuelFilter(!fuelFilter); }}>
               <IonIcon src="/svgs/fuel.svg" />
             </IonFabButton>
             <IonFabButton color={lightsFilter ? "dark" : "light" } onClick={() => { setLightsFilter(!lightsFilter); }}>

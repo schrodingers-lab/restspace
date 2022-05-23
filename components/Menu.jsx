@@ -60,7 +60,7 @@ const Menu = () => {
   }, []);
 
   return (
-    <IonMenu side="start" contentId="main" onIonDidOpen={handleOpen} onIonDidClose={handleClose}>
+    <IonMenu side="start" contentId="main" onIonDidOpen={handleOpen} onIonDidClose={handleClose} swipeGesture={false}>
       <IonHeader>
         <IonToolbar>
           <IonTitle>Restspace</IonTitle>
