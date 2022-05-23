@@ -129,6 +129,18 @@ const Map = () => {
       center: [lng, lat],
       zoom: zoom
     });
+
+    map.current.addControl(
+      new mapboxgl.GeolocateControl({
+      positionOptions: {
+      enableHighAccuracy: true
+      },
+      // When active the map will receive updates to the device's location as it changes.
+      trackUserLocation: true,
+      // Draw an arrow next to the location dot to indicate which direction the device is heading.
+      showUserHeading: true
+      })
+    );
   }, []);
 
   useEffect(() => {
@@ -181,12 +193,12 @@ const Map = () => {
             <IonIcon icon={search} />
           </IonFabButton>
         </IonFab>
-
+{/* 
         <IonFab  vertical="top" horizontal="end" slot="fixed">
           <IonFabButton color="light" onClick={() => geoMapSearch()}>
             <IonIcon icon={locate} />
           </IonFabButton>
-        </IonFab>
+        </IonFab> */}
 
         <IonFab ref={filterFabRef} horizontal="start" vertical="top" slot="fixed" >
           <IonFabButton color={(waterFilter || toiletFilter || showerFilter || binFilter || tableFilter || fuelFilter || bbqFilter || lightsFilter) ? "dark" : "light" } >
