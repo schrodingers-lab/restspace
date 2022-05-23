@@ -149,9 +149,12 @@ const Map = () => {
 
   }, [restAreas]);
 
-  map.current?.on('load', function () {
+  map.current?.on('render', function () {
     // Resize to fill space
     map.current.resize();
+  });
+
+  map.current?.on('load', function () {
     // search for rest areas
     geoSearch();
   });
