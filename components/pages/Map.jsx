@@ -134,11 +134,11 @@ const Map = () => {
   useEffect(() => {
     if (!map.current) return; // initialize map only once
     console.log("draw markers");
-    markers.map(marker => {
+    markers?.map(marker => {
       marker.remove();
     });
     const newMarkers = [];
-    restAreas.map(mapRestArea => {
+    restAreas?.map(mapRestArea => {
       const marker = new mapboxgl.Marker()
         .setLngLat([mapRestArea.longitude, mapRestArea.latitude])
         .addTo(map.current);

@@ -87,8 +87,9 @@ export const restAreas = [
     ]
   }
 ];
+export const notifications = []
 
-export const notifications = [
+export const notifications1 = [
   { title: 'New friend request', when: '6 hr' },
   { title: 'Please change your password', when: '1 day' },
   { title: 'You have a new message', when: '2 weeks' },
