@@ -12,33 +12,37 @@ import {
   IonToolbar,
 } from '@ionic/react';
 
-import Store from '../../store';
-import * as actions from '../../store/actions';
-import * as selectors from '../../store/selectors';
+import React, { useRef, useEffect, useState } from 'react';
+import { createClient } from '@supabase/supabase-js';
+import RestAreaDetail from '../cards/RestAreaDetail';
 
-const ListItems = ({ list }) => {
-  return (
-    <IonList>
-      {(list?.items || []).map((item, key) => (
-        <ListItemEntry list={list} item={item} key={key} />
-      ))}
-    </IonList>
-  );
-};
-
-const ListItemEntry = ({ list, item }) => (
-  <IonItem onClick={() => actions.setDone(list, item, !item.done)}>
-    <IonLabel>{item.name}</IonLabel>
-    <IonCheckbox checked={item.done || false} slot="end" />
-  </IonItem>
-);
+// Create a single supabase client for interacting with your database 
+const supabase = createClient('https://arvqjbylexvdpyooykji.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFydnFqYnlsZXh2ZHB5b295a2ppIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NTMxMTk1MzUsImV4cCI6MTk2ODY5NTUzNX0.09341SKltY0PCODodzrDD1RQDXB5tA5dnMc-jQbKPag');
 
 const ListDetail = ({ match }) => {
-  const lists = Store.useState(selectors.getLists);
   const {
     params: { listId },
   } = match;
-  const loadedList = lists.find(l => l.id === listId);
+
+  const [selectedRestArea, setSelectedRestArea] = useState(null);
+
+  useEffect(() => {
+ 
+    const fetchData = async() => {
+      // You can await here
+      const { data, error } = await supabase
+        .from('rest_areas')
+        .select('*')
+        .eq('id', listId)
+      if(data && data.length > 0){
+        setSelectedRestArea(data[0]);
+
+      console.log("supabase data[0]", data[0]);
+    }
+      console.log("supabase data", data);
+    }
+    fetchData();
+  }, [listId]);
 
   return (
     <IonPage>
@@ -47,16 +51,16 @@ const ListDetail = ({ match }) => {
           <IonButtons slot="start">
             <IonBackButton defaultHref="/tabs/lists" />
           </IonButtons>
-          <IonTitle>{loadedList.name}</IonTitle>
+          <IonTitle>{selectedRestArea?.name}</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
         <IonHeader collapse="condense">
           <IonToolbar>
-            <IonTitle size="large">{loadedList.name}</IonTitle>
+            <IonTitle size="large">{selectedRestArea?.name}</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <ListItems list={loadedList} />
+        {selectedRestArea && <RestAreaDetail restarea={selectedRestArea} />}
       </IonContent>
     </IonPage>
   );

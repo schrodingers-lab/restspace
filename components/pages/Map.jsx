@@ -19,7 +19,7 @@ import { search, filter, bookmark, locate, trendingUpOutline } from 'ionicons/ic
 import Notifications from './Notifications';
 import React, { useRef, useEffect, useState } from 'react';
 import { notificationsOutline } from 'ionicons/icons';
-import { getHomeItems } from '../../store/selectors';
+import { getRestAreas } from '../../store/selectors';
 import Store from '../../store';
 import { createClient } from '@supabase/supabase-js';
 import * as turfdistance from '@turf/distance';
@@ -27,7 +27,7 @@ import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-load
 mapboxgl.accessToken = 'pk.eyJ1IjoiZGFycmVuLXByb3JvdXRlIiwiYSI6ImNsM2M2cjRhOTAxd3YzY3JvYjl1OXQ3Y3oifQ.lerkA3MPLmhRgla3jQnCGg';
 
 const Map = () => {
-  const homeItems = Store.useState(getHomeItems);
+  const restAreas = Store.useState(getRestAreas);
   const [showNotifications, setShowNotifications] = useState(false);
 
   const mapContainer = useRef(null);
@@ -37,7 +37,6 @@ const Map = () => {
   const [lat, setLat] = useState(-25.94497349642141);
   const [distance, setDistance] = useState(400000);
   const [zoom, setZoom] = useState(6);
-  const [restAreas, setRestAreas] = useState([]);
   const [markers, setMarkers] = useState([]);
 
   const [filterOpen, setFilterOpen] = useState(false);
@@ -81,7 +80,11 @@ const Map = () => {
     console.log("supabase lng", lng);
     console.log("supabase lat", lat);
     console.log("supabase distance", distance);
-    await setRestAreas(data);
+    // await setRestAreas(data);
+    Store.update(s => {
+      s.restAreas = data;
+    });
+
     console.log("supabase dat2", data);
   }
   // -71.064544, 42.28787
@@ -145,6 +148,7 @@ const Map = () => {
         .addTo(map.current);
       newMarkers.push(marker);
     });
+ 
     setMarkers(newMarkers);
 
   }, [restAreas]);

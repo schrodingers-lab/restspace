@@ -1,7 +1,9 @@
 import { Store as PullStateStore } from 'pullstate';
 
-import { lists, restAreas, notifications } from '../mock';
-
+const restAreas = [];
+const notifications = [];
+const bookmarks = [];
+ 
 const Store = new PullStateStore({
   safeAreaTop: 0,
   safeAreaBottom: 0,
@@ -9,10 +11,11 @@ const Store = new PullStateStore({
   notificationsOpen: false,
   currentPage: null,
   restAreas,
-  lists,
+  bookmarks,
   notifications,
   settings: {
     enableNotifications: true,
+    version: 13
   },
 });
 

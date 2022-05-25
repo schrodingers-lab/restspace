@@ -1,8 +1,7 @@
 import { Redirect, Route } from 'react-router-dom';
-import { IonRouterOutlet, IonTabs, IonTabBar, IonTabButton, IonIcon, IonLabel } from '@ionic/react';
+import { IonRouterOutlet, IonTabs, IonTabBar, IonTabButton, IonIcon, IonLabel, IonToast } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import { cog, bookmark, map, list } from 'ionicons/icons';
-
 import Bookmarked from './Bookmarked';
 import Map from './Map';
 import Lists from './Lists';
@@ -10,6 +9,7 @@ import ListDetail from './ListDetail';
 import Settings from './Settings';
 
 const Tabs = () => {
+
   return (
     <IonTabs>
       <IonRouterOutlet>
