@@ -35,13 +35,13 @@ const Settings = () => {
             <strong>Last Modified May 27, 2022.</strong>
           </p>
            <p>
-            Thank you for choosing RestSpace. In these terms of use, 'us' 'we' or 'our' means
+            Thank you for choosing RestSpace. In these terms of use, &lsquo;us&rsquo; &lsquo;we&rsquo; or &lsquo;our&rsquo; means
             ProRoute Pty Ltd (ACN 617 845 468) and our related bodies corporate. A reference to
-            'you' or 'user' means you. In these terms of use, 'Services' means our
+            &lsquo;you&rsquo; or &lsquo;user&rsquo; means you. In these terms of use, &lsquo;Services&rsquo; means our
             website, <a href="http://www.restspace.com.au/">http://www.restspace.com.au/</a>, and
-            related websites, (the 'Website'), the RestSpace mobile application, and
-            related mobile applications (the 'Application'), and any related application
-            programming interface (the 'API'). These terms of use set out the terms and
+            related websites, (the &lsquo;Website&rsquo;), the RestSpace mobile application, and
+            related mobile applications (the &lsquo;Application&rsquo;), and any related application
+            programming interface (the &lsquo;API&rsquo;). These terms of use set out the terms and
             conditions applicable to your access to and use of our Services.
           </p>
           <p>
@@ -86,7 +86,7 @@ const Settings = () => {
               to do so on your behalf;
             </li>
             <li >
-              not to use anyone else's username or password to access any of the Services; and
+              not to use anyone else&rsquo;s username or password to access any of the Services; and
             </li>
             <li >
               to notify us immediately upon discovery or suspicion of compromise of the
@@ -182,7 +182,7 @@ const Settings = () => {
           <p>
             If you purchase the Service through the Apple App Store, in addition to the terms of use
             set out here, your use of the Service is also subject to the Apple Inc
-            (&lsquo;Apple') EULA (End User Licence Agreement) at
+            (&lsquo;Apple&rsquo;) EULA (End User Licence Agreement) at
             http://www.apple.com/legal/itunes/appstore/dev/stdeula/ depending on your compatible
             device.
           </p>
@@ -190,7 +190,7 @@ const Settings = () => {
           <ul>
             <li style="margin-left: 18.0pt; text-indent: -18.0pt;">
               in addition to the terms of use set out here, your use of the Service is also subject
-              to Google Play's Terms of Service
+              to Google Play&rsquo;s Terms of Service
               http://play.google.com/intl/en_us/about/play-terms.html depending on your compatible
               device; and
             </li>
@@ -219,8 +219,8 @@ const Settings = () => {
             economically viable to continue granting access to the API.
           </p>
           <p>
-            The API is provided on an 'AS IS', 'WHERE IS' and 'WHEN
-            AVAILABLE' basis. We have no liability to you as a result of any change, temporary
+            The API is provided on an &lsquo;AS IS&rsquo;, &lsquo;WHERE IS&rsquo; and &lsquo;WHEN
+            AVAILABLE&rsquo; basis. We have no liability to you as a result of any change, temporary
             unavailability, suspension, or termination of access to the API.
           </p>
           <p>
@@ -242,8 +242,8 @@ const Settings = () => {
             graphics, logos, audio, data, images, photographs, animations, video, maps, databases,
             data models, spreadsheets, user interfaces, graphics components, icons, software
             applications, software development kits, application programming interfaces, software
-            libraries, code samples, and other resources) (&lsquo;Content') made available on,
-            or accessible through, the Services (&lsquo;RestSpace Content').
+            libraries, code samples, and other resources) (&lsquo;Content&rsquo;) made available on,
+            or accessible through, the Services (&lsquo;RestSpace Content&rsquo;).
           </p>
           <p>
             Your use of the Services and use of and access to any RestSpace Content does not grant
@@ -271,14 +271,14 @@ const Settings = () => {
           <p>
             You retain all right, title, and interest in any Content that you provide to us in
             connection with the your use of the Services, and any results derived from the use of
-            such Content (&lsquo;Customer Content'). Customer Content excludes any feedback,
+            such Content (&lsquo;Customer Content&rsquo;). Customer Content excludes any feedback,
             suggestions, or requests for improvements that you provide to us.
           </p>
           <p>
             You hereby grants us and our licensors (as the case requires) a non-exclusive,
             non-transferable, royalty-free, sub-licensable, worldwide right to host, run, and
             reproduce Customer Content solely for the purpose of enabling the your use, and other
-            users' use, of the Services.
+            users&rsquo; use, of the Services.
           </p>
           <p>
             Without your permission, we will not access, use, or disclose Customer Content except as
@@ -629,7 +629,7 @@ const Settings = () => {
             liabilities, losses, damage, damages, penalties, fines, taxes, judgments, costs and
             legal and other expenses, whether arising in tort (including negligence) or otherwise)
             in each 12 month period commencing on the date you accept these terms of use and each
-            anniversary of that date (each a 'Service Year') will not exceed the fees
+            anniversary of that date (each a &lsquo;Service Year&rsquo;) will not exceed the fees
             for the Services actually paid to us in respect of that Service Year.
           </p>
           <p>
