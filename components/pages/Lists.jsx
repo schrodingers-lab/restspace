@@ -9,6 +9,8 @@ import {
   IonContent,
   IonItem,
   IonLabel,
+  IonCard,
+  IonCardContent
 } from '@ionic/react';
 
 const ListEntry = ({ list, ...props }) => (
@@ -26,6 +28,18 @@ const AllLists = ({ onSelect }) => {
       {lists.map((list, i) => (
         <ListEntry list={list} key={i} />
       ))}
+
+      {lists?.length === 0 && 
+        <IonCard>
+          <IonItem>
+            <IonLabel>Not Rest Areas</IonLabel>
+          </IonItem>
+
+          <IonCardContent>
+            Search on the Map
+          </IonCardContent>
+        </IonCard>
+      }
     </>
   );
 };

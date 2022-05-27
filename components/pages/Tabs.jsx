@@ -25,10 +25,10 @@ const Tabs = () => {
           <IonIcon icon={map} />
           <IonLabel>Map</IonLabel>
         </IonTabButton>
-        <IonTabButton tab="tab2" href="/tabs/bookmarked">
+        {/* <IonTabButton tab="tab2" href="/tabs/bookmarked">
           <IonIcon icon={bookmark} />
           <IonLabel>Bookmarked</IonLabel>
-        </IonTabButton>
+        </IonTabButton> */}
         <IonTabButton tab="tab3" href="/tabs/lists">
           <IonIcon icon={list} />
           <IonLabel>Lists</IonLabel>

@@ -10,12 +10,13 @@ import {
   IonButton,
   IonItem,
   IonIcon,
+  IonToast,
   IonContent,
   IonMenuButton,
   IonFabList
 } from '@ionic/react';
 
-import { search, filter, bookmark, locate, trendingUpOutline } from 'ionicons/icons';
+import { search, navigate, bookmark, locate, share } from 'ionicons/icons';
 import React, { useRef, useEffect, useState } from 'react';
 
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
@@ -28,9 +29,15 @@ export const RestAreaDetail = ({restarea}) => {
 
   const mapContainer = useRef(null);
   const map = useRef(null);
-  const geoL = useRef(null);
 
-  const [geoLocate, setGeoLocate] = useState(false);
+  const [geoLocateCtl, setGeoLocateCtl] = useState();
+  const [currentLocation, setCurrentLocation] = useState();
+  const [isToastOpen, setIsToastOpen] = useState(false);
+  const [toastMessage, setToastMessage] = useState(false);
+
+  const [resolvingForRoute, setResolvingForRoute] = useState(false);
+  const [route, setRoute] = useState();
+
 
   useEffect(() => {
     if (map.current) return; // initialize map only once
@@ -49,13 +56,15 @@ export const RestAreaDetail = ({restarea}) => {
       trackUserLocation: true,
       // Draw an arrow next to the location dot to indicate which direction the device is heading.
       showUserHeading: true
-      })
+    });
 
-    setGeoLocate(geoLocate);
+    setGeoLocateCtl(geoLocate);
     map.current.addControl(geoLocate);
 
     geoLocate.on('geolocate', (geo) => {
         console.log('A geolocate event has occurred.', geo);
+        setCurrentLocation(geo.coords);
+        setResolvingForRoute(true);
     });
 
     const marker = new mapboxgl.Marker()
@@ -64,12 +73,83 @@ export const RestAreaDetail = ({restarea}) => {
 
   }, [restarea]);
 
-  const routeMe = ()=>{
+  const routeMe = async ()=>{
     console.log("routeme")
+   
+    await getRoute();
   }
 
+  const getRoute = async () => {
+    if(!restarea) return;
+    if(!currentLocation) {
+      setToastMessage("Determining your location, and calculating route...");
+      setIsToastOpen(true);
+      geoLocateCtl?.trigger();
+      return;
+    };
+
+    // make a directions request using cycling profile
+    // an arbitrary start will always be the same
+    // only the end or destination will change
+    const query = await fetch(
+      `https://api.mapbox.com/directions/v5/mapbox/driving-traffic/${currentLocation.longitude},${currentLocation.latitude};${restarea.longitude},${restarea.latitude}?steps=true&geometries=geojson&access_token=${mapboxgl.accessToken}`,
+      { method: 'GET' }
+    );
+
+    const json = await query.json();
+    console.log("directions", json);
+    const data = json.routes[0];
+
+    setRoute(json.routes[0]);
+    const route = data.geometry.coordinates;
+    const geojson = {
+      type: 'Feature',
+      properties: {},
+      geometry: {
+        type: 'LineString',
+        coordinates: route
+      }
+    };
+
+    // if the route already exists on the map, we'll reset it using setData
+    if (map.current.getSource('route')) {
+      map.current.getSource('route').setData(geojson);
+    }
+    // otherwise, we'll make a new request
+    else {
+      map.current.addLayer({
+        id: 'route',
+        type: 'line',
+        source: {
+          type: 'geojson',
+          data: geojson
+        },
+        layout: {
+          'line-join': 'round',
+          'line-cap': 'round'
+        },
+        paint: {
+          'line-color': '#3887be',
+          'line-width': 5,
+          'line-opacity': 0.75
+        }
+      });
+
+      const routeBounds = [json.waypoints[0].location, json.waypoints[1].location];
+      map.current.fitBounds(routeBounds, {padding: 50});
+    }
+    // add turn instructions here at the end
+  }
+
+  useEffect(
+    () => {
+      if (resolvingForRoute == undefined) return;
+      getRoute();
+  },[resolvingForRoute])
+
+
   const externalMaps = ()=>{
-    window.open("http://maps.apple.com/?ll=50.894967,4.341626")
+    window.open(`http://maps.apple.com/?ll=${restarea.latitude},${restarea.longitude}`)
   }
   
   return (
@@ -108,24 +188,33 @@ export const RestAreaDetail = ({restarea}) => {
           <IonIcon src="/svgs/i-lighting.svg" />
         </IonItem>
 
+        
 
         <div className="area-map-section">
           <div ref={mapContainer} className="w-full h-64"/> 
-
         </div>
 
         <IonButton onClick={() => routeMe()}>
-          <IonIcon slot="start" icon={search} />
+          <IonIcon slot="start" icon={navigate} />
           Estimate Route To RestArea
         </IonButton>
 
 
-        <IonButton onClick={() => externalMaps()}>
-          <IonIcon slot="start" icon={search} />
-          externalMaps
+        <IonButton onClick={() => externalMaps()} className="float-right">
+          <IonIcon slot="start" icon={share} />
+          External Maps
         </IonButton>
         
       </div>
+
+      <IonToast
+            isOpen={isToastOpen}
+            message={toastMessage}
+            duration={4000}
+            position={'top'}
+            color={'medium'}
+            onDidDismiss={() => setIsToastOpen(false)}
+        />
     </Card>
   );
 }

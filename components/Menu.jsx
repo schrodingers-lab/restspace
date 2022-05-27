@@ -20,11 +20,7 @@ const pages = [
     icon: map,
     url: '/tabs/map',
   },
-  {
-    title: 'Bookmarked',
-    icon: bookmark,
-    url: '/tabs/bookmarked',
-  },
+
   {
     title: 'Lists',
     icon: list,
@@ -36,6 +32,12 @@ const pages = [
     url: '/tabs/settings',
   },
 ];
+
+// {
+//   title: 'Bookmarked',
+//   icon: bookmark,
+//   url: '/tabs/bookmarked',
+// },
 
 const Menu = () => {
   const [isDark, setIsDark] = useState(false);
