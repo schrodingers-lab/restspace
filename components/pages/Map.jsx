@@ -23,6 +23,7 @@ import { getRestAreas } from '../../store/selectors';
 import Store from '../../store';
 import { createClient } from '@supabase/supabase-js';
 import * as turfdistance from '@turf/distance';
+import RestAreaMarker from "../cards/RestAreaMarker";
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
 mapboxgl.accessToken = 'pk.eyJ1IjoiZGFycmVuLXByb3JvdXRlIiwiYSI6ImNsM2M2cjRhOTAxd3YzY3JvYjl1OXQ3Y3oifQ.lerkA3MPLmhRgla3jQnCGg';
 
@@ -135,6 +136,10 @@ const Map = () => {
     );
   }, []);
 
+  const ll = () => {
+    console.log("fff")
+  }
+
   useEffect(() => {
     if (!map.current) return; // initialize map only once
     console.log("draw markers");
@@ -145,6 +150,12 @@ const Map = () => {
     restAreas?.map(mapRestArea => {
       const marker = new mapboxgl.Marker()
         .setLngLat([mapRestArea.longitude, mapRestArea.latitude])
+        .setPopup(
+          new mapboxgl.Popup({ offset: 25 }) // add popups
+          .setHTML(
+          `<h3>${mapRestArea.name}</h3><a href="/tabs/lists/${mapRestArea.id}"><img src=${mapRestArea.cover_image} />More Information</a>`
+          )
+        )
         .addTo(map.current);
       newMarkers.push(marker);
     });

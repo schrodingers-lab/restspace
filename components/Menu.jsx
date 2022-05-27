@@ -31,6 +31,11 @@ const pages = [
     icon: cog,
     url: '/tabs/settings',
   },
+  {
+    title: 'Terms of Use',
+    icon: cog,
+    url: '/tabs/terms',
+  },
 ];
 
 // {

@@ -10,12 +10,18 @@ import {
   IonItem,
   IonLabel,
   IonCard,
-  IonCardContent
+  IonCardContent,
+  IonThumbnail,
+  IonImg
 } from '@ionic/react';
 
 const ListEntry = ({ list, ...props }) => (
   <IonItem routerLink={`/tabs/lists/${list.id}`} className="list-entry">
     <IonLabel>#{list.id} - {list.name}</IonLabel>
+
+    <IonThumbnail slot="end">
+        <IonImg src={list.cover_image} />
+    </IonThumbnail>
   </IonItem>
 );
 

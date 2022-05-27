@@ -35,7 +35,7 @@ export const RestAreaDetail = ({restarea}) => {
   const [isToastOpen, setIsToastOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState(false);
 
-  const [resolvingForRoute, setResolvingForRoute] = useState(false);
+  const [resolvingForRoute, setResolvingForRoute] = useState();
   const [route, setRoute] = useState();
 
 

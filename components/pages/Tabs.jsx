@@ -7,6 +7,7 @@ import Map from './Map';
 import Lists from './Lists';
 import ListDetail from './ListDetail';
 import Settings from './Settings';
+import Terms from './Terms';
 
 const Tabs = () => {
 
@@ -18,6 +19,7 @@ const Tabs = () => {
         <Route path="/tabs/lists" component={Lists} exact={true} />
         <Route path="/tabs/lists/:listId" component={ListDetail} exact={true} />
         <Route path="/tabs/settings" component={Settings} exact={true} />
+        <Route path="/tabs/terms" component={Terms} exact={true} />
         <Route path="/tabs" render={() => <Redirect to="/tabs/map" />} exact={true} />
       </IonRouterOutlet>
       <IonTabBar slot="bottom">
