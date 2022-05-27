@@ -191,29 +191,29 @@ const Map = () => {
         </IonFab>
 
         <IonFab ref={filterFabRef} horizontal="start" vertical="top"  slot="fixed" activated={filterOpen}>
-          <IonFabButton onClick={() => { setFilterOpen(!filterOpen) }} size="small" color={(waterFilter || toiletFilter || showerFilter || tableFilter || fuelFilter || bbqFilter || lightsFilter) ? "dark" : "light" } >
+          <IonFabButton onClick={() => { setFilterOpen(!filterOpen) }} size="small" color={(waterFilter || toiletFilter || showerFilter || tableFilter || fuelFilter || bbqFilter || lightsFilter) ? "primary" : "secondary" } >
             <IonIcon icon={filter} />
           </IonFabButton>
           <IonFabList side="bottom">
-            <IonFabButton color={toiletFilter ? "dark" : "light" } onClick={() => { setToiletFilter(!toiletFilter); }}>
+            <IonFabButton color={toiletFilter ? "primary" : "secondary" } onClick={() => { setToiletFilter(!toiletFilter); }}>
               <IonIcon src="/svgs/i-toilet.svg" />
             </IonFabButton>
-            <IonFabButton color={waterFilter ? "dark" : "light" } onClick={() => { setWaterFilter(!waterFilter); }}>
+            <IonFabButton color={waterFilter ? "primary" : "secondary" } onClick={() => { setWaterFilter(!waterFilter); }}>
               <IonIcon src="/svgs/i-water.svg" />
             </IonFabButton>
-            <IonFabButton color={showerFilter ? "dark" : "light" } onClick={() => { setShowerFilter(!showerFilter); }}>
+            <IonFabButton color={showerFilter ? "primary" : "secondary" } onClick={() => { setShowerFilter(!showerFilter); }}>
               <IonIcon src="/svgs/001-shower.svg" />
             </IonFabButton>  
-            <IonFabButton color={tableFilter ? "dark" : "light" } onClick={() => { setTableFilter(!tableFilter); }}>
+            <IonFabButton color={tableFilter ? "primary" : "secondary" } onClick={() => { setTableFilter(!tableFilter); }}>
               <IonIcon src="/svgs/002-picnic.svg" />
             </IonFabButton>
-            <IonFabButton color={bbqFilter ? "dark" : "light" } onClick={() => { setBbqFilter(!bbqFilter); }}>
+            <IonFabButton color={bbqFilter ? "primary" : "secondary" } onClick={() => { setBbqFilter(!bbqFilter); }}>
               <IonIcon src="/svgs/grill.svg" />
             </IonFabButton>
-            <IonFabButton color={fuelFilter ? "dark" : "light" } onClick={(event) => {setFuelFilter(!fuelFilter); }}>
+            <IonFabButton color={fuelFilter ? "primary" : "secondary" } onClick={(event) => {setFuelFilter(!fuelFilter); }}>
               <IonIcon src="/svgs/fuel.svg" />
             </IonFabButton>
-            <IonFabButton color={lightsFilter ? "dark" : "light" } onClick={() => { setLightsFilter(!lightsFilter); }}>
+            <IonFabButton color={lightsFilter ? "primary" : "secondary" } onClick={() => { setLightsFilter(!lightsFilter); }}>
               <IonIcon src="/svgs/i-lighting.svg" />
             </IonFabButton>
           </IonFabList>
