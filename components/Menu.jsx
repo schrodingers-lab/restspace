@@ -12,7 +12,7 @@ import {
   IonToolbar,
 } from '@ionic/react';
 import { useEffect, useState } from 'react';
-import { cog, bookmark, map, list } from 'ionicons/icons';
+import { cog, bookmark, map, list, newspaper } from 'ionicons/icons';
 
 const pages = [
   {
@@ -33,7 +33,7 @@ const pages = [
   },
   {
     title: 'Terms of Use',
-    icon: cog,
+    icon: newspaper,
     url: '/tabs/terms',
   },
 ];

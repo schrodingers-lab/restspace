@@ -76,34 +76,34 @@ const Settings = () => {
             password. You are responsible for keeping this username and password secure and are
             responsible for all use and activity carried out under this username. You agree:
           </p>
-          <ul>
-            <li >
+          
+            <br/>
               not to share, transfer, lease, assign or sublicense your username or password without
               our prior written consent;
-            </li>
-            <li>
+            
+            <br/>
               not to circumvent the password restrictions on any of the Services, nor allow others
               to do so on your behalf;
-            </li>
-            <li >
+            
+            <br/>
               not to use anyone else&rsquo;s username or password to access any of the Services; and
-            </li>
-            <li >
+            
+            <br/>
               to notify us immediately upon discovery or suspicion of compromise of the
               confidentiality of your username or password.
-            </li>
-          </ul>
-          {/*<p>To create an account, you must be:</p>
-          <ul>
-            <li style="margin-left: 18.0pt; text-indent: -18.0pt;">at least 18 years of age;</li>
-            <li style="margin-left: 18.0pt; text-indent: -18.0pt;">
+            
+          
+          <p>To create an account, you must be:</p>
+          
+            <br/>at least 18 years of age;
+            <br/>
               possess the legal right and ability to enter into a legally binding agreement with us;
               and
-            </li>
-            <li style="margin-left: 18.0pt; text-indent: -18.0pt;">
+            
+            <br/>
               agree and warrant to use the Services in accordance with these terms of use.
-            </li>
-          </ul>
+            
+          
           <p>
             <strong>Collection Notice and Release of Information</strong>
           </p>
@@ -125,17 +125,16 @@ const Settings = () => {
             processors in the USA or elsewhere.
           </p>
           <p>Our Privacy Policy explains:</p>
-          <ul>
-            <li style="margin-left: 18.0pt; text-indent: -18.0pt;">
+          
+            <br/>
               how we store and use, and how you may access and correct your personal information;
-            </li>
-            <li style="margin-left: 18.0pt; text-indent: -18.0pt;">
+            
+            <br/>
               how you can lodge a complaint regarding the handling of your personal information; and
-            </li>
-            <li style="margin-left: 18.0pt; text-indent: -18.0pt;">
+            
+            <br/>
               how we will handle any complaint.
-            </li>
-          </ul>
+            
           <p>
             If you would like any further information about our privacy policies or practices,
             please contact us in the manner set out in our Privacy Policy.
@@ -187,18 +186,18 @@ const Settings = () => {
             device.
           </p>
           <p>If you purchase the Service through the Google Play Market:</p>
-          <ul>
-            <li style="margin-left: 18.0pt; text-indent: -18.0pt;">
+          
+            <br/>
               in addition to the terms of use set out here, your use of the Service is also subject
               to Google Play&rsquo;s Terms of Service
               http://play.google.com/intl/en_us/about/play-terms.html depending on your compatible
               device; and
-            </li>
-            <li style="margin-left: 18.0pt; text-indent: -18.0pt;">
+            
+            <br/>
               the clause titled &ldquo;Apple Specific Terms&rdquo; will not apply to you.
-            </li>
-          </ul>
-          <p style="page-break-after: avoid;">
+          
+         
+          <p >
             <strong>API</strong>
           </p>
           <p>
@@ -274,7 +273,7 @@ const Settings = () => {
             such Content (&lsquo;Customer Content&rsquo;). Customer Content excludes any feedback,
             suggestions, or requests for improvements that you provide to us.
           </p>
-          <p>
+           <p>
             You hereby grants us and our licensors (as the case requires) a non-exclusive,
             non-transferable, royalty-free, sub-licensable, worldwide right to host, run, and
             reproduce Customer Content solely for the purpose of enabling the your use, and other
@@ -300,38 +299,38 @@ const Settings = () => {
             will have no further obligations to store or return your Customer Content.
           </p>
           <p>You warrant that your Customer Content does not:</p>
-          <ul>
-            <li style="margin-left: 18.0pt; text-indent: -18.0pt;">
+          
+            <br/>
               contain any vulgar, obscene, indecent or unlawful material, including material that is
               likely to cause annoyance, or which is defamatory, racist, offensive, discriminatory,
               threatening, or pornographic;
-            </li>
-            <li style="margin-left: 18.0pt; text-indent: -18.0pt;">
+            
+            <br/>
               store or transmit any software viruses, worms, time bombs, Trojan horses, or any other
               computer code, files, denial-of-service, or programs designed to interrupt, destroy,
               or limit the functionality of any computer software, hardware, or telecommunications
               equipment;
-            </li>
-            <li style="margin-left: 18.0pt; text-indent: -18.0pt;">
+            
+            <br/>
               violate any law or regulation;
-            </li>
-            <li style="margin-left: 18.0pt; text-indent: -18.0pt;">
+            
+            <br/>
               include any Content or other material protected by intellectual property laws (or by
               rights of privacy or publicity) unless you have all necessary rights and consents to
               do so;
-            </li>
-            <li style="margin-left: 18.0pt; text-indent: -18.0pt;">
+            
+            <br/>
               infringe or misappropriate the rights of any third party;
-            </li>
-            <li style="margin-left: 18.0pt; text-indent: -18.0pt;">
+            
+            <br/>
               defame or libel us, our employees, other individuals or users of the Services; or
-            </li>
-            <li style="margin-left: 18.0pt; text-indent: -18.0pt;">
+            
+            <br/>
               impact the normal operation, privacy, integrity or security of a third party's
               property, including a third party's accounts, domain names, URLs, websites, networks,
               systems, facilities, equipment, data, other information, or business operations.
-            </li>
-          </ul>
+            
+          
           <p>
             We may remove or delete any portions of your Customer Content if there is reason to
             believe that uploading the Customer Content to, or using it with, any or all of the
@@ -346,7 +345,7 @@ const Settings = () => {
             documentation or records, except to the extent that such costs and liability arise as a
             result of our breach of these terms of use.
           </p>
-          <p style="page-break-after: avoid;">
+          <p>
             <strong>Use of the Services</strong>
           </p>
           <p>
@@ -376,63 +375,63 @@ const Settings = () => {
             <strong>Restrictions on use</strong>
           </p>
           <p>The Services are for your personal use only. You must not, as applicable:</p>
-          <ul>
-            <li style="margin-left: 18.0pt; text-indent: -18.0pt;">
+          
+            <br/>
               yourself, or permit others to, sell, rent, lease, sub-license, lend, assign,
               time-share, distribute or otherwise make any of the Services available to any third
               party;
-            </li>
-            <li style="margin-left: 18.0pt; text-indent: -18.0pt;">
+            
+            <br/>
               reverse engineer, decompile, or disassemble any of the Services;
-            </li>
-            <li style="margin-left: 18.0pt; text-indent: -18.0pt;">
+            
+            <br/>
               modify, copy, distribute, transmit, display, perform, reproduce, publish, license,
               enhance, translate, alter, tamper with, upgrade, create derivative works from,
               transfer, or sell any of the whole or part of any of the Services, including the
               RestSpace Content, software, products or services contained within any of the
               Services;
-            </li>
-            <li style="margin-left: 18.0pt; text-indent: -18.0pt;">
+            
+            <br/>
               combine, integrate or incorporate the whole or any part of any the Services in any
               other software or system;
-            </li>
-            <li style="margin-left: 18.0pt; text-indent: -18.0pt;">
+            
+            <br/>
               remove, alter, obscure or deface any:
-              <ul>
-                <li style="margin-left: 35.45pt; text-indent: -18.0pt;">
+              
+                <br/>
                   patent, copyright, trademark, or proprietary rights notices of us or our
                   licensors;
-                </li>
-                <li style="margin-left: 35.45pt; text-indent: -18.0pt;">
+                
+                <br/>
                   trade mark, service mark, get up, livery, logo or branding, proprietary or
                   restricted use legend; or
-                </li>
-                <li style="margin-left: 35.45pt; text-indent: -18.0pt;">
+                
+                <br/>
                   disclaimer, warning, instruction or advisory notice,
-                </li>
-              </ul>
-            </li>
-          </ul>
-          <p style="margin-left: 18.0pt;">
+                
+              
+            
+          
+          <p>
             which are contained in or affixed to any of the Services;
           </p>
-          <ul>
-            <li style="margin-left: 18.0pt; text-indent: -18.0pt;">
+          
+            <br/>
               do anything that would prejudice our right, title or interest in any of the Services;
-            </li>
-            <li style="margin-left: 18.0pt; text-indent: -18.0pt;">
+            
+            <br/>
               attempt to circumvent or modify any technological measure (such as digital rights
               management software on your handset) used to apply the terms of use;
-            </li>
-            <li style="margin-left: 18.0pt; text-indent: -18.0pt;">
+            
+            <br/>
               disrupt or try to disrupt any of the Services or use any of the Services or any
               RestSpace or ProRoute website to distribute software viruses or other harmful
               programs; or
-            </li>
-            <li style="margin-left: 18.0pt; text-indent: -18.0pt;">
+            
+            <br/>
               infringe any applicable laws when accessing or using any of the Services.
-            </li>
-          </ul>
+            
+          
           <p>
             You must not use any of the Services, or any of the RestSpace Content, to further any
             commercial purpose, including any advertising or advertising revenue generation activity
@@ -445,27 +444,27 @@ const Settings = () => {
             You must not do any act that we would deem to be inappropriate, is unlawful or is
             prohibited by any laws applicable to our Services, including but not limited to:
           </p>
-          <ul>
-            <li style="margin-left: 18.0pt; text-indent: -18.0pt;">
+          
+            <br/>
               any act that would constitute a breach of either the privacy (including uploading
               private or personal information without an individual's consent) or any other of the
               legal rights of individuals;
-            </li>
-            <li style="margin-left: 18.0pt; text-indent: -18.0pt;">
+            
+            <br/>
               using any of the Services to defame or libel us, our employees or other individuals;
-            </li>
-            <li style="margin-left: 18.0pt; text-indent: -18.0pt;">
+            
+            <br/>
               uploading files that contain viruses that may cause damage to our property, including
               the Services, or the property of other individuals;
-            </li>
-            <li style="margin-left: 18.0pt; text-indent: -18.0pt;">
+            
+            <br/>
               posting or transmitting Customer Content or any other material to any of the Services
               that is non-authorised material including, but not limited to, material that is, in
               our opinion, likely to cause annoyance, or which is defamatory, racist, obscene,
               threatening, pornographic or otherwise or which is detrimental to or in violation of
               our systems or a third party's systems or network security.
-            </li>
-          </ul>
+            
+          
           <p>
             If we allow you to post any information to any of the Services, we have the right to
             take down this information at our sole discretion and without notice.
@@ -503,23 +502,23 @@ const Settings = () => {
             we may take any action that we deem is reasonably necessary to remedy such breach or
             protect the Service in the circumstances, including without limitation:
           </p>
-          <ul>
-            <li style="margin-left: 18.0pt; text-indent: -18.0pt;">
+          
+            <br/>
               suspending or terminating your registered account and access to our Services;
-            </li>
-            <li style="margin-left: 18.0pt; text-indent: -18.0pt;">
+            
+            <br/>
               removing any Customer Content uploaded by you to the Service; and
-            </li>
-            <li style="margin-left: 18.0pt; text-indent: -18.0pt;">
+            
+            <br/>
               commencing legal proceedings to prevent you from using our Services.
-            </li>
-          </ul>
+            
+          
           <p>
             Upon termination of your account, and/or access to the Services, you must immediately
             cease using or accessing the Services, and uninstall and delete all copies, full or
             partial, of the Services from your computer or device (as applicable).
           </p>
-          <p style="page-break-after: avoid;">
+          <p >
             <strong>Warranties and disclaimers</strong>
           </p>
           <p>
@@ -534,22 +533,22 @@ const Settings = () => {
             We are not liable for any breach of these terms of use (including any warranty contained
             in them) which arises as the result of:
           </p>
-          <ul>
-            <li style="margin-left: 18.0pt; text-indent: -18.0pt;">
+          
+            <br/>
               modifications to any of the Services that were effected or attempted by a person other
               than us or our authorised representatives;
-            </li>
-            <li style="margin-left: 18.0pt; text-indent: -18.0pt;">
+            
+            <br/>
               access and use of the Services;
-            </li>
-            <li style="margin-left: 18.0pt; text-indent: -18.0pt;">
+            
+            <br/>
               any act, error, fault, neglect, misuse or omission of you; or
-            </li>
-            <li style="margin-left: 18.0pt; text-indent: -18.0pt;">
+            
+            <br/>
               the operation of any of the Services other than in accordance with these terms of use,
               or otherwise than in accordance with our directions or recommendations.
-            </li>
-          </ul>
+            
+          
           <p>
             We reserve the right to restrict, suspend or terminate without notice your access to any
             or all of the Services, any RestSpace Content, or any feature of the Services at any
@@ -610,19 +609,19 @@ const Settings = () => {
             of the Services are incorrect, incomplete or not up-to-date.
           </p>
           <p>Where our liability cannot be lawfully excluded, it is limited at our option to:</p>
-          <ul>
-            <li style="margin-left: 18.0pt; text-indent: -18.0pt;">
+          
+            <br/>
               the resupplying of access to and use of the relevant Service(s);
-            </li>
-            <li style="margin-left: 18.0pt; text-indent: -18.0pt;">
+            
+            <br/>
               the payment of the cost of having access to and use of the relevant Service(s)
               supplied again; or
-            </li>
-            <li style="margin-left: 18.0pt; text-indent: -18.0pt;">
+            
+            <br/>
               the refund of the amounts paid by you for your subscription to access and use the
               relevant Service(s).
-            </li>
-          </ul>
+            
+          
           <p>
             Notwithstanding the above, our total liability in relation to the performance or
             otherwise of our obligations under these terms of use (including in respect of any
@@ -652,16 +651,16 @@ const Settings = () => {
             We, and not Apple, are responsible for addressing any of your claims or any third party
             claims relating to the Services including, but not limited to:
           </p>
-          <ul>
-            <li style="margin-left: 18.0pt; text-indent: -18.0pt;">product liability claims;</li>
-            <li style="margin-left: 18.0pt; text-indent: -18.0pt;">
+          
+            <br/>product liability claims;
+            <br/>
               any claim that a Service fails to conform to any applicable legal or regulatory
               requirement; and
-            </li>
-            <li style="margin-left: 18.0pt; text-indent: -18.0pt;">
+            
+            <br/>
               claims arising under the Australian Consumer Law or similar legislation.
-            </li>
-          </ul>
+            
+          
           <p>All complaints and claims regarding the Services should be directed to us.</p>
           <p>
             In the event of any failure of the Service to conform to any applicable guarantee or
@@ -707,7 +706,7 @@ const Settings = () => {
             particular time, this does not prevent us from later seeking to exercise or enforce that
             right.
           </p>
-          <p style="page-break-after: avoid;">
+          <p>
             <strong>Severance</strong>
           </p>
           <p>
@@ -724,7 +723,11 @@ const Settings = () => {
               restspacesupport@proroute.co
             </a>
             .
-          </p> */}
+          </p> 
+          <br/>
+          <br/>
+          <br/>
+
         </div>
       </IonContent>
     </IonPage>
