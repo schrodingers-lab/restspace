@@ -1,4 +1,5 @@
 import Card from '../ui/Card';
+import RestAreaCarousel from './RestAreaCarousel';
 import {
   IonFab,
   IonFabButton,
@@ -11,12 +12,13 @@ import {
   IonItem,
   IonIcon,
   IonToast,
+  IonLabel,
   IonContent,
   IonMenuButton,
-  IonFabList
+  IonFabList,
 } from '@ionic/react';
 
-import { search, navigate, bookmark, locate, share } from 'ionicons/icons';
+import { search, navigate, bookmark, locate, share, bus, phonePortrait } from 'ionicons/icons';
 import React, { useRef, useEffect, useState } from 'react';
 
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
@@ -78,6 +80,20 @@ export const RestAreaDetail = ({restarea}) => {
    
     await getRoute();
   }
+
+  const secondsToMins = (secs) => {
+    if (secs == undefined || secs == null || secs< 1) return 1;
+    const mins = secs / 60;
+    return Math.floor(mins);
+  }
+
+  const metersToKm = (meters) => {
+    if (meters == undefined || meters == null || meters < 1) return 1;
+    const kms = meters / 1000;
+    return Math.floor(kms);
+  }
+  
+
 
   const getRoute = async () => {
     if(!restarea) return;
@@ -161,32 +177,51 @@ export const RestAreaDetail = ({restarea}) => {
         <h4 className="font-bold py-0 text-s text-gray-400 dark:text-gray-500 uppercase">{restarea.region}</h4>
         <h2 className="font-bold text-2xl text-gray-800 dark:text-gray-100">{restarea.name}</h2>
         <p className="sm:text-sm text-s text-gray-500 mr-1 my-3 dark:text-gray-400">{restarea.road_surface}</p>
-        <div className="flex items-center space-x-4">
-          <h3 className="text-gray-500 dark:text-gray-200 m-l-8 text-sm font-medium">{restarea.creator}</h3>
-        </div>
-
 
         <IonItem color={restarea.toilet ? "dark" : "light" }>
+         <IonIcon slot="end" icon={locate} />
+          <IonLabel className="ion-text-wrap">
+            Longitude: {restarea.longitude} <br/>
+            Latitude: {restarea.latitude}
+          </IonLabel>
+        </IonItem>
+
+        <div className="flex items-center space-x-4">
+          <h3 className="text-gray-500 dark:text-gray-200 m-l-8 text-md font-medium">{restarea.creator} - {restarea.surface} </h3>
+        </div>
+
+        <IonButton slot="icon-only" disabled={true} shape="round"  color={restarea.toilet ? "primary" : "medium" } >
           <IonIcon src="/svgs/i-toilet.svg" />
-        </IonItem>
-        <IonItem color={restarea.water ? "dark" : "light" }>
+        </IonButton>
+
+        <IonButton slot="icon-only" disabled={true} shape="round"   color={restarea.water ? "primary" : "medium" } >
           <IonIcon src="/svgs/i-water.svg" />
-        </IonItem>
-        <IonItem color={restarea.showers ? "dark" : "light" } >
+        </IonButton>
+
+          <IonButton slot="icon-only" disabled={true} shape="round"   color={restarea.showers ? "primary" : "medium" } >
           <IonIcon src="/svgs/001-shower.svg" />
-        </IonItem>  
-        <IonItem color={restarea.tables ? "dark" : "light" }>
+        </IonButton>
+
+        <IonButton slot="icon-only" disabled={true} shape="round"   color={restarea.tables ? "primary" : "medium" } >
           <IonIcon src="/svgs/002-picnic.svg" />
-        </IonItem>
-        <IonItem color={restarea.bbq ? "dark" : "light" }>
+        </IonButton>
+
+        <IonButton slot="icon-only" disabled={true} shape="round"   color={restarea.bbq ? "primary" : "medium" } >
           <IonIcon src="/svgs/grill.svg" />
-        </IonItem>
-        <IonItem color={restarea.fuel ? "dark" : "light" } >
+        </IonButton>
+
+        <IonButton slot="icon-only" disabled={true} shape="round"   color={restarea.fuel ? "primary" : "medium" } >
           <IonIcon src="/svgs/fuel.svg" />
-        </IonItem>
-        <IonItem color={restarea.lights ? "dark" : "light" } >
+        </IonButton>
+
+        <IonButton slot="icon-only" disabled={true} shape="round"   color={restarea.lights ? "primary" : "medium" } >
           <IonIcon src="/svgs/i-lighting.svg" />
-        </IonItem>
+        </IonButton>
+
+        <IonButton slot="icon-only" disabled={true} shape="round"   color={restarea.mobile_reception ? "primary" : "medium" } >
+          <IonIcon icon={phonePortrait} />
+        </IonButton>
+
 
         
 
@@ -194,16 +229,28 @@ export const RestAreaDetail = ({restarea}) => {
           <div ref={mapContainer} className="w-full h-64"/> 
         </div>
 
+        {route &&  <IonItem>
+         <IonIcon slot="end" icon={bus} />
+          <IonLabel className="ion-text-wrap">
+            Estimated Distance: {metersToKm(route.distance)} KM <br/>
+            Estimated Duration: {secondsToMins(route.duration)} Minutes <br/>
+          </IonLabel>
+        </IonItem>}
+
         <IonButton onClick={() => routeMe()}>
           <IonIcon slot="start" icon={navigate} />
-          Estimate Route To RestArea
+          Estimate Route
         </IonButton>
-
 
         <IonButton onClick={() => externalMaps()} className="float-right">
           <IonIcon slot="start" icon={share} />
           External Maps
         </IonButton>
+
+        <div className="my-4 mx-auto w-full" >
+          <RestAreaCarousel images={restarea.images} />
+        </div>
+
         
       </div>
 

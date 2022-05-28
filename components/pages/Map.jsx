@@ -23,6 +23,7 @@ import { getRestAreas } from '../../store/selectors';
 import Store from '../../store';
 import { createClient } from '@supabase/supabase-js';
 import * as turfdistance from '@turf/distance';
+import { useDebouncedCallback } from 'use-debounce';
 import RestAreaMarker from "../cards/RestAreaMarker";
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
 mapboxgl.accessToken = 'pk.eyJ1IjoiZGFycmVuLXByb3JvdXRlIiwiYSI6ImNsM2M2cjRhOTAxd3YzY3JvYjl1OXQ3Y3oifQ.lerkA3MPLmhRgla3jQnCGg';
@@ -81,14 +82,12 @@ const Map = () => {
     console.log("supabase lng", lng);
     console.log("supabase lat", lat);
     console.log("supabase distance", distance);
-    // await setRestAreas(data);
     Store.update(s => {
       s.restAreas = data;
     });
 
     console.log("supabase dat2", data);
   }
-  // -71.064544, 42.28787
 
   const setSearchRadius = async () => {
     let corner = map.current.getBounds().getNorthEast();
@@ -96,22 +95,24 @@ const Map = () => {
 
     let centerPoint = [center.lat, center.lng];
     let cornerPoint = [corner.lat, corner.lng];
-
     // needs to be in meters
     let options = {units: 'meters'};
     let searchRadius = turfdistance.default(centerPoint, cornerPoint,options) ;
 
     setLng(center.lng);
     setLat(center.lat);
-    // needs to be in meters (and integers only)
+    // needs to be in meters (and integers only) for search
     setDistance(searchRadius.toFixed(0));
-    console.log('search distance (meters)', distance)
   }
 
-  const geoMapSearch = async () => {
-    await setSearchRadius();
-    await geoSearch();
-  }
+  const debouncedSearch = useDebouncedCallback(
+    () => {
+      geoSearch();
+    },
+    750,
+    // The maximum time func is allowed to be delayed before it's invoked:
+    { maxWait: 2000 }
+  );
 
 
   useEffect(() => {
@@ -134,11 +135,16 @@ const Map = () => {
       showUserHeading: true
       })
     );
-  }, []);
 
-  const ll = () => {
-    console.log("fff")
-  }
+    map.current.on('zoomend', () => {
+      setSearchRadius();
+    });
+
+    map.current.on('moveend', () => {
+      setSearchRadius();
+    });
+
+  }, []);
 
   useEffect(() => {
     if (!map.current) return; // initialize map only once
@@ -153,7 +159,7 @@ const Map = () => {
         .setPopup(
           new mapboxgl.Popup({ offset: 25 }) // add popups
           .setHTML(
-          `<h3>${mapRestArea.name}</h3><a href="/tabs/lists/${mapRestArea.id}"><img src=${mapRestArea.cover_image} />More Information</a>`
+            `<h3>${mapRestArea.name}</h3><a href="/tabs/lists/${mapRestArea.id}"><img src=${mapRestArea.cover_image} />More Information</a>`
           )
         )
         .addTo(map.current);
@@ -196,35 +202,35 @@ const Map = () => {
         </div>
         {/*-- fab placed to the (vertical) center and end --*/}
         <IonFab  vertical="bottom" horizontal="center" slot="fixed">
-          <IonFabButton  onClick={() => geoMapSearch()}>
+          <IonFabButton  onClick={debouncedSearch}>
             <IonIcon icon={search} />
           </IonFabButton>
         </IonFab>
 
         <IonFab ref={filterFabRef} horizontal="start" vertical="top"  slot="fixed" activated={filterOpen}>
-          <IonFabButton onClick={() => { setFilterOpen(!filterOpen) }} size="small" color={(waterFilter || toiletFilter || showerFilter || tableFilter || fuelFilter || bbqFilter || lightsFilter) ? "primary" : "secondary" } >
+          <IonFabButton onClick={() => { setFilterOpen(!filterOpen) }} size="small" color={(waterFilter || toiletFilter || showerFilter || tableFilter || fuelFilter || bbqFilter || lightsFilter) ? "primary" : "medium" } >
             <IonIcon icon={filter} />
           </IonFabButton>
           <IonFabList side="bottom">
-            <IonFabButton color={toiletFilter ? "primary" : "secondary" } onClick={() => { setToiletFilter(!toiletFilter); }}>
+            <IonFabButton color={toiletFilter ? "primary" : "medium" } onClick={() => { setToiletFilter(!toiletFilter); debouncedSearch(); }}>
               <IonIcon src="/svgs/i-toilet.svg" />
             </IonFabButton>
-            <IonFabButton color={waterFilter ? "primary" : "secondary" } onClick={() => { setWaterFilter(!waterFilter); }}>
+            <IonFabButton color={waterFilter ? "primary" : "medium" } onClick={() => { setWaterFilter(!waterFilter); debouncedSearch(); }}>
               <IonIcon src="/svgs/i-water.svg" />
             </IonFabButton>
-            <IonFabButton color={showerFilter ? "primary" : "secondary" } onClick={() => { setShowerFilter(!showerFilter); }}>
+            <IonFabButton color={showerFilter ? "primary" : "medium" } onClick={() => { setShowerFilter(!showerFilter); debouncedSearch(); }}>
               <IonIcon src="/svgs/001-shower.svg" />
             </IonFabButton>  
-            <IonFabButton color={tableFilter ? "primary" : "secondary" } onClick={() => { setTableFilter(!tableFilter); }}>
+            <IonFabButton color={tableFilter ? "primary" : "medium" } onClick={() => { setTableFilter(!tableFilter); debouncedSearch(); }}>
               <IonIcon src="/svgs/002-picnic.svg" />
             </IonFabButton>
-            <IonFabButton color={bbqFilter ? "primary" : "secondary" } onClick={() => { setBbqFilter(!bbqFilter); }}>
+            <IonFabButton color={bbqFilter ? "primary" : "medium" } onClick={() => { setBbqFilter(!bbqFilter); debouncedSearch(); }}>
               <IonIcon src="/svgs/grill.svg" />
             </IonFabButton>
-            <IonFabButton color={fuelFilter ? "primary" : "secondary" } onClick={(event) => {setFuelFilter(!fuelFilter); }}>
+            <IonFabButton color={fuelFilter ? "primary" : "medium" } onClick={(event) => {setFuelFilter(!fuelFilter); debouncedSearch(); }}>
               <IonIcon src="/svgs/fuel.svg" />
             </IonFabButton>
-            <IonFabButton color={lightsFilter ? "primary" : "secondary" } onClick={() => { setLightsFilter(!lightsFilter); }}>
+            <IonFabButton color={lightsFilter ? "primary" : "medium" } onClick={() => { setLightsFilter(!lightsFilter); debouncedSearch(); }}>
               <IonIcon src="/svgs/i-lighting.svg" />
             </IonFabButton>
           </IonFabList>
