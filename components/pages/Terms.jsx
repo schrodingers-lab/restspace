@@ -326,8 +326,8 @@ const Settings = () => {
               defame or libel us, our employees, other individuals or users of the Services; or
             
             <br/>
-              impact the normal operation, privacy, integrity or security of a third party's
-              property, including a third party's accounts, domain names, URLs, websites, networks,
+              impact the normal operation, privacy, integrity or security of a third party&#39;s
+              property, including a third party&#39;s accounts, domain names, URLs, websites, networks,
               systems, facilities, equipment, data, other information, or business operations.
             
           
@@ -447,7 +447,7 @@ const Settings = () => {
           
             <br/>
               any act that would constitute a breach of either the privacy (including uploading
-              private or personal information without an individual's consent) or any other of the
+              private or personal information without an individual&#39;s consent) or any other of the
               legal rights of individuals;
             
             <br/>
@@ -462,7 +462,7 @@ const Settings = () => {
               that is non-authorised material including, but not limited to, material that is, in
               our opinion, likely to cause annoyance, or which is defamatory, racist, obscene,
               threatening, pornographic or otherwise or which is detrimental to or in violation of
-              our systems or a third party's systems or network security.
+              our systems or a third party&#39;s systems or network security.
             
           
           <p>
@@ -718,7 +718,7 @@ const Settings = () => {
             <strong>Contacting us</strong>
           </p>
           <p>
-            If you have any questions or concerns about our terms of use, you may contact us at{' '}
+            If you have any questions or concerns about our terms of use, you may contact us at 
             <a href="mailto:restspacesupport@proroute.co" title="restspacesupport@proroute.co">
               restspacesupport@proroute.co
             </a>
