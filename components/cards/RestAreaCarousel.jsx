@@ -27,7 +27,7 @@ export const RestAreaCarousel = (restarea) => {
   }
   
 
-  console.log("restAreaImages",restAreaImages)
+  // console.log("restAreaImages",restAreaImages)
   return (
     <div className="w-full" >
       { restAreaImages ? <IonTitle size="large">Photos</IonTitle> : <IonTitle size="large">No Photos</IonTitle>}

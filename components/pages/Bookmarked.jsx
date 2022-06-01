@@ -22,7 +22,7 @@ const Bookmarked = () => {
   const restAreas = Store.useState(getRestAreas);
   const [showNotifications, setShowNotifications] = useState(false);
 
-  console.log("restAreas", restAreas);
+  // console.log("restAreas", restAreas);
   return (
     <IonPage>
       <IonHeader>
