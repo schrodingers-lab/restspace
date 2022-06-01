@@ -193,7 +193,7 @@ export const RestAreaDetail = ({restarea}) => {
               Longitude: {restarea.longitude} <br/>
               Latitude: {restarea.latitude}
             </IonLabel>
-            <IonLabel color="light" position="floating">Click to Copy to Clipboard</IonLabel>
+            <IonLabel>Click to Copy to Clipboard</IonLabel>
           </IonItem>
         </CopyToClipboard>
 
