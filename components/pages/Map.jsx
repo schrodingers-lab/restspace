@@ -79,14 +79,14 @@ const Map = () => {
     
     const { data, error } = await query;
 
-    console.log("supabase lng", lng);
-    console.log("supabase lat", lat);
-    console.log("supabase distance", distance);
+    // console.log("supabase lng", lng);
+    // console.log("supabase lat", lat);
+    // console.log("supabase distance", distance);
     Store.update(s => {
       s.restAreas = data;
     });
 
-    console.log("supabase dat2", data);
+    // console.log("supabase dat2", data);
   }
 
   const setSearchRadius = async () => {
@@ -148,7 +148,7 @@ const Map = () => {
 
   useEffect(() => {
     if (!map.current) return; // initialize map only once
-    console.log("draw markers");
+    // console.log("draw markers");
     markers?.map(marker => {
       marker.remove();
     });

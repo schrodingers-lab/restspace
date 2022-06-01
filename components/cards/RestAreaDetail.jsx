@@ -28,7 +28,7 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiZGFycmVuLXByb3JvdXRlIiwiYSI6ImNsM2M2cjRhOTAxd
 
 export const RestAreaDetail = ({restarea}) => {
   const img0 = restarea?.cover_image; //default img
-  console.log("restarea 1", restarea);
+  // console.log("restarea 1", restarea);
 
   const mapContainer = useRef(null);
   const map = useRef(null);
@@ -77,7 +77,7 @@ export const RestAreaDetail = ({restarea}) => {
   }, [restarea]);
 
   const routeMe = async ()=>{
-    console.log("routeme")
+    // console.log("routeme")
    
     await getRoute();
   }
@@ -114,7 +114,7 @@ export const RestAreaDetail = ({restarea}) => {
     );
 
     const json = await query.json();
-    console.log("directions", json);
+    // console.log("directions", json);
     const data = json.routes[0];
 
     setRoute(json.routes[0]);
