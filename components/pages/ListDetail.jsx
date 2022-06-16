@@ -48,7 +48,7 @@ const ListDetail = ({ match }) => {
           <IonButtons slot="start">
             <IonBackButton defaultHref="/tabs/lists" />
           </IonButtons>
-          <IonTitle>{selectedRestArea?.name}</IonTitle>
+          <IonTitle>#{selectedRestArea?.id} - {selectedRestArea?.name}</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>

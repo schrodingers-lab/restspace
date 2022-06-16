@@ -77,8 +77,6 @@ export const RestAreaDetail = ({restarea}) => {
   }, [restarea]);
 
   const routeMe = async ()=>{
-    // console.log("routeme")
-   
     await getRoute();
   }
 
@@ -105,6 +103,7 @@ export const RestAreaDetail = ({restarea}) => {
       return;
     };
 
+
     // make a directions request using cycling profile
     // an arbitrary start will always be the same
     // only the end or destination will change
@@ -115,10 +114,18 @@ export const RestAreaDetail = ({restarea}) => {
 
     const json = await query.json();
     // console.log("directions", json);
-    const data = json.routes[0];
+    if (json?.routes == null || json?.routes == []){
+      console.log("No route found");
 
-    setRoute(json.routes[0]);
-    const route = data.geometry.coordinates;
+      setToastMessage("Route could not be estimated.");
+      setIsToastOpen(true);
+
+      return;
+    }
+
+    const data = json.routes[0];
+    setRoute(data);
+    const route = data?.geometry?.coordinates;
     const geojson = {
       type: 'Feature',
       properties: {},
@@ -176,7 +183,7 @@ export const RestAreaDetail = ({restarea}) => {
       </div>
       <div className="px-4 py-4 bg-white rounded-b-xl dark:bg-gray-900">
         <h4 className="font-bold py-0 text-s text-gray-400 dark:text-gray-500 uppercase">{restarea.region}</h4>
-        <h2 className="font-bold text-2xl text-gray-800 dark:text-gray-100">{restarea.name}</h2>
+        <h2 className="font-bold text-2xl text-gray-800 dark:text-gray-100">#{restarea.id} - {restarea.name}</h2>
 
         <CopyToClipboard 
             text={`${restarea.latitude},${restarea.longitude}`}
@@ -186,8 +193,7 @@ export const RestAreaDetail = ({restarea}) => {
                 setIsToastOpen(true);
               }
             }>
-          <>
-          <IonItem color={restarea.toilet ? "dark" : "light" }>
+          <IonItem color={"light"} className="my-8">
             <IonIcon slot="end" icon={locate} />
             <IonLabel className="ion-text-wrap">
               Longitude: {restarea.longitude} <br/>
@@ -195,9 +201,6 @@ export const RestAreaDetail = ({restarea}) => {
             </IonLabel>
             
           </IonItem>
-          
-          
-          </>
         </CopyToClipboard>
 
         <div className="flex items-center space-x-4">
@@ -236,10 +239,7 @@ export const RestAreaDetail = ({restarea}) => {
           <IonIcon icon={phonePortrait} />
         </IonButton>
 
-
-        
-
-        <div className="area-map-section">
+        <div className="area-map-section h-64 my-10">
           <div ref={mapContainer} className="w-full h-64"/> 
         </div>
 
@@ -251,17 +251,17 @@ export const RestAreaDetail = ({restarea}) => {
           </IonLabel>
         </IonItem>}
 
-        <IonButton onClick={() => routeMe()}>
+        <IonButton onClick={() => routeMe()}  className="text-md">
           <IonIcon slot="start" icon={navigate} />
           Estimate Route
         </IonButton>
 
-        <IonButton onClick={() => externalMaps()} className="float-right">
+        <IonButton onClick={() => externalMaps()} className="float-right text-md">
           <IonIcon slot="start" icon={share} />
           External Maps
         </IonButton>
-
-        <div className="my-4 mx-auto w-full" >
+        
+        <div className="my-4 mx-auto mt-10 w-full" >
           <RestAreaCarousel images={restarea.images} />
         </div>
 

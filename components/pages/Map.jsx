@@ -163,7 +163,6 @@ const Map = ({history}) => {
       return popup
   }
 
-
     const newMarkers = [];
     restAreas?.map(mapRestArea => {
       const m_popup = addPopup(<MapInfo restArea={mapRestArea} history={history} />)

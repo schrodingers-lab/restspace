@@ -1,7 +1,4 @@
 import Card from '../ui/Card';
-import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
-mapboxgl.accessToken = 'pk.eyJ1IjoiZGFycmVuLXByb3JvdXRlIiwiYSI6ImNsM2M2cjRhOTAxd3YzY3JvYjl1OXQ3Y3oifQ.lerkA3MPLmhRgla3jQnCGg';
-
 
 export const RestAreaCard = (restarea, key) => {
   const img0 = restarea?.cover_image | ''; //default img

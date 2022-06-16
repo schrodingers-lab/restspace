@@ -26,11 +26,9 @@ export const RestAreaCarousel = (restarea) => {
     console.error("failed to load restarea images", restarea, error);
   }
   
-
-  // console.log("restAreaImages",restAreaImages)
   return (
-    <div className="w-full" >
-      { restAreaImages ? <IonTitle size="large">Photos</IonTitle> : <IonTitle size="large">No Photos</IonTitle>}
+    <div className="w-full mx-auto" >
+      {/* { restAreaImages ? <IonTitle size="large">Photos</IonTitle> : <IonTitle size="large">No Photos</IonTitle>} */}
       {
         restAreaImages?.map((image, index) => {
           return (
