@@ -251,14 +251,14 @@ export const RestAreaDetail = ({restarea}) => {
           </IonLabel>
         </IonItem>}
 
-        <IonButton onClick={() => routeMe()}  className="text-md">
+        <IonButton onClick={() => routeMe()}  className="text-sm">
           <IonIcon slot="start" icon={navigate} />
-          Estimate Route
+          Estimate
         </IonButton>
 
-        <IonButton onClick={() => externalMaps()} className="float-right text-md">
+        <IonButton onClick={() => externalMaps()} className="float-right text-sm">
           <IonIcon slot="start" icon={share} />
-          External Maps
+          Maps
         </IonButton>
         
         <div className="my-4 mx-auto mt-10 w-full" >
