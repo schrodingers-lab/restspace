@@ -27,7 +27,7 @@ const Settings = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        <div>
+        <div className="mx-10">
           <p>
             <strong>Terms of Use</strong>
           </p>
@@ -718,11 +718,11 @@ const Settings = () => {
             <strong>Contacting us</strong>
           </p>
           <p>
-            If you have any questions or concerns about our terms of use, you may contact us at 
+            If you have any questions or concerns about our terms of use, you may contact us at <br/> 
             <a href="mailto:restspacesupport@proroute.co" title="restspacesupport@proroute.co">
               restspacesupport@proroute.co
             </a>
-            .
+            
           </p> 
           <br/>
           <br/>
