@@ -17,7 +17,8 @@ import {
 } from '@ionic/react';
 import { search, filter, bookmark, locate, trendingUpOutline } from 'ionicons/icons';
 import Notifications from './Notifications';
-import React, { useRef, useEffect, useState } from 'react';
+import React, {useRef, useEffect, useState } from 'react';
+import ReactDOM from  'react-dom';
 import { notificationsOutline } from 'ionicons/icons';
 import { getRestAreas } from '../../store/selectors';
 import Store from '../../store';
@@ -25,10 +26,11 @@ import { createClient } from '@supabase/supabase-js';
 import * as turfdistance from '@turf/distance';
 import { useDebouncedCallback } from 'use-debounce';
 import RestAreaMarker from "../cards/RestAreaMarker";
+import MapInfo from "../map/MapInfo";
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
 mapboxgl.accessToken = 'pk.eyJ1IjoiZGFycmVuLXByb3JvdXRlIiwiYSI6ImNsM2M2cjRhOTAxd3YzY3JvYjl1OXQ3Y3oifQ.lerkA3MPLmhRgla3jQnCGg';
 
-const Map = () => {
+const Map = ({history}) => {
   const restAreas = Store.useState(getRestAreas);
   const [showNotifications, setShowNotifications] = useState(false);
 
@@ -49,6 +51,8 @@ const Map = () => {
   const [bbqFilter, setBbqFilter] = useState(false);
   const [fuelFilter, setFuelFilter] = useState(false);
   const [lightsFilter, setLightsFilter] = useState(false);
+
+
 
   // Create a single supabase client for interacting with your database 
   const supabase = createClient('https://arvqjbylexvdpyooykji.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFydnFqYnlsZXh2ZHB5b295a2ppIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NTMxMTk1MzUsImV4cCI6MTk2ODY5NTUzNX0.09341SKltY0PCODodzrDD1RQDXB5tA5dnMc-jQbKPag');
@@ -85,8 +89,7 @@ const Map = () => {
     Store.update(s => {
       s.restAreas = data;
     });
-
-    // console.log("supabase dat2", data);
+    console.log("Store.update restAreas", data);
   }
 
   const setSearchRadius = async () => {
@@ -113,7 +116,6 @@ const Map = () => {
     // The maximum time func is allowed to be delayed before it's invoked:
     { maxWait: 2000 }
   );
-
 
   useEffect(() => {
     if (map.current) return; // initialize map only once
@@ -152,22 +154,27 @@ const Map = () => {
     markers?.map(marker => {
       marker.remove();
     });
+  
+    const addPopup = (el) => {
+      const placeholder = document.createElement('div');
+      ReactDOM.render(el, placeholder);
+      const popup = new mapboxgl.Popup({ offset: 25, className: 'restAreaPopup', closeButton: false, closeOnClick: true, closeOnMove: true })
+                          .setDOMContent(placeholder)
+      return popup
+  }
+
+
     const newMarkers = [];
     restAreas?.map(mapRestArea => {
+      const m_popup = addPopup(<MapInfo restArea={mapRestArea} history={history} />)
       const marker = new mapboxgl.Marker()
         .setLngLat([mapRestArea.longitude, mapRestArea.latitude])
-        .setPopup(
-          new mapboxgl.Popup({ offset: 25 }) // add popups
-          .setHTML(
-            `<h3>${mapRestArea.name}</h3><a href="/tabs/lists/${mapRestArea.id}"><img src=${mapRestArea.cover_image} />More Information</a>`
-          )
-        )
+        .setPopup(m_popup)
         .addTo(map.current);
       newMarkers.push(marker);
     });
  
     setMarkers(newMarkers);
-
   }, [restAreas]);
 
   map.current?.on('render', function () {
@@ -202,7 +209,7 @@ const Map = () => {
         </div>
         {/*-- fab placed to the (vertical) center and end --*/}
         <IonFab  vertical="bottom" horizontal="center" slot="fixed">
-          <IonFabButton  onClick={debouncedSearch}>
+          <IonFabButton onClick={debouncedSearch}>
             <IonIcon icon={search} />
           </IonFabButton>
         </IonFab>

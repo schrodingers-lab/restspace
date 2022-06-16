@@ -1,6 +1,6 @@
 import Store from '../../store';
 import * as selectors from '../../store/selectors';
-
+import React, { useRef, useEffect, useState } from 'react';
 import {
   IonPage,
   IonHeader,
@@ -26,9 +26,7 @@ const ListEntry = ({ list, ...props }) => (
 );
 
 const AllLists = ({ onSelect }) => {
-  const lists = Store.useState(selectors.getRestAreas);
-
-
+  let lists = Store.useState(selectors.getRestAreas);
   return (
     <>
       {lists.map((list, i) => (

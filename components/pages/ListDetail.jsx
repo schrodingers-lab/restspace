@@ -36,10 +36,7 @@ const ListDetail = ({ match }) => {
         .eq('id', listId)
       if(data && data.length > 0){
         setSelectedRestArea(data[0]);
-
-      // console.log("supabase data[0]", data[0]);
-    }
-      // console.log("supabase data", data);
+     }
     }
     fetchData();
   }, [listId]);
