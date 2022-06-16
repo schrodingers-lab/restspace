@@ -158,7 +158,7 @@ const Map = ({history}) => {
     const addPopup = (el) => {
       const placeholder = document.createElement('div');
       ReactDOM.render(el, placeholder);
-      const popup = new mapboxgl.Popup({ offset: 25, className: 'restAreaPopup', closeButton: false, closeOnClick: true, closeOnMove: true })
+      const popup = new mapboxgl.Popup({ offset: 25, className: 'restAreaPopup', closeButton: true, closeOnClick: true})
                           .setDOMContent(placeholder)
       return popup
   }
