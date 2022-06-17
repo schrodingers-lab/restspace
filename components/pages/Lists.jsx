@@ -27,20 +27,21 @@ const ListEntry = ({ list, ...props }) => (
 
 const AllLists = ({ onSelect }) => {
   let lists = Store.useState(selectors.getRestAreas);
+  console.log("lists",lists);
   return (
     <>
-      {lists.map((list, i) => (
+      {lists?.length > 0 && lists.map((list, i) => (
         <ListEntry list={list} key={i} />
       ))}
 
       {lists?.length === 0 && 
         <IonCard>
           <IonItem>
-            <IonLabel>Not Rest Areas</IonLabel>
+            <IonLabel>No Rest Areas</IonLabel>
           </IonItem>
 
           <IonCardContent>
-            Search on the Map
+            Search on the Map Tab
           </IonCardContent>
         </IonCard>
       }

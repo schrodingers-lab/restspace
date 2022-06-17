@@ -1,12 +1,12 @@
 {
-	"appId": "com.example.app",
-	"appName": "nextjs-tailwind-capacitor",
+	"appId": "co.proroute.restspace",
+	"appName": "RestSpace",
 	"bundledWebRuntime": false,
 	"npmClient": "npm",
 	"webDir": "out",
 	"plugins": {
 		"SplashScreen": {
-			"launchShowDuration": 0
+			"launchShowDuration": 200
 		}
 	},
 	"cordova": {}
