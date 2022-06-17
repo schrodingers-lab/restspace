@@ -35,7 +35,7 @@ function MapInfo(props) {
 
   return (
     <div >
-       <h2 className="font-bold text-gray-800 dark:text-gray-100">{displayName}</h2>
+       <h2 className="font-bold text-gray-800">{displayName}</h2>
       {/* Too many images loading on search */}
       {isVisible && <img width={240} src={restArea?.cover_image} loading="lazy"/>}
 
