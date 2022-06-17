@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { IonReactRouter } from '@ionic/react-router';
 import { Redirect, Route } from 'react-router-dom';
 import Menu from './Menu';
-import UpgradeCard from './Cards/UpgradeCard';
+import UpgradeCard from './cards/UpgradeCard';
 
 import Tabs from './pages/Tabs';
 import Store from '../store';
