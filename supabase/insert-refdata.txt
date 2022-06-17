@@ -1,0 +1,2 @@
+INSERT INTO "public"."ref_data" ("ref", "data") VALUES ('app_version','2.1');
+

@@ -18,7 +18,6 @@ import { setSettings } from '../../store/actions';
 
 const Settings = () => {
   const settings = Store.useState(selectors.getSettings);
-  const appVersion = 2.3;
 
   return (
     <IonPage>
@@ -45,7 +44,7 @@ const Settings = () => {
 
         <IonCard>
           <IonItem>
-            <IonLabel>App Version {appVersion}</IonLabel>
+            <IonLabel>App Version {settings.appVersion}</IonLabel>
           </IonItem>
 
           <IonCardContent>
