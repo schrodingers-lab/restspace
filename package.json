@@ -38,6 +38,7 @@
     "use-debounce": "^8.0.1"
   },
   "devDependencies": {
+    "@capacitor/splash-screen": "^1.2.2",
     "eslint": "^7.28.0",
     "eslint-config-next": "^11.0.0",
     "ionicons": "^5.2.3",
