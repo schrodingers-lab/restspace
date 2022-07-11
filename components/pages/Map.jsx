@@ -39,8 +39,8 @@ const Map = ({history}) => {
   const filterFabRef = useRef(null);
   const [lng, setLng] = useState(151.69370392926862);
   const [lat, setLat] = useState(-25.94497349642141);
-  const [distance, setDistance] = useState(400000);
-  const [zoom, setZoom] = useState(6);
+  const [distance, setDistance] = useState(80000);
+  const [zoom, setZoom] = useState(8);
   const [markers, setMarkers] = useState([]);
 
   const [filterOpen, setFilterOpen] = useState(false);

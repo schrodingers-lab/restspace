@@ -48,7 +48,7 @@ const Settings = () => {
           </IonItem>
 
           <IonCardContent>
-            If you and issue please email support at <a href="mailto:restspace@proroute.co">restspace@proroute.co</a>
+            If you have an issue please email support at <a href="mailto:restspace@proroute.co">restspace@proroute.co</a>
           </IonCardContent>
           <IonCardContent>
             We hope you find this product useful, we accept no liability for usage or information supplied.
