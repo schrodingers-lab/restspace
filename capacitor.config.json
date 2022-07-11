@@ -1,5 +1,5 @@
 {
-  "appId": "co.proroute.restspace",
+  "appId": "com.proroute.restspace",
   "appName": "RestSpace",
   "bundledWebRuntime": false,
   "npmClient": "npm",
