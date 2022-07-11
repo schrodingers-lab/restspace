@@ -1,12 +1,21 @@
 {
-	"appId": "com.example.app",
-	"appName": "nextjs-tailwind-capacitor",
+	"appId": "co.proroute.restspace",
+	"appName": "RestSpace",
 	"bundledWebRuntime": false,
 	"npmClient": "npm",
 	"webDir": "out",
 	"plugins": {
 		"SplashScreen": {
-			"launchShowDuration": 0
+			"launchShowDuration": 5000,
+			"backgroundColor": "#ffffffff",
+			"androidSplashResourceName": "splash",
+			"androidScaleType": "CENTER_CROP",
+			"androidSpinnerStyle": "large",
+			"iosSpinnerStyle": "small",
+			"spinnerColor": "#999999",
+			"showSpinner": true,
+			"splashFullScreen": true,
+			"splashImmersive": true
 		}
 	},
 	"cordova": {}
