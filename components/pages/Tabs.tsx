@@ -34,7 +34,7 @@ const Tabs = () => {
           <IonIcon icon={list} />
           <IonLabel>Lists</IonLabel>
         </IonTabButton>
-        <IonTabButton tab="tab2" href="/tabs/bookmarked">
+         <IonTabButton tab="tab2" href="/tabs/bookmarked">
           <IonIcon icon={bookmark} />
           <IonLabel>Bookmarked</IonLabel>
         </IonTabButton>
