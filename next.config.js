@@ -18,9 +18,6 @@ module.exports = {
     });
     return config;
   },
-  future: {
-    webpack5: true,
-  },
   env: {
       ENV_CONTRACT: process.env.ENV_CONTRACT,
   }

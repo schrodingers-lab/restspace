@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Card from '../ui/Card';
+import { createRoot } from 'react-dom/client';
 
 import {
   IonFab,

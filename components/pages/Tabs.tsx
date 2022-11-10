@@ -25,7 +25,7 @@ const Tabs = () => {
         <Route path="/tabs/login" component={LoginPage} exact={true} />
         <Route path="/tabs" render={() => <Redirect to="/tabs/map" />} exact={true} />
       </IonRouterOutlet>
-      {/* <IonTabBar slot="bottom">
+      <IonTabBar slot="bottom">
         <IonTabButton tab="tab1" href="/tabs/map">
           <IonIcon icon={map} />
           <IonLabel>Map</IonLabel>
@@ -42,7 +42,7 @@ const Tabs = () => {
           <IonIcon icon={cog} />
           <IonLabel>Settings</IonLabel>
         </IonTabButton>
-      </IonTabBar> */}
+      </IonTabBar>
     </IonTabs>
   );
 };
