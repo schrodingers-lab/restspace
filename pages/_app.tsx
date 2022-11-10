@@ -23,7 +23,6 @@ function MyApp({ Component, pageProps }) {
           name="viewport"
           content="width=device-width, initial-scale=1.0, viewport-fit=cover"
         ></meta>
-        <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v2.8.1/mapbox-gl.css' rel='stylesheet' />
       </Head>
       <Component {...pageProps} />
       {/* <Script src="https://unpkg.com/ionicons@5.2.3/dist/ionicons.js"></Script> */}
