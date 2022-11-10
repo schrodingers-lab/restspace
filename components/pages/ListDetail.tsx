@@ -24,7 +24,7 @@ const ListDetail = ({ match }) => {
     params: { listId },
   } = match;
 
-  const [selectedRestArea, setSelectedRestArea] = useState(null);
+  const [selectedRestArea, setSelectedRestArea] = useState<any>(null);
 
   useEffect(() => {
  

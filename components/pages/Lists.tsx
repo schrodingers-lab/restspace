@@ -25,7 +25,7 @@ const ListEntry = ({ list, ...props }) => (
   </IonItem>
 );
 
-const AllLists = ({ onSelect }) => {
+const AllLists = () => {
   let lists = Store.useState(selectors.getRestAreas);
   console.log("lists",lists);
   return (

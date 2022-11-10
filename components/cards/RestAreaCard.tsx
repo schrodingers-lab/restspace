@@ -1,7 +1,8 @@
+import React from 'react';
 import Card from '../ui/Card';
 
 export const RestAreaCard = (restarea, key) => {
-  const img0 = restarea?.cover_image | ''; //default img
+  const img0 = restarea?.cover_image ? restarea?.cover_image : ''; //default img
   return (
     <Card className="my-4 mx-auto" key={key}>
       <div className="h-32 w-full relative">

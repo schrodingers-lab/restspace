@@ -15,6 +15,7 @@ import {
 import Store from '../../store';
 import * as selectors from '../../store/selectors';
 import { setSettings } from '../../store/actions';
+import React from 'react';
 
 const Settings = () => {
   const settings = Store.useState(selectors.getSettings);

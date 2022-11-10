@@ -1,23 +1,14 @@
 import {
   IonPage,
   IonHeader,
-  IonItem,
   IonToolbar,
   IonTitle,
   IonContent,
-  IonList,
-  IonToggle,
-  IonLabel,
-  IonCard,
-  IonCardContent,
 } from '@ionic/react';
+import React from 'react';
 
-import Store from '../../store';
-import * as selectors from '../../store/selectors';
-import { setSettings } from '../../store/actions';
 
-const Settings = () => {
-  const settings = Store.useState(selectors.getSettings);
+const Terms = () => {
 
   return (
     <IonPage>
@@ -734,4 +725,4 @@ const Settings = () => {
   );
 };
 
-export default Settings;
+export default Terms;

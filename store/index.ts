@@ -1,8 +1,8 @@
 import { Store as PullStateStore } from 'pullstate';
 
-const restAreas = [];
-const notifications = [];
-const bookmarks = [];
+const restAreas: any[] = [];
+const notifications: any[] = [];
+const bookmarks: any[] = [];
  
 const Store = new PullStateStore({
   safeAreaTop: 0,
@@ -14,7 +14,7 @@ const Store = new PullStateStore({
   bookmarks,
   notifications,
   settings: {
-    appVersion: 2.1
+    appVersion: 2.2
   },
 });
 

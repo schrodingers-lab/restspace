@@ -27,21 +27,22 @@ import * as turfdistance from '@turf/distance';
 import { useDebouncedCallback } from 'use-debounce';
 import RestAreaMarker from "../cards/RestAreaMarker";
 import MapInfo from "../map/MapInfo";
-import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
-mapboxgl.accessToken = 'pk.eyJ1IjoiZGFycmVuLXByb3JvdXRlIiwiYSI6ImNsM2M2cjRhOTAxd3YzY3JvYjl1OXQ3Y3oifQ.lerkA3MPLmhRgla3jQnCGg';
+import * as mapboxgl from 'mapbox-gl'; 
+const mapboxglAccessToken = 'pk.eyJ1IjoiZGFycmVuLXByb3JvdXRlIiwiYSI6ImNsM2M2cjRhOTAxd3YzY3JvYjl1OXQ3Y3oifQ.lerkA3MPLmhRgla3jQnCGg';
+
 
 const Map = ({history}) => {
   const restAreas = Store.useState(getRestAreas);
   const [showNotifications, setShowNotifications] = useState(false);
 
-  const mapContainer = useRef(null);
-  const map = useRef(null);
-  const filterFabRef = useRef(null);
+  const mapContainer = useRef<any>(null);
+  const map = useRef<any>(null);
+  const filterFabRef = useRef<any>(null);
   const [lng, setLng] = useState(151.69370392926862);
   const [lat, setLat] = useState(-25.94497349642141);
   const [distance, setDistance] = useState(80000);
   const [zoom, setZoom] = useState(8);
-  const [markers, setMarkers] = useState([]);
+  const [markers, setMarkers] = useState<any[]>([]);
 
   const [filterOpen, setFilterOpen] = useState(false);
   const [toiletFilter, setToiletFilter] = useState(false);
@@ -87,7 +88,7 @@ const Map = ({history}) => {
     // console.log("supabase lat", lat);
     // console.log("supabase distance", distance);
     Store.update(s => {
-      s.restAreas = data;
+      s.restAreas = data ? data : [];
     });
     console.log("Store.update restAreas", data);
   }
@@ -98,14 +99,14 @@ const Map = ({history}) => {
 
     let centerPoint = [center.lat, center.lng];
     let cornerPoint = [corner.lat, corner.lng];
-    // needs to be in meters
-    let options = {units: 'meters'};
-    let searchRadius = turfdistance.default(centerPoint, cornerPoint,options) ;
+    
+    // needs to be in meters\
+    let searchRadius = turfdistance.default(centerPoint, cornerPoint,{units: 'meters'}) ;
 
     setLng(center.lng);
     setLat(center.lat);
     // needs to be in meters (and integers only) for search
-    setDistance(searchRadius.toFixed(0));
+    setDistance(Math.floor(searchRadius));
   }
 
   const debouncedSearch = useDebouncedCallback(
@@ -120,6 +121,7 @@ const Map = ({history}) => {
   useEffect(() => {
     if (map.current) return; // initialize map only once
     map.current = new mapboxgl.Map({
+      accessToken: mapboxglAccessToken,
       container: mapContainer.current,
       style: 'mapbox://styles/mapbox/streets-v11',
       center: [lng, lat],
@@ -163,7 +165,7 @@ const Map = ({history}) => {
       return popup
   }
 
-    const newMarkers = [];
+    const newMarkers: any[] = [];
     restAreas?.map(mapRestArea => {
       const m_popup = addPopup(<MapInfo restArea={mapRestArea} history={history} />)
       const marker = new mapboxgl.Marker()

@@ -15,9 +15,11 @@ import {
   IonMenuButton,
   IonFabList,
 } from '@ionic/react';
+import React from 'react';
 
 export const RestAreaCarousel = (restarea) => {
-  if(restarea?.images == undefined || restarea?.images == null || restarea?.images == []) return;
+  // Blank carousel
+  if(restarea?.images == undefined || restarea?.images == null || restarea?.images?.length == 0) return <></>;
   
   let restAreaImages;
   try {

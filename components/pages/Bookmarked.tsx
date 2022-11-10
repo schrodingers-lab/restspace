@@ -16,6 +16,7 @@ import { useState } from 'react';
 import { notificationsOutline } from 'ionicons/icons';
 import { getRestAreas } from '../../store/selectors';
 import Store from '../../store';
+import React from 'react';
 
 
 const Bookmarked = () => {

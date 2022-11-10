@@ -11,6 +11,7 @@ import Tabs from './pages/Tabs';
 import Store from '../store';
 import * as selectors from '../store/selectors';
 import { createClient } from '@supabase/supabase-js';
+import {LoginPage} from './pages/Login';
 
 window.matchMedia("(prefers-color-scheme: dark)").addListener(async (status) => {
   try {
@@ -75,6 +76,7 @@ const AppShell = ({history}) => {
            <UpgradeCard/>
           </IonModal>
           <IonRouterOutlet id="main">
+            <Route path="/login" component={LoginPage}  exact={true} />
             <Route path="/tabs" render={() => <Tabs />} />
             <Route exact path="/" render={() => <Redirect to="/tabs" />} />
           </IonRouterOutlet>

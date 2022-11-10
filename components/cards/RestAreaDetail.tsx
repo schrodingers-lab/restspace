@@ -22,29 +22,31 @@ import {CopyToClipboard} from 'react-copy-to-clipboard';
 import { search, navigate, bookmark, locate, share, bus, phonePortrait } from 'ionicons/icons';
 import React, { useRef, useEffect, useState } from 'react';
 
-import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
-mapboxgl.accessToken = 'pk.eyJ1IjoiZGFycmVuLXByb3JvdXRlIiwiYSI6ImNsM2M2cjRhOTAxd3YzY3JvYjl1OXQ3Y3oifQ.lerkA3MPLmhRgla3jQnCGg';
+// import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
+import * as mapboxgl from 'mapbox-gl'; 
+const mapboxglAccessToken = 'pk.eyJ1IjoiZGFycmVuLXByb3JvdXRlIiwiYSI6ImNsM2M2cjRhOTAxd3YzY3JvYjl1OXQ3Y3oifQ.lerkA3MPLmhRgla3jQnCGg';
 
 
 export const RestAreaDetail = ({restarea}) => {
   const img0 = restarea?.cover_image; //default img
   // console.log("restarea 1", restarea);
 
-  const mapContainer = useRef(null);
-  const map = useRef(null);
+  const mapContainer = useRef<any>(null);
+  const map = useRef<any>(null);
 
-  const [geoLocateCtl, setGeoLocateCtl] = useState();
-  const [currentLocation, setCurrentLocation] = useState();
-  const [isToastOpen, setIsToastOpen] = useState(false);
-  const [toastMessage, setToastMessage] = useState(false);
+  const [geoLocateCtl, setGeoLocateCtl] = useState<any>();
+  const [currentLocation, setCurrentLocation] = useState<any>();
+  const [isToastOpen, setIsToastOpen] = useState<boolean>(false);
+  const [toastMessage, setToastMessage] = useState<string | undefined>();
 
-  const [resolvingForRoute, setResolvingForRoute] = useState();
-  const [route, setRoute] = useState();
+  const [resolvingForRoute, setResolvingForRoute] = useState<any>();
+  const [route, setRoute] = useState<any>();
 
 
   useEffect(() => {
     if (map.current) return; // initialize map only once
     map.current = new mapboxgl.Map({
+      accessToken: mapboxglAccessToken,
       container: mapContainer.current,
       style: 'mapbox://styles/mapbox/streets-v11',
       center: [restarea.longitude, restarea.latitude],
@@ -66,7 +68,8 @@ export const RestAreaDetail = ({restarea}) => {
 
     geoLocate.on('geolocate', (geo) => {
         console.log('A geolocate event has occurred.', geo);
-        setCurrentLocation(geo.coords);
+        let geo_coords = geo as any;
+        setCurrentLocation(geo_coords?.coords);
         setResolvingForRoute(true);
     });
 
@@ -114,7 +117,7 @@ export const RestAreaDetail = ({restarea}) => {
 
     const json = await query.json();
     // console.log("directions", json);
-    if (json?.routes == null || json?.routes == []){
+    if (!json?.routes || json?.routes?.length == 0){
       console.log("No route found");
 
       setToastMessage("Route could not be estimated.");
