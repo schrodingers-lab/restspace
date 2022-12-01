@@ -1,6 +1,6 @@
 import { IonApp, IonRouterOutlet, IonSplitPane, IonToast, IonModal } from '@ionic/react';
 import { StatusBar, Style } from '@capacitor/status-bar';
-
+import { setupIonicReact } from '@ionic/react';
 import React, { useEffect, useState } from 'react';
 import { IonReactRouter } from '@ionic/react-router';
 import { Redirect, Route } from 'react-router-dom';
@@ -21,7 +21,13 @@ window.matchMedia("(prefers-color-scheme: dark)").addListener(async (status) => 
   } catch {}
 });
 
+
+
 const AppShell = ({history}) => {
+
+  setupIonicReact({
+    mode: 'md'
+  });
 
   // Create a single supabase client for interacting with your database 
   const supabase = createClient('https://arvqjbylexvdpyooykji.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFydnFqYnlsZXh2ZHB5b295a2ppIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NTMxMTk1MzUsImV4cCI6MTk2ODY5NTUzNX0.09341SKltY0PCODodzrDD1RQDXB5tA5dnMc-jQbKPag');

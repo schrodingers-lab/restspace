@@ -12,7 +12,7 @@ import {
     IonCardContent,
   } from '@ionic/react';
 import React from 'react';
-// import { Login } from '../auth/login'; 
+import Login from '../auth/Login';
   
   
 export const LoginPage = () => {
@@ -25,8 +25,7 @@ export const LoginPage = () => {
           </IonToolbar>
         </IonHeader>
         <IonContent>
-            {/* <Login/> */}
-            <p>TODO</p>
+            <Login/>
         </IonContent>
     </IonPage>
     );

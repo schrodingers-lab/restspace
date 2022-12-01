@@ -25,9 +25,8 @@ function MyApp({ Component, pageProps }) {
         ></meta>
       </Head>
       <Component {...pageProps} />
-      {/* <Script src="https://unpkg.com/ionicons@5.2.3/dist/ionicons.js"></Script> */}
-      <Script type="module" src="https://unpkg.com/ionicons@5.2.3/dist/ionicons/ionicons.esm.js"></Script>
-      <Script src="https://unpkg.com/ionicons@5.2.3/dist/ionicons/ionicons.js"></Script>
+      <Script type="module" src="https://unpkg.com/ionicons@6.0.3/dist/ionicons/ionicons.esm.js"></Script>
+      <Script src="https://unpkg.com/ionicons@6.0.3/dist/ionicons/ionicons.js"></Script>
     </>
   );
 }
