@@ -14,7 +14,6 @@ import { createClient } from '@supabase/supabase-js';
 import {LoginPage} from './pages/Login';
 import SignupPage from './pages/Signup';
 import ForgotPage from './pages/Forgot';
-import VerifyPage from './pages/Verify';
 import UpdatePasswordPage from './pages/UpdatePassword';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 

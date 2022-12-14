@@ -63,7 +63,6 @@ const Map = ({history}) => {
   const geoSearch = async () => {
     const query = supabase
       .rpc('geo_rest_areas', { x: lng, y: lat, distance: distance })
-      .select();
 
     if (toiletFilter){
       query.eq('toilets', true);
@@ -84,7 +83,7 @@ const Map = ({history}) => {
       query.eq('lights', true);
     }
     
-    const { data, error } = await query;
+    const { data, error } = await query.select();
 
     // console.log("supabase lng", lng);
     // console.log("supabase lat", lat);

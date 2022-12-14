@@ -13,7 +13,6 @@ import React from 'react';
 import SignupPage from './Signup';
 import ForgotPage from './Forgot';
 import UpdatePasswordPage from './UpdatePassword';
-import VerifyPage from './Verify';
 
 const Tabs = () => {
 
