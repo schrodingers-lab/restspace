@@ -173,6 +173,10 @@ export const Verify = ( {phoneNumber, displayPhoneNumber, sendAuthStateFnc}) => 
                   <input ref={token6Ref} onChange={handleToken6} value={token6} onKeyUp={e => inputfocus(e)}  autoComplete="off" tabIndex={6}  className="m-2 border h-10 w-10 text-center form-control rounded" type="text" id="sixth" maxLength={1} />
                 </div>
 
+                <div className="flex items-center justify-between text-red-500">
+                  {error}
+                </div>
+
                 <div className="flex items-center justify-between">
   
                   <div className="text-sm">

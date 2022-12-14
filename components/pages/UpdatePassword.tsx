@@ -13,7 +13,7 @@ import {
   } from '@ionic/react';
 import React from 'react';
 import Forgot from '../auth/Forgot';
-import UpdatePassword from '../auth/UpdatePAssword';
+import {UpdatePassword} from '../auth/UpdatePassword';
   
   
 export const UpdatePasswordPage = () => {

@@ -11,11 +11,31 @@ import {
     IonCard,
     IonCardContent,
   } from '@ionic/react';
-import React from 'react';
-import Forgot from '../auth/Forgot';
+import React, { useState } from 'react';
+import { Forgot } from '../auth/Forgot';
+import { UpdatePassword } from '../auth/UpdatePassword';
+import { Verify } from '../auth/Verify';
   
   
 export const ForgotPage = () => {
+
+    const [phoneNumber, setPhoneNumber] = useState<string>();
+    const [displayPhoneNumber, setDisplayPhoneNumber] = useState<string>();
+    const [authMode, setAuthMode] = useState<'forgot' | 'update' | 'post'>('forgot');
+
+    const displayPhone = (phoneNumber: string) => {
+      return phoneNumber+"TODO***s";
+    }
+
+    const callSetPhoneNumber = (phoneNumber) => {
+      setPhoneNumber(phoneNumber);
+      setDisplayPhoneNumber(displayPhone(phoneNumber));
+    }
+
+    const callSetAuthMode = (verify) => {
+      debugger;
+      setAuthMode(verify);
+    }
   
     return (
       <IonPage>
@@ -25,7 +45,10 @@ export const ForgotPage = () => {
           </IonToolbar>
         </IonHeader>
         <IonContent>
-            <Forgot/>
+            {authMode}
+            { authMode == 'forgot' && <Forgot sendPhoneNumberFnc={callSetPhoneNumber} sendAuthStateFnc={callSetAuthMode} />}
+            { authMode == 'update' && <UpdatePassword phoneNumber={phoneNumber} displayPhoneNumber={displayPhoneNumber} sendAuthStateFnc={callSetAuthMode}/>}
+            { authMode == 'post' && <p>reset, lets TODO next step delayed route</p>}
         </IonContent>
     </IonPage>
     );

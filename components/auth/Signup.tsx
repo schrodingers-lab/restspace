@@ -61,6 +61,11 @@ export const Signup = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
         phone: phoneNumber,
         password: password,
       })
+    
+      // Add username to auth? 
+      // const { data, error } = await supabase.auth.updateUser({
+      //   data: { hello: 'world' }
+      // })
 
       if (error) {
         if (error?.name == "AuthApiError"){
@@ -154,6 +159,10 @@ export const Signup = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
                       className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                     />
                   </div>
+                </div>
+
+                <div className="flex items-center justify-between text-red-500">
+                  {error}
                 </div>
   
                 <div className="flex items-center justify-between">
