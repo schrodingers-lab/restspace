@@ -12,16 +12,29 @@ import {
   IonMenuButton,
 } from '@ionic/react';
 import Notifications from './Notifications';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { notificationsOutline } from 'ionicons/icons';
 import { getRestAreas } from '../../store/selectors';
 import Store from '../../store';
 import React from 'react';
-
+import { useUser, useSupabaseClient } from '@supabase/auth-helpers-react'
 
 const Bookmarked = () => {
   const restAreas = Store.useState(getRestAreas);
   const [showNotifications, setShowNotifications] = useState(false);
+
+  const supabaseClient = useSupabaseClient();
+  const user = useUser();
+  const [data, setData] = useState<any>();
+
+  useEffect(() => {
+    async function loadData() {
+      const { data } = await supabaseClient.from('bookmarks').select('*').eq('user_id', user?.id);
+      setData(data);
+    }
+    // Only run query once user is logged in.
+    if (user) loadData()
+  }, [user])
 
   // console.log("restAreas", restAreas);
   return (

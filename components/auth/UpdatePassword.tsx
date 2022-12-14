@@ -1,11 +1,11 @@
 import 'react-phone-number-input/style.css';
 import PhoneInput, { formatPhoneNumber, formatPhoneNumberIntl, isValidPhoneNumber } from 'react-phone-number-input';
-import React, {useState,useRef, useEffect} from 'react';
+import React, {useState,useRef} from 'react';
 import { SupabaseClient } from '@supabase/supabase-js';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 
 
-export const Login = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
+export const UpdatePassword = () => {
     const supabaseClient = useSupabaseClient();
 
     const [phoneNumber, setPhoneNumber] = useState<string>();
@@ -14,7 +14,6 @@ export const Login = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
 
     const [error, setError] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(false);
-    const [authState, setAuthState] = useState<string>('login');
 
     const changePasswordType = () => {
       console.log("changePasswordType");
@@ -22,19 +21,6 @@ export const Login = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
         passwordRef.current.type ="password";
       }
     } 
-
-    useEffect(() => {
-      if(sendAuthStateFnc){
-        console.log("send auth",sendAuthStateFnc);
-        sendAuthStateFnc(authState);
-      }
-    }, [authState, sendAuthStateFnc]);
-
-    useEffect(() => {
-      if(sendPhoneNumberFnc){
-        sendPhoneNumberFnc(phoneNumber);
-      }
-    }, [phoneNumber, sendPhoneNumberFnc]);
 
     const handlePhone = (value) => {
       setPhoneNumber(value);
@@ -53,34 +39,16 @@ export const Login = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
       console.log("phoneNumber", phoneNumber)
       console.log("password", password);
      
-      const  {data ,error} = await supabaseClient.auth.signInWithPassword({
+      const supaState = await supabaseClient.auth.signInWithPassword({
         phone: phoneNumber,
         password: password,
       })
-      console.log("supaState", data, error);
 
-      if (error) {
-        if (error?.name == "AuthApiError"){
-          if (error?.message == "Phone not confirmed"){
-            // verify phone
-            await supabaseClient.auth.signInWithOtp({
-              phone: phoneNumber
-            });
-            setAuthState('verify');
-            console.log("Needs to be confirmed");
-          } else if (error?.message == "Invalid login credentials") {
-            //failed to login
-            setError('Invalid login credentials');
-          }
-        }
-      } else {
-        setAuthState('post');
-      }
+      console.log("supaState", supaState);
       setLoading(false);
     }
 
     const onCountryChange = ( country) => {
-      //TODO notification of only Aus
       console.log("We are currently only open to Australian Mobile users", country)
     }
 
@@ -96,7 +64,7 @@ export const Login = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
             <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">Sign in to your account</h2>
             <p className="mt-2 text-center text-sm text-gray-600">
               Or{' '}
-              <a href="/tabs/signup" className="font-medium text-indigo-600 hover:text-indigo-500">
+              <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
                 start your free account
               </a>  
             </p>
@@ -114,10 +82,13 @@ export const Login = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
                       international={false}
                       defaultCountry="AU"
                       onCountryChange={onCountryChange}
+                      error={phoneNumber ? (isValidPhoneNumber(phoneNumber) ? undefined : 'Invalid phone number') : 'Phone number required'}
                       value={phoneNumber}
                       onChange={handlePhone} 
                       className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                       />
+
+                      <p>={phoneNumber ? (isValidPhoneNumber(phoneNumber) ? undefined : 'Invalid phone number') : 'Phone number required'}</p>
                   </div>
                 </div>
   
@@ -137,15 +108,11 @@ export const Login = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
                     />
                   </div>
                 </div>
-
-                <div className="flex items-center justify-between text-red-500">
-                  {error}
-                </div>
   
                 <div className="flex items-center justify-between">
   
                   <div className="text-sm">
-                    <a href="/tabs/forgot" className="font-medium text-indigo-600 hover:text-indigo-500">
+                    <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
                       Forgot your password?
                     </a>
                   </div>
@@ -161,6 +128,7 @@ export const Login = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
                   </button>
                 </div>
               </form>
+  
             </div>
           </div>
         </div>
@@ -169,4 +137,4 @@ export const Login = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
   }
   
 
-  export default Login;
+  export default UpdatePassword;

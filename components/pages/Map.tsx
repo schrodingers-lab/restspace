@@ -29,6 +29,7 @@ import { useDebouncedCallback } from 'use-debounce';
 import RestAreaMarker from "../cards/RestAreaMarker";
 import MapInfo from "../map/MapInfo";
 import * as mapboxgl from 'mapbox-gl'; 
+import { useSupabaseClient } from '@supabase/auth-helpers-react';
 const mapboxglAccessToken = 'pk.eyJ1IjoiZGFycmVuLXByb3JvdXRlIiwiYSI6ImNsM2M2cjRhOTAxd3YzY3JvYjl1OXQ3Y3oifQ.lerkA3MPLmhRgla3jQnCGg';
 
 
@@ -57,8 +58,8 @@ const Map = ({history}) => {
 
 
   // Create a single supabase client for interacting with your database 
-  const supabase = createClient('https://arvqjbylexvdpyooykji.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFydnFqYnlsZXh2ZHB5b295a2ppIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NTMxMTk1MzUsImV4cCI6MTk2ODY5NTUzNX0.09341SKltY0PCODodzrDD1RQDXB5tA5dnMc-jQbKPag');
-
+  // const supabase = createClient('https://arvqjbylexvdpyooykji.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFydnFqYnlsZXh2ZHB5b295a2ppIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NTMxMTk1MzUsImV4cCI6MTk2ODY5NTUzNX0.09341SKltY0PCODodzrDD1RQDXB5tA5dnMc-jQbKPag');
+  const supabase = useSupabaseClient();
   const geoSearch = async () => {
     const query = supabase
       .rpc('geo_rest_areas', { x: lng, y: lat, distance: distance })

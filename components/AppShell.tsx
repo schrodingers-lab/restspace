@@ -12,6 +12,11 @@ import Store from '../store';
 import * as selectors from '../store/selectors';
 import { createClient } from '@supabase/supabase-js';
 import {LoginPage} from './pages/Login';
+import SignupPage from './pages/Signup';
+import ForgotPage from './pages/Forgot';
+import VerifyPage from './pages/Verify';
+import UpdatePasswordPage from './pages/UpdatePassword';
+import { useSupabaseClient } from '@supabase/auth-helpers-react';
 
 window.matchMedia("(prefers-color-scheme: dark)").addListener(async (status) => {
   try {
@@ -30,7 +35,8 @@ const AppShell = ({history}) => {
   });
 
   // Create a single supabase client for interacting with your database 
-  const supabase = createClient('https://arvqjbylexvdpyooykji.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFydnFqYnlsZXh2ZHB5b295a2ppIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NTMxMTk1MzUsImV4cCI6MTk2ODY5NTUzNX0.09341SKltY0PCODodzrDD1RQDXB5tA5dnMc-jQbKPag');
+  // const supabase = createClient('https://arvqjbylexvdpyooykji.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFydnFqYnlsZXh2ZHB5b295a2ppIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NTMxMTk1MzUsImV4cCI6MTk2ODY5NTUzNX0.09341SKltY0PCODodzrDD1RQDXB5tA5dnMc-jQbKPag');
+  const supabase = useSupabaseClient();
   const [remoteAppVersion, setRemoteAppVersion] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const settings = Store.useState(selectors.getSettings);
@@ -82,7 +88,6 @@ const AppShell = ({history}) => {
            <UpgradeCard/>
           </IonModal>
           <IonRouterOutlet id="main">
-            <Route path="/login" component={LoginPage}  exact={true} />
             <Route path="/tabs" render={() => <Tabs />} />
             <Route exact path="/" render={() => <Redirect to="/tabs" />} />
           </IonRouterOutlet>

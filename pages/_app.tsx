@@ -13,9 +13,15 @@ import '@ionic/react/css/display.css';
 import '../styles/global.css';
 import '../styles/mapbox.css';
 import '../styles/variables.css';
-import React from 'react';
+import React, { useState } from 'react';
+import { createBrowserSupabaseClient } from '@supabase/auth-helpers-nextjs'
+import { SessionContextProvider, Session } from '@supabase/auth-helpers-react'
 
 function MyApp({ Component, pageProps }) {
+
+  // Create a new supabase browser client on every first render.
+  const [supabaseClient] = useState(() => createBrowserSupabaseClient())
+  
   return (
     <>
       <Head>
@@ -24,7 +30,12 @@ function MyApp({ Component, pageProps }) {
           content="width=device-width, initial-scale=1.0, viewport-fit=cover"
         ></meta>
       </Head>
-      <Component {...pageProps} />
+        <SessionContextProvider
+        supabaseClient={supabaseClient}
+        initialSession={pageProps.initialSession}
+      >
+        <Component {...pageProps} />
+      </SessionContextProvider>
       <Script type="module" src="https://unpkg.com/ionicons@6.0.3/dist/ionicons/ionicons.esm.js"></Script>
       <Script src="https://unpkg.com/ionicons@6.0.3/dist/ionicons/ionicons.js"></Script>
     </>
