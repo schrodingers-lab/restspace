@@ -12,7 +12,9 @@ import {
   IonCard,
   IonCardContent,
   IonThumbnail,
-  IonImg
+  IonImg,
+  IonButtons,
+  IonMenuButton
 } from '@ionic/react';
 
 const ListEntry = ({ list, ...props }) => (
@@ -55,6 +57,9 @@ const Lists = () => {
       <IonHeader>
         <IonToolbar>
           <IonTitle>Lists</IonTitle>
+          <IonButtons slot="start">
+            <IonMenuButton />
+          </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>

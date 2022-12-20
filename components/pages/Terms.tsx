@@ -4,6 +4,8 @@ import {
   IonToolbar,
   IonTitle,
   IonContent,
+  IonButtons,
+  IonMenuButton,
 } from '@ionic/react';
 import React from 'react';
 
@@ -15,6 +17,9 @@ const Terms = () => {
       <IonHeader>
         <IonToolbar>
           <IonTitle>Terms and Conditions</IonTitle>
+          <IonButtons slot="start">
+            <IonMenuButton />
+          </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent>

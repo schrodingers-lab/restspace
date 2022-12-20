@@ -22,6 +22,7 @@ import { notificationsOutline } from 'ionicons/icons';
 
 import { search, filter, bookmark, bookmarkOutline } from 'ionicons/icons';
 import { setErrorHandler } from 'ionicons/dist/types/stencil-public-runtime';
+import NoUserCard from '../cards/NoUserCard';
 
 // Create a single supabase client for interacting with your database 
 // const supabase = createClient('https://arvqjbylexvdpyooykji.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFydnFqYnlsZXh2ZHB5b295a2ppIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NTMxMTk1MzUsImV4cCI6MTk2ODY5NTUzNX0.09341SKltY0PCODodzrDD1RQDXB5tA5dnMc-jQbKPag');
@@ -42,6 +43,7 @@ const ListDetail = ({ match }) => {
 
 
   useEffect(() => {
+ 
     const fetchData = async() => {
       // You can await here
       const { data, error } = await supabase
@@ -56,7 +58,6 @@ const ListDetail = ({ match }) => {
   }, [listId]);
 
   useEffect(() => {
-    setIsBookmarked(false);
     const fetchData = async() => {
       // You can await here
       const { data, error } = await supabase
@@ -75,9 +76,9 @@ const ListDetail = ({ match }) => {
     }
   }, [listId, user]);
 
-  // useEffect(() => {
-  //   selectedRestArea
-  // }, [selectedRestArea])
+  useEffect(() => {
+    selectedRestArea
+  }, [selectedRestArea])
 
   const toggleBookmark = async() => {
     setError('');
@@ -127,32 +128,28 @@ const ListDetail = ({ match }) => {
       <IonHeader>
         <IonToolbar>
           <IonButtons slot="start">
-            <IonBackButton defaultHref="/tabs/lists" />
+            <IonBackButton defaultHref="/tabs/map" />
           </IonButtons>
-          <IonTitle>#{selectedRestArea?.id} - {selectedRestArea?.name}</IonTitle>
-
-          <IonButtons slot="end">
-            <IonButton onClick={() => toggleBookmark()}>
-              {isBookmarked && <IonIcon icon={bookmark} />}
-              {!isBookmarked && <IonIcon icon={bookmarkOutline} />}
-            </IonButton>
-            <IonPopover ref={popover} isOpen={popoverOpen} onDidDismiss={() => setPopoverOpen(false)}>
-              <IonContent class="ion-padding">login or sign up for free to access this feature</IonContent>
-            </IonPopover>
-          </IonButtons>
+          <IonTitle>New</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
         <IonHeader collapse="condense">
           <IonToolbar>
-            <IonTitle size="large">{selectedRestArea?.name}</IonTitle>
+            <IonTitle size="large">New</IonTitle>
           </IonToolbar>
         </IonHeader>
         <div className="flex items-center justify-between text-red-500">
           {error}
         </div>
         
-        {selectedRestArea && <RestAreaDetail restarea={selectedRestArea} />}
+        {(!user ) && <NoUserCard/>}
+
+        { user && 
+          <div>
+            TODO new form
+          </div>
+        }
       </IonContent>
     </IonPage>
   );

@@ -29,7 +29,6 @@ const mapboxglAccessToken = 'pk.eyJ1IjoiZGFycmVuLXByb3JvdXRlIiwiYSI6ImNsM2M2cjRh
 
 export const RestAreaDetail = ({restarea}) => {
   const img0 = restarea?.cover_image; //default img
-  // console.log("restarea 1", restarea);
 
   const mapContainer = useRef<any>(null);
   const map = useRef<any>(null);

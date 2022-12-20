@@ -49,7 +49,6 @@ export const Login = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
       setError('')
       setLoading(true)
 
-      debugger;
       console.log("phoneNumber", phoneNumber)
       console.log("password", password);
      

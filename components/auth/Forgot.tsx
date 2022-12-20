@@ -18,9 +18,7 @@ export const Forgot = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
     const [authState, setAuthState] = useState<string>('forgot');
 
     useEffect(() => {
-      debugger;
       if(sendAuthStateFnc){
-        debugger;
         console.log("send auth",sendAuthStateFnc);
         sendAuthStateFnc(authState);
       }
@@ -53,7 +51,6 @@ export const Forgot = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
       setError('')
       setLoading(true)
 
-      debugger;
       console.log("phoneNumber", phoneNumber)
     
       // verify phone (send SMS verification)

@@ -12,7 +12,9 @@ import {
   IonToolbar,
 } from '@ionic/react';
 import { useEffect, useState } from 'react';
-import { cog, bookmark, map, list, newspaper } from 'ionicons/icons';
+import { cog, bookmark, map, list, newspaper, person, earthOutline } from 'ionicons/icons';
+
+import { useUser, useSupabaseClient } from '@supabase/auth-helpers-react'
 
 const pages = [
   {
@@ -31,6 +33,11 @@ const pages = [
     url: '/tabs/bookmarked',
   },
   {
+    title: 'Tour',
+    icon: earthOutline,
+    url: '/tour',
+  },
+  {
     title: 'Settings',
     icon: cog,
     url: '/tabs/settings',
@@ -46,6 +53,12 @@ const pages = [
 
 const Menu = () => {
   const [isDark, setIsDark] = useState(false);
+  const user = useUser();
+  const supabase = useSupabaseClient();
+
+  const signOut = async() => {
+    const { error } = await supabase.auth.signOut()
+  }
 
   const handleOpen = async () => {
     try {
@@ -75,6 +88,24 @@ const Menu = () => {
       </IonHeader>
       <IonContent>
         <IonList>
+          { user &&
+            <IonMenuToggle autoHide={false} key='user'>
+              <IonItem onClick={signOut} detail={false} lines="none">
+                <IonIcon icon={person} slot="start" />
+                <IonLabel>Sign Out</IonLabel>
+              </IonItem>
+            </IonMenuToggle>
+          }
+
+           { !user &&
+            <IonMenuToggle autoHide={false} key='user'>
+              <IonItem routerLink={'/tabs/login'} routerDirection="none" detail={false} lines="none">
+                <IonIcon icon={person} slot="start" />
+                <IonLabel>Sign In</IonLabel>
+              </IonItem>
+            </IonMenuToggle>
+          }
+
           {pages.map((p, k) => (
             <IonMenuToggle autoHide={false} key={k}>
               <IonItem routerLink={p.url} routerDirection="none" detail={false} lines="none">
@@ -83,6 +114,7 @@ const Menu = () => {
               </IonItem>
             </IonMenuToggle>
           ))}
+
         </IonList>
       </IonContent>
     </IonMenu>

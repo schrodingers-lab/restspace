@@ -10,6 +10,8 @@ import {
   IonLabel,
   IonCard,
   IonCardContent,
+  IonButtons,
+  IonMenuButton,
 } from '@ionic/react';
 
 import Store from '../../store';
@@ -25,6 +27,9 @@ const Settings = () => {
       <IonHeader>
         <IonToolbar>
           <IonTitle>Settings</IonTitle>
+          <IonButtons slot="start">
+            <IonMenuButton />
+          </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent>

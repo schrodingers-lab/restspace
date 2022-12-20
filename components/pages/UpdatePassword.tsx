@@ -16,7 +16,7 @@ import Forgot from '../auth/Forgot';
 import {UpdatePassword} from '../auth/UpdatePassword';
   
   
-export const UpdatePasswordPage = () => {
+export const UpdatePasswordPage = ({history}) => {
 
   const [phoneNumber, setPhoneNumber] = useState<string>();
   const [displayPhoneNumber, setDisplayPhoneNumber] = useState<string>();
@@ -31,11 +31,20 @@ export const UpdatePasswordPage = () => {
     setDisplayPhoneNumber(displayPhone(phoneNumber));
   }
 
-  const callSetAuthMode = (verify) => {
-    debugger;
-    setAuthMode(verify);
+  const handlePost = async() => {
+    history.push('/tabs/map');
+    //reset state to login
+    setTimeout(async () => {
+      setAuthMode('update');
+    }, 1000);
   }
-  
+
+  const callSetAuthMode = (verify) => {
+    setAuthMode(verify);
+    if (verify === 'post'){
+      handlePost();
+    }
+  }
     return (
       <IonPage>
         <IonHeader>
@@ -45,7 +54,7 @@ export const UpdatePasswordPage = () => {
         </IonHeader>
         <IonContent>
             { authMode == 'update' && <UpdatePassword phoneNumber={phoneNumber} displayPhoneNumber={displayPhoneNumber} sendAuthStateFnc={callSetAuthMode}/>}
-            { authMode == 'post' && <p>reset, lets TODO next step delayed route</p>}
+            { authMode == 'post' && <p>reset, lets TODO next step delayed route  and reset state</p>}
         </IonContent>
     </IonPage>
     );

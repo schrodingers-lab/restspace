@@ -17,7 +17,7 @@ import { UpdatePassword } from '../auth/UpdatePassword';
 import { Verify } from '../auth/Verify';
   
   
-export const ForgotPage = () => {
+export const ForgotPage = ({history}) => {
 
     const [phoneNumber, setPhoneNumber] = useState<string>();
     const [displayPhoneNumber, setDisplayPhoneNumber] = useState<string>();
@@ -32,9 +32,19 @@ export const ForgotPage = () => {
       setDisplayPhoneNumber(displayPhone(phoneNumber));
     }
 
+    const handlePost = async() => {
+      history.push('/tabs/map');
+      //reset state to login
+      setTimeout(async () => {
+        setAuthMode('forgot');
+      }, 1000);
+    }
+  
     const callSetAuthMode = (verify) => {
-      debugger;
       setAuthMode(verify);
+      if (verify === 'post'){
+        handlePost();
+      }
     }
   
     return (

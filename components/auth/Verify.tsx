@@ -44,7 +44,6 @@ export const Verify = ( {phoneNumber, displayPhoneNumber, sendAuthStateFnc}) => 
     }
 
     useEffect(() => {
-      debugger;
       if(sendAuthStateFnc){
         console.log("send",sendAuthStateFnc);
         sendAuthStateFnc(authState);
@@ -103,7 +102,6 @@ export const Verify = ( {phoneNumber, displayPhoneNumber, sendAuthStateFnc}) => 
       setError('')
       setLoading(true)
 
-      debugger;
       console.log("phoneNumber", phoneNumber);
       let token = ""+token1+token2+token3+token4+token5+token6
       console.log("token", token);
@@ -121,9 +119,6 @@ export const Verify = ( {phoneNumber, displayPhoneNumber, sendAuthStateFnc}) => 
             const  result = await supabaseClient.auth.signInWithOtp({
               phone: phoneNumber
             })
-
-            debugger;
-            // setAuthState('verify');
 
             console.log("Needs to be confirmed", result);
           } else if (error?.message == "Token has expired or is invalid") {

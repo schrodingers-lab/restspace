@@ -18,9 +18,7 @@ export const Signup = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
     const [authState, setAuthState] = useState<string>('signup');
 
     useEffect(() => {
-      debugger;
       if(sendAuthStateFnc){
-        debugger;
         console.log("send auth",sendAuthStateFnc);
         sendAuthStateFnc(authState);
       }
@@ -53,7 +51,6 @@ export const Signup = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
       setError('')
       setLoading(true)
 
-      debugger;
       console.log("phoneNumber", phoneNumber)
       console.log("password", password);
      

@@ -47,7 +47,6 @@ export const UpdatePassword = ( {phoneNumber, displayPhoneNumber, sendAuthStateF
     }
 
     useEffect(() => {
-      debugger;
       if(sendAuthStateFnc){
         console.log("send",sendAuthStateFnc);
         sendAuthStateFnc(authState);
@@ -118,7 +117,6 @@ export const UpdatePassword = ( {phoneNumber, displayPhoneNumber, sendAuthStateF
       setError('')
       setLoading(true)
 
-      debugger;
       console.log("phoneNumber", phoneNumber);
       let token = ""+token1+token2+token3+token4+token5+token6
       console.log("token", token);

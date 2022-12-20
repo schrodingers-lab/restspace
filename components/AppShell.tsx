@@ -16,6 +16,7 @@ import SignupPage from './pages/Signup';
 import ForgotPage from './pages/Forgot';
 import UpdatePasswordPage from './pages/UpdatePassword';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
+import TourPage from './pages/Tour';
 
 window.matchMedia("(prefers-color-scheme: dark)").addListener(async (status) => {
   try {
@@ -87,6 +88,7 @@ const AppShell = ({history}) => {
            <UpgradeCard/>
           </IonModal>
           <IonRouterOutlet id="main">
+            <Route path="/tour" component={TourPage}  exact={true} />
             <Route path="/tabs" render={() => <Tabs />} />
             <Route exact path="/" render={() => <Redirect to="/tabs" />} />
           </IonRouterOutlet>
