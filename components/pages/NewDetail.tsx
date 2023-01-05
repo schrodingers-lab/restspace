@@ -56,9 +56,9 @@ const NewDetail = () => {
   const [region, setRegion] = useState<string>('TOOWOOMBA REGIONAL');
   const [author, setAuthor] = useState<string>('Community');
 
-  const [lng, setLng] = useState(145.455850);
-  const [lat, setLat] = useState(-16.552294);
-  const [zoom, setZoom] = useState(8);
+  const [lng, setLng] = useState(145.749049);
+  const [lat, setLat] = useState(-16.935682);
+  const [zoom, setZoom] = useState(11);
   const [markers, setMarkers] = useState<any[]>([]);
 
   const mapContainer = useRef<any>(null);
