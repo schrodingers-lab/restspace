@@ -1,6 +1,6 @@
 {
-  "name": "WeWatchApp",
-  "version": "0.1.0",
+  "name": "restspace",
+  "version": "0.1.7",
   "private": true,
   "engines": {
     "node": ">=12"

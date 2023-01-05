@@ -107,8 +107,8 @@ export const Signup = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
           <div className="sm:mx-auto sm:w-full sm:max-w-md">
             <img
               className="mx-auto h-12 w-auto"
-              src="/imgs/WeWatch/WeWatch_LogoStrap_black.svg"
-              alt="WeWatch"
+              src="/svgs/restspace_logo_blk.svg"
+              alt="RestSpace"
             />
             <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">Sign up for an account</h2>
             <p className="mt-2 text-center text-sm text-gray-600">
