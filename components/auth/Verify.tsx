@@ -142,8 +142,8 @@ export const Verify = ( {phoneNumber, displayPhoneNumber, sendAuthStateFnc}) => 
           <div className="sm:mx-auto sm:w-full sm:max-w-md">
             <img
               className="mx-auto h-12 w-auto"
-              src="/svgs/restspace_logo_blk.svg"
-              alt="RestSpace"
+              src="/imgs/WeWatch/WeWatch_LogoStrap_black.svg"
+              alt="WeWatch"
             />
             <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">Verify</h2>
             <p className="mt-2 text-center text-sm text-gray-600">
