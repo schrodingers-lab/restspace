@@ -55,6 +55,7 @@ export const ForgotPage = ({history}) => {
           </IonToolbar>
         </IonHeader>
         <IonContent>
+            {authMode}
             { authMode == 'forgot' && <Forgot sendPhoneNumberFnc={callSetPhoneNumber} sendAuthStateFnc={callSetAuthMode} />}
             { authMode == 'update' && <UpdatePassword phoneNumber={phoneNumber} displayPhoneNumber={displayPhoneNumber} sendAuthStateFnc={callSetAuthMode}/>}
             { authMode == 'post' && <p>reset, lets TODO next step delayed route</p>}
