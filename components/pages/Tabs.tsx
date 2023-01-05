@@ -9,14 +9,17 @@ import ListDetail from './ListDetail';
 import Settings from './Settings';
 import Terms from './Terms';
 import LoginPage from './Login';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import SignupPage from './Signup';
 import ForgotPage from './Forgot';
 import UpdatePasswordPage from './UpdatePassword';
 import TourPage from './Tour';
 import NewDetail from './NewDetail';
+import { useSupabaseClient } from '@supabase/auth-helpers-react';
 
 const Tabs = () => {
+
+
 
   return (
     <IonTabs>

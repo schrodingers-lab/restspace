@@ -98,6 +98,12 @@ const ListDetail = ({ match }) => {
     };
     const createBookmark = async() => {
       // You can await here
+
+      const {
+        data: { session },
+      } = await supabase.auth.getSession()
+      console.log("session",session)
+
       const { data, error } = await supabase
         .from('bookmarks')
         .insert({ rest_area_id: listId, user_id: user.id });
