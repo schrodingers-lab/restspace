@@ -10,12 +10,12 @@ export const UpgradeCard = () => {
         <div className="my-30">
             <br/>
             <a href="https://itunes.apple.com/us/app/restspace/id1266607495?ls=1&mt=8" className="w-full text-center mx-auto my-20">
-              <img  alt="App Store" src="/img/app-store.svg"  className="w-full text-center"/>
+              <img  alt="App Store" src="/imgs/app-store.svg"  className="w-full text-center"/>
             </a>
             <br/>
             <br/>
             <a href="https://play.google.com/store/apps/details?id=com.proroute.restspace" className="w-full text-center my-20">
-              <img  alt="Play Store" src="/img/google-play-badge.png"  className="w-full text-center"/>
+              <img  alt="Play Store" src="/imgs/google-play-badge.png"  className="w-full text-center"/>
             </a>
             <br/>
         </div>
