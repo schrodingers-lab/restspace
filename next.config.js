@@ -1,5 +1,6 @@
 module.exports = {
-  experimental: {
-    appDir: false,
-  }
+  basePath: '',
+  images: {
+    domains: ['images.unsplash.com'],
+  },
 };
