@@ -40,8 +40,8 @@ const Map = ({history}) => {
   const mapContainer = useRef<any>(null);
   const map = useRef<any>(null);
   const filterFabRef = useRef<any>(null);
-  const [lng, setLng] = useState(151.69370392926862);
-  const [lat, setLat] = useState(-25.94497349642141);
+  const [lng, setLng] = useState(145.455850);
+  const [lat, setLat] = useState(-16.552294);
   const [distance, setDistance] = useState(80000);
   const [zoom, setZoom] = useState(8);
   const [markers, setMarkers] = useState<any[]>([]);

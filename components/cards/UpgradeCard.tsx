@@ -14,7 +14,7 @@ export const UpgradeCard = () => {
             </a>
             <br/>
             <br/>
-            <a href="https://play.google.com/store/apps/details?id=com.proroute.restspace" className="w-full text-center my-20">
+            <a href="https://play.google.com/store/apps/details?id=com.wewatch.app" className="w-full text-center my-20">
               <img  alt="Play Store" src="/img/google-play-badge.png"  className="w-full text-center"/>
             </a>
             <br/>

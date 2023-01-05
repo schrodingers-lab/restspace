@@ -31,11 +31,11 @@ const Terms = () => {
             <strong>Last Modified May 27, 2022.</strong>
           </p>
            <p>
-            Thank you for choosing RestSpace. In these terms of use, &lsquo;us&rsquo; &lsquo;we&rsquo; or &lsquo;our&rsquo; means
+            Thank you for choosing WeWatch. In these terms of use, &lsquo;us&rsquo; &lsquo;we&rsquo; or &lsquo;our&rsquo; means
             ProRoute Pty Ltd (ACN 617 845 468) and our related bodies corporate. A reference to
             &lsquo;you&rsquo; or &lsquo;user&rsquo; means you. In these terms of use, &lsquo;Services&rsquo; means our
             website, <a href="http://www.restspace.com.au/">http://www.restspace.com.au/</a>, and
-            related websites, (the &lsquo;Website&rsquo;), the RestSpace mobile application, and
+            related websites, (the &lsquo;Website&rsquo;), the WeWatch mobile application, and
             related mobile applications (the &lsquo;Application&rsquo;), and any related application
             programming interface (the &lsquo;API&rsquo;). These terms of use set out the terms and
             conditions applicable to your access to and use of our Services.
@@ -238,24 +238,24 @@ const Terms = () => {
             data models, spreadsheets, user interfaces, graphics components, icons, software
             applications, software development kits, application programming interfaces, software
             libraries, code samples, and other resources) (&lsquo;Content&rsquo;) made available on,
-            or accessible through, the Services (&lsquo;RestSpace Content&rsquo;).
+            or accessible through, the Services (&lsquo;WeWatch Content&rsquo;).
           </p>
           <p>
-            Your use of the Services and use of and access to any RestSpace Content does not grant
+            Your use of the Services and use of and access to any WeWatch Content does not grant
             or transfer any rights, title or interest to you in relation to the Services or the
-            RestSpace Content. However we do grant you a licence to access the Services and view the
-            RestSpace Content on the terms and conditions set out in these terms of use and, where
+            WeWatch Content. However we do grant you a licence to access the Services and view the
+            WeWatch Content on the terms and conditions set out in these terms of use and, where
             applicable, as expressly authorised by us and/or our third party licensors.
           </p>
           <p>
-            Any reproduction or redistribution of any of the Services or the RestSpace Content is
+            Any reproduction or redistribution of any of the Services or the WeWatch Content is
             prohibited and may result in civil and criminal penalties. In addition, you must not
-            copy the RestSpace Content to any other server, location or support for publication,
+            copy the WeWatch Content to any other server, location or support for publication,
             reproduction or distribution is expressly prohibited.
           </p>
           <p>
-            All other use, copying or reproduction of any of the Services, the RestSpace Content or
-            any part of any of the Services or the RestSpace Content is prohibited, except to the
+            All other use, copying or reproduction of any of the Services, the WeWatch Content or
+            any part of any of the Services or the WeWatch Content is prohibited, except to the
             extent permitted by law. However, you are permitted to make copies of any order, order
             confirmation, tax invoice or other document in connection with the supply of any
             services.
@@ -384,7 +384,7 @@ const Terms = () => {
               modify, copy, distribute, transmit, display, perform, reproduce, publish, license,
               enhance, translate, alter, tamper with, upgrade, create derivative works from,
               transfer, or sell any of the whole or part of any of the Services, including the
-              RestSpace Content, software, products or services contained within any of the
+              WeWatch Content, software, products or services contained within any of the
               Services;
             
             <br/>
@@ -421,7 +421,7 @@ const Terms = () => {
             
             <br/>
               disrupt or try to disrupt any of the Services or use any of the Services or any
-              RestSpace or ProRoute website to distribute software viruses or other harmful
+              WeWatch or ProRoute website to distribute software viruses or other harmful
               programs; or
             
             <br/>
@@ -429,7 +429,7 @@ const Terms = () => {
             
           
           <p>
-            You must not use any of the Services, or any of the RestSpace Content, to further any
+            You must not use any of the Services, or any of the WeWatch Content, to further any
             commercial purpose, including any advertising or advertising revenue generation activity
             on your own website.
           </p>
@@ -520,7 +520,7 @@ const Terms = () => {
           <p>
             To the maximum extent permitted by law, including the Australian Consumer Law, we, and
             our directors, officers, agents, employees and contractors, make no warranties or
-            representations about any of the Services or the RestSpace Content, including but not
+            representations about any of the Services or the WeWatch Content, including but not
             limited to warranties or representations that they will be complete, accurate or
             up-to-date, that access will be uninterrupted or error-free or free from viruses, or
             that the Services will be secure.
@@ -547,7 +547,7 @@ const Terms = () => {
           
           <p>
             We reserve the right to restrict, suspend or terminate without notice your access to any
-            or all of the Services, any RestSpace Content, or any feature of the Services at any
+            or all of the Services, any WeWatch Content, or any feature of the Services at any
             time without notice and we will not be responsible for any loss, cost, damage or
             liability that may arise as a result.
           </p>
@@ -637,7 +637,7 @@ const Terms = () => {
           <p>
             You acknowledge that these terms of use are concluded between you and us only, and not
             with Apple, and that we, and not Apple, are solely responsible for the Service and their
-            RestSpace Content.
+            WeWatch Content.
           </p>
           <p>
             Apple is not responsible for any maintenance and support in connection with the

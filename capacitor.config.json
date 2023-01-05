@@ -1,6 +1,6 @@
 {
-  "appId": "com.proroute.restspace",
-  "appName": "RestSpace",
+  "appId": "com.wewatch.app",
+  "appName": "WeWatch",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "out",
