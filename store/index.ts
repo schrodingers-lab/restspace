@@ -14,7 +14,7 @@ const Store = new PullStateStore({
   bookmarks,
   notifications,
   settings: {
-    appVersion: 2.3
+    appVersion: 2.4
   },
 });
 

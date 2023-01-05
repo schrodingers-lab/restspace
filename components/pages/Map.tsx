@@ -56,10 +56,21 @@ const Map = ({history}) => {
   const [lightsFilter, setLightsFilter] = useState(false);
 
 
-
+  const [session, setSession] = useState<any>(null);
   // Create a single supabase client for interacting with your database 
-  // const supabase = createClient('https://arvqjbylexvdpyooykji.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFydnFqYnlsZXh2ZHB5b295a2ppIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NTMxMTk1MzUsImV4cCI6MTk2ODY5NTUzNX0.09341SKltY0PCODodzrDD1RQDXB5tA5dnMc-jQbKPag');
   const supabase = useSupabaseClient();
+
+  useEffect(() => {
+    const loadSession = async () => {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession()
+      console.log("session",session);
+      setSession(session);
+    }
+    loadSession();
+  }, [supabase])
+
   const geoSearch = async () => {
     const query = supabase
       .rpc('geo_rest_areas', { x: lng, y: lat, distance: distance })

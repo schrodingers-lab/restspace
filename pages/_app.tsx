@@ -38,6 +38,9 @@ function MyApp({ Component, pageProps }) {
       </SessionContextProvider>
       <Script type="module" src="https://unpkg.com/ionicons@6.0.3/dist/ionicons/ionicons.esm.js"></Script>
       <Script src="https://unpkg.com/ionicons@6.0.3/dist/ionicons/ionicons.js"></Script>
+
+      <Script type="module" src="https://unpkg.com/@ionic/pwa-elements@latest/dist/ionicpwaelements/ionicpwaelements.esm.js"></Script>
+      <Script src="https://unpkg.com/@ionic/pwa-elements@latest/dist/ionicpwaelements/ionicpwaelements.js"></Script>
     </>
   );
 }
