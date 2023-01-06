@@ -1,5 +1,5 @@
-INSERT INTO "public"."rest_areas" ("id", "name", "region") VALUES (2381,'unnamed (Ref:2381)','MOUNT ISA CITY')INSERT INTO "public"."rest_areas" ("id", "name", "region") VALUES (2381,'unnamed (Ref:2381)','MOUNT ISA CITY')
+INSERT INTO "public"."incidents" ("id", "name", "about") VALUES (2381,'unnamed (Ref:2381)','MOUNT ISA CITY')INSERT INTO "public"."incidents" ("id", "name", "about") VALUES (2381,'unnamed (Ref:2381)','MOUNT ISA CITY')
 
 
-INSERT INTO "public"."rest_areas" ("id", "name", "region", "geom") VALUES (23821,'unnamed (Ref:2381)','MOUNT ISA CITY', ST_GeomFromText('POINT(-71.064544 42.28787)'));
+INSERT INTO "public"."incidents" ("id", "name", "about", "geom") VALUES (23821,'unnamed (Ref:2381)','MOUNT ISA CITY', ST_GeomFromText('POINT(-71.064544 42.28787)'));
 

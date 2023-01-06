@@ -22,13 +22,13 @@ const ListEntry = ({ list, ...props }) => (
     <IonLabel>#{list.id} - {list.name}</IonLabel>
 
     <IonThumbnail slot="end">
-        <IonImg src={list.cover_image} />
+        <IonImg src={list.cover_image_url} />
     </IonThumbnail>
   </IonItem>
 );
 
 const AllLists = () => {
-  let lists = Store.useState(selectors.getRestAreas);
+  let lists = Store.useState(selectors.getIncidents);
   console.log("lists",lists);
   return (
     <>

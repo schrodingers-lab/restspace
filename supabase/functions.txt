@@ -1,7 +1,7 @@
-CREATE OR REPLACE FUNCTION geo_rest_areas(x numeric, y numeric, distance int)
-  RETURNS setof rest_areas as $$
+CREATE OR REPLACE FUNCTION geo_incidents(x numeric, y numeric, distance int)
+  RETURNS setof incidents as $$
     select * 
-    from rest_areas
+    from incidents
     where ST_DWithin(
             geom, 
             ST_MakePoint(x, y)::geography,

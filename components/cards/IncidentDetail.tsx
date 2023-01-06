@@ -1,5 +1,5 @@
 import Card from '../ui/Card';
-import RestAreaCarousel from './RestAreaCarousel';
+import IncidentCarousel from './IncidentCarousel';
 import {
   IonFab,
   IonFabButton,
@@ -27,8 +27,8 @@ import * as mapboxgl from 'mapbox-gl';
 const mapboxglAccessToken = 'pk.eyJ1IjoiZGFycmVuLXByb3JvdXRlIiwiYSI6ImNsM2M2cjRhOTAxd3YzY3JvYjl1OXQ3Y3oifQ.lerkA3MPLmhRgla3jQnCGg';
 
 
-export const RestAreaDetail = ({restarea}) => {
-  const img0 = restarea?.cover_image; //default img
+export const IncidentDetail = ({incident}) => {
+  const img0 = incident?.cover_image_url; //default img
 
   const mapContainer = useRef<any>(null);
   const map = useRef<any>(null);
@@ -48,7 +48,7 @@ export const RestAreaDetail = ({restarea}) => {
       accessToken: mapboxglAccessToken,
       container: mapContainer.current,
       style: 'mapbox://styles/mapbox/streets-v11',
-      center: [restarea.longitude, restarea.latitude],
+      center: [incident.longitude, incident.latitude],
       zoom: 8
     });
 
@@ -73,10 +73,10 @@ export const RestAreaDetail = ({restarea}) => {
     });
 
     const marker = new mapboxgl.Marker()
-        .setLngLat([restarea.longitude, restarea.latitude])
+        .setLngLat([incident.longitude, incident.latitude])
         .addTo(map.current);
 
-  }, [restarea]);
+  }, [incident]);
 
   const routeMe = async ()=>{
     await getRoute();
@@ -97,7 +97,7 @@ export const RestAreaDetail = ({restarea}) => {
 
 
   const getRoute = async () => {
-    if(!restarea) return;
+    if(!incident) return;
     if(!currentLocation) {
       setToastMessage("Determining your location, and calculating route...");
       setIsToastOpen(true);
@@ -110,7 +110,7 @@ export const RestAreaDetail = ({restarea}) => {
     // an arbitrary start will always be the same
     // only the end or destination will change
     const query = await fetch(
-      `https://api.mapbox.com/directions/v5/mapbox/driving-traffic/${currentLocation.longitude},${currentLocation.latitude};${restarea.longitude},${restarea.latitude}?steps=true&geometries=geojson&access_token=${mapboxgl.accessToken}`,
+      `https://api.mapbox.com/directions/v5/mapbox/driving-traffic/${currentLocation.longitude},${currentLocation.latitude};${incident.longitude},${incident.latitude}?steps=true&geometries=geojson&access_token=${mapboxgl.accessToken}`,
       { method: 'GET' }
     );
 
@@ -175,7 +175,7 @@ export const RestAreaDetail = ({restarea}) => {
 
 
   const externalMaps = ()=>{
-    window.open(`http://maps.apple.com/?ll=${restarea.latitude},${restarea.longitude}`)
+    window.open(`http://maps.apple.com/?ll=${incident.latitude},${incident.longitude}`)
   }
   
   return (
@@ -184,11 +184,11 @@ export const RestAreaDetail = ({restarea}) => {
         <img className="h-64 px-auto w-full object-cover object-center" src={img0} alt="image" />
       </div>
       <div className="px-4 py-4 bg-white rounded-b-xl dark:bg-gray-900">
-        <h4 className="font-bold py-0 text-s text-gray-400 dark:text-gray-500 uppercase">{restarea.region}</h4>
-        <h2 className="font-bold text-2xl text-gray-800 dark:text-gray-100">#{restarea.id} - {restarea.name}</h2>
+        <h4 className="font-bold py-0 text-s text-gray-400 dark:text-gray-500 uppercase">{incident.about}</h4>
+        <h2 className="font-bold text-2xl text-gray-800 dark:text-gray-100">#{incident.id} - {incident.name}</h2>
 
         <CopyToClipboard 
-            text={`${restarea.latitude},${restarea.longitude}`}
+            text={`${incident.latitude},${incident.longitude}`}
             onCopy={
               ()=>{
                 setToastMessage("Copied latitude, longitude to clipboard!");
@@ -198,46 +198,46 @@ export const RestAreaDetail = ({restarea}) => {
           <IonItem color={"light"} className="my-8">
             <IonIcon slot="end" icon={locate} />
             <IonLabel className="ion-text-wrap">
-              Longitude: {restarea.longitude} <br/>
-              Latitude: {restarea.latitude}
+              Longitude: {incident.longitude} <br/>
+              Latitude: {incident.latitude}
             </IonLabel>
             
           </IonItem>
         </CopyToClipboard>
 
         <div className="flex items-center space-x-4">
-          <h3 className="text-gray-500 dark:text-gray-200 m-l-8 text-md font-medium">{restarea.creator} - {restarea.surface} </h3>
+          <h3 className="text-gray-500 dark:text-gray-200 m-l-8 text-md font-medium">{incident.creator} - {incident.surface} </h3>
         </div>
 
-        <IonButton slot="icon-only" disabled={true} shape="round"  color={restarea.toilet ? "primary" : "medium" } >
+        <IonButton slot="icon-only" disabled={true} shape="round"  color={incident.toilet ? "primary" : "medium" } >
           <IonIcon src="/svgs/i-toilet.svg" />
         </IonButton>
 
-        <IonButton slot="icon-only" disabled={true} shape="round"   color={restarea.water ? "primary" : "medium" } >
+        <IonButton slot="icon-only" disabled={true} shape="round"   color={incident.water ? "primary" : "medium" } >
           <IonIcon src="/svgs/i-water.svg" />
         </IonButton>
 
-          <IonButton slot="icon-only" disabled={true} shape="round"   color={restarea.showers ? "primary" : "medium" } >
+          <IonButton slot="icon-only" disabled={true} shape="round"   color={incident.violencethreat ? "primary" : "medium" } >
           <IonIcon src="/svgs/001-shower.svg" />
         </IonButton>
 
-        <IonButton slot="icon-only" disabled={true} shape="round"   color={restarea.tables ? "primary" : "medium" } >
+        <IonButton slot="icon-only" disabled={true} shape="round"   color={incident.suspicious ? "primary" : "medium" } >
           <IonIcon src="/svgs/002-picnic.svg" />
         </IonButton>
 
-        <IonButton slot="icon-only" disabled={true} shape="round"   color={restarea.bbq ? "primary" : "medium" } >
+        <IonButton slot="icon-only" disabled={true} shape="round"   color={incident.stolenvehicle ? "primary" : "medium" } >
           <IonIcon src="/svgs/grill.svg" />
         </IonButton>
 
-        <IonButton slot="icon-only" disabled={true} shape="round"   color={restarea.fuel ? "primary" : "medium" } >
-          <IonIcon src="/svgs/fuel.svg" />
+        <IonButton slot="icon-only" disabled={true} shape="round"   color={incident.breakenter ? "primary" : "medium" } >
+          <IonIcon src="/svgs/breakenter.svg" />
         </IonButton>
 
-        <IonButton slot="icon-only" disabled={true} shape="round"   color={restarea.lights ? "primary" : "medium" } >
+        <IonButton slot="icon-only" disabled={true} shape="round"   color={incident.propertydamage ? "primary" : "medium" } >
           <IonIcon src="/svgs/i-lighting.svg" />
         </IonButton>
 
-        <IonButton slot="icon-only" disabled={true} shape="round"   color={restarea.mobile_reception ? "primary" : "medium" } >
+        <IonButton slot="icon-only" disabled={true} shape="round"   color={incident.mobile_reception ? "primary" : "medium" } >
           <IonIcon icon={phonePortrait} />
         </IonButton>
 
@@ -264,7 +264,7 @@ export const RestAreaDetail = ({restarea}) => {
         </IonButton>
         
         <div className="my-4 mx-auto mt-10 w-full" >
-          <RestAreaCarousel images={restarea.images} />
+          <IncidentCarousel images={incident.images} />
         </div>
 
         
@@ -282,4 +282,4 @@ export const RestAreaDetail = ({restarea}) => {
   );
 }
   
-export default RestAreaDetail;
+export default IncidentDetail;

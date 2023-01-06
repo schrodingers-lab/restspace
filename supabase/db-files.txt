@@ -25,15 +25,15 @@ create policy "Users can see public and their own files."
   using ( private = false OR auth.uid() = user_id);
 
 -- Set up Storage!
-insert into storage.buckets (id, name)
-values ('public', 'public');
+insert into storage.buckets (id, name, public)
+values ('public', 'public', true);
 
 create policy "Public files are accessible."
   on storage.objects for select
   using ( bucket_id = 'public' );
 
-insert into storage.buckets (id, name)
-values ('private', 'private');
+insert into storage.buckets (id, name, public)
+values ('private', 'private', false);
 
 create policy "Private files are accessible for their creators."
   on storage.objects for select

@@ -479,7 +479,7 @@ const Terms = () => {
           <p>
             You may pay for the Services online, and we may charge your credit card for all
             purchases and for any additional amounts owed to us. You must provide a valid credit
-            card and hereby explicitly authorise and empower us to use the credit card for such
+            card and hereby explicitly authorise and emloitering us to use the credit card for such
             purpose. If your credit card changes or expires, or is revoked, disputed or not valid
             for any other reason, we may suspend, terminate or both (without liability) your use of
             the Services upon 7 day notice sent to you via email (using your email address in the

@@ -16,7 +16,7 @@ import {
 } from '@ionic/react';
 
 import React, { useRef, useEffect, useState } from 'react';
-import RestAreaDetail from '../cards/RestAreaDetail';
+import IncidentDetail from '../cards/IncidentDetail';
 import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react';
 import { notificationsOutline } from 'ionicons/icons';
 
@@ -24,14 +24,14 @@ import { search, filter, bookmark, bookmarkOutline } from 'ionicons/icons';
 import { setErrorHandler } from 'ionicons/dist/types/stencil-public-runtime';
 
 // Create a single supabase client for interacting with your database 
-// const supabase = createClient('https://arvqjbylexvdpyooykji.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFydnFqYnlsZXh2ZHB5b295a2ppIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NTMxMTk1MzUsImV4cCI6MTk2ODY5NTUzNX0.09341SKltY0PCODodzrDD1RQDXB5tA5dnMc-jQbKPag');
+// const supabase = createClient('https://raxdwowfheboqizcxlur.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJheGR3b3dmaGVib3FpemN4bHVyIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzI4OTgyNjEsImV4cCI6MTk4ODQ3NDI2MX0.uXdXBjH92OIJgIidgvP-iRHCNW3clm2D7fWVniCX5dg');
 
 const ListDetail = ({ match }) => {
   const {
     params: { listId },
   } = match;
   const supabase = useSupabaseClient();
-  const [selectedRestArea, setSelectedRestArea] = useState<any>(null);
+  const [selectedIncident, setSelectedIncident] = useState<any>(null);
   const [isBookmarked, setIsBookmarked] = useState<boolean>(false);
 
   const popover = useRef<HTMLIonPopoverElement>(null);
@@ -45,11 +45,11 @@ const ListDetail = ({ match }) => {
     const fetchData = async() => {
       // You can await here
       const { data, error } = await supabase
-        .from('rest_areas')
+        .from('incidents')
         .select('*')
         .eq('id', listId)
       if(data && data.length > 0){
-        setSelectedRestArea(data[0]);
+        setSelectedIncident(data[0]);
      }
     }
     fetchData();
@@ -62,7 +62,7 @@ const ListDetail = ({ match }) => {
       const { data, error } = await supabase
         .from('bookmarks')
         .select('*')
-        .eq('rest_area_id', listId)
+        .eq('incident_id', listId)
         .eq('user_id', user.id)
 
       console.log("retrieve bookmark", listId, user?.id, data, error)
@@ -76,8 +76,8 @@ const ListDetail = ({ match }) => {
   }, [listId, user]);
 
   // useEffect(() => {
-  //   selectedRestArea
-  // }, [selectedRestArea])
+  //   selectedIncident
+  // }, [selectedIncident])
 
   const toggleBookmark = async() => {
     setError('');
@@ -86,7 +86,7 @@ const ListDetail = ({ match }) => {
       const { data, error } = await supabase
         .from('bookmarks')
         .delete()
-        .eq('rest_area_id', listId)
+        .eq('incident_id', listId)
         .eq('user_id', user.id);
 
         console.log("remove bookmark", listId, user?.id, data, error)
@@ -106,7 +106,7 @@ const ListDetail = ({ match }) => {
 
       const { data, error } = await supabase
         .from('bookmarks')
-        .insert({ rest_area_id: listId, user_id: user.id });
+        .insert({ incident_id: listId, user_id: user.id });
 
       console.log("create bookmark", listId, user?.id, data, error)
       if (error){
@@ -135,7 +135,7 @@ const ListDetail = ({ match }) => {
           <IonButtons slot="start">
             <IonBackButton defaultHref="/tabs/lists" />
           </IonButtons>
-          <IonTitle>#{selectedRestArea?.id} - {selectedRestArea?.name}</IonTitle>
+          <IonTitle>#{selectedIncident?.id} - {selectedIncident?.name}</IonTitle>
 
           <IonButtons slot="end">
             <IonButton onClick={() => toggleBookmark()}>
@@ -151,14 +151,14 @@ const ListDetail = ({ match }) => {
       <IonContent fullscreen>
         <IonHeader collapse="condense">
           <IonToolbar>
-            <IonTitle size="large">{selectedRestArea?.name}</IonTitle>
+            <IonTitle size="large">{selectedIncident?.name}</IonTitle>
           </IonToolbar>
         </IonHeader>
         <div className="flex items-center justify-between text-red-500">
           {error}
         </div>
         
-        {selectedRestArea && <RestAreaDetail restarea={selectedRestArea} />}
+        {selectedIncident && <IncidentDetail incident={selectedIncident} />}
       </IonContent>
     </IonPage>
   );

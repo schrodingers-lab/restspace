@@ -40,20 +40,21 @@ const NewDetail = () => {
   const fileUploadRef = useRef<HTMLInputElement>(null);
   // const [photos, setPhotos] = useState<File[]>([]);
 
+  const [stolenvehicle, setStolenvehicle] = useState(false);
+  const [breakenter, setBreakenter] = useState(false);
+  const [propertydamage, setPropertydamage] = useState(false);
+  const [violencethreat, setViolencethreat] = useState(false);
+  const [theft, setTheft] = useState(false);
 
-  const [toilet, setToilet] = useState(false);
-  const [water, setWater] = useState(false);
-  const [shower, setShower] = useState(false);
-  const [table, setTable] = useState(false);
-  const [bbq, setBbq] = useState(false);
-  const [fuel, setFuel] = useState(false);
-  const [lights, setLights] = useState(false);
-  const [power, setPower] = useState(false);
+  const [loitering, setLoitering] = useState(false);  
+  const [disturbance, setDisturbance] = useState(false);
+  const [suspicious, setSuspicious] = useState(false);
+  const [unfamiliar, setUnfamiliar] = useState(false);
 
   const [publicImages, setPublicImages] = useState<string[]>([]);
   const [name, setName] = useState<string>('Unnamed');
   const [surface, setSurface] = useState<string>('Sealed');
-  const [region, setRegion] = useState<string>('TOOWOOMBA REGIONAL');
+  const [about, setAbout] = useState<string>('TOOWOOMBA REGIONAL');
   const [author, setAuthor] = useState<string>('Community');
 
   const [lng, setLng] = useState(145.749049);
@@ -91,7 +92,6 @@ const NewDetail = () => {
     //TODO support multiple images.
     if (selectedPhoto){
       const uploadResult = await uploadFile(selectedPhoto);
-      setPublicImages(previous => [...previous, uploadResult]);
       //TODO create file record
       //TODO add to images, and cover image.
       console.log("handleFileChange uploadResult", selectedPhoto, uploadResult);
@@ -111,9 +111,9 @@ const NewDetail = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     //TODO
-    debugger;
+    // debugger;
     const insertData = createNewIncident();
-    const res = await supabase.from('rest_areas')
+    const res = await supabase.from('incidents')
     .insert(insertData).select();
 
     
@@ -121,44 +121,46 @@ const NewDetail = () => {
 
   const resetData = () =>{
     setName('Unnamed');
-    setSurface('Sealed');
-    setToilet(false);
-    setWater(false);
-    setShower(false);
-    setTable(false);
-    setBbq(false);
-    setFuel(false);
-    setLights(false);
+
+    setStolenvehicle(false);
+    setBreakenter(false);
+    setPropertydamage(false);
+    setViolencethreat(false);
+    setTheft(false);
+  
+    setLoitering(false);
+    setDisturbance(false);
+    setSuspicious(false);
+    setUnfamiliar(false);
   }
 
   const createNewIncident = () => {
-    let restarea = {
+    let incident = {
       name: name,
-      region: region,
+      about: about,
       creator: author,
-      bbq: bbq,
-      fuel: fuel,
-      lights: lights,
-      showers: shower,
-      toilets: toilet,
-      tables: table,
-      power: power,
-      surface: surface,
-      truck_bays: 1,
-      truck_bays_available: 1,
-      dangerous_bays: 0,
-      dangerous_bays_available: 0,
-      type: "HVSB",
+      user_id: user.id,
+
+      stolenvehicle: stolenvehicle,
+      breakenter: breakenter,
+      propertydamage: propertydamage,
+      violencethreat: violencethreat,
+      theft: theft,
+
+      suspicious: suspicious,
+      loitering: loitering,
+      unfamiliar: unfamiliar,
+      disturbance: disturbance,
+
       geom: {
         type: 'Point',
         coordinates: [lng,lat]
       },
       longitude: lng,
-      latitude:lat,
-      images: publicImages
+      latitude:lat
     };
 
-    return restarea;
+    return incident;
   }
 
   useEffect(() => {
@@ -209,7 +211,7 @@ const NewDetail = () => {
   },[map, currentLocation])
 
   useEffect(() => {
-    debugger;
+    // debugger;
     if (map.current) return; // initialize map only once
     if (!mapContainer.current) return; // initialize map only once container is there
     map.current = new mapboxgl.Map({
@@ -285,7 +287,7 @@ const NewDetail = () => {
   };
 
   const RenderImage: React.FC<any> = ({file}) => {
-    return <IonImg src={"https://arvqjbylexvdpyooykji.supabase.co"+ file.file_name} />;
+    return <IonImg src={"https://raxdwowfheboqizcxlur.supabase.co"+ file.file_name} />;
   };
 
   const uploadImage = async (path: string, format: string) => {
@@ -333,7 +335,7 @@ const NewDetail = () => {
         upsert: false,
       });
     if (error) alert(error?.message);
-    debugger;
+    // debugger;
     const fileurl =  "/storage/v1/object/public/public/"+newFileKey
     const newFile = await createFileRecord(user.id , filename, fileurl);
     if (newFile.data){
@@ -346,7 +348,7 @@ const NewDetail = () => {
   };
 
   const takePicture = async () => {
-    debugger;
+    // debugger;
     try {
       const cameraResult = await Camera.getPhoto({
         quality: 90,
@@ -418,37 +420,53 @@ const NewDetail = () => {
 
                   <div className="sm:col-span-6">
                   <label className="block text-sm font-medium text-gray-700">
-                      Type1
+                      Level 1
+                    </label>
+                    <IonButton slot="icon-only" shape="round" color={stolenvehicle ? "primary" : "medium" } onClick={(event) => {setStolenvehicle(!stolenvehicle)}} >
+                      <IonIcon src="/svgs/wewatch/stolen-vehicle.svg" />
+                    </IonButton>
+                    
+                    <IonButton slot="icon-only" shape="round" color={breakenter ? "primary" : "medium" } onClick={(event) => {setBreakenter(!breakenter)}} >
+                      <IonIcon src="/svgs/wewatch/break-enter.svg" />
+                    </IonButton>
+
+                    <IonButton slot="icon-only" shape="round" color={propertydamage ? "primary" : "medium" } onClick={() => { setPropertydamage(!propertydamage)}} >
+                      <IonIcon src="/svgs/wewatch/property-damage.svg" />
+                    </IonButton>
+
+                    <IonButton slot="icon-only" shape="round" color={violencethreat ? "primary" : "medium" } onClick={() => { setViolencethreat(!violencethreat)}} >
+                      <IonIcon src="/svgs/wewatch/violence-threats.svg" />
+                    </IonButton>
+
+                    <IonButton slot="icon-only" shape="round" color={theft ? "primary" : "medium" } onClick={() => { setTheft(!theft)}} >
+                      <IonIcon src="/svgs/wewatch/theft.svg" />
+                    </IonButton>
+
+                  </div>
+
+
+                  <div className="sm:col-span-6">
+                  <label className="block text-sm font-medium text-gray-700">
+                      Level 2
                     </label>
 
-                    <IonButton slot="icon-only" shape="round" color={toilet ? "primary" : "medium" } onClick={() => { setToilet(!toilet)}} >
-                      <IonIcon src="/svgs/i-toilet.svg" />
+                    
+
+                    <IonButton slot="icon-only" shape="round" color={loitering ? "primary" : "medium" } onClick={() => { setLoitering(!loitering)}} >
+                      <IonIcon src="/svgs/wewatch/loitering.svg" />
                     </IonButton>
 
-                    <IonButton slot="icon-only" shape="round" color={water ? "primary" : "medium" } onClick={() => { setWater(!water)}} >
-                      <IonIcon src="/svgs/i-water.svg" />
+                    <IonButton slot="icon-only" shape="round" color={disturbance ? "primary" : "medium" } onClick={() => { setDisturbance(!disturbance)}} >
+                      <IonIcon src="/svgs/wewatch/disturbance.svg" />
                     </IonButton>
 
-                    <IonButton slot="icon-only" shape="round" color={shower ? "primary" : "medium" } onClick={() => { setShower(!shower)}} >
-                      <IonIcon src="/svgs/001-shower.svg" />
+                    <IonButton slot="icon-only" shape="round" color={suspicious ? "primary" : "medium" } onClick={() => { setSuspicious(!suspicious)}} >
+                      <IonIcon src="/svgs/wewatch/suspicious.svg" />
                     </IonButton>
 
-                    <IonButton slot="icon-only" shape="round" color={table ? "primary" : "medium" } onClick={() => { setTable(!table)}} >
-                      <IonIcon src="/svgs/002-picnic.svg" />
+                    <IonButton slot="icon-only" shape="round" color={unfamiliar ? "primary" : "medium" } onClick={() => { setUnfamiliar(!unfamiliar)}} >
+                      <IonIcon src="/svgs/wewatch/unfamiliar-person.svg" />
                     </IonButton>
-
-                    <IonButton slot="icon-only" shape="round" color={bbq ? "primary" : "medium" } onClick={() => { setBbq(!bbq)}} >
-                      <IonIcon src="/svgs/grill.svg" />
-                    </IonButton>
-
-                    <IonButton slot="icon-only" shape="round" color={fuel ? "primary" : "medium" } onClick={(event) => {setFuel(!fuel)}} >
-                      <IonIcon src="/svgs/fuel.svg" />
-                    </IonButton>
-
-                    <IonButton slot="icon-only" shape="round" color={lights ? "primary" : "medium" } onClick={() => { setLights(!lights)}} >
-                      <IonIcon src="/svgs/i-lighting.svg" />
-                    </IonButton>
-
                   </div>
 
                   <div className="sm:col-span-6">
@@ -469,17 +487,17 @@ const NewDetail = () => {
 
                   <div className="sm:col-span-6">
                     <label htmlFor="about" className="block text-sm font-medium text-gray-700">
-                      Region
+                      About
                     </label>
                     <div className="mt-1">
                       <textarea
-                        id="region"
-                        name="region"
+                        id="about"
+                        name="about"
                         className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                         defaultValue={''}
                       />
                     </div>
-                    <p className="mt-2 text-sm text-gray-500">What region is it in?</p>
+                    <p className="mt-2 text-sm text-gray-500">What about is it in?</p>
                   </div>
 
                   <div className="sm:col-span-6">

@@ -17,22 +17,22 @@ import {
 } from '@ionic/react';
 import React from 'react';
 
-export const RestAreaCarousel = (restarea) => {
+export const IncidentCarousel = (incident) => {
   // Blank carousel
-  if(restarea?.images == undefined || restarea?.images == null || restarea?.images?.length == 0) return <></>;
+  if(incident?.images == undefined || incident?.images == null || incident?.images?.length == 0) return <></>;
   
-  let restAreaImages;
+  let incidentImages;
   try {
-    restAreaImages = JSON.parse(restarea?.images);
+    incidentImages = JSON.parse(incident?.images);
   } catch (error) {
-    console.error("failed to load restarea images", restarea, error);
+    console.error("failed to load incident images", incident, error);
   }
   
   return (
     <div className="w-full mx-auto" >
-      {/* { restAreaImages ? <IonTitle size="large">Photos</IonTitle> : <IonTitle size="large">No Photos</IonTitle>} */}
+      {/* { incidentImages ? <IonTitle size="large">Photos</IonTitle> : <IonTitle size="large">No Photos</IonTitle>} */}
       {
-        restAreaImages?.map((image, index) => {
+        incidentImages?.map((image, index) => {
           return (
             <div key={index} className="w-full my-2 mx-auto">
               <img src={image} alt="rest area image" />
@@ -44,4 +44,4 @@ export const RestAreaCarousel = (restarea) => {
   );
 }
     
-  export default RestAreaCarousel;
+  export default IncidentCarousel;

@@ -20,9 +20,9 @@ import {
 import { eye, easel } from 'ionicons/icons';
 
 function MapInfo(props) {
-  const { restArea, history } = props;
-  const displayName = `#${restArea?.id} - ${restArea?.name}`;
-  const restarea_url = restArea?.cover_image;
+  const { incident, history } = props;
+  const displayName = `#${incident?.id} - ${incident?.name}`;
+  const incident_url = incident?.cover_image_url;
   const [isVisible, setIsVisible] = useState(false);
 
   const handleImage = () => {
@@ -30,14 +30,14 @@ function MapInfo(props) {
   }
 
   const handleClick = () => {
-    history.push(`/tabs/lists/${restArea.id}`);
+    history.push(`/tabs/lists/${incident.id}`);
   }
 
   return (
     <div >
        <h2 className="font-bold text-gray-800">{displayName}</h2>
       {/* Too many images loading on search */}
-      {isVisible && <img width={240} src={restArea?.cover_image} loading="lazy"/>}
+      {isVisible && <img width={240} src={incident?.cover_image_url} loading="lazy"/>}
 
 
       <IonButton onClick={() => handleClick()}> 

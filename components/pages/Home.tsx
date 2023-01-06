@@ -21,6 +21,8 @@ import {
   
   const Home = () => {
     const settings = Store.useState(selectors.getSettings);
+
+    
   
     return (
       <IonPage>
@@ -49,7 +51,6 @@ import {
           </IonList> */}
   
           <h2>Welcome back</h2>
-  
           <IonCard>
            TODO
           </IonCard>

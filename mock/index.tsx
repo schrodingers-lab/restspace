@@ -1,16 +1,16 @@
-export const restAreas = [
+export const incidents = [
   {
     id: 2381,
     name: 'unnamed (Ref:2381)',
-    region: 'MOUNT ISA CITY',
+    about: 'MOUNT ISA CITY',
     author: 'TMR',
-    bbq: false,
-    fuel: false,
-    lights: false,
-    showers: false,
-    toilets: true,
-    tables: true,
-    power: false,
+    stolenvehicle: false,
+    breakenter: false,
+    propertydamage: false,
+    violencethreat: false,
+    theft: true,
+    suspicious: true,
+    loitering: false,
     road_surface: 'sealed',
     dangerous_bays: 1,
     dangerous_bays_available: 1,
@@ -22,24 +22,24 @@ export const restAreas = [
     longitude: -20.41969,
     latitude: 139.38479,
     images: [
-      'https://s3-ap-southeast-2.amazonaws.com/restspace-restarea-photo-prod/images/0bb42b58d9284cf9b07701557c88b30c.png',
-      'https://s3-ap-southeast-2.amazonaws.com/restspace-restarea-photo-prod/images/79df81ebc27c4c15b2ac85560acae48b.png',
-      'https://s3-ap-southeast-2.amazonaws.com/restspace-restarea-photo-prod/images/30db36a7262f46668995e1ef94c36262.png',
-      'https://s3-ap-southeast-2.amazonaws.com/restspace-restarea-photo-prod/images/cca2d97e510f49059f14e871803c7658.png'
+      'https://s3-ap-southeast-2.amazonaws.com/restspace-incident-photo-prod/images/0bb42b58d9284cf9b07701557c88b30c.png',
+      'https://s3-ap-southeast-2.amazonaws.com/restspace-incident-photo-prod/images/79df81ebc27c4c15b2ac85560acae48b.png',
+      'https://s3-ap-southeast-2.amazonaws.com/restspace-incident-photo-prod/images/30db36a7262f46668995e1ef94c36262.png',
+      'https://s3-ap-southeast-2.amazonaws.com/restspace-incident-photo-prod/images/cca2d97e510f49059f14e871803c7658.png'
     ]
   },
   {
     id: 2381,
     name: 'unnamed (Ref:2382)',
-    region: 'MOUNT ISA CITY2',
+    about: 'MOUNT ISA CITY2',
     author: 'TMR',
-    bbq: false,
-    fuel: false,
-    lights: false,
-    showers: false,
-    toilets: true,
-    tables: true,
-    power: false,
+    stolenvehicle: false,
+    breakenter: false,
+    propertydamage: false,
+    violencethreat: false,
+    theft: true,
+    suspicious: true,
+    loitering: false,
     road_surface: 'sealed',
     dangerous_bays: 1,
     dangerous_bays_available: 1,
@@ -51,24 +51,24 @@ export const restAreas = [
     longitude: -20.41969,
     latitude: 139.38479,
     images: [
-      'https://s3-ap-southeast-2.amazonaws.com/restspace-restarea-photo-prod/images/0bb42b58d9284cf9b07701557c88b30c.png',
-      'https://s3-ap-southeast-2.amazonaws.com/restspace-restarea-photo-prod/images/79df81ebc27c4c15b2ac85560acae48b.png',
-      'https://s3-ap-southeast-2.amazonaws.com/restspace-restarea-photo-prod/images/30db36a7262f46668995e1ef94c36262.png',
-      'https://s3-ap-southeast-2.amazonaws.com/restspace-restarea-photo-prod/images/cca2d97e510f49059f14e871803c7658.png'
+      'https://s3-ap-southeast-2.amazonaws.com/restspace-incident-photo-prod/images/0bb42b58d9284cf9b07701557c88b30c.png',
+      'https://s3-ap-southeast-2.amazonaws.com/restspace-incident-photo-prod/images/79df81ebc27c4c15b2ac85560acae48b.png',
+      'https://s3-ap-southeast-2.amazonaws.com/restspace-incident-photo-prod/images/30db36a7262f46668995e1ef94c36262.png',
+      'https://s3-ap-southeast-2.amazonaws.com/restspace-incident-photo-prod/images/cca2d97e510f49059f14e871803c7658.png'
     ]
   },
   {
     id: 2381,
     name: 'unnamed (Ref:2383)',
-    region: 'MOUNT ISA CITY3',
+    about: 'MOUNT ISA CITY3',
     author: 'TMR',
-    bbq: false,
-    fuel: false,
-    lights: false,
-    showers: false,
-    toilets: true,
-    tables: true,
-    power: false,
+    stolenvehicle: false,
+    breakenter: false,
+    propertydamage: false,
+    violencethreat: false,
+    theft: true,
+    suspicious: true,
+    loitering: false,
     road_surface: 'sealed',
     dangerous_bays: 1,
     dangerous_bays_available: 1,
@@ -80,10 +80,10 @@ export const restAreas = [
     longitude: -20.41969,
     latitude: 139.38479,
     images: [
-      'https://s3-ap-southeast-2.amazonaws.com/restspace-restarea-photo-prod/images/0bb42b58d9284cf9b07701557c88b30c.png',
-      'https://s3-ap-southeast-2.amazonaws.com/restspace-restarea-photo-prod/images/79df81ebc27c4c15b2ac85560acae48b.png',
-      'https://s3-ap-southeast-2.amazonaws.com/restspace-restarea-photo-prod/images/30db36a7262f46668995e1ef94c36262.png',
-      'https://s3-ap-southeast-2.amazonaws.com/restspace-restarea-photo-prod/images/cca2d97e510f49059f14e871803c7658.png'
+      'https://s3-ap-southeast-2.amazonaws.com/restspace-incident-photo-prod/images/0bb42b58d9284cf9b07701557c88b30c.png',
+      'https://s3-ap-southeast-2.amazonaws.com/restspace-incident-photo-prod/images/79df81ebc27c4c15b2ac85560acae48b.png',
+      'https://s3-ap-southeast-2.amazonaws.com/restspace-incident-photo-prod/images/30db36a7262f46668995e1ef94c36262.png',
+      'https://s3-ap-southeast-2.amazonaws.com/restspace-incident-photo-prod/images/cca2d97e510f49059f14e871803c7658.png'
     ]
   }
 ];

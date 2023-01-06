@@ -1,4 +1,4 @@
-import RestAreaCard from '../cards/RestAreaCard';
+import IncidentCard from '../cards/IncidentCard';
 import {  Route } from 'react-router-dom';
 import {
   IonPage,
@@ -17,7 +17,7 @@ import {
 import Notifications from './Notifications';
 import { useEffect, useState } from 'react';
 import { notificationsOutline } from 'ionicons/icons';
-import { getRestAreas } from '../../store/selectors';
+import { getIncidents } from '../../store/selectors';
 import Store from '../../store';
 import React from 'react';
 import { useUser, useSupabaseClient } from '@supabase/auth-helpers-react'
@@ -42,7 +42,7 @@ const Bookmarked = ({history}) => {
       setLoading(true);
   
       if (user?.id){
-        const { data, error } = await supabaseClient.from('rest_areas')
+        const { data, error } = await supabaseClient.from('incidents')
         .select('*, bookmarks!inner(*)')
         .eq('bookmarks.user_id', user?.id)
         
@@ -55,7 +55,7 @@ const Bookmarked = ({history}) => {
   
       setLoading(false);
       
-      console.log('load bookmarked rest_areas', data, error);
+      console.log('load bookmarked incidents', data, error);
     }
 
     if (user) {
@@ -67,9 +67,9 @@ const Bookmarked = ({history}) => {
 
 
 
-  const goToRestArea = (restArea) => {
-    if (restArea && restArea.id){
-      history.push('/tabs/lists/'+restArea?.id);
+  const goToIncident = (incident) => {
+    if (incident && incident.id){
+      history.push('/tabs/lists/'+incident?.id);
     }
   }
 
@@ -82,7 +82,7 @@ const Bookmarked = ({history}) => {
         setLoading(true);
     
         if (user?.id){
-          const { data, error } = await supabaseClient.from('rest_areas')
+          const { data, error } = await supabaseClient.from('incidents')
           .select('*, bookmarks!inner(*)')
           .eq('bookmarks.user_id', user?.id)
           
@@ -95,7 +95,7 @@ const Bookmarked = ({history}) => {
     
         setLoading(false);
         
-        console.log('load bookmarked rest_areas', data, error);
+        console.log('load bookmarked incidents', data, error);
       }
 
       await loadData();
@@ -144,7 +144,7 @@ const Bookmarked = ({history}) => {
 
 
         {data && data.map((i, index) => (
-          <RestAreaCard key={index} onClickFnc={goToRestArea} restarea={i} />
+          <IncidentCard key={index} onClickFnc={goToIncident} incident={i} />
         ))}
 
         {(data && data.length == 0) && 
