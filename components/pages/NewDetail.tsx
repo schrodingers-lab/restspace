@@ -284,19 +284,8 @@ const NewDetail = () => {
     }
   };
 
-  const RenderImage: React.FC<any> = ({ path }) => {
-    const [publicUrl, setPublicUrl] = useState<any>("");
-    useEffect(() => {
-      (async () => {
-        const { data:{ publicUrl } } = supabase.storage
-          .from("public")
-          .getPublicUrl(path);
-  
-        setPublicUrl(publicUrl);
-      })();
-    },[path]);
-  
-    return <IonImg src={publicUrl} />;
+  const RenderImage: React.FC<any> = ({file}) => {
+    return <IonImg src={"https://arvqjbylexvdpyooykji.supabase.co"+ file.file_name} />;
   };
 
   const uploadImage = async (path: string, format: string) => {
@@ -314,8 +303,12 @@ const NewDetail = () => {
     if (error) alert(error?.message);
 
     const fileurl =  "/storage/v1/object/public/public/"+filename;
-    const newFile= createFileRecord(user.id , filename, fileurl);
-    setFiles(previous => [...previous, newFile]);
+    const newFile= await createFileRecord(user.id , filename, fileurl);
+    if (newFile.data){
+      if(newFile.data[0]){
+        setFiles(previous => [...previous, newFile.data[0]]);
+      }
+    }
 
     return fileurl;
   };
@@ -340,10 +333,14 @@ const NewDetail = () => {
         upsert: false,
       });
     if (error) alert(error?.message);
-
+    debugger;
     const fileurl =  "/storage/v1/object/public/public/"+newFileKey
-    const newFile = createFileRecord(user.id , filename, fileurl);
-    setFiles(previous => [...previous, newFile]);
+    const newFile = await createFileRecord(user.id , filename, fileurl);
+    if (newFile.data){
+      if(newFile.data[0]){
+        setFiles(previous => [...previous, newFile.data[0]]);
+      }
+    }
     
     return fileurl;
   };
@@ -555,10 +552,11 @@ const NewDetail = () => {
 
                     <IonList>
                       {files.map((s: any) => (
+                
                         <div key={s?.id}>
                           {s.id}
                           <div style={{width : 200, margin : 'auto'}}>
-                          <RenderImage path={s.name} />
+                            <RenderImage file={s} />
                           </div>
                         </div>
                       ))}
