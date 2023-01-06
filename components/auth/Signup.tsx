@@ -52,7 +52,12 @@ export const Signup = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
     }
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-      event.preventDefault()
+      event.preventDefault();
+
+      if (!termsAccepted){
+        setError("You need to accept the Terms to create an account");
+        return;
+      }
 
       setError('')
       setLoading(true)
@@ -71,6 +76,7 @@ export const Signup = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
       // })
 
       if (error) {
+        debugger;
         if (error?.name == "AuthApiError"){
           if (error?.message == "Phone not confirmed"){
             // verify phone
@@ -83,6 +89,8 @@ export const Signup = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
           } else if (error?.message == "Invalid login credentials") {
             //failed to login
             setError('Invalid login credentials');
+          } else {
+            setError(error.message);
           }
         }
       } else {
@@ -116,8 +124,8 @@ export const Signup = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
               src="/imgs/WeWatch/WeWatch_LogoStrap_black.svg"
               alt="WeWatch"
             />
-            <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">Sign up for an account</h2>
-            <p className="mt-2 text-center text-sm text-gray-600">
+            <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900 dark:text-white">Sign up for an account</h2>
+            <p className="mt-2 text-center text-sm text-gray-600 dark:text-white">
               Or{' '}
               <a href="/tabs/login" className="font-medium text-indigo-600 hover:text-indigo-500">
                Sign in to an existing account
@@ -129,7 +137,7 @@ export const Signup = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
             <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
               <form className="space-y-6" onSubmit={handleSubmit}>
                 <div>
-                  <label htmlFor="tel" className="block text-sm font-medium text-gray-700">
+                  <label htmlFor="tel" className="block text-sm font-medium text-gray-700 dark:text-white">
                     Mobile
                   </label>
                   <div className="mt-1">
@@ -140,7 +148,7 @@ export const Signup = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
                       error={phoneNumber ? (isValidPhoneNumber(phoneNumber) ? undefined : 'Invalid phone number') : 'Phone number required'}
                       value={phoneNumber}
                       onChange={handlePhone} 
-                      className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                      className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm text-black dark:text-white"
                       />
 
                       {/* <p>={phoneNumber ? (isValidPhoneNumber(phoneNumber) ? undefined : 'Invalid phone number') : 'Phone number required'}</p> */}
@@ -148,7 +156,7 @@ export const Signup = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
                 </div>
   
                 <div>
-                  <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                  <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-white">
                     Password
                   </label>
                   <div className="">
@@ -159,7 +167,7 @@ export const Signup = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
                       onChange={handlePassword}
                       ref={passwordRef}
                       required
-                      className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                      className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm text-black dark:text-white"
                     />
                   </div>
                 </div>
@@ -187,11 +195,11 @@ export const Signup = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
                         type="checkbox"
                         checked={termsAccepted}
                         onChange={handleCheckChange}
-                        className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                        className="h-4 w-4 rounded border-gray-300 "
                       />
                     </div>
                     <div className="ml-3 text-sm">
-                      <p>By creating an account you agree to the <a href='/tabs/terms' className="font-medium text-indigo-600 hover:text-indigo-500">Terms and Conditions</a></p>
+                      <p className="text-black dark:text-white">By creating an account you agree to the <a href='/tabs/terms' className="font-medium text-indigo-600 hover:text-indigo-500">Terms and Conditions</a></p>
                     </div>
                   </div>
                 </div>
@@ -199,8 +207,7 @@ export const Signup = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
                 <div>
                   <button
                     type="submit"
-                    disabled={!termsAccepted}
-                    className="flex w-full justify-center rounded-md border border-transparent disabled:bg-gray py-2 px-4 text-sm font-medium "
+                    className="flex w-full justify-center rounded-md border border-transparent bg-indigo-600 text-white py-2 px-4 text-sm font-medium "
                   >
                     Sign up
                   </button>
