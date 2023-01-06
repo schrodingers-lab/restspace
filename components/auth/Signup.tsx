@@ -14,6 +14,12 @@ export const Signup = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
 
     const [error, setError] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(false);
+    const [termsAccepted, setTermsAccepted] = useState<boolean>(false);
+    const [isChecked, setIsChecked] = useState(false)
+
+    function handleCheckChange(event: React.ChangeEvent<HTMLInputElement>) {
+      setTermsAccepted(event.target.checked)
+    }
 
     const [authState, setAuthState] = useState<string>('signup');
 
@@ -145,7 +151,7 @@ export const Signup = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
                   <label htmlFor="password" className="block text-sm font-medium text-gray-700">
                     Password
                   </label>
-                  <div className="mt-1">
+                  <div className="">
                     <input
                       name="password"
                       type="password"
@@ -161,8 +167,10 @@ export const Signup = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
                 <div className="flex items-center justify-between text-red-500">
                   {error}
                 </div>
+
+                
   
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between pb-8">
                   <div className="text-sm">
                     <a href="/tabs/forgot" className="font-medium text-indigo-600 hover:text-indigo-500">
                       Forgot your password?
@@ -170,20 +178,36 @@ export const Signup = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
                   </div>
                 </div>
 
-              
+                <div className="mt-4 space-y-4">
+                  <div className="relative flex items-start">
+                    <div className="flex h-5 items-center">
+                      <input
+                        id="comments"
+                        name="comments"
+                        type="checkbox"
+                        checked={termsAccepted}
+                        onChange={handleCheckChange}
+                        className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                      />
+                    </div>
+                    <div className="ml-3 text-sm">
+                      <p>By creating an account you agree to the <a href='/tabs/terms' className="font-medium text-indigo-600 hover:text-indigo-500">Terms and Conditions</a></p>
+                    </div>
+                  </div>
+                </div>
+
                 <div>
                   <button
                     type="submit"
-                    className="flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                    disabled={!termsAccepted}
+                    className="flex w-full justify-center rounded-md border border-transparent disabled:bg-gray py-2 px-4 text-sm font-medium "
                   >
                     Sign up
                   </button>
                 </div>
-                <div className="flex items-center justify-between">
-                  <p>By creating an account you agree to the <a href='/tabs/terms' className="font-medium text-indigo-600 hover:text-indigo-500">Terms and Conditions</a></p>
-                </div>
+
+
               </form>
-  
             </div>
           </div>
         </div>

@@ -75,7 +75,7 @@ const AppShell = ({history}) => {
         <IonSplitPane contentId="main">
           <Menu />
           <IonToast
-            isOpen={true}
+            isOpen={false}
             message="This app should not be used while driving, please be careful on the road."
             duration={4000}
             position={'top'}

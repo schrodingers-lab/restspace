@@ -32,9 +32,9 @@ const Terms = () => {
           </p>
            <p>
             Thank you for choosing WeWatch. In these terms of use, &lsquo;us&rsquo; &lsquo;we&rsquo; or &lsquo;our&rsquo; means
-            ProRoute Pty Ltd (ACN 617 845 468) and our related bodies corporate. A reference to
+            Foresight Tech Group and our related bodies corporate. A reference to
             &lsquo;you&rsquo; or &lsquo;user&rsquo; means you. In these terms of use, &lsquo;Services&rsquo; means our
-            website, <a href="http://www.restspace.com.au/">http://www.restspace.com.au/</a>, and
+            website, <a href="http://www.wewatchapp.com/">http://www.wewatchapp.com/</a>, and
             related websites, (the &lsquo;Website&rsquo;), the WeWatch mobile application, and
             related mobile applications (the &lsquo;Application&rsquo;), and any related application
             programming interface (the &lsquo;API&rsquo;). These terms of use set out the terms and
@@ -65,7 +65,7 @@ const Terms = () => {
             information such as your name, email address, telephone number and other contact
             details. You must ensure that this information is accurate and current. We will handle
             all personal information we collect in accordance with our Privacy Policy, which is
-            available at http://www.restspace.com.au/privacy.html.
+            available at http://www.wewatchapp.com/privacy.html.
           </p>
           <p>
             When you register and activate your account, we will provide you with a username and
@@ -107,7 +107,7 @@ const Terms = () => {
             We collect personal information about you in order to respond to your enquiries, process
             your registration, process your orders and provide you with services and for purposes
             otherwise set out in our Privacy Policy, which is available at
-            http://www.restspace.com.au/privacy.html.
+            http://www.wewatchapp.com/privacy.html.
           </p>
           <p>
             We may disclose that information to third parties that help us deliver our services
@@ -421,7 +421,7 @@ const Terms = () => {
             
             <br/>
               disrupt or try to disrupt any of the Services or use any of the Services or any
-              WeWatch or ProRoute website to distribute software viruses or other harmful
+              WeWatch or Foresight Tech Group website to distribute software viruses or other harmful
               programs; or
             
             <br/>
@@ -715,8 +715,8 @@ const Terms = () => {
           </p>
           <p>
             If you have any questions or concerns about our terms of use, you may contact us at <br/> 
-            <a href="mailto:restspacesupport@proroute.co" title="restspacesupport@proroute.co">
-              restspacesupport@proroute.co
+            <a href="mailto:admin@wewatchapp.com" title="admin@wewatchapp.com">
+              admin@wewatchapp.com
             </a>
             
           </p> 
