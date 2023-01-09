@@ -12,12 +12,16 @@ import {
   IonToolbar,
 } from '@ionic/react';
 import { useEffect, useState } from 'react';
-import { cog, bookmark, map, list, newspaper, person, earthOutline } from 'ionicons/icons';
+import { cog, bookmark, map,home, list, newspaper, person, earthOutline } from 'ionicons/icons';
 
 import { useUser, useSupabaseClient } from '@supabase/auth-helpers-react'
 
 const pages = [
   {
+    title: 'Home',
+    icon: home,
+    url: '/tabs/home',
+  },{
     title: 'Map',
     icon: map,
     url: '/tabs/map',
