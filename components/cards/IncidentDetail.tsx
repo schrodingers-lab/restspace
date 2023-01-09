@@ -28,7 +28,7 @@ const mapboxglAccessToken = 'pk.eyJ1IjoiZGFycmVuLXByb3JvdXRlIiwiYSI6ImNsM2M2cjRh
 
 
 export const IncidentDetail = ({incident}) => {
-  const img0 = incident?.cover_image_url; //default img
+  const img0 = incident?.cover_image_url || "https://app.wewatchapp.com/imgs/default_cover_image.png"; //default img
 
   const mapContainer = useRef<any>(null);
   const map = useRef<any>(null);
@@ -38,10 +38,6 @@ export const IncidentDetail = ({incident}) => {
   const [isToastOpen, setIsToastOpen] = useState<boolean>(false);
   const [toastMessage, setToastMessage] = useState<string | undefined>();
 
-  const [resolvingForRoute, setResolvingForRoute] = useState<any>();
-  const [route, setRoute] = useState<any>();
-
-
   useEffect(() => {
     if (map.current) return; // initialize map only once
     map.current = new mapboxgl.Map({
@@ -49,7 +45,7 @@ export const IncidentDetail = ({incident}) => {
       container: mapContainer.current,
       style: 'mapbox://styles/mapbox/streets-v11',
       center: [incident.longitude, incident.latitude],
-      zoom: 8
+      zoom: 13
     });
 
     const geoLocate = new mapboxgl.GeolocateControl({
@@ -69,18 +65,12 @@ export const IncidentDetail = ({incident}) => {
         console.log('A geolocate event has occurred.', geo);
         let geo_coords = geo as any;
         setCurrentLocation(geo_coords?.coords);
-        setResolvingForRoute(true);
     });
 
     const marker = new mapboxgl.Marker()
         .setLngLat([incident.longitude, incident.latitude])
         .addTo(map.current);
-
   }, [incident]);
-
-  const routeMe = async ()=>{
-    await getRoute();
-  }
 
   const secondsToMins = (secs) => {
     if (secs == undefined || secs == null || secs< 1) return 1;
@@ -93,86 +83,6 @@ export const IncidentDetail = ({incident}) => {
     const kms = meters / 1000;
     return Math.floor(kms);
   }
-  
-
-
-  const getRoute = async () => {
-    if(!incident) return;
-    if(!currentLocation) {
-      setToastMessage("Determining your location, and calculating route...");
-      setIsToastOpen(true);
-      geoLocateCtl?.trigger();
-      return;
-    };
-
-
-    // make a directions request using cycling profile
-    // an arbitrary start will always be the same
-    // only the end or destination will change
-    const query = await fetch(
-      `https://api.mapbox.com/directions/v5/mapbox/driving-traffic/${currentLocation.longitude},${currentLocation.latitude};${incident.longitude},${incident.latitude}?steps=true&geometries=geojson&access_token=${mapboxgl.accessToken}`,
-      { method: 'GET' }
-    );
-
-    const json = await query.json();
-    // console.log("directions", json);
-    if (!json?.routes || json?.routes?.length == 0){
-      console.log("No route found");
-
-      setToastMessage("Route could not be estimated.");
-      setIsToastOpen(true);
-
-      return;
-    }
-
-    const data = json.routes[0];
-    setRoute(data);
-    const route = data?.geometry?.coordinates;
-    const geojson = {
-      type: 'Feature',
-      properties: {},
-      geometry: {
-        type: 'LineString',
-        coordinates: route
-      }
-    };
-
-    // if the route already exists on the map, we'll reset it using setData
-    if (map.current.getSource('route')) {
-      map.current.getSource('route').setData(geojson);
-    }
-    // otherwise, we'll make a new request
-    else {
-      map.current.addLayer({
-        id: 'route',
-        type: 'line',
-        source: {
-          type: 'geojson',
-          data: geojson
-        },
-        layout: {
-          'line-join': 'round',
-          'line-cap': 'round'
-        },
-        paint: {
-          'line-color': '#3887be',
-          'line-width': 5,
-          'line-opacity': 0.75
-        }
-      });
-
-      const routeBounds = [json.waypoints[0].location, json.waypoints[1].location];
-      map.current.fitBounds(routeBounds, {padding: 50});
-    }
-    // add turn instructions here at the end
-  }
-
-  useEffect(
-    () => {
-      if (resolvingForRoute == undefined) return;
-      getRoute();
-  },[resolvingForRoute])
-
 
   const externalMaps = ()=>{
     window.open(`http://maps.apple.com/?ll=${incident.latitude},${incident.longitude}`)
@@ -184,9 +94,9 @@ export const IncidentDetail = ({incident}) => {
         <img className="h-64 px-auto w-full object-cover object-center" src={img0} alt="image" />
       </div>
       <div className="px-4 py-4 bg-white rounded-b-xl dark:bg-gray-900">
-        <h4 className="font-bold py-0 text-s text-gray-400 dark:text-gray-500 uppercase">{incident.about}</h4>
         <h2 className="font-bold text-2xl text-gray-800 dark:text-gray-100">#{incident.id} - {incident.name}</h2>
-
+        <h4 className="font-bold py-0 text-s text-gray-400 dark:text-gray-500">{incident.about}</h4>
+        
         <CopyToClipboard 
             text={`${incident.latitude},${incident.longitude}`}
             onCopy={
@@ -206,57 +116,49 @@ export const IncidentDetail = ({incident}) => {
         </CopyToClipboard>
 
         <div className="flex items-center space-x-4">
-          <h3 className="text-gray-500 dark:text-gray-200 m-l-8 text-md font-medium">{incident.creator} - {incident.surface} </h3>
+          <h3 className="text-gray-500 dark:text-gray-200 m-l-8 text-md font-medium">{incident.creator}</h3>
         </div>
 
-        <IonButton slot="icon-only" disabled={true} shape="round"  color={incident.toilet ? "primary" : "medium" } >
-          <IonIcon src="/svgs/i-toilet.svg" />
+        <IonButton slot="icon-only" disabled={true} shape="round" color={incident.stolenvehicle ? "primary" : "medium" }  >
+          <IonIcon src="/svgs/wewatch/stolen-vehicle.svg" />
+        </IonButton>
+        
+        <IonButton slot="icon-only" disabled={true} shape="round" color={incident.breakenter ? "primary" : "medium" }  >
+          <IonIcon src="/svgs/wewatch/break-enter.svg" />
         </IonButton>
 
-        <IonButton slot="icon-only" disabled={true} shape="round"   color={incident.water ? "primary" : "medium" } >
-          <IonIcon src="/svgs/i-water.svg" />
+        <IonButton slot="icon-only" disabled={true} shape="round" color={incident.propertydamage ? "primary" : "medium" }  >
+          <IonIcon src="/svgs/wewatch/property-damage.svg" />
         </IonButton>
 
-          <IonButton slot="icon-only" disabled={true} shape="round"   color={incident.violencethreat ? "primary" : "medium" } >
-          <IonIcon src="/svgs/001-shower.svg" />
+        <IonButton slot="icon-only" disabled={true} shape="round" color={incident.violencethreat ? "primary" : "medium" }  >
+          <IonIcon src="/svgs/wewatch/violence-threats.svg" />
         </IonButton>
 
-        <IonButton slot="icon-only" disabled={true} shape="round"   color={incident.suspicious ? "primary" : "medium" } >
-          <IonIcon src="/svgs/002-picnic.svg" />
+        <IonButton slot="icon-only" disabled={true} shape="round" color={incident.theft ? "primary" : "medium" }>
+          <IonIcon src="/svgs/wewatch/theft.svg" />
         </IonButton>
 
-        <IonButton slot="icon-only" disabled={true} shape="round"   color={incident.stolenvehicle ? "primary" : "medium" } >
-          <IonIcon src="/svgs/grill.svg" />
+        
+        <IonButton slot="icon-only" disabled={true} shape="round" color={incident.loitering ? "primary" : "medium" }  >
+          <IonIcon src="/svgs/wewatch/loitering.svg" />
         </IonButton>
 
-        <IonButton slot="icon-only" disabled={true} shape="round"   color={incident.breakenter ? "primary" : "medium" } >
-          <IonIcon src="/svgs/breakenter.svg" />
+        <IonButton slot="icon-only" disabled={true} shape="round" color={incident.disturbance ? "primary" : "medium" } >
+          <IonIcon src="/svgs/wewatch/disturbance.svg" />
         </IonButton>
 
-        <IonButton slot="icon-only" disabled={true} shape="round"   color={incident.propertydamage ? "primary" : "medium" } >
-          <IonIcon src="/svgs/i-lighting.svg" />
+        <IonButton slot="icon-only" disabled={true} shape="round" color={incident.suspicious ? "primary" : "medium" } >
+          <IonIcon src="/svgs/wewatch/suspicious.svg" />
         </IonButton>
 
-        <IonButton slot="icon-only" disabled={true} shape="round"   color={incident.mobile_reception ? "primary" : "medium" } >
-          <IonIcon icon={phonePortrait} />
+        <IonButton slot="icon-only" disabled={true} shape="round" color={incident.unfamiliar ? "primary" : "medium" } >
+          <IonIcon src="/svgs/wewatch/unfamiliar-person.svg" />
         </IonButton>
 
         <div className="area-map-section h-64 my-10">
           <div ref={mapContainer} className="w-full h-64"/> 
         </div>
-
-        {route &&  <IonItem>
-         <IonIcon slot="end" icon={bus} />
-          <IonLabel className="ion-text-wrap">
-            Estimated Distance: {metersToKm(route.distance)} KM <br/>
-            Estimated Duration: {secondsToMins(route.duration)} Minutes <br/>
-          </IonLabel>
-        </IonItem>}
-
-        <IonButton onClick={() => routeMe()}  className="text-sm">
-          <IonIcon slot="start" icon={navigate} />
-          Estimate
-        </IonButton>
 
         <IonButton onClick={() => externalMaps()} className="float-right text-sm">
           <IonIcon slot="start" icon={share} />

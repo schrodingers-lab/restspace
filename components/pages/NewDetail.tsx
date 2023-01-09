@@ -14,7 +14,7 @@ import {
   IonPopover,
   IonTitle,
   IonToast,
-  IonToolbar,
+  IonToolbar,IonDatetime, IonDatetimeButton, IonModal
 } from '@ionic/react';
 import { Camera, CameraResultType } from "@capacitor/camera";
 
@@ -25,20 +25,19 @@ import * as turfdistance from '@turf/distance';
 import { attachOutline, cameraOutline } from 'ionicons/icons';
 import NoUserCard from '../cards/NoUserCard';
 import { Geolocation } from '@capacitor/geolocation';
-
+import { format, utcToZonedTime } from 'date-fns-tz';
 import * as mapboxgl from 'mapbox-gl'; 
 const mapboxglAccessToken = 'pk.eyJ1IjoiZGFycmVuLXByb3JvdXRlIiwiYSI6ImNsM2M2cjRhOTAxd3YzY3JvYjl1OXQ3Y3oifQ.lerkA3MPLmhRgla3jQnCGg';
 
-const NewDetail = () => {
+const NewDetail = ({history}) => {
 
   const supabase = useSupabaseClient();
   const [error, setError] = useState("");
-  
-
-  // const [storageItems, setStorageItems] = useState<any>([]);
+  // Get the time zone set on the user's device
+  const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   const fileUploadRef = useRef<HTMLInputElement>(null);
-  // const [photos, setPhotos] = useState<File[]>([]);
+  const [files, setFiles] = useState<any[]>([]);
 
   const [stolenvehicle, setStolenvehicle] = useState(false);
   const [breakenter, setBreakenter] = useState(false);
@@ -53,16 +52,13 @@ const NewDetail = () => {
 
   const [publicImages, setPublicImages] = useState<string[]>([]);
   const [name, setName] = useState<string>('Unnamed');
-  const [surface, setSurface] = useState<string>('Sealed');
-  const [about, setAbout] = useState<string>('TOOWOOMBA REGIONAL');
-  const [author, setAuthor] = useState<string>('Community');
+  const [about, setAbout] = useState<string>('');
+  const [whenStr, setWhenStr] = useState<string>();
 
   const [lng, setLng] = useState(145.749049);
   const [lat, setLat] = useState(-16.935682);
   const [zoom, setZoom] = useState(11);
   const [markers, setMarkers] = useState<any[]>([]);
-
-  const [files, setFiles] = useState<any[]>([]);
 
   const mapContainer = useRef<any>(null);
   const map = useRef<any>(null);
@@ -80,8 +76,23 @@ const NewDetail = () => {
   const handleName = (event) => {
     setName(event.target.value);
   }
-  const handleSurfaceChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSurface(event.target.value);
+  const handleAboutChange = (event) => {
+    setAbout(event.target.value);
+  }
+
+  const handleNewIncidentDate = (ionDatetimeEvent) => {
+    // debugger;
+    const date = new Date(ionDatetimeEvent.detail.value);
+    const zonedTime = utcToZonedTime(date, userTimeZone);
+    // Create a formatted string from the zoned time
+    const dateStr = format(zonedTime,  "yyyy-MM-dd'T'HH:mm:ss.SSSxxx", { timeZone: userTimeZone });
+
+    setWhenStr(dateStr); 
+  }
+
+  const handleCancelIncidentDate = (ionDatetimeEvent) => {
+    // debugger;
+    console.log('cancelled')
   }
 
   const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -92,7 +103,6 @@ const NewDetail = () => {
     //TODO support multiple images.
     if (selectedPhoto){
       const uploadResult = await uploadFile(selectedPhoto);
-      //TODO create file record
       //TODO add to images, and cover image.
       console.log("handleFileChange uploadResult", selectedPhoto, uploadResult);
     }
@@ -110,14 +120,26 @@ const NewDetail = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setError('');
+    
     //TODO
     // debugger;
     const insertData = createNewIncident();
-    const res = await supabase.from('incidents')
+    const {data, error} = await supabase.from('incidents')
     .insert(insertData).select();
 
-    
+    if(error){
+      setError(error.message);
+    } else{
+      //TODO alert user to creation
+      console.log("created - ",data)
+      const newId = data[0].id;
+      setToastMessage("Created incident #"+newId);
+      setIsToastOpen(true);
+      history.push('/tabs/lists/'+newId);
+    }
   }
+
 
   const resetData = () =>{
     setName('Unnamed');
@@ -138,7 +160,7 @@ const NewDetail = () => {
     let incident = {
       name: name,
       about: about,
-      creator: author,
+      creator: user.id,
       user_id: user.id,
 
       stolenvehicle: stolenvehicle,
@@ -152,6 +174,8 @@ const NewDetail = () => {
       unfamiliar: unfamiliar,
       disturbance: disturbance,
 
+      incident_at: whenStr,
+
       geom: {
         type: 'Point',
         coordinates: [lng,lat]
@@ -162,6 +186,29 @@ const NewDetail = () => {
 
     return incident;
   }
+
+
+
+  useEffect(() => {
+    const getRoundedTime = () => {
+      const date = new Date()
+      const minutes = date.getMinutes()
+      const remainder = minutes % 15
+      if (remainder < 8) {
+        date.setMinutes(minutes - remainder)
+      } else {
+        date.setMinutes(minutes + (15 - remainder))
+      }
+      return date
+    }
+    // debugger;
+    const selectedDate = getRoundedTime();
+    const zonedTime = utcToZonedTime(selectedDate, userTimeZone);
+    // Create a formatted string from the zoned time
+    const dateStr = format(zonedTime,  "yyyy-MM-dd'T'HH:mm:ss.SSSxxx", { timeZone: userTimeZone });
+    console.log(dateStr);
+    setWhenStr(dateStr); 
+  },[])
 
   useEffect(() => {
     if(userLocation && currentLocation){
@@ -392,195 +439,179 @@ const NewDetail = () => {
         { user && 
           <form className="space-y-8 divide-y divide-gray-200" onSubmit={handleSubmit}>
             <div className="space-y-8 divide-y divide-gray-200">
-                <div>
-                  <h3 className="text-lg font-medium leading-6 text-gray-900">New Incident</h3>
-                  <p className="mt-1 text-sm text-gray-500">
-                    This information will be displayed publicly so be careful what you share.
-                  </p>
-                </div>
+              <div className='header-section'>
+                <h3 className="text-lg font-medium leading-6 text-gray-900">New Incident</h3>
+                <p className="mt-1 text-sm text-gray-500">
+                  This information will be displayed publicly so be careful what you share.
+                </p>
+              </div>
 
-                <div className="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
+              <div className="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
+                <div className="sm:col-span-6">
+                  <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                    Name
+                  </label>
+                  <div className="mt-1">
+                    <input
+                      type="text"
+                      name="name"
+                      id="name"
+                      value={name}
+                      onChange={handleName}
+                      className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                    />
+                  </div>
+                </div>
 
                 <div className="sm:col-span-6">
-                    <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-                      Name
-                    </label>
-                    <div className="mt-1">
-                      <input
-                        type="text"
-                        name="name"
-                        id="name"
-                        value={name}
-                        onChange={handleName}
-                        className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                      />
-                    </div>
-                  </div>
-
-
-                  <div className="sm:col-span-6">
                   <label className="block text-sm font-medium text-gray-700">
-                      Level 1
-                    </label>
-                    <IonButton slot="icon-only" shape="round" color={stolenvehicle ? "primary" : "medium" } onClick={(event) => {setStolenvehicle(!stolenvehicle)}} >
-                      <IonIcon src="/svgs/wewatch/stolen-vehicle.svg" />
-                    </IonButton>
-                    
-                    <IonButton slot="icon-only" shape="round" color={breakenter ? "primary" : "medium" } onClick={(event) => {setBreakenter(!breakenter)}} >
-                      <IonIcon src="/svgs/wewatch/break-enter.svg" />
-                    </IonButton>
-
-                    <IonButton slot="icon-only" shape="round" color={propertydamage ? "primary" : "medium" } onClick={() => { setPropertydamage(!propertydamage)}} >
-                      <IonIcon src="/svgs/wewatch/property-damage.svg" />
-                    </IonButton>
-
-                    <IonButton slot="icon-only" shape="round" color={violencethreat ? "primary" : "medium" } onClick={() => { setViolencethreat(!violencethreat)}} >
-                      <IonIcon src="/svgs/wewatch/violence-threats.svg" />
-                    </IonButton>
-
-                    <IonButton slot="icon-only" shape="round" color={theft ? "primary" : "medium" } onClick={() => { setTheft(!theft)}} >
-                      <IonIcon src="/svgs/wewatch/theft.svg" />
-                    </IonButton>
-
-                  </div>
-
-
-                  <div className="sm:col-span-6">
-                  <label className="block text-sm font-medium text-gray-700">
-                      Level 2
-                    </label>
-
-                    
-
-                    <IonButton slot="icon-only" shape="round" color={loitering ? "primary" : "medium" } onClick={() => { setLoitering(!loitering)}} >
-                      <IonIcon src="/svgs/wewatch/loitering.svg" />
-                    </IonButton>
-
-                    <IonButton slot="icon-only" shape="round" color={disturbance ? "primary" : "medium" } onClick={() => { setDisturbance(!disturbance)}} >
-                      <IonIcon src="/svgs/wewatch/disturbance.svg" />
-                    </IonButton>
-
-                    <IonButton slot="icon-only" shape="round" color={suspicious ? "primary" : "medium" } onClick={() => { setSuspicious(!suspicious)}} >
-                      <IonIcon src="/svgs/wewatch/suspicious.svg" />
-                    </IonButton>
-
-                    <IonButton slot="icon-only" shape="round" color={unfamiliar ? "primary" : "medium" } onClick={() => { setUnfamiliar(!unfamiliar)}} >
-                      <IonIcon src="/svgs/wewatch/unfamiliar-person.svg" />
-                    </IonButton>
-                  </div>
-
-                  <div className="sm:col-span-6">
-                    <label htmlFor="about" className="block text-sm font-medium text-gray-700">
-                      About
-                    </label>
-                    <div className="mt-1">
-                      <textarea
-                        id="about"
-                        name="about"
-                        rows={3}
-                        className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                        defaultValue={''}
-                      />
-                    </div>
-                    <p className="mt-2 text-sm text-gray-500">Write a few sentences about yourself.</p>
-                  </div>
-
-                  <div className="sm:col-span-6">
-                    <label htmlFor="about" className="block text-sm font-medium text-gray-700">
-                      About
-                    </label>
-                    <div className="mt-1">
-                      <textarea
-                        id="about"
-                        name="about"
-                        className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                        defaultValue={''}
-                      />
-                    </div>
-                    <p className="mt-2 text-sm text-gray-500">What about is it in?</p>
-                  </div>
-
-                  <div className="sm:col-span-6">
-                    <label htmlFor="country" className="block text-sm font-medium text-gray-700">
-                      Surface
-                    </label>
-                    <div className="mt-1">
-                      <select
-                        id="surface"
-                        name="surface"
-                        value={surface} onChange={handleSurfaceChange}
-                        className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                      >
-                        <option value="Sealed">Sealed</option>
-                        <option value="Unsealed">Unsealed</option>
-                      </select>
-                      <p className="mt-2 text-sm text-gray-500">is it Sealed?</p>
-                    </div>
-
-                <IonItem color={"light"} className="my-8">
-                  <IonIcon slot="end" icon={locate} />
-                  <IonLabel className="ion-text-wrap">
-                    Longitude: {lng} <br/>
-                    Latitude: {lat} <br/>
-                    {distanceToIncident > 0 &&
-                      "Distance (meters): "+ distanceToIncident
-                    }
-
-                  </IonLabel>
+                    Level 1
+                  </label>
+                  <IonButton slot="icon-only" shape="round" color={stolenvehicle ? "primary" : "medium" } onClick={(event) => {setStolenvehicle(!stolenvehicle)}} >
+                    <IonIcon src="/svgs/wewatch/stolen-vehicle.svg" />
+                  </IonButton>
                   
-                </IonItem>
+                  <IonButton slot="icon-only" shape="round" color={breakenter ? "primary" : "medium" } onClick={(event) => {setBreakenter(!breakenter)}} >
+                    <IonIcon src="/svgs/wewatch/break-enter.svg" />
+                  </IonButton>
 
-                <div className="area-map-section h-64 my-10">
-                  <div ref={mapContainer} className="w-full h-64"/> 
+                  <IonButton slot="icon-only" shape="round" color={propertydamage ? "primary" : "medium" } onClick={() => { setPropertydamage(!propertydamage)}} >
+                    <IonIcon src="/svgs/wewatch/property-damage.svg" />
+                  </IonButton>
+
+                  <IonButton slot="icon-only" shape="round" color={violencethreat ? "primary" : "medium" } onClick={() => { setViolencethreat(!violencethreat)}} >
+                    <IonIcon src="/svgs/wewatch/violence-threats.svg" />
+                  </IonButton>
+
+                  <IonButton slot="icon-only" shape="round" color={theft ? "primary" : "medium" } onClick={() => { setTheft(!theft)}} >
+                    <IonIcon src="/svgs/wewatch/theft.svg" />
+                  </IonButton>
+
                 </div>
 
-                
+                <div className="sm:col-span-6">
+                  <label className="block text-sm font-medium text-gray-700">
+                    Level 2
+                  </label>
+                  <IonButton slot="icon-only" shape="round" color={loitering ? "primary" : "medium" } onClick={() => { setLoitering(!loitering)}} >
+                    <IonIcon src="/svgs/wewatch/loitering.svg" />
+                  </IonButton>
 
+                  <IonButton slot="icon-only" shape="round" color={disturbance ? "primary" : "medium" } onClick={() => { setDisturbance(!disturbance)}} >
+                    <IonIcon src="/svgs/wewatch/disturbance.svg" />
+                  </IonButton>
 
-                  <div className="sm:col-span-6">
-                    <label htmlFor="cover-photo" className="block text-sm font-medium text-gray-700">
-                      Photo
-                    </label>
+                  <IonButton slot="icon-only" shape="round" color={suspicious ? "primary" : "medium" } onClick={() => { setSuspicious(!suspicious)}} >
+                    <IonIcon src="/svgs/wewatch/suspicious.svg" />
+                  </IonButton>
 
-                      <span className="isolate inline-flex rounded-md shadow-sm">
-                        <button
-                          onClick={takePicture}
-                          type="button"
-                          className="relative inline-flex items-center rounded-l-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
-                        >
-                          <IonIcon icon={cameraOutline} slot="start" /> Camera
-                        </button>
-                        <button
-                          onClick={triggerUploadFiles}
-                          type="button"
-                          className="relative -ml-px inline-flex items-center rounded-r-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
-                        >
-                          <IonIcon icon={attachOutline} slot="start" /> Upload
-                          <input 
-                            ref={fileUploadRef} 
-                            id="file"
-                            accept="image/*"
-                            name="file-upload" 
-                            type="file" 
-                            onChange={handleFileChange}
-                            multiple={false}
-                            className="sr-only" />
-                        </button>
-                      </span>
+                  <IonButton slot="icon-only" shape="round" color={unfamiliar ? "primary" : "medium" } onClick={() => { setUnfamiliar(!unfamiliar)}} >
+                    <IonIcon src="/svgs/wewatch/unfamiliar-person.svg" />
+                  </IonButton>
+                </div>
 
-                    <IonList>
-                      {files.map((s: any) => (
-                
-                        <div key={s?.id}>
-                          {s.id}
-                          <div style={{width : 200, margin : 'auto'}}>
-                            <RenderImage file={s} />
-                          </div>
-                        </div>
-                      ))}
-                    </IonList>
+                <div className="sm:col-span-6">
+                  <label htmlFor="about" className="block text-sm font-medium text-gray-700">
+                    What happening
+                  </label>
+                  <div className="mt-1">
+                    <textarea
+                      id="about"
+                      name="about"
+                      rows={3}
+                      className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                      defaultValue={''}
+                      onChange={handleAboutChange}
+                    />
+                  </div>
+                  <p className="mt-2 text-sm text-gray-500">Write a few sentences about the incident.</p>
+                </div>
+
+                <div className="sm:col-span-6">
+                  <label htmlFor="about" className="block text-sm font-medium text-gray-700">
+                    When (approximately)?
+                  </label>
+                  <IonDatetimeButton datetime="datetime"></IonDatetimeButton>
+    
+                  <IonModal keepContentsMounted={true}>
+                    <IonDatetime 
+                      id="datetime" 
+                      minuteValues="0,15,30,45"
+                      showDefaultButtons={true}
+                      value={whenStr}
+                      onIonChange={handleNewIncidentDate}
+                      onIonCancel={handleCancelIncidentDate}
+                      ></IonDatetime>
+                  </IonModal>
+                </div> 
+
+                <div className="sm:col-span-6">
+                  <label htmlFor="about" className="block text-sm font-medium text-gray-700">
+                    Where (approximately)?
+                  </label>
+
+                  <IonItem color={"light"} className="my-8">
+                    <IonIcon slot="end" icon={locate} />
+                    <IonLabel className="ion-text-wrap">
+                      Longitude: {lng} <br/>
+                      Latitude: {lat} <br/>
+                      {distanceToIncident > 0 &&
+                        "Distance (meters): "+ distanceToIncident
+                      }
+                    </IonLabel>
+                  </IonItem>
+
+                  <div className="area-map-section h-64 my-10">
+                    <div ref={mapContainer} className="w-full h-64"/> 
                   </div>
                 </div>
+
+                <div className="sm:col-span-6">
+                  <label htmlFor="cover-photo" className="block text-sm font-medium text-gray-700">
+                    Photos?
+                  </label>
+
+                  <span className="isolate inline-flex rounded-md shadow-sm">
+                    <button
+                      onClick={takePicture}
+                      type="button"
+                      className="relative inline-flex items-center rounded-l-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                    >
+                      <IonIcon icon={cameraOutline} slot="start" /> Camera
+                    </button>
+                    <button
+                      onClick={triggerUploadFiles}
+                      type="button"
+                      className="relative -ml-px inline-flex items-center rounded-r-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                    >
+                      <IonIcon icon={attachOutline} slot="start" /> Upload
+                      <input 
+                        ref={fileUploadRef} 
+                        id="file"
+                        accept="image/*"
+                        name="file-upload" 
+                        type="file" 
+                        onChange={handleFileChange}
+                        multiple={false}
+                        className="sr-only" />
+                    </button>
+                  </span>
+                </div>
+
+                <div className="sm:col-span-6">
+                  <IonList>
+                    {files.map((s: any) => (
+              
+                      <div key={s?.id}>
+                        {s.id}
+                        <div style={{width : 200, margin : 'auto'}}>
+                          <RenderImage file={s} />
+                        </div>
+                      </div>
+                    ))}
+                  </IonList>
+                </div>
+
               </div>
             </div>
 
@@ -604,7 +635,7 @@ const NewDetail = () => {
           </form>
 
         }
-
+00
         <IonToast
             isOpen={isToastOpen}
             message={toastMessage}
