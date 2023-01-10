@@ -76,7 +76,6 @@ export const Signup = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
       // })
 
       if (error) {
-        debugger;
         if (error?.name == "AuthApiError"){
           if (error?.message == "Phone not confirmed"){
             // verify phone

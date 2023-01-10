@@ -5,6 +5,7 @@ create table files (
 
   title text,
   private boolean,
+  visible boolean default true,
   file_name text,
   object_type text,
   object_id text,

@@ -78,7 +78,7 @@ const Map = ({history}) => {
     const query = supabase
       .rpc('geo_incidents', { x: lng, y: lat, distance: distance })
 
-
+    query.eq('visible', true);
     if (stolenvehicleFilter){
       query.eq('stolenvehicle', true);
     }

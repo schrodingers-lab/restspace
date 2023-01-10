@@ -27,8 +27,9 @@ import * as mapboxgl from 'mapbox-gl';
 const mapboxglAccessToken = 'pk.eyJ1IjoiZGFycmVuLXByb3JvdXRlIiwiYSI6ImNsM2M2cjRhOTAxd3YzY3JvYjl1OXQ3Y3oifQ.lerkA3MPLmhRgla3jQnCGg';
 
 
-export const IncidentDetail = ({incident}) => {
-  const img0 = incident?.cover_image_url || "https://app.wewatchapp.com/imgs/default_cover_image.png"; //default img
+export const IncidentDetail = ({incident , files}) => {
+  
+  const img0 = incident?.cover_image_url || "" // "https://app.wewatchapp.com/imgs/default_cover_image.png"; //default img
 
   const mapContainer = useRef<any>(null);
   const map = useRef<any>(null);
@@ -166,9 +167,13 @@ export const IncidentDetail = ({incident}) => {
           <IonIcon slot="start" icon={share} />
           Maps
         </IonButton>
+
+      </div>
+
+      <div className="px-4 py-4 bg-white rounded-b-xl dark:bg-gray-900">
         
         <div className="my-4 mx-auto mt-10 w-full" >
-          <IncidentCarousel images={incident.images} />
+          <IncidentCarousel files={files} />
         </div>
 
         

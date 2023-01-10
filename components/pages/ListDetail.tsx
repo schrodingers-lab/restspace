@@ -23,8 +23,6 @@ import { notificationsOutline } from 'ionicons/icons';
 import { search, filter, bookmark, bookmarkOutline } from 'ionicons/icons';
 import { setErrorHandler } from 'ionicons/dist/types/stencil-public-runtime';
 
-// Create a single supabase client for interacting with your database 
-// const supabase = createClient('https://raxdwowfheboqizcxlur.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJheGR3b3dmaGVib3FpemN4bHVyIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzI4OTgyNjEsImV4cCI6MTk4ODQ3NDI2MX0.uXdXBjH92OIJgIidgvP-iRHCNW3clm2D7fWVniCX5dg');
 
 const ListDetail = ({ match }) => {
   const {
@@ -39,6 +37,7 @@ const ListDetail = ({ match }) => {
 
   const [error, setError] = useState("");
   const user = useUser();
+  const [files, setFiles] = useState([]);
 
 
   useEffect(() => {
@@ -75,9 +74,32 @@ const ListDetail = ({ match }) => {
     }
   }, [listId, user]);
 
-  // useEffect(() => {
-  //   selectedIncident
-  // }, [selectedIncident])
+  useEffect(() => {
+    // Only run query once user is logged in.
+    const loadData = async () =>{
+      setError("");
+      if (user?.id){
+  
+        const { data, error } = await supabase.from('files')
+        .select('*')
+        .eq('object_type', 'incidents')
+        .eq('object_id', ""+listId)
+        .eq('visible', true);
+        
+        if(error){
+          setError(error.message)
+        }else {
+          setFiles(data);
+        }
+      }
+    }
+
+    if (user) {
+      loadData();
+    } else{
+      setFiles(undefined);
+    }
+  }, [user, user?.id, listId])
 
   const toggleBookmark = async() => {
     setError('');
@@ -158,7 +180,7 @@ const ListDetail = ({ match }) => {
           {error}
         </div>
         
-        {selectedIncident && <IncidentDetail incident={selectedIncident} />}
+        {selectedIncident && <IncidentDetail incident={selectedIncident}  files={files} />}
       </IonContent>
     </IonPage>
   );

@@ -17,25 +17,20 @@ import {
 } from '@ionic/react';
 import React from 'react';
 
-export const IncidentCarousel = (incident) => {
-  // Blank carousel
-  if(incident?.images == undefined || incident?.images == null || incident?.images?.length == 0) return <></>;
-  
-  let incidentImages;
-  try {
-    incidentImages = JSON.parse(incident?.images);
-  } catch (error) {
-    console.error("failed to load incident images", incident, error);
+export const IncidentCarousel = ({files}) => {
+
+  const fileUrl = (file) => {
+    return "https://raxdwowfheboqizcxlur.supabase.co"+ file.file_name;
   }
-  
+
   return (
     <div className="w-full mx-auto" >
-      {/* { incidentImages ? <IonTitle size="large">Photos</IonTitle> : <IonTitle size="large">No Photos</IonTitle>} */}
+      { files && files?.length > 0 ? <IonTitle size="large">Photos</IonTitle> : <IonTitle size="large">No Photos</IonTitle>}
       {
-        incidentImages?.map((image, index) => {
+       files && files?.map((file, index) => {
           return (
             <div key={index} className="w-full my-2 mx-auto">
-              <img src={image} alt="rest area image" />
+              <img src={fileUrl(file)} alt="Incident Photo" />
             </div>
           );
         })

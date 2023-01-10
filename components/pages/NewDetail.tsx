@@ -120,7 +120,6 @@ const NewDetail = ({history}) => {
   }
 
   const updateFileOwnership = async (file, newId) => {
-    debugger;
     const res =  await supabase.from('files')
       .update({object_type:'incidents', object_id: ""+ newId, user_id: authUser.id}).eq('id', file.id);
 
@@ -131,8 +130,6 @@ const NewDetail = ({history}) => {
     event.preventDefault();
     setError('');
 
-    //TODO
-    debugger;
     const insertData = createNewIncident();
     const {data, error} = await supabase.from('incidents')
     .insert(insertData).select();
@@ -175,6 +172,12 @@ const NewDetail = ({history}) => {
   }
 
   const createNewIncident = () => {
+
+    let cover_image_url;
+    if (files && files.length > 0){
+      cover_image_url = fileUrl(files[0]);
+    }
+
     let incident = {
       name: name,
       about: about,
@@ -199,9 +202,10 @@ const NewDetail = ({history}) => {
         coordinates: [lng,lat]
       },
       longitude: lng,
-      latitude:lat
+      latitude:lat,
+      cover_image_url: cover_image_url
     };
-
+    
     return incident;
   }
 
@@ -365,8 +369,14 @@ const NewDetail = ({history}) => {
     }
   };
 
+
+
+  const fileUrl = (file) => {
+    return "https://raxdwowfheboqizcxlur.supabase.co"+ file.file_name;
+  }
+
   const RenderImage: React.FC<any> = ({file}) => {
-    return <IonImg src={"https://raxdwowfheboqizcxlur.supabase.co"+ file.file_name} />;
+    return <IonImg src={fileUrl(file)} />;
   };
 
   const uploadImage = async (path: string, format: string) => {
@@ -635,7 +645,6 @@ const NewDetail = ({history}) => {
                     {files.map((s: any) => (
               
                       <div key={s?.id}>
-                        {s.id}
                         <div style={{width : 200, margin : 'auto'}}>
                           <RenderImage file={s} />
                         </div>

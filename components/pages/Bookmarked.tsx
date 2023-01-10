@@ -45,6 +45,7 @@ const Bookmarked = ({history}) => {
         const { data, error } = await supabaseClient.from('incidents')
         .select('*, bookmarks!inner(*)')
         .eq('bookmarks.user_id', user?.id)
+        .eq('visible', true)
         
         if(error){
           setError(error.message)
