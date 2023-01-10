@@ -97,23 +97,7 @@ export const IncidentDetail = ({incident}) => {
         <h2 className="font-bold text-2xl text-gray-800 dark:text-gray-100">#{incident.id} - {incident.name}</h2>
         <h4 className="font-bold py-0 text-s text-gray-400 dark:text-gray-500">{incident.about}</h4>
         
-        <CopyToClipboard 
-            text={`${incident.latitude},${incident.longitude}`}
-            onCopy={
-              ()=>{
-                setToastMessage("Copied latitude, longitude to clipboard!");
-                setIsToastOpen(true);
-              }
-            }>
-          <IonItem color={"light"} className="my-8">
-            <IonIcon slot="end" icon={locate} />
-            <IonLabel className="ion-text-wrap">
-              Longitude: {incident.longitude} <br/>
-              Latitude: {incident.latitude}
-            </IonLabel>
-            
-          </IonItem>
-        </CopyToClipboard>
+        
 
         <div className="flex items-center space-x-4">
           <h3 className="text-gray-500 dark:text-gray-200 m-l-8 text-md font-medium">{incident.creator}</h3>
@@ -159,6 +143,24 @@ export const IncidentDetail = ({incident}) => {
         <div className="area-map-section h-64 my-10">
           <div ref={mapContainer} className="w-full h-64"/> 
         </div>
+
+        <CopyToClipboard 
+            text={`${incident.latitude},${incident.longitude}`}
+            onCopy={
+              ()=>{
+                setToastMessage("Copied latitude, longitude to clipboard!");
+                setIsToastOpen(true);
+              }
+            }>
+          <IonItem color={"light"} className="my-8">
+            <IonIcon slot="end" icon={locate} />
+            <IonLabel className="ion-text-wrap">
+              Longitude: {incident.longitude} <br/>
+              Latitude: {incident.latitude}
+            </IonLabel>
+            
+          </IonItem>
+        </CopyToClipboard>
 
         <IonButton onClick={() => externalMaps()} className="float-right text-sm">
           <IonIcon slot="start" icon={share} />

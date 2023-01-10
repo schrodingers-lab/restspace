@@ -71,7 +71,8 @@ const NewDetail = ({history}) => {
   const [isToastOpen, setIsToastOpen] = useState<boolean>(false);
   const [toastMessage, setToastMessage] = useState<string | undefined>();
 
-  const user = useUser();
+  const [user, setUser] = useState<any>();
+  const authUser = useUser();
 
   const handleName = (event) => {
     setName(event.target.value);
@@ -118,12 +119,20 @@ const NewDetail = ({history}) => {
     }).select();
   }
 
+  const updateFileOwnership = async (file, newId) => {
+    debugger;
+    const res =  await supabase.from('files')
+      .update({object_type:'incidents', object_id: ""+ newId, user_id: authUser.id}).eq('id', file.id);
+
+    return res;
+  }
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     setError('');
-    
+
     //TODO
-    // debugger;
+    debugger;
     const insertData = createNewIncident();
     const {data, error} = await supabase.from('incidents')
     .insert(insertData).select();
@@ -134,6 +143,15 @@ const NewDetail = ({history}) => {
       //TODO alert user to creation
       console.log("created - ",data)
       const newId = data[0].id;
+
+      files.forEach(async (file) => {
+        console.log('update file',file);
+        const fileRes = await updateFileOwnership(file, newId);
+        if (fileRes?.error){
+          console.error("failed to update files")
+        }
+      })
+   
       setToastMessage("Created incident #"+newId);
       setIsToastOpen(true);
       history.push('/tabs/lists/'+newId);
@@ -160,8 +178,8 @@ const NewDetail = ({history}) => {
     let incident = {
       name: name,
       about: about,
-      creator: user.id,
-      user_id: user.id,
+      creator: authUser.id,
+      user_id: authUser.id,
 
       stolenvehicle: stolenvehicle,
       breakenter: breakenter,
@@ -208,7 +226,21 @@ const NewDetail = ({history}) => {
     const dateStr = format(zonedTime,  "yyyy-MM-dd'T'HH:mm:ss.SSSxxx", { timeZone: userTimeZone });
     console.log(dateStr);
     setWhenStr(dateStr); 
-  },[])
+  },[]);
+
+  useEffect(() => {
+    const fetchData = async() => {
+      // You can await here
+      const { data, error } = await supabase
+        .from('users')
+        .select('*')
+        .eq('id', authUser.id)
+      if(data && data.length > 0){
+        setUser(data[0]);
+     }
+    }
+    fetchData();
+  }, [authUser]);
 
   useEffect(() => {
     if(userLocation && currentLocation){
@@ -352,7 +384,7 @@ const NewDetail = ({history}) => {
     if (error) alert(error?.message);
 
     const fileurl =  "/storage/v1/object/public/public/"+filename;
-    const newFile= await createFileRecord(user.id , filename, fileurl);
+    const newFile= await createFileRecord(authUser.id , filename, fileurl);
     if (newFile.data){
       if(newFile.data[0]){
         setFiles(previous => [...previous, newFile.data[0]]);
@@ -384,7 +416,7 @@ const NewDetail = ({history}) => {
     if (error) alert(error?.message);
     // debugger;
     const fileurl =  "/storage/v1/object/public/public/"+newFileKey
-    const newFile = await createFileRecord(user.id , filename, fileurl);
+    const newFile = await createFileRecord(authUser.id , filename, fileurl);
     if (newFile.data){
       if(newFile.data[0]){
         setFiles(previous => [...previous, newFile.data[0]]);
@@ -407,7 +439,7 @@ const NewDetail = ({history}) => {
       console.log('webpath',cameraResult?.webPath)
 
       const uploadResult = await uploadImage(path as string, format);
-      setPublicImages(previous => [...previous, uploadResult]);
+      setFiles(previous => [...previous, uploadResult]);
       return true;
     } catch (e: any) {
       console.error(e);
@@ -434,9 +466,9 @@ const NewDetail = ({history}) => {
           {error}
         </div>
         
-        {(!user ) && <NoUserCard/>}
+        {(!authUser ) && <NoUserCard/>}
 
-        { user && 
+        { authUser && 
           <form className="space-y-8 divide-y divide-gray-200" onSubmit={handleSubmit}>
             <div className="space-y-8 divide-y divide-gray-200">
               <div className='header-section'>
@@ -635,7 +667,6 @@ const NewDetail = ({history}) => {
           </form>
 
         }
-00
         <IonToast
             isOpen={isToastOpen}
             message={toastMessage}
