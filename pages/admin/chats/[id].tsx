@@ -4,9 +4,9 @@ import { useRouter } from 'next/router'
 import { useContext, useEffect, useRef, useState } from 'react'
 import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react'
 import { addMessage, useStore } from '../../../store/chat'
-import Layout from '../../../components/chatter/Layout'
-import Message from '../../../components/chatter/Message'
-import MessageInput from '../../../components/chatter/MessageInput'
+import Layout from '../../../components/adminchat/Layout'
+import Message from '../../../components/adminchat/Message'
+import MessageInput from '../../../components/adminchat/MessageInput'
 import { handleClientScriptLoad } from 'next/script'
 
 const ChatsPage = (props) => {

@@ -1,7 +1,7 @@
 import { Redirect, Route } from 'react-router-dom';
 import { IonRouterOutlet, IonTabs, IonTabBar, IonTabButton, IonIcon, IonLabel, IonToast, IonContent, IonPopover } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { cog, bookmark, map, list, add, home  } from 'ionicons/icons';
+import { person, bookmark, map, chatbubbles, add, home  } from 'ionicons/icons';
 import Bookmarked from './Bookmarked';
 import Map from './Map';
 import Lists from './Lists';
@@ -16,7 +16,8 @@ import UpdatePasswordPage from './UpdatePassword';
 import TourPage from './Tour';
 import NewDetail from './NewDetail';
 import Home from './Home';
-import { useSupabaseClient } from '@supabase/auth-helpers-react';
+import ChatsPage from './Chats';
+import ProfilePage from './Profile';
 
 const Tabs = () => {
 
@@ -37,31 +38,34 @@ const Tabs = () => {
         <Route path="/tabs/home" component={Home} exact={true} />
         <Route path="/tabs/map" component={Map} exact={true} />
         <Route path="/tabs/lists" component={Lists} exact={true} />
+        <Route path="/tabs/chats" component={ChatsPage} exact={true} />
+        <Route path="/tabs/profile" component={ProfilePage} exact={true} />
         <Route path="/tabs/bookmarked" component={Bookmarked} exact={true} />
         <Route path="/tabs/lists/:listId" component={ListDetail} exact={true} />
       
         <Route path="/tabs" render={() => <Redirect to="/tabs/home" />} exact={true} />
       </IonRouterOutlet>
+      
       <IonTabBar slot="bottom">
         <IonTabButton tab="tab1" href="/tabs/home">
           <IonIcon icon={home} />
           <IonLabel>Home</IonLabel>
         </IonTabButton>
-        <IonTabButton tab="tab2" href="/tabs/map">
-          <IonIcon icon={map} />
-          <IonLabel>Map</IonLabel>
+        <IonTabButton tab="tab2" href="/tabs/chats">
+          <IonIcon icon={chatbubbles} />
+          <IonLabel>Messages</IonLabel>
         </IonTabButton>
         <IonTabButton tab="tab3" href="/tabs/new">
           <IonIcon icon={add} size="large"/>
           <IonLabel></IonLabel>
         </IonTabButton>
-         <IonTabButton tab="tab4" href="/tabs/bookmarked">
-          <IonIcon icon={bookmark} />
-          <IonLabel>Bookmarks</IonLabel>
+         <IonTabButton tab="tab4" href="/tabs/map">
+          <IonIcon icon={map} />
+          <IonLabel>Map</IonLabel>
         </IonTabButton>
-        <IonTabButton tab="tab5" href="/tabs/settings">
-          <IonIcon icon={cog} />
-          <IonLabel>Settings</IonLabel>
+        <IonTabButton tab="tab5" href="/tabs/profile">
+          <IonIcon icon={person} />
+          <IonLabel>Profile</IonLabel>
         </IonTabButton>
       </IonTabBar>
     </IonTabs>

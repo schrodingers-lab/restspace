@@ -14,7 +14,7 @@ import {
   IonRefresherContent,
   RefresherEventDetail,
 } from '@ionic/react';
-import Notifications from './Notifications';
+import Notifications from '../modals/Notifications';
 import { useEffect, useState } from 'react';
 import { notificationsOutline } from 'ionicons/icons';
 import { getIncidents } from '../../store/selectors';

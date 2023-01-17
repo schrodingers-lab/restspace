@@ -17,7 +17,7 @@ import {
   IonFabList
 } from '@ionic/react';
 import { search, filter, bookmark, locate, trendingUpOutline } from 'ionicons/icons';
-import Notifications from './Notifications';
+import Notifications from '../modals/Notifications';
 import React, {useRef, useEffect, useState } from 'react';
 import ReactDOM from  'react-dom';
 import { notificationsOutline } from 'ionicons/icons';
