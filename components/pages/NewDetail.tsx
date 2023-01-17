@@ -82,7 +82,7 @@ const NewDetail = ({history}) => {
   }
 
   const handleNewIncidentDate = (ionDatetimeEvent) => {
-    // debugger;
+    
     const date = new Date(ionDatetimeEvent.detail.value);
     const zonedTime = utcToZonedTime(date, userTimeZone);
     // Create a formatted string from the zoned time
@@ -92,7 +92,7 @@ const NewDetail = ({history}) => {
   }
 
   const handleCancelIncidentDate = (ionDatetimeEvent) => {
-    // debugger;
+    
     console.log('cancelled')
   }
 
@@ -223,7 +223,7 @@ const NewDetail = ({history}) => {
       }
       return date
     }
-    // debugger;
+    
     const selectedDate = getRoundedTime();
     const zonedTime = utcToZonedTime(selectedDate, userTimeZone);
     // Create a formatted string from the zoned time
@@ -294,7 +294,7 @@ const NewDetail = ({history}) => {
   },[map, currentLocation])
 
   useEffect(() => {
-    // debugger;
+    
     if (map.current) return; // initialize map only once
     if (!mapContainer.current) return; // initialize map only once container is there
     map.current = new mapboxgl.Map({
@@ -424,7 +424,7 @@ const NewDetail = ({history}) => {
         upsert: false,
       });
     if (error) alert(error?.message);
-    // debugger;
+    
     const fileurl =  "/storage/v1/object/public/public/"+newFileKey
     const newFile = await createFileRecord(authUser.id , filename, fileurl);
     if (newFile.data){
@@ -437,7 +437,7 @@ const NewDetail = ({history}) => {
   };
 
   const takePicture = async () => {
-    // debugger;
+    
     try {
       const cameraResult = await Camera.getPhoto({
         quality: 90,
@@ -649,7 +649,7 @@ const NewDetail = ({history}) => {
                           <RenderImage file={s} />
                         </div>
                       </div>
-                    ))}
+                    ))}00
                   </IonList>
                 </div>
 

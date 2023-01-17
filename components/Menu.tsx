@@ -12,9 +12,13 @@ import {
   IonToolbar,
 } from '@ionic/react';
 import { useEffect, useState } from 'react';
-import { cog, bookmark, map,home, list, newspaper, person, earthOutline } from 'ionicons/icons';
+import { cog, bookmark, map,home, list, newspaper, person, earthOutline, construct } from 'ionicons/icons';
 
 import { useUser, useSupabaseClient } from '@supabase/auth-helpers-react'
+import { useRouter } from 'next/router';
+const isAdmin = true;
+
+
 
 const pages = [
   {
@@ -59,6 +63,11 @@ const Menu = () => {
   const [isDark, setIsDark] = useState(false);
   const user = useUser();
   const supabase = useSupabaseClient();
+
+  const router = useRouter();
+  const goToAdmin = () => {
+    router.push('/admin/dashboard');
+  }
 
   const signOut = async() => {
     const { error } = await supabase.auth.signOut()
@@ -118,6 +127,15 @@ const Menu = () => {
               </IonItem>
             </IonMenuToggle>
           ))}
+
+          { isAdmin &&
+            <IonMenuToggle autoHide={false} key='admin'>
+              <IonItem onClick={goToAdmin} detail={false} lines="none">
+                <IonIcon icon={construct} slot="start" />
+                <IonLabel>Admin</IonLabel>
+              </IonItem>
+            </IonMenuToggle>
+          }
 
         </IonList>
       </IonContent>
