@@ -18,7 +18,7 @@ import {
 } from '@ionic/react';
 
 const ListEntry = ({ list, ...props }) => (
-  <IonItem routerLink={`/tabs/lists/${list.id}`} className="list-entry">
+  <IonItem routerLink={`/tabs/incidents/${list.id}`} className="list-entry">
     <IonLabel>#{list.id} - {list.name}</IonLabel>
 
     <IonThumbnail slot="end">
@@ -28,15 +28,15 @@ const ListEntry = ({ list, ...props }) => (
 );
 
 const AllLists = () => {
-  let lists = Store.useState(selectors.getIncidents);
-  console.log("lists",lists);
+  let incidents = Store.useState(selectors.getIncidents);
+  console.log("incidents",incidents);
   return (
     <>
-      {lists?.length > 0 && lists.map((list, i) => (
+      {incidents?.length > 0 && incidents.map((list, i) => (
         <ListEntry list={list} key={i} />
       ))}
 
-      {lists?.length === 0 && 
+      {incidents?.length === 0 && 
         <IonCard>
           <IonItem>
             <IonLabel>No Rest Areas</IonLabel>

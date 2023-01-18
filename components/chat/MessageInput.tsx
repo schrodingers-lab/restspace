@@ -5,7 +5,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function Example() {
+export default function MessageInput({chatId}) {
 
   return (
     <div className="flex items-start space-x-4">

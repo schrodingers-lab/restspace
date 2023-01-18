@@ -43,7 +43,7 @@ const ChatsPage = (props) => {
   }, [chats, chatId]);
 
   const viewIncident = (incidentId) => {
-    router.push('/tabs/lists/'+incidentId);
+    window.open('/tabs/incidents/'+incidentId, '_blank');
   }
   
   // Render the chats and messages

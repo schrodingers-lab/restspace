@@ -96,8 +96,8 @@ export const notifications1 = [
   { title: 'Welcome to the app!', when: '1 month' },
 ];
 
-// Some fake lists
-export const lists = [
+// Some fake incidents
+export const incidents = [
   {
     name: 'Groceries',
     id: 'groceries',

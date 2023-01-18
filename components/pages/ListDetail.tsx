@@ -155,7 +155,7 @@ const ListDetail = ({ match }) => {
       <IonHeader>
         <IonToolbar>
           <IonButtons slot="start">
-            <IonBackButton defaultHref="/tabs/lists" />
+            <IonBackButton defaultHref="/tabs/incidents" />
           </IonButtons>
           <IonTitle>#{selectedIncident?.id} - {selectedIncident?.name}</IonTitle>
 

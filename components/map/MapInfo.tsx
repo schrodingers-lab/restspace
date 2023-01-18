@@ -30,7 +30,7 @@ function MapInfo(props) {
   }
 
   const handleClick = () => {
-    history.push(`/tabs/lists/${incident.id}`);
+    history.push(`/tabs/incidents/${incident.id}`);
   }
 
   return (

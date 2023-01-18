@@ -151,7 +151,7 @@ const NewDetail = ({history}) => {
    
       setToastMessage("Created incident #"+newId);
       setIsToastOpen(true);
-      history.push('/tabs/lists/'+newId);
+      history.push('/tabs/incidents/'+newId);
     }
   }
 

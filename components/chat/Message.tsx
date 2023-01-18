@@ -1,0 +1,33 @@
+
+
+import { IonIcon } from '@ionic/react';
+import { useUser } from '@supabase/auth-helpers-react'
+import UserProfileAvatar from '../ui/UserProfileAvatar';
+import { eyeOff, eye, trash } from 'ionicons/icons';
+import { formatDistanceToNow } from 'date-fns';
+
+export const Message = ({ message }) => {
+  const user = useUser();
+
+  if (!message.id) return <></>
+
+  const isMyMessage = () => {
+    return user?.id == message?.user_id
+  }
+  let bgColor = isMyMessage ? 'bg-green': 'bg-grey';
+  
+  return (
+    <div key={message.id} className="flex space-x-3 py-4 m-4 p-4 ${bgColor}">
+        <div className="flex-shrink-0">
+            <UserProfileAvatar userProfile={message?.author} /><br/>
+            {message?.author?.username}<br/>
+        </div>
+        <div className="min-w-0 flex-1">
+            <p className="text-sm text-gray-800">{message.text}</p>
+            <p className="text-sm text-white">{formatDistanceToNow(new Date(message.inserted_at),{addSuffix: true})}</p>
+        </div>    
+    </div>
+  )
+}
+
+export default Message;

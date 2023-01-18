@@ -18,6 +18,7 @@ import NewDetail from './NewDetail';
 import Home from './Home';
 import ChatsPage from './Chats';
 import ProfilePage from './Profile';
+import ChatDetail from './ChatDetail';
 
 const Tabs = () => {
 
@@ -37,15 +38,16 @@ const Tabs = () => {
         <Route path="/tabs/new" component={NewDetail} exact={true} />
         <Route path="/tabs/home" component={Home} exact={true} />
         <Route path="/tabs/map" component={Map} exact={true} />
-        <Route path="/tabs/lists" component={Lists} exact={true} />
+        <Route path="/tabs/incidents" component={Lists} exact={true} />
+        <Route path="/tabs/incidents/:incidentId" component={ListDetail} exact={true} />
         <Route path="/tabs/chats" component={ChatsPage} exact={true} />
+        <Route path="/tabs/chats/:chatId" component={ChatDetail} exact={true} />
         <Route path="/tabs/profile" component={ProfilePage} exact={true} />
         <Route path="/tabs/bookmarked" component={Bookmarked} exact={true} />
-        <Route path="/tabs/lists/:listId" component={ListDetail} exact={true} />
       
         <Route path="/tabs" render={() => <Redirect to="/tabs/home" />} exact={true} />
       </IonRouterOutlet>
-      
+
       <IonTabBar slot="bottom">
         <IonTabButton tab="tab1" href="/tabs/home">
           <IonIcon icon={home} />

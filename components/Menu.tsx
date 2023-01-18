@@ -33,7 +33,7 @@ const pages = [
   {
     title: 'Lists',
     icon: list,
-    url: '/tabs/lists',
+    url: '/tabs/incidents',
   },
   {
     title: 'Bookmarked',

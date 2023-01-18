@@ -70,7 +70,7 @@ const Bookmarked = ({history}) => {
 
   const goToIncident = (incident) => {
     if (incident && incident.id){
-      history.push('/tabs/lists/'+incident?.id);
+      history.push('/tabs/incidents/'+incident?.id);
     }
   }
 
