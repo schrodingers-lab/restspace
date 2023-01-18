@@ -26,7 +26,7 @@ import { setErrorHandler } from 'ionicons/dist/types/stencil-public-runtime';
 
 const ListDetail = ({ match }) => {
   const {
-    params: { listId },
+    params: { incidentId },
   } = match;
   const supabase = useSupabaseClient();
   const [selectedIncident, setSelectedIncident] = useState<any>(null);
@@ -46,13 +46,13 @@ const ListDetail = ({ match }) => {
       const { data, error } = await supabase
         .from('incidents')
         .select('*')
-        .eq('id', listId)
+        .eq('id', incidentId)
       if(data && data.length > 0){
         setSelectedIncident(data[0]);
      }
     }
     fetchData();
-  }, [listId]);
+  }, [incidentId]);
 
   useEffect(() => {
     setIsBookmarked(false);
@@ -61,18 +61,18 @@ const ListDetail = ({ match }) => {
       const { data, error } = await supabase
         .from('bookmarks')
         .select('*')
-        .eq('incident_id', listId)
+        .eq('incident_id', incidentId)
         .eq('user_id', user.id)
 
-      console.log("retrieve bookmark", listId, user?.id, data, error)
+      console.log("retrieve bookmark", incidentId, user?.id, data, error)
       if(data && data.length > 0){
         setIsBookmarked(true)
      }
     }
-    if (listId && user?.id){
+    if (incidentId && user?.id){
       fetchData();
     }
-  }, [listId, user]);
+  }, [incidentId, user]);
 
   useEffect(() => {
     // Only run query once user is logged in.
@@ -83,7 +83,7 @@ const ListDetail = ({ match }) => {
         const { data, error } = await supabase.from('files')
         .select('*')
         .eq('object_type', 'incidents')
-        .eq('object_id', ""+listId)
+        .eq('object_id', ""+incidentId)
         .eq('visible', true);
         
         if(error){
@@ -99,7 +99,7 @@ const ListDetail = ({ match }) => {
     } else{
       setFiles(undefined);
     }
-  }, [user, user?.id, listId])
+  }, [user, user?.id, incidentId])
 
   const toggleBookmark = async() => {
     setError('');
@@ -108,10 +108,10 @@ const ListDetail = ({ match }) => {
       const { data, error } = await supabase
         .from('bookmarks')
         .delete()
-        .eq('incident_id', listId)
+        .eq('incident_id', incidentId)
         .eq('user_id', user.id);
 
-        console.log("remove bookmark", listId, user?.id, data, error)
+        console.log("remove bookmark", incidentId, user?.id, data, error)
         if (error){
           setError(error.message);
         } else {
@@ -128,9 +128,9 @@ const ListDetail = ({ match }) => {
 
       const { data, error } = await supabase
         .from('bookmarks')
-        .insert({ incident_id: listId, user_id: user.id });
+        .insert({ incident_id: incidentId, user_id: user.id });
 
-      console.log("create bookmark", listId, user?.id, data, error)
+      console.log("create bookmark", incidentId, user?.id, data, error)
       if (error){
         setError(error.message);
       } else {
@@ -139,7 +139,7 @@ const ListDetail = ({ match }) => {
       
     }
 
-    if (listId && user?.id){
+    if (incidentId && user?.id){
       
       if (isBookmarked){
         await removeBookmark();

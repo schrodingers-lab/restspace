@@ -16,19 +16,17 @@ import {
   import { getNotifications } from '../../store/selectors';
   
   import { close } from 'ionicons/icons';
-  import React from 'react';
+  import React, { useEffect, useState } from 'react';
   import Chats from '../chat/Chats';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import { useStore } from '../../store/chat';
+import { Chat } from '../chat/Chat';
   
 
   const ChatDetail = ({ match }) => {
     const {
       params: { chatId },
     } = match;
-    const supabase = useSupabaseClient();
-
-    const { chats, messages, userIds } = useStore({chatId})
     
     return (
       <IonPage>
@@ -43,7 +41,7 @@ import { useStore } from '../../store/chat';
               <IonTitle size="large">Chat</IonTitle>
             </IonToolbar>
           </IonHeader>
-            <Chat chat={/>
+            <Chat chatId={chatId}/>
         </IonContent>
       </IonPage>
     );
