@@ -1,34 +1,60 @@
-import { Fragment, useState } from 'react'
+import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react';
+import { Fragment, useRef, useState } from 'react'
+import { addMessage } from '../../store/chat';
+import { useStore } from '../../store/user';
+import UserProfileAvatar from '../ui/UserProfileAvatar';
 
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ')
-}
 
 export default function MessageInput({chatId}) {
+  
+  const {authUser } = useStore({});
+  const [messageText, setMessageText] = useState('')
+  const supabase = useSupabaseClient();
+  const messageTextArea = useRef<HTMLTextAreaElement>(null);
+
+  const sendMessage = () => {
+    if(messageText && messageText.length > 0) {
+      addMessage(messageText,chatId, authUser?.id, supabase)
+      setMessageText('');
+      if (messageTextArea.current){
+        // debugger;
+        messageTextArea.current.innerText = undefined;
+      }
+    }
+  }
+  
+  const submitOnEnter = (event) => {
+    // Watch for enter key
+    if (event.keyCode === 13) {
+      event.preventDefault();
+      sendMessage();
+    }
+  }
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    sendMessage();
+  }
 
   return (
-    <div className="flex items-start space-x-4">
-      <div className="flex-shrink-0">
-        <img
-          className="inline-block h-10 w-10 rounded-full"
-          src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-          alt=""
-        />
-      </div>
+    <div className="flex items-start space-x-4 mx-2 py-4">
       <div className="min-w-0 flex-1">
-        <form action="#" className="relative">
+        <form action="#" className="relative" onSubmit={handleSubmit}>
           <div className="overflow-hidden rounded-lg border border-gray-300 shadow-sm focus-within:border-indigo-500 focus-within:ring-1 focus-within:ring-indigo-500">
-            <label htmlFor="comment" className="sr-only">
-              Add your comment
+            <label htmlFor="message" className="sr-only">
+              Add your message
             </label>
             <textarea
-              rows={3}
-              name="comment"
-              id="comment"
+              rows={2}
+              name="message"
+              id="message"
+              ref={messageTextArea}
               className="block w-full resize-none border-0 py-3 focus:ring-0 sm:text-sm"
-              placeholder="Add your comment..."
-              defaultValue={''}
+              placeholder="Add your message..."
+              value={messageText}
+              onChange={(e) => setMessageText(e.target.value)}
+              onKeyDown={(e) => submitOnEnter(e)}
             />
 
             {/* Spacer element to match the height of the toolbar */}
@@ -42,16 +68,6 @@ export default function MessageInput({chatId}) {
 
           <div className="absolute inset-x-0 bottom-0 flex justify-between py-2 pl-3 pr-2">
             <div className="flex items-center space-x-5">
-              <div className="flex items-center">
-                <button
-                  type="button"
-                  className="-m-2.5 flex h-10 w-10 items-center justify-center rounded-full text-gray-400 hover:text-gray-500"
-                >
-                  {/* <PaperClipIcon className="h-5 w-5" aria-hidden="true" /> */}
-                  <span className="sr-only">Attach a file</span>
-                </button>
-              </div>
-
             </div>
             <div className="flex-shrink-0">
               <button

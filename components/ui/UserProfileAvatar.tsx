@@ -26,8 +26,13 @@ export const UserProfileAvatar = ({userProfile}) => {
                 </svg>
             </span>
         }
+
       </>
     )
   }
 
 export default UserProfileAvatar;
+
+
+
+

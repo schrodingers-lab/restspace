@@ -28,7 +28,7 @@ export default function Layout(props) {
   const newChat = async () => {
     const slug = prompt('Please enter your name')
     if (slug) {
-      addChat(slugify(slug), user.id, supabase)
+      addChat(slugify(slug), user.id, true, true, supabase)
     }
   }
 
@@ -56,7 +56,7 @@ export default function Layout(props) {
 
               onClick={() => newChat()}
             >
-              New Chat
+              New Public Chat
             </button>
           </div>
           <hr className="m-2" />

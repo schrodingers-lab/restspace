@@ -6,18 +6,17 @@ import { deleteMessage, hideMessage, unhideMessage } from '../../store/chat';
 import UserProfileAvatar from '../ui/UserProfileAvatar';
 import { eyeOff, eye, trash } from 'ionicons/icons';
 import { formatDistanceToNow } from 'date-fns';
+import UserProfile from '../modals/UserProfile';
+import { useState } from 'react';
 
 export const Message = ({ message, supabase }) => {
-  const user = useUser();
-
   if (!message.id) return <></>
   
   return (
-    <div key={message.id} className="flex space-x-3 py-4 bg-gray-400 m-4 p-4">
+    <div key={message.id} className="flex space-x-3 py-4 bg-gray-400 m-4 p-4 rounded-lg">
 
         <div className="flex-shrink-0">
             <UserProfileAvatar userProfile={message?.author} /><br/>
-            {message?.author?.username}<br/>
         </div>
 
         <div className="min-w-0 flex-1">

@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react'
  */
 export const useStore = (props) => {
   const [chats, setChats] = useState([])
+  const [publicChats, setPublicChats] = useState([])
   const [messages, setMessages] = useState([])
   const [userIds, setUserIds] = useState([])
   const [userProfiles, setUserProfiles] = useState(new Map())
@@ -57,7 +58,17 @@ export const useStore = (props) => {
     //   supabase.removeChannel('public:chats')
       supabase.removeAllChannels()
     }
-  }, [])
+  }, []);
+
+  // Update when the route changes
+  useEffect(() => {
+    if (chats) {
+      setPublicChats(chats.filter(chat => chat.public == true))
+    } else{
+      setPublicChats([]);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [chats])
 
   // Update when the route changes
   useEffect(() => {
@@ -141,6 +152,7 @@ export const useStore = (props) => {
     messages: messages.map((x) => ({ ...x, author: userProfiles?.get(x?.user_id) })),
     chats: chats !== null ? chats.sort((a, b) => a.slug.localeCompare(b.slug)) : [],
     userIds,
+    publicChats,
   }
 }
 
@@ -215,9 +227,9 @@ export const fetchMessages = async (chatId, setState, supabase) => {
  * @param {string} slug The chat name
  * @param {number} user_id The chat creator
  */
-export const addChat = async (slug, user_id, supabase) => {
+export const addChat = async (slug, user_id, isPublic, visible, supabase) => {
   try {
-    let { data } = await supabase.from('chats').insert([{ slug, user_id }]).select()
+    let { data } = await supabase.from('chats').insert([{ slug, user_id, public: isPublic, visible }]).select()
     return data
   } catch (error) {
     console.log('error', error)

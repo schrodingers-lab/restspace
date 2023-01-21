@@ -2,6 +2,7 @@
 create table public.users (
   id          uuid not null primary key, -- UUID from auth.users
   username    text,
+  about       text,
   avatar      text,
   address     text,
   suburb      text,

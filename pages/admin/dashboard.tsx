@@ -19,6 +19,13 @@ const DashboardPage = (props) => {
     router.push('/admin/chats/1');
   }
 
+
+  const goToAdminUsers = () => {
+    router.push('/admin/users');
+  }
+
+  
+
   // Render the chats and messages
   return (
     <div className="mx-auto pt-8 px-8" >
@@ -45,6 +52,31 @@ const DashboardPage = (props) => {
       <dl className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {/* First Admin Module */}
           <div
+            key='users'
+            className="relative overflow-hidden rounded-lg bg-white px-4 pt-5 pb-12 shadow sm:px-6 sm:pt-6"
+            onClick={goToAdminUsers}
+          >
+            <dt>
+              <div className="absolute rounded-md bg-indigo-500 p-3">
+                U
+              </div>
+              <p className="ml-16 truncate text-sm font-medium text-gray-500">Users</p>
+            </dt>
+            <dd className="ml-16 flex items-baseline pb-6 sm:pb-7">
+              <p className="text-2xl font-semibold text-gray-900">Manage Users</p>
+         
+              <div className="absolute inset-x-0 bottom-0 bg-gray-50 px-4 py-4 sm:px-6">
+                <div className="text-sm">
+                  <div className="font-medium text-indigo-600 hover:text-indigo-500">
+                    {' '}
+                    View all
+                  </div>
+                </div>
+              </div>
+            </dd>
+          </div>
+
+          <div
             key='chats'
             className="relative overflow-hidden rounded-lg bg-white px-4 pt-5 pb-12 shadow sm:px-6 sm:pt-6"
             onClick={goToAdminChat}
@@ -68,7 +100,6 @@ const DashboardPage = (props) => {
               </div>
             </dd>
           </div>
-
       </dl>
     </div>
   )

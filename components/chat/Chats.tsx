@@ -1,18 +1,21 @@
+import { IonItem } from "@ionic/react";
 import { useStore } from "../../store/chat";
 
 
   const ChatItem = ({ chat }) => (
-    <li key={chat.id} className="py-4">
+    <IonItem key={chat.id} className="py-4" routerLink={'/tabs/chats/'+chat.id} routerDirection="none" detail={false} lines="none">
     <div className="flex space-x-3">
      
       <div className="flex-1 space-y-1">
         <div className="flex items-center justify-between">
-          <h3 className="text-sm font-medium">{chat.slug}</h3>
+          <h3 className="text-sm font-medium"> #{chat.id} - {chat.slug}</h3>
           <p className="text-sm text-gray-500">{chat.time}</p>
         </div>
-        <p className="text-sm text-gray-500">
+        
+        {chat.object_id && <p className="text-sm text-gray-500">
           Incident #{chat.object_id}
-        </p>
+        </p>}
+
         <div className="flex -space-x-2 overflow-hidden">
           <img
             className="inline-block h-8 w-8 rounded-full ring-2 ring-white"
@@ -37,18 +40,18 @@ import { useStore } from "../../store/chat";
           </div>
       </div>
     </div>
-  </li>
+  </IonItem>
   );
   
   
   export default function Chats() {
 
-    const { chats } = useStore({})
+    const { publicChats } = useStore({})
 
     return (
       <div>
         <ul role="list" className="divide-y divide-gray-200">
-          {chats.map((chatItem) => (
+          {publicChats.map((chatItem) => (
             <ChatItem chat={chatItem} key={chatItem.id} />
           ))}
         </ul>

@@ -39,7 +39,7 @@ const AllLists = () => {
       {incidents?.length === 0 && 
         <IonCard>
           <IonItem>
-            <IonLabel>No Rest Areas</IonLabel>
+            <IonLabel>No Incidents Loaded</IonLabel>
           </IonItem>
 
           <IonCardContent>

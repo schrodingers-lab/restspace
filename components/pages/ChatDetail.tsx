@@ -11,6 +11,8 @@ import {
     IonNote,
     IonLabel,
     IonPage,
+    IonButtons,
+    IonBackButton,
   } from '@ionic/react';
   import Store from '../../store';
   import { getNotifications } from '../../store/selectors';
@@ -32,7 +34,10 @@ import { Chat } from '../chat/Chat';
       <IonPage>
         <IonHeader>
           <IonToolbar>
-            <IonTitle>Messages</IonTitle>
+            <IonButtons slot="start">
+              <IonBackButton defaultHref="/tabs/chats" />
+            </IonButtons>
+            <IonTitle>Messages - Chat #{chatId}</IonTitle>
           </IonToolbar>
         </IonHeader>
         <IonContent fullscreen>
