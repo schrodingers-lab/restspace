@@ -2,13 +2,14 @@ import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react'
 import { useState, useEffect } from 'react'
 
 /**
- * @param {number} userId the currently selected user
+ * @param {number} userId load user profile
+ * @param {array[number]} userIds load users profile
  */
 export const useStore = (props) => {
   const [userIds, setUserIds] = useState([])
   const [userProfiles, setUserProfiles] = useState(new Map())
-
   const [authUserProfile, setAuthUserProfile] = useState(undefined)
+
   const authUser = useUser();
   const supabase = useSupabaseClient();
 
@@ -37,7 +38,7 @@ export const useStore = (props) => {
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.userId])
+  }, [props.userId, supabase])
 
   useEffect( () => {
     const handleAsync = async () => {
@@ -47,38 +48,25 @@ export const useStore = (props) => {
       handleAsync();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.userIds])
+  }, [props.userIds, supabase])
 
 
   useEffect( () => {
     // load auth user profile
     const handleAsync = async () => {
-      return await fetchUser(authUser.id, (user) => userProfiles.set(authUser.id, user), supabase);
+      return await fetchUser(authUser.id, (userProfile) => setAuthUserProfile(userProfile), supabase);
     }
 
     // check if authuser and profile
-    if (authUser && userProfiles){
-      if (userProfiles.has(authUser.id)) {
-        // get from user loaded map
-        setAuthUserProfile(userProfiles.get(authUser.id));
-      } else {
-        // load from supabase
-        const authProfile = handleAsync();
-        setAuthUserProfile(authProfile);
-      }
+    if (authUser){
+      // load from supabase
+      handleAsync();
     } else{
       // clear profile
       setAuthUserProfile(undefined);
     }
-
-    // Mark the user loaded for next time.
-    if (authUser) {
-      if(!userIds.includes(authUser?.id)){
-        setUserIds([...userIds, authUser?.id]);
-      }
-    }
     
-  }, [authUser])
+  }, [authUser, supabase])
 
   
   return {
