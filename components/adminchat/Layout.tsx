@@ -28,7 +28,7 @@ export default function Layout(props) {
   const newChat = async () => {
     const slug = prompt('Please enter your name')
     if (slug) {
-      addChat(slugify(slug), user.id, true, true, supabase)
+      addChat(slugify(slug), user.id, true, true, null, null, supabase)
     }
   }
 

@@ -73,6 +73,7 @@ export const useStore = (props) => {
   // Update when the route changes
   useEffect(() => {
     if (props?.chatId > 0) {
+      setMessages([]);
       fetchMessages(props.chatId, (messages) => {
         setMessages(messages);
         const userIds = messages.map(message => message.user_id);
@@ -202,6 +203,12 @@ export const fetchUsers = async (userIds, setState, supabase) => {
   }
 }
 
+export const findObjectChat = async (object_type, object_id, setState, supabase) => {
+  const { data } = await supabase.from('chats').select(`id`).eq('object_type',object_type).eq('object_id',object_id)
+  if (setState && data && data.length > 0) setState(data[0].id)
+  return data
+}
+
 
 /**
  * Fetch all messages and their authors
@@ -227,9 +234,9 @@ export const fetchMessages = async (chatId, setState, supabase) => {
  * @param {string} slug The chat name
  * @param {number} user_id The chat creator
  */
-export const addChat = async (slug, user_id, isPublic, visible, supabase) => {
+export const addChat = async (slug, user_id, isPublic, visible, object_type, object_id, supabase) => {
   try {
-    let { data } = await supabase.from('chats').insert([{ slug, user_id, public: isPublic, visible }]).select()
+    let { data } = await supabase.from('chats').insert([{ slug, user_id, public: isPublic, visible, object_type, object_id }]).select()
     return data
   } catch (error) {
     console.log('error', error)

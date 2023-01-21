@@ -45,7 +45,7 @@ function MapInfo(props) {
           More
       </IonButton>
 
-      {!isVisible &&
+      {!isVisible && incident?.cover_image_url && 
       <IonButton onClick={() => handleImage()} >
         <IonIcon slot="start" icon={easel} />
         Image

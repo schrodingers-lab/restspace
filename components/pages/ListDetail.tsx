@@ -180,7 +180,7 @@ const ListDetail = ({ match }) => {
           {error}
         </div>
         
-        {selectedIncident && <IncidentDetail incident={selectedIncident}  files={files} />}
+        {selectedIncident && <IncidentDetail incident={selectedIncident}  files={files} supabase={supabase}/>}
       </IonContent>
     </IonPage>
   );

@@ -2,7 +2,7 @@ import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react'
 import { useState, useEffect } from 'react'
 
 /**
- * @param {number} chatId the currently selected Chat
+ * @param {number} userId the currently selected user
  */
 export const useStore = (props) => {
   const [userIds, setUserIds] = useState([])

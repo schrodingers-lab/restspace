@@ -16,6 +16,8 @@ import {
   IonContent,
   IonMenuButton,
   IonFabList,
+  IonSegment,
+  IonSegmentButton,
 } from '@ionic/react';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 
@@ -24,12 +26,14 @@ import React, { useRef, useEffect, useState } from 'react';
 
 // import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
 import * as mapboxgl from 'mapbox-gl'; 
+import { Chat } from '../chat/Chat';
+import { findObjectChat } from '../../store/chat';
 const mapboxglAccessToken = 'pk.eyJ1IjoiZGFycmVuLXByb3JvdXRlIiwiYSI6ImNsM2M2cjRhOTAxd3YzY3JvYjl1OXQ3Y3oifQ.lerkA3MPLmhRgla3jQnCGg';
 
 
-export const IncidentDetail = ({incident , files}) => {
+export const IncidentDetail = ({incident , files, supabase}) => {
   
-  const img0 = incident?.cover_image_url || "" // "https://app.wewatchapp.com/imgs/default_cover_image.png"; //default img
+  const img0 = incident?.cover_image_url || "/imgs/default_cover_image.png"; //default img
 
   const mapContainer = useRef<any>(null);
   const map = useRef<any>(null);
@@ -38,6 +42,11 @@ export const IncidentDetail = ({incident , files}) => {
   const [currentLocation, setCurrentLocation] = useState<any>();
   const [isToastOpen, setIsToastOpen] = useState<boolean>(false);
   const [toastMessage, setToastMessage] = useState<string | undefined>();
+  const [segmentMode, setSegmentMode] = useState<string | undefined>('messages');
+  const [chatId, setChatId] = useState<any>();
+  
+
+
 
   useEffect(() => {
     if (map.current) return; // initialize map only once
@@ -71,6 +80,9 @@ export const IncidentDetail = ({incident , files}) => {
     const marker = new mapboxgl.Marker()
         .setLngLat([incident.longitude, incident.latitude])
         .addTo(map.current);
+
+    findObjectChat('incidents', incident.id, setChatId, supabase);
+
   }, [incident]);
 
   const secondsToMins = (secs) => {
@@ -87,6 +99,14 @@ export const IncidentDetail = ({incident , files}) => {
 
   const externalMaps = ()=>{
     window.open(`http://maps.apple.com/?ll=${incident.latitude},${incident.longitude}`)
+  }
+
+  const handleSegment = (event) => {
+    if (event?.detail?.value == 'photos'){
+      setSegmentMode('photos')
+    } else {
+      setSegmentMode('messages')
+    }
   }
   
   return (
@@ -171,11 +191,29 @@ export const IncidentDetail = ({incident , files}) => {
       </div>
 
       <div className="px-4 py-4 bg-white rounded-b-xl dark:bg-gray-900">
-        
-        <div className="my-4 mx-auto mt-10 w-full" >
-          <IncidentCarousel files={files} />
-        </div>
 
+      <IonSegment value={segmentMode} onIonChange={handleSegment}>
+          <IonSegmentButton value="messages">
+            Messages
+          </IonSegmentButton>
+          <IonSegmentButton value="photos">
+            Photos
+          </IonSegmentButton>
+        </IonSegment>
+        
+
+        {segmentMode == 'photos' && 
+          <div className="my-4 mx-auto mt-10 w-full" >
+            <IncidentCarousel files={files} />
+          </div>
+        }
+
+
+        {segmentMode == 'messages' &&
+          <div className="my-4 mx-auto mt-10 w-full" >
+            <Chat chatId={chatId}/>
+          </div>
+        }
         
       </div>
 

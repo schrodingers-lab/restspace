@@ -17,7 +17,7 @@ export const Message = ({ message }) => {
   const isMyMessage = () => {
     return user?.id == message?.user_id
   }
-  const bgColor = isMyMessage ? 'bg-green-300': 'bg-gray-300';
+  const bgColor = isMyMessage ? 'bg-green-500': 'bg-yellow-500';
 
   const toggleUserModal = () => {
     setOpen(!open);

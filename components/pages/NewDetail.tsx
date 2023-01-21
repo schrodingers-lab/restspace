@@ -26,8 +26,14 @@ import { attachOutline, cameraOutline } from 'ionicons/icons';
 import NoUserCard from '../cards/NoUserCard';
 import { Geolocation } from '@capacitor/geolocation';
 import { format, utcToZonedTime } from 'date-fns-tz';
+
 import * as mapboxgl from 'mapbox-gl'; 
-const mapboxglAccessToken = 'pk.eyJ1IjoiZGFycmVuLXByb3JvdXRlIiwiYSI6ImNsM2M2cjRhOTAxd3YzY3JvYjl1OXQ3Y3oifQ.lerkA3MPLmhRgla3jQnCGg';
+import { fileUrl, updateFileRelatedObject } from '../../store/file';
+import { mapboxglAccessToken, mapboxglStyle } from '../util/mapbox';
+import { useStore } from '../../store/user';
+import { SingleImageUploader } from '../uploader/SingleImageUploader';
+import { getRoundedTime } from '../util/dates';
+import { addChat } from '../../store/chat';
 
 const NewDetail = ({history}) => {
 
@@ -35,8 +41,6 @@ const NewDetail = ({history}) => {
   const [error, setError] = useState("");
   // Get the time zone set on the user's device
   const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-
-  const fileUploadRef = useRef<HTMLInputElement>(null);
   const [files, setFiles] = useState<any[]>([]);
 
   const [stolenvehicle, setStolenvehicle] = useState(false);
@@ -50,7 +54,6 @@ const NewDetail = ({history}) => {
   const [suspicious, setSuspicious] = useState(false);
   const [unfamiliar, setUnfamiliar] = useState(false);
 
-  const [publicImages, setPublicImages] = useState<string[]>([]);
   const [name, setName] = useState<string>('Unnamed');
   const [about, setAbout] = useState<string>('');
   const [whenStr, setWhenStr] = useState<string>();
@@ -70,60 +73,29 @@ const NewDetail = ({history}) => {
 
   const [isToastOpen, setIsToastOpen] = useState<boolean>(false);
   const [toastMessage, setToastMessage] = useState<string | undefined>();
-
-  const [user, setUser] = useState<any>();
-  const authUser = useUser();
+  const {authUser} = useStore({});
 
   const handleName = (event) => {
-    setName(event.target.value);
+    setName(event.target.value || '');
   }
   const handleAboutChange = (event) => {
-    setAbout(event.target.value);
+    setAbout(event.target.value || '');
+  }
+
+  const addFile = (newFile) => {
+    setFiles(previous => [...previous, newFile]);
   }
 
   const handleNewIncidentDate = (ionDatetimeEvent) => {
-    
     const date = new Date(ionDatetimeEvent.detail.value);
     const zonedTime = utcToZonedTime(date, userTimeZone);
     // Create a formatted string from the zoned time
     const dateStr = format(zonedTime,  "yyyy-MM-dd'T'HH:mm:ss.SSSxxx", { timeZone: userTimeZone });
-
     setWhenStr(dateStr); 
   }
 
   const handleCancelIncidentDate = (ionDatetimeEvent) => {
-    
     console.log('cancelled')
-  }
-
-  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("handleFileChange",event);
-    const localPhotos = Array.from(event.target.files) || [];
-    const selectedPhoto = localPhotos.length> 0 ? localPhotos[0] : null;
-
-    //TODO support multiple images.
-    if (selectedPhoto){
-      const uploadResult = await uploadFile(selectedPhoto);
-      //TODO add to images, and cover image.
-      console.log("handleFileChange uploadResult", selectedPhoto, uploadResult);
-    }
-  }; 
-
-  const createFileRecord = async (user_id, filename, fileurl )=> {
-    return await supabase.from('files')
-    .insert({
-      user_id: user_id,
-      title: filename,
-      file_name: fileurl,
-      private: false
-    }).select();
-  }
-
-  const updateFileOwnership = async (file, newId) => {
-    const res =  await supabase.from('files')
-      .update({object_type:'incidents', object_id: ""+ newId, user_id: authUser.id}).eq('id', file.id);
-
-    return res;
   }
 
   const handleSubmit = async (event) => {
@@ -141,16 +113,22 @@ const NewDetail = ({history}) => {
       console.log("created - ",data)
       const newId = data[0].id;
 
+      // Update uploaded files to reference the newly created active files.
       files.forEach(async (file) => {
         console.log('update file',file);
-        const fileRes = await updateFileOwnership(file, newId);
+        const fileRes = await updateFileRelatedObject(file.id, 'incidents', newId, supabase);
         if (fileRes?.error){
           console.error("failed to update files")
         }
-      })
+      });
+
+      // Create a new Chat for an incident
+      const slug = `incident-${newId}`;
+      const res = addChat(slug, authUser.id, false, true, 'incidents', newId, supabase);
    
       setToastMessage("Created incident #"+newId);
       setIsToastOpen(true);
+      resetData();
       history.push('/tabs/incidents/'+newId);
     }
   }
@@ -158,6 +136,10 @@ const NewDetail = ({history}) => {
 
   const resetData = () =>{
     setName('Unnamed');
+    setAbout('');
+    setWhenStr(getCurrentDateStr())
+
+    setFiles([]);
 
     setStolenvehicle(false);
     setBreakenter(false);
@@ -172,7 +154,7 @@ const NewDetail = ({history}) => {
   }
 
   const createNewIncident = () => {
-
+    // TODO default cover image
     let cover_image_url;
     if (files && files.length > 0){
       cover_image_url = fileUrl(files[0]);
@@ -181,7 +163,6 @@ const NewDetail = ({history}) => {
     let incident = {
       name: name,
       about: about,
-      creator: authUser.id,
       user_id: authUser.id,
 
       stolenvehicle: stolenvehicle,
@@ -196,7 +177,6 @@ const NewDetail = ({history}) => {
       disturbance: disturbance,
 
       incident_at: whenStr,
-
       geom: {
         type: 'Point',
         coordinates: [lng,lat]
@@ -209,42 +189,19 @@ const NewDetail = ({history}) => {
     return incident;
   }
 
-
-
-  useEffect(() => {
-    const getRoundedTime = () => {
-      const date = new Date()
-      const minutes = date.getMinutes()
-      const remainder = minutes % 15
-      if (remainder < 8) {
-        date.setMinutes(minutes - remainder)
-      } else {
-        date.setMinutes(minutes + (15 - remainder))
-      }
-      return date
-    }
-    
+  const getCurrentDateStr = () => {
     const selectedDate = getRoundedTime();
     const zonedTime = utcToZonedTime(selectedDate, userTimeZone);
     // Create a formatted string from the zoned time
     const dateStr = format(zonedTime,  "yyyy-MM-dd'T'HH:mm:ss.SSSxxx", { timeZone: userTimeZone });
     console.log(dateStr);
-    setWhenStr(dateStr); 
-  },[]);
+    return dateStr;
+  }
 
-  useEffect(() => {
-    const fetchData = async() => {
-      // You can await here
-      const { data, error } = await supabase
-        .from('users')
-        .select('*')
-        .eq('id', authUser.id)
-      if(data && data.length > 0){
-        setUser(data[0]);
-     }
-    }
-    fetchData();
-  }, [authUser]);
+  useEffect(() => {   
+    // setWhenStr(getCurrentDateStr); 
+    resetData();
+  },[]);
 
   useEffect(() => {
     if(userLocation && currentLocation){
@@ -300,7 +257,7 @@ const NewDetail = ({history}) => {
     map.current = new mapboxgl.Map({
       accessToken: mapboxglAccessToken,
       container: mapContainer.current,
-      style: 'mapbox://styles/mapbox/streets-v11',
+      style: mapboxglStyle,
       center: [lng, lat],
       zoom: zoom
     });
@@ -370,96 +327,9 @@ const NewDetail = ({history}) => {
   };
 
 
-
-  const fileUrl = (file) => {
-    return "https://raxdwowfheboqizcxlur.supabase.co"+ file.file_name;
-  }
-
   const RenderImage: React.FC<any> = ({file}) => {
     return <IonImg src={fileUrl(file)} />;
   };
-
-  const uploadImage = async (path: string, format: string) => {
-    const response = await fetch(path);
-    const blob = await response.blob();
-    const filename = path.substr(path.lastIndexOf("/") + 1) + "."+format;
-
-    const { data, error } = await supabase.storage
-      .from("public")
-      .upload(`${filename}`, blob, {
-        cacheControl: "3600",
-        upsert: false,
-      });
-
-    if (error) alert(error?.message);
-
-    const fileurl =  "/storage/v1/object/public/public/"+filename;
-    const newFile= await createFileRecord(authUser.id , filename, fileurl);
-    if (newFile.data){
-      if(newFile.data[0]){
-        setFiles(previous => [...previous, newFile.data[0]]);
-      }
-    }
-
-    return fileurl;
-  };
-
-  const generateRandomString = (length: number)=> {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
-    let result = ''
-    for (let i = 0; i < length; i++) {
-      result += characters.charAt(Math.floor(Math.random() * characters.length))
-    }
-    return result
-  }
-
-  const uploadFile = async (file: File) => {
-    const filename = file.name;
-    const fileext = filename.substr(filename.lastIndexOf("."));
-    const newFileKey = generateRandomString(32) + fileext;
-    const { data, error } = await supabase.storage
-      .from("public")
-      .upload(`${newFileKey}`, file, {
-        cacheControl: "3600",
-        upsert: false,
-      });
-    if (error) alert(error?.message);
-    
-    const fileurl =  "/storage/v1/object/public/public/"+newFileKey
-    const newFile = await createFileRecord(authUser.id , filename, fileurl);
-    if (newFile.data){
-      if(newFile.data[0]){
-        setFiles(previous => [...previous, newFile.data[0]]);
-      }
-    }
-    
-    return fileurl;
-  };
-
-  const takePicture = async () => {
-    
-    try {
-      const cameraResult = await Camera.getPhoto({
-        quality: 90,
-        // allowEditing: true,
-        resultType: CameraResultType.Uri,
-      });
-      const path = cameraResult?.webPath || cameraResult?.path;
-      const format = cameraResult?.format || cameraResult?.format;
-      console.log('webpath',cameraResult?.webPath)
-
-      const uploadResult = await uploadImage(path as string, format);
-      setFiles(previous => [...previous, uploadResult]);
-      return true;
-    } catch (e: any) {
-      console.error(e);
-    }
-  };
-    
-  const triggerUploadFiles = () => {
-    fileUploadRef?.current.click();
-  }
-
 
   return (
     <IonPage>
@@ -479,7 +349,7 @@ const NewDetail = ({history}) => {
         {(!authUser ) && <NoUserCard/>}
 
         { authUser && 
-          <form className="space-y-8 divide-y divide-gray-200" onSubmit={handleSubmit}>
+          <form className="space-y-8 divide-y divide-gray-200 px-4 my-8" onSubmit={handleSubmit}>
             <div className="space-y-8 divide-y divide-gray-200">
               <div className='header-section'>
                 <h3 className="text-lg font-medium leading-6 text-gray-900">New Incident</h3>
@@ -488,7 +358,7 @@ const NewDetail = ({history}) => {
                 </p>
               </div>
 
-              <div className="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
+              <div className="mt-8 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
                 <div className="sm:col-span-6">
                   <label htmlFor="name" className="block text-sm font-medium text-gray-700">
                     Name
@@ -554,7 +424,7 @@ const NewDetail = ({history}) => {
 
                 <div className="sm:col-span-6">
                   <label htmlFor="about" className="block text-sm font-medium text-gray-700">
-                    What happening
+                    What is happening
                   </label>
                   <div className="mt-1">
                     <textarea
@@ -562,7 +432,7 @@ const NewDetail = ({history}) => {
                       name="about"
                       rows={3}
                       className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                      defaultValue={''}
+                      value={about}
                       onChange={handleAboutChange}
                     />
                   </div>
@@ -613,31 +483,11 @@ const NewDetail = ({history}) => {
                     Photos?
                   </label>
 
-                  <span className="isolate inline-flex rounded-md shadow-sm">
-                    <button
-                      onClick={takePicture}
-                      type="button"
-                      className="relative inline-flex items-center rounded-l-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
-                    >
-                      <IonIcon icon={cameraOutline} slot="start" /> Camera
-                    </button>
-                    <button
-                      onClick={triggerUploadFiles}
-                      type="button"
-                      className="relative -ml-px inline-flex items-center rounded-r-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
-                    >
-                      <IonIcon icon={attachOutline} slot="start" /> Upload
-                      <input 
-                        ref={fileUploadRef} 
-                        id="file"
-                        accept="image/*"
-                        name="file-upload" 
-                        type="file" 
-                        onChange={handleFileChange}
-                        multiple={false}
-                        className="sr-only" />
-                    </button>
-                  </span>
+                  <SingleImageUploader 
+                    authUser={authUser} 
+                    supabase={supabase} 
+                    addFileFnc={addFile}/>
+
                 </div>
 
                 <div className="sm:col-span-6">
@@ -645,11 +495,11 @@ const NewDetail = ({history}) => {
                     {files.map((s: any) => (
               
                       <div key={s?.id}>
-                        <div style={{width : 200, margin : 'auto'}}>
+                        <div style={{width : 400, margin : 'auto'}}>
                           <RenderImage file={s} />
                         </div>
                       </div>
-                    ))}00
+                    ))}
                   </IonList>
                 </div>
 

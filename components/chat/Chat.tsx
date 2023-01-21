@@ -18,11 +18,20 @@ export const Chat = ({ chatId }) => {
 
 	return (
     <>
-      <ul>
-        {messages && messages.map((message) => <Message message={message} key={message.id} />)}
-        <div ref={messagesEndRef} />
-      </ul>
-      <MessageInput chatId={chatId} />
+      {chatId == undefined && 
+        <div> No Messages</div>
+      }
+      {chatId && 
+        <>
+          <ul>
+            {messages && messages.length > 0 && messages.map((message) => <Message message={message} key={message.id} />)}
+            {messages && messages.length == 0 && <div>No messages yet</div>}
+            <div ref={messagesEndRef} />
+          </ul>
+          <MessageInput chatId={chatId} />
+        </>
+      }
+
     </>
 	)
 }
