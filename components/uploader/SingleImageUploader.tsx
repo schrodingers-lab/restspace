@@ -1,11 +1,13 @@
 import { Camera, CameraResultType } from '@capacitor/camera';
-import { IonIcon } from '@ionic/react';
+import { IonIcon, IonToast } from '@ionic/react';
 import { attachOutline, cameraOutline } from 'ionicons/icons';
 import React, { useEffect, useRef, useState } from 'react';
 import { publicFileUrlFragment } from '../../store/file';
 import Card from '../ui/Card';
 
 export const SingleImageUploader = ({authUser, supabase, addFileFnc}) => {
+  const [isToastOpen, setIsToastOpen] = useState<boolean>(false);
+  const [toastMessage, setToastMessage] = useState<string | undefined>();
   const fileUploadRef = useRef<HTMLInputElement>(null);
 
   const setFile = (file) => {
@@ -32,6 +34,9 @@ export const SingleImageUploader = ({authUser, supabase, addFileFnc}) => {
     const response = await fetch(path);
     const blob = await response.blob();
     const filename = path.substring(path.lastIndexOf("/") + 1) + "."+format;
+
+    setToastMessage("Uploading image, please wait..")
+    setIsToastOpen(true)
 
     const { data, error } = await supabase.storage
       .from("public")
@@ -73,6 +78,9 @@ export const SingleImageUploader = ({authUser, supabase, addFileFnc}) => {
   }; 
 
   const uploadFile = async (file: File) => {
+    setToastMessage("Uploading image, please wait..")
+    setIsToastOpen(true)
+
     const newFileKey = generateRandomFilename(file.name);
     const { data, error } = await supabase.storage
       .from("public")
@@ -140,6 +148,14 @@ export const SingleImageUploader = ({authUser, supabase, addFileFnc}) => {
             multiple={false}
             className="sr-only" />
         </button>
+        <IonToast
+            isOpen={isToastOpen}
+            message={toastMessage}
+            duration={4000}
+            position={'bottom'}
+            color={'medium'}
+            onDidDismiss={() => setIsToastOpen(false)}
+          />
       </span>
     )
   }

@@ -11,6 +11,7 @@ import {
     IonNote,
     IonLabel,
     IonPage,
+    IonToast,
   } from '@ionic/react';
   import Store from '../../store';
   import { getNotifications } from '../../store/selectors';
@@ -34,6 +35,9 @@ import { fileUrl } from '../../store/file';
     const [ about, setAbout] = useState<string >('');
     const [ newProfile, setNewProfile] = useState<any>();
 
+    const [isToastOpen, setIsToastOpen] = useState<boolean>(false);
+    const [toastMessage, setToastMessage] = useState<string | undefined>();
+
     const resetData = () => {
       if (authUserProfile) {
         setUsername(authUserProfile.username)
@@ -49,7 +53,6 @@ import { fileUrl } from '../../store/file';
     },[authUserProfile])
 
     useEffect(() => {
-      debugger;
       let avatar_url = authUserProfile?.avatar_url;
       if (avatarFile){
         avatar_url = fileUrl(avatarFile);
@@ -59,7 +62,6 @@ import { fileUrl } from '../../store/file';
     },[username,about,avatarFile, authUserProfile])
     
     const selectAvatarFile = (uploadedFile) => {
-      debugger;
       if (uploadedFile){
         setAvatarFile(uploadedFile);
       }
@@ -175,7 +177,7 @@ import { fileUrl } from '../../store/file';
               {error}
             </div>
 
-            <div className="pt-5">
+            <div className="pt-5 mb-4">
               <div className="flex justify-end">
                 <button
                   type="button"
@@ -194,6 +196,14 @@ import { fileUrl } from '../../store/file';
               </div>
             </div>
           </form>
+          <IonToast
+            isOpen={isToastOpen}
+            message={toastMessage}
+            duration={4000}
+            position={'top'}
+            color={'medium'}
+            onDidDismiss={() => setIsToastOpen(false)}
+          />
         </IonContent>
       </IonPage>
     );
