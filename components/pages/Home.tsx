@@ -34,7 +34,7 @@ import {
             </IonButtons>
           </IonToolbar>
         </IonHeader>
-        <IonContent>
+        <IonContent className='dark:bg-black bg-red'>
           {/* <IonList>
             <IonItem>
               <IonLabel>Enable Notifications</IonLabel>

@@ -18,13 +18,13 @@ import UpdatePasswordPage from './pages/UpdatePassword';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import TourPage from './pages/Tour';
 
-window.matchMedia("(prefers-color-scheme: dark)").addListener(async (status) => {
-  try {
-    await StatusBar.setStyle({
-      style: status.matches ? Style.Dark : Style.Light,
-    });
-  } catch {}
-});
+// window.matchMedia("(prefers-color-scheme: dark)").addListener(async (status) => {
+//   try {
+//     await StatusBar.setStyle({
+//       style: status.matches ? Style.Dark : Style.Light,
+//     });
+//   } catch {}
+// });
 
 
 
@@ -34,8 +34,24 @@ const AppShell = ({history}) => {
     mode: 'md'
   });
 
+  //default to 'dark'
+  if(!('theme' in localStorage)){
+    localStorage.theme = 'dark'
+  }
+
+  // Theme detection
+  if (localStorage.theme === 'dark' || (!('theme' in localStorage) || window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    document.documentElement.classList.add('dark'); //tailwind
+    document.body.classList.add('dark'); //ionic
+    localStorage.theme = 'dark'
+  } else {
+    document.documentElement.classList.remove('dark'); //tailwind
+    document.body.classList.remove('dark'); //ionic
+    localStorage.theme = 'light'
+  };
+
+
   // Create a single supabase client for interacting with your database 
-  // const supabase = createClient('https://raxdwowfheboqizcxlur.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJheGR3b3dmaGVib3FpemN4bHVyIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzI4OTgyNjEsImV4cCI6MTk4ODQ3NDI2MX0.uXdXBjH92OIJgIidgvP-iRHCNW3clm2D7fWVniCX5dg');
   const supabase = useSupabaseClient();
   const [remoteAppVersion, setRemoteAppVersion] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -67,23 +83,14 @@ const AppShell = ({history}) => {
     }
   }, [remoteAppVersion, settings]);
 
-
-
   return (
     <IonApp>
       <IonReactRouter>
         <IonSplitPane contentId="main">
           <Menu />
-          <IonToast
-            isOpen={false}
-            message="This app should not be used while driving, please be careful on the road."
-            duration={4000}
-            position={'top'}
-            color={'medium'}
-          />
           <IonModal
             isOpen={showModal}
-            swipeToClose={true}
+            canDismiss={true}
             onDidDismiss={() => setShowModal(false)}>
            <UpgradeCard/>
           </IonModal>

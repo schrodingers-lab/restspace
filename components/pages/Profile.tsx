@@ -41,6 +41,8 @@ import NoUserCard from '../cards/NoUserCard';
     const [isToastOpen, setIsToastOpen] = useState<boolean>(false);
     const [toastMessage, setToastMessage] = useState<string | undefined>();
 
+
+
     const resetData = () => {
       if (authUserProfile) {
         setUsername(authUserProfile.username)
@@ -177,10 +179,8 @@ import NoUserCard from '../cards/NoUserCard';
                             supabase={supabase} 
                             addFileFnc={selectAvatarFile}/>
                         </div>
-                        
                       </div>
                     </div>
-
                   </div>
                 </div>
               </div>

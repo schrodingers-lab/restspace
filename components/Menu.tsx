@@ -60,7 +60,7 @@ const pages = [
 
 
 const Menu = () => {
-  const [isDark, setIsDark] = useState(false);
+  // const [isDark, setIsDark] = useState(true);
   const user = useUser();
   const supabase = useSupabaseClient();
 
@@ -75,22 +75,23 @@ const Menu = () => {
 
   const handleOpen = async () => {
     try {
-      await StatusBar.setStyle({
-        style: isDark ? Style.Dark : Style.Light,
-      });
+      // debugger;
+      // await StatusBar.setStyle({
+      //   style: isDark ? Style.Dark : Style.Light,
+      // });
     } catch {}
   };
   const handleClose = async () => {
     try {
-      await StatusBar.setStyle({
-        style: isDark ? Style.Dark : Style.Light,
-      });
+      // await StatusBar.setStyle({
+      //   style: isDark ? Style.Dark : Style.Light,
+      // });
     } catch {}
   };
 
-  useEffect(() => {
-    setIsDark(window.matchMedia('(prefers-color-scheme: dark)').matches);
-  }, []);
+  // useEffect(() => {
+  //   setIsDark(window.matchMedia('(prefers-color-scheme: dark)').matches);
+  // }, []);
 
   return (
     <IonMenu side="start" contentId="main" onIonDidOpen={handleOpen} onIonDidClose={handleClose} swipeGesture={false}>
