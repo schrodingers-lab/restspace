@@ -36,7 +36,7 @@ import UserProfileAvatar from '../ui/UserProfileAvatar';
           <div className="relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all w-full">
             <div>
               <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
-                <UserProfileAvatar userProfile={userProfile} /><br/>
+                <UserProfileAvatar userProfile={userProfile} size={12} /><br/>
               </div>
               <div className="mt-3 text-center sm:mt-5">
                 <div className="text-xl font-medium leading-6 text-gray-900">

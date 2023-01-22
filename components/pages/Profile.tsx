@@ -17,7 +17,7 @@ import {
   
   import { close } from 'ionicons/icons';
   import React, { useEffect, useState } from 'react';
-import { useStore } from '../../store/user';
+import { updateProfile, useStore } from '../../store/user';
 import UserProfileAvatar from '../ui/UserProfileAvatar';
 import { SingleImageUploader } from '../uploader/SingleImageUploader';
 import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react';
@@ -27,13 +27,62 @@ import { fileUrl } from '../../store/file';
   const ProfilePage = () => {
     const { authUser, authUserProfile } = useStore({})
     const supabase = useSupabaseClient();
-    const [ avatar, setAvatar] = useState<any>();
+    const [error, setError] = useState("");
+    const [ avatarFile, setAvatarFile] = useState<any>();
+
+    const [ username, setUsername] = useState<string >('');
+    const [ about, setAbout] = useState<string >('');
+    const [ newProfile, setNewProfile] = useState<any>();
+
+    const resetData = () => {
+      if (authUserProfile) {
+        setUsername(authUserProfile.username)
+        setAbout(authUserProfile.about)
+        setNewProfile({...authUserProfile})
+      }
+    }
+
+    useEffect(() => {
+      if(authUserProfile){
+        resetData();
+      }
+    },[authUserProfile])
+
+    useEffect(() => {
+      let cover_image_url = authUserProfile?.cover_image_url;
+      if (avatarFile){
+        cover_image_url = fileUrl(avatarFile);
+      }
+      const profile = {...authUserProfile, username: username, about: about, cover_image_url: cover_image_url}
+      setNewProfile(profile)
+    },[username,about,avatarFile, authUserProfile])
     
-    const setAvatarFile = (uploadedFile) => {
+    const selectAvatarFile = (uploadedFile) => {
       debugger;
       if (uploadedFile){
-        setAvatar(fileUrl(uploadedFile));
+        setAvatarFile(fileUrl(uploadedFile));
       }
+    }
+
+    const handleUsername = (event) => {
+      setUsername(event.target.value || '');
+    }
+
+    const handleAbout = (event) => {
+      setAbout(event.target.value || '');
+    }
+
+    const handleSubmit = async (event) => {
+      event.preventDefault();
+      setError('');
+      const res = await updateProfile(newProfile, supabase);
+      if (res?.error) {
+        alert('failed');
+        setError(res.error?.message)
+      } else {
+        console.log('success')
+      }
+      console.log('res',res)
     }
 
     return (
@@ -49,7 +98,7 @@ import { fileUrl } from '../../store/file';
               <IonTitle size="large">Profile</IonTitle>
             </IonToolbar>
           </IonHeader>
-          <form className="mt-6 space-y-8 divide-y divide-gray-20 overflow-scroll">
+          <form onSubmit={handleSubmit} className="mt-6 space-y-8 divide-y divide-gray-20 overflow-scroll mx-4">
             <div className="space-y-8 divide-y divide-gray-200 sm:space-y-5">
               <div className="space-y-6 sm:space-y-5">
                 <div>
@@ -70,7 +119,8 @@ import { fileUrl } from '../../store/file';
                           type="text"
                           name="username"
                           id="username"
-                          value={authUserProfile?.username}
+                          value={username}
+                          onChange={handleUsername}
                           className="block w-full min-w-0 flex-1 rounded-none rounded-r-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                         />
                         
@@ -88,7 +138,8 @@ import { fileUrl } from '../../store/file';
                         id="about"
                         name="about"
                         rows={3}
-                        value={authUserProfile?.about}
+                        value={about}
+                        onChange={handleAbout}
                         className="block w-full max-w-lg rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                       />
                       <p className="mt-2 text-sm text-gray-500">Write a few sentences about yourself.</p>
@@ -100,14 +151,14 @@ import { fileUrl } from '../../store/file';
                       Avatar
                     </label>
                     <div className="mt-1 sm:col-span-2 sm:mt-0">
-                      <div className="flex items-center">
-                        <UserProfileAvatar userProfile={authUserProfile} />
+                      <div className="flex items-center w-full justify-center">
+                        <UserProfileAvatar userProfile={newProfile} size={16}/>
                       </div>
-                      <div className="flex items-center">
+                      <div className="flex items-center justify-center mt-2">
                         <SingleImageUploader 
                           authUser={authUser} 
                           supabase={supabase} 
-                          addFileFnc={setAvatarFile}/>
+                          addFileFnc={selectAvatarFile}/>
                       </div>
                     </div>
                   </div>
@@ -116,10 +167,15 @@ import { fileUrl } from '../../store/file';
               </div>
             </div>
 
+            <div className="flex items-center justify-between text-red-500">
+              {error}
+            </div>
+
             <div className="pt-5">
               <div className="flex justify-end">
                 <button
                   type="button"
+                  onClick={resetData}
                   className="rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                 >
                   Cancel

@@ -109,3 +109,19 @@ export const fetchUsers = async (userIds, setState, supabase) => {
     console.log('error', error)
   }
 }
+
+
+/**
+ * hide a message from the display
+ * @param {number} message_id
+ */
+export const updateProfile = async (newProfile, supabase) => {
+  try {
+    let result = await supabase.from('users')
+          .update(newProfile).eq('id', newProfile.id);
+    return result
+  } catch (error) {
+    console.log('error', error)
+  }
+}
+
