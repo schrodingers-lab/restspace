@@ -482,18 +482,18 @@ const NewDetail = ({history}) => {
                   <label htmlFor="cover-photo" className="block text-sm font-medium text-gray-700">
                     Photos?
                   </label>
-
-                  <SingleImageUploader 
-                    authUser={authUser} 
-                    supabase={supabase} 
-                    addFileFnc={addFile}/>
-
+                  <div className="flex items-center justify-center mt-2">
+                    <SingleImageUploader 
+                      authUser={authUser} 
+                      supabase={supabase} 
+                      addFileFnc={addFile}/>
+                  </div>
                 </div>
 
                 <div className="sm:col-span-6">
+                  {/* TODO remove images, so not tagged */}
                   <IonList>
                     {files.map((s: any) => (
-              
                       <div key={s?.id}>
                         <div style={{width : 400, margin : 'auto'}}>
                           <RenderImage file={s} />
