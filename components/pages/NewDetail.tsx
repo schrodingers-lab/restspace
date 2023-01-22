@@ -18,7 +18,7 @@ import {
 } from '@ionic/react';
 import { Camera, CameraResultType } from "@capacitor/camera";
 
-import { search, navigate, bookmark, locate, share, bus, phonePortrait } from 'ionicons/icons';
+import { search, navigate, bookmark, locate, share, bus, phonePortrait, trash } from 'ionicons/icons';
 import React, { useRef, useEffect, useState } from 'react';
 import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react';
 import * as turfdistance from '@turf/distance';
@@ -328,7 +328,24 @@ const NewDetail = ({history}) => {
 
 
   const RenderImage: React.FC<any> = ({file}) => {
-    return <IonImg src={fileUrl(file)} />;
+    const removeFile = () => {
+      setFiles(files.filter((existFile) => existFile.id !== file.id));
+    }
+    return (
+      <div className="flex flex-col items-center justify-center my-2 border-2">
+        
+        <IonImg src={fileUrl(file)} />
+
+        <IonButton
+          fill="clear"
+          size="small"
+          className="text-white bg-red-500 rounded-full p-2 mt-2"
+          onClick={() => removeFile()}
+        >
+          <IonIcon icon={trash} />
+        </IonButton>
+      </div>
+    )
   };
 
   return (

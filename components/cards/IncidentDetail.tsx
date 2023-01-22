@@ -28,7 +28,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import * as mapboxgl from 'mapbox-gl'; 
 import { Chat } from '../chat/Chat';
 import { findObjectChat } from '../../store/chat';
-const mapboxglAccessToken = 'pk.eyJ1IjoiZGFycmVuLXByb3JvdXRlIiwiYSI6ImNsM2M2cjRhOTAxd3YzY3JvYjl1OXQ3Y3oifQ.lerkA3MPLmhRgla3jQnCGg';
+import { mapboxglStyle, mapboxglAccessToken } from '../util/mapbox';
 
 
 export const IncidentDetail = ({incident , files, supabase}) => {
@@ -46,14 +46,12 @@ export const IncidentDetail = ({incident , files, supabase}) => {
   const [chatId, setChatId] = useState<any>();
   
 
-
-
   useEffect(() => {
     if (map.current) return; // initialize map only once
     map.current = new mapboxgl.Map({
       accessToken: mapboxglAccessToken,
       container: mapContainer.current,
-      style: 'mapbox://styles/mapbox/streets-v11',
+      style: mapboxglStyle,
       center: [incident.longitude, incident.latitude],
       zoom: 13
     });
@@ -85,17 +83,7 @@ export const IncidentDetail = ({incident , files, supabase}) => {
 
   }, [incident]);
 
-  const secondsToMins = (secs) => {
-    if (secs == undefined || secs == null || secs< 1) return 1;
-    const mins = secs / 60;
-    return Math.floor(mins);
-  }
 
-  const metersToKm = (meters) => {
-    if (meters == undefined || meters == null || meters < 1) return 1;
-    const kms = meters / 1000;
-    return Math.floor(kms);
-  }
 
   const externalMaps = ()=>{
     window.open(`http://maps.apple.com/?ll=${incident.latitude},${incident.longitude}`)
@@ -118,8 +106,7 @@ export const IncidentDetail = ({incident , files, supabase}) => {
         <h2 className="font-bold text-2xl text-gray-800 dark:text-gray-100">#{incident.id} - {incident.name}</h2>
         <h4 className="font-bold py-0 text-s text-gray-400 dark:text-gray-500">{incident.about}</h4>
         
-        
-
+        {/* TODO should avatar */}
         <div className="flex items-center space-x-4">
           <h3 className="text-gray-500 dark:text-gray-200 m-l-8 text-md font-medium">{incident.creator}</h3>
         </div>

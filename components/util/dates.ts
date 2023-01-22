@@ -9,3 +9,9 @@ export const getRoundedTime = () => {
     }
     return date
 }
+
+export const secondsToMins = (secs) => {
+  if (secs == undefined || secs == null || secs< 1) return 1;
+  const mins = secs / 60;
+  return Math.floor(mins);
+}
