@@ -44,7 +44,16 @@ export const IncidentDetail = ({incident , files, supabase}) => {
   const [toastMessage, setToastMessage] = useState<string | undefined>();
   const [segmentMode, setSegmentMode] = useState<string | undefined>('messages');
   const [chatId, setChatId] = useState<any>();
+  const [canShare, setCanShare] = useState<boolean>(false);
   
+  useEffect(() => {
+    //Check for share web api
+    const handleAsync = async () => {
+      const canShare = await Share.canShare();
+      setCanShare(canShare.value);
+    }
+    handleAsync();
+  }, []);
 
   useEffect(() => {
     if (map.current) return; // initialize map only once
@@ -98,12 +107,17 @@ export const IncidentDetail = ({incident , files, supabase}) => {
   }
 
   const shareIncident = async() => {
-    await Share.share({
-      title: 'WeWatch - Incident #'+incident?.id,
-      text: 'Keep in the loop with Incident #'+incident?.id,
-      url: 'https://app.wewatchapp.com/tabs/incidents/'+incident?.id,
-      dialogTitle: 'Share with the socials',
-    });
+    if (canShare) {
+      await Share.share({
+        title: 'WeWatch - Incident #'+incident?.id,
+        text: 'Keep in the loop with Incident #'+incident?.id,
+        url: 'https://app.wewatchapp.com/tabs/incidents/'+incident?.id,
+        dialogTitle: 'Share with the socials',
+      })
+    } else {
+      alert('can not share in this Browser')
+    }
+
   }
   
   return (
@@ -180,10 +194,12 @@ export const IncidentDetail = ({incident , files, supabase}) => {
         </CopyToClipboard>
 
         <div className="w-full">
-            <IonButton onClick={() => shareIncident()} className="text-sm">
-              <IonIcon slot="start" icon={shareSocial} />
-              Share
-            </IonButton>
+            { canShare &&
+              <IonButton onClick={() => shareIncident()} className="text-sm">
+                <IonIcon slot="start" icon={shareSocial} />
+                Share
+              </IonButton>
+            }
 
             <IonButton onClick={() => externalMaps()} className="float-right text-sm">
               <IonIcon slot="start" icon={share} />
