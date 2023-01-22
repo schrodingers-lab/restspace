@@ -101,7 +101,7 @@ export const IncidentDetail = ({incident , files, supabase}) => {
     await Share.share({
       title: 'WeWatch - Incident #'+incident?.id,
       text: 'Keep in the loop with Incident #'+incident?.id,
-      url: 'http://app.wewatchapp.com/tabs/incidents/'+incident?.id,
+      url: 'https://app.wewatchapp.com/tabs/incidents/'+incident?.id,
       dialogTitle: 'Share with the socials',
     });
   }
