@@ -4,6 +4,8 @@ import {
     IonTitle,
     IonContent,
     IonPage,
+    IonButtons,
+    IonMenuButton,
   } from '@ionic/react';
  
   import React from 'react';
@@ -17,6 +19,9 @@ import {
       <IonPage>
         <IonHeader>
           <IonToolbar>
+            <IonButtons slot="start">
+              <IonMenuButton />
+            </IonButtons>
             <IonTitle>Chats</IonTitle>
           </IonToolbar>
         </IonHeader>

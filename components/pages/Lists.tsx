@@ -17,15 +17,17 @@ import {
   IonMenuButton
 } from '@ionic/react';
 
-const ListEntry = ({ list, ...props }) => (
+const ListEntry = ({ list, ...props }) => {
+  const img0 = list?.cover_image_url || "/imgs/default_cover_image.png";
+  return (
   <IonItem routerLink={`/tabs/incidents/${list.id}`} className="list-entry">
     <IonLabel>#{list.id} - {list.name}</IonLabel>
-
+    {/* TODO add icons for incidents */}
     <IonThumbnail slot="end">
-        <IonImg src={list.cover_image_url} />
+        <IonImg src={img0} />
     </IonThumbnail>
   </IonItem>
-);
+)};
 
 const AllLists = () => {
   let incidents = Store.useState(selectors.getIncidents);

@@ -12,6 +12,8 @@ import {
     IonLabel,
     IonPage,
     IonToast,
+    IonButtons,
+    IonMenuButton,
   } from '@ionic/react';
   import Store from '../../store';
   import { getNotifications } from '../../store/selectors';
@@ -91,6 +93,9 @@ import { fileUrl } from '../../store/file';
       <IonPage>
         <IonHeader>
           <IonToolbar>
+            <IonButtons slot="start">
+              <IonMenuButton />
+            </IonButtons>
             <IonTitle>Profile</IonTitle>
           </IonToolbar>
         </IonHeader>

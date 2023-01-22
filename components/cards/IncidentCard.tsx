@@ -2,7 +2,7 @@ import React from 'react';
 import Card from '../ui/Card';
 
 export const IncidentCard = ({incident, key, onClickFnc}) => {
-  const img0 = incident?.cover_image_url ? incident?.cover_image_url : ''; //default img
+  const img0 = incident?.cover_image_url ? incident?.cover_image_url : "/imgs/default_cover_image.png"; 
 
   const internalOnClick = () => {
     if (onClickFnc){
