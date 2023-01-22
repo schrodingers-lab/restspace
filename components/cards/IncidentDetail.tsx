@@ -21,7 +21,7 @@ import {
 } from '@ionic/react';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 
-import { search, navigate, bookmark, locate, share, bus, phonePortrait } from 'ionicons/icons';
+import { search, navigate, bookmark, locate, share, bus, phonePortrait, shareSocial } from 'ionicons/icons';
 import React, { useRef, useEffect, useState } from 'react';
 
 // import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
@@ -29,7 +29,7 @@ import * as mapboxgl from 'mapbox-gl';
 import { Chat } from '../chat/Chat';
 import { findObjectChat } from '../../store/chat';
 import { mapboxglStyle, mapboxglAccessToken } from '../util/mapbox';
-
+import { Share } from '@capacitor/share';
 
 export const IncidentDetail = ({incident , files, supabase}) => {
   
@@ -95,6 +95,15 @@ export const IncidentDetail = ({incident , files, supabase}) => {
     } else {
       setSegmentMode('messages')
     }
+  }
+
+  const shareIncident = async() => {
+    await Share.share({
+      title: 'WeWatch - Incident #'+incident?.id,
+      text: 'Keep in the loop with Incident #'+incident?.id,
+      url: 'http://app.wewatchapp.com/tabs/incidents/'+incident?.id,
+      dialogTitle: 'Share with the socials',
+    });
   }
   
   return (
@@ -170,10 +179,20 @@ export const IncidentDetail = ({incident , files, supabase}) => {
           </IonItem>
         </CopyToClipboard>
 
-        <IonButton onClick={() => externalMaps()} className="float-right text-sm">
-          <IonIcon slot="start" icon={share} />
-          Maps
-        </IonButton>
+        <div className="w-full">
+            <IonButton onClick={() => shareIncident()} className="text-sm">
+              <IonIcon slot="start" icon={shareSocial} />
+              Share
+            </IonButton>
+
+            <IonButton onClick={() => externalMaps()} className="float-right text-sm">
+              <IonIcon slot="start" icon={share} />
+              Maps
+            </IonButton>
+        </div>
+        
+
+
 
       </div>
 
