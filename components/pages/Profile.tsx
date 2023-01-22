@@ -49,18 +49,19 @@ import { fileUrl } from '../../store/file';
     },[authUserProfile])
 
     useEffect(() => {
-      let cover_image_url = authUserProfile?.cover_image_url;
+      debugger;
+      let avatar_url = authUserProfile?.avatar_url;
       if (avatarFile){
-        cover_image_url = fileUrl(avatarFile);
+        avatar_url = fileUrl(avatarFile);
       }
-      const profile = {...authUserProfile, username: username, about: about, cover_image_url: cover_image_url}
+      const profile = {...authUserProfile, username: username, about: about, avatar_url: avatar_url}
       setNewProfile(profile)
     },[username,about,avatarFile, authUserProfile])
     
     const selectAvatarFile = (uploadedFile) => {
       debugger;
       if (uploadedFile){
-        setAvatarFile(fileUrl(uploadedFile));
+        setAvatarFile(uploadedFile);
       }
     }
 
@@ -153,12 +154,16 @@ import { fileUrl } from '../../store/file';
                       <div className="flex items-center w-full justify-center">
                         <UserProfileAvatar userProfile={newProfile} size={16}/>
                       </div>
+                      <div className="flex items-center w-full justify-center">
+                        <p className="mt-2 text-sm text-gray-500">How will you be seen in the App.</p>
+                      </div>
                       <div className="flex items-center justify-center mt-2">
                         <SingleImageUploader 
                           authUser={authUser} 
                           supabase={supabase} 
                           addFileFnc={selectAvatarFile}/>
                       </div>
+                      
                     </div>
                   </div>
 

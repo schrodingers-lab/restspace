@@ -11,7 +11,7 @@ import {
 } from '@ionic/react';
  
 
-import { cog, bookmark, map, filter, notifications } from 'ionicons/icons';
+import { cog, bookmark, map, filter, notifications, person } from 'ionicons/icons';
 import React from 'react';
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -172,16 +172,16 @@ const TourPage = () => {
                       <div  className="flex flex-col rounded-2xl bg-white shadow-xl">
                         <div className="relative flex-1 px-6 pt-16 pb-8 md:px-8">
                           <div className="top-0 inline-block -translate-y-1/2 transform rounded-xl bg-indigo-600 p-5 shadow-lg">
-                            <IonIcon icon={notifications} color="light" />
+                            <IonIcon icon={person} color="light" />
                           </div>
-                          <h3 className="text-xl font-medium text-gray-900">Keep in the Loop</h3>
+                          <h3 className="text-xl font-medium text-gray-900">Profile</h3>
                           <p className="mt-4 text-base text-gray-500">
-                            We have notifications to let you if there is an incident in your area
+                            Let get your Profile completed
                           </p>
                         </div>
                         <div className="rounded-bl-2xl rounded-br-2xl bg-gray-50 p-6 md:px-8">
-                          <a href={"/tabs/map"} className="text-base font-medium text-indigo-700 hover:text-indigo-600">
-                            Get Searching<span aria-hidden="true"></span>
+                          <a href={"/tabs/profile"} className="text-base font-medium text-indigo-700 hover:text-indigo-600">
+                            Join Community<span aria-hidden="true"></span>
                           </a>
                         </div>
                       </div>

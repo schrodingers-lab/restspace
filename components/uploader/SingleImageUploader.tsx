@@ -133,7 +133,7 @@ export const SingleImageUploader = ({authUser, supabase, addFileFnc}) => {
           <input 
             ref={fileUploadRef} 
             id="file"
-            accept="image/*"
+            accept="image/x-png,image/gif,image/jpeg"
             name="file-upload" 
             type="file" 
             onChange={handleFileChange}

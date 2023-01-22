@@ -3,14 +3,14 @@ import classNames from 'classnames';
 
 export const UserProfileAvatar = ({userProfile, size=8}) => {
     let initials = userProfile?.username?.length > 1 ? userProfile.username.substring(0,1) : null
-    let avatarSrc = userProfile?.avatar?.length > 1 ? userProfile.avatar : null;
+    let avatarSrc = userProfile?.avatar_url?.length > 1 ? userProfile.avatar_url : null;
 
     return (
       <>
         {avatarSrc && 
             <img
-                className={`inline-block h-${size} w-${size} rounded-full`}
-                src="avatarSrc"
+                className={`inline-block h-${size} w-${size} object-cover rounded-full`}
+                src={avatarSrc}
                 alt="avatar"
             />
         }
