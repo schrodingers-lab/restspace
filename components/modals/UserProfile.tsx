@@ -27,7 +27,7 @@ import UserProfileAvatar from '../ui/UserProfileAvatar';
         <IonHeader>
           <IonToolbar>
             <IonTitle>User Profile</IonTitle>
-            <IonButton slot="end" fill="clear" color="dark" onClick={onDidDismiss}>
+            <IonButton slot="end" fill="clear" color="primary" onClick={onDidDismiss}>
               <IonIcon icon={close} />
             </IonButton>
           </IonToolbar>
