@@ -77,7 +77,6 @@ import { fileUrl } from '../../store/file';
       setError('');
       const res = await updateProfile(newProfile, supabase);
       if (res?.error) {
-        alert('failed');
         setError(res.error?.message)
       } else {
         console.log('success')
