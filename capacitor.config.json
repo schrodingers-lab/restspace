@@ -1,5 +1,5 @@
 {
-  "appId": "com.wewatch.wewatchapp",
+  "appId": "com.wewatch.app",
   "appName": "WeWatch",
   "bundledWebRuntime": false,
   "npmClient": "npm",

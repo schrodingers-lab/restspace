@@ -1,6 +1,6 @@
 
 select * 
-from "public"."rest_areas" 
+from "public"."incidents" 
 -- where "id" =  23821
 where 1=1
 and ST_DWithin(

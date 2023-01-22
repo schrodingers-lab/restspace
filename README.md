@@ -61,3 +61,13 @@ You can think of [Capacitor](https://capacitorjs.com/) as a sort of "electron fo
 Capacitor provides access to Native APIs and a plugin system for building any native functionality your app needs.
 
 Capacitor apps can also run in the browser as a Progressive Web App with the same code.
+
+
+## Supabase Local
+supabase start
+
+# Default URL:
+postgresql://postgres:postgres@localhost:54322/postgres
+
+# Default URL:
+http://localhost:54321

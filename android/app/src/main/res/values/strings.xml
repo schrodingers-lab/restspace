@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">RestSpace</string>
-    <string name="title_activity_main">RestSpace</string>
-    <string name="package_name">com.proroute.restspace</string>
-    <string name="custom_url_scheme">com.proroute.restspace</string>
+    <string name="app_name">WeWatch</string>
+    <string name="title_activity_main">WeWatch</string>
+    <string name="package_name">com.wewatch.app</string>
+    <string name="custom_url_scheme">com.wewatch.app</string>
 </resources>
