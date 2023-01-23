@@ -1,6 +1,7 @@
 import { useUser } from "@supabase/auth-helpers-react";
 import { useEffect, useRef } from "react";
 import { useStore } from "../../store/chat";
+import NoUserCard from "../cards/NoUserCard";
 import Message from "./Message";
 import MessageInput from "./MessageInput";
 
@@ -23,7 +24,10 @@ export const Chat = ({ chatId }) => {
       {chatId == undefined && 
         <div> No Messages</div>
       }
-      {chatId && 
+      {chatId && !user &&
+        <NoUserCard/>
+      }
+      {chatId && user &&
         <>
           <ul>
             {messages && messages.length > 0 && messages.map((message) => <Message message={message} key={message.id} />)}
