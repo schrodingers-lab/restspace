@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 import React, { useState } from 'react';
 
-const ToggleDateDisplay = ({ input_date, addSufix=true, enableToggle=true, className, ...props  }) => {
+const ToggleDateDisplay = ({ input_date, addSufix=true, enableToggle=true, className='', ...props  }) => {
   const [displayMode, setDisplayMode] = useState<'distance'|'raw'>('distance');
 
   const handleClickRaw = (event) => {
