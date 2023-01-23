@@ -24,7 +24,9 @@ export const ForgotPage = ({history}) => {
     const [authMode, setAuthMode] = useState<'forgot' | 'update' | 'post'>('forgot');
 
     const displayPhone = (phoneNumber: string) => {
-      return phoneNumber+"TODO***s";
+      if (!phoneNumber) return '';
+      if (phoneNumber?.length < 4) return phoneNumber;
+      return `${'*'.repeat(phoneNumber.length - 4)}${phoneNumber.slice(-4)}`;
     }
 
     const callSetPhoneNumber = (phoneNumber) => {
@@ -55,10 +57,9 @@ export const ForgotPage = ({history}) => {
           </IonToolbar>
         </IonHeader>
         <IonContent>
-            {authMode}
             { authMode == 'forgot' && <Forgot sendPhoneNumberFnc={callSetPhoneNumber} sendAuthStateFnc={callSetAuthMode} />}
             { authMode == 'update' && <UpdatePassword phoneNumber={phoneNumber} displayPhoneNumber={displayPhoneNumber} sendAuthStateFnc={callSetAuthMode}/>}
-            { authMode == 'post' && <p>reset, lets TODO next step delayed route</p>}
+            { authMode == 'post' && <p>loading...</p>}
         </IonContent>
     </IonPage>
     );

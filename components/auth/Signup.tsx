@@ -116,15 +116,15 @@ export const Signup = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
 
     return (
       <>
-        <div className="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8 bg-gradient-to-br from-fuchsia-500 to-purple-600">
+        <div className="flex flex-col justify-center py-12 sm:px-6 lg:px-8 bg-gradient-to-br from-fuchsia-500 to-purple-600">
           <div className="sm:mx-auto sm:w-full sm:max-w-md">
             <img
               className="mx-auto h-12 w-auto"
-              src="/imgs/WeWatch/WeWatch_LogoStrap_black.svg"
+              src="/imgs/WeWatch/WeWatch_LogoStrap_orange.svg"
               alt="WeWatch"
             />
-            <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900 dark:text-white">Sign up for an account</h2>
-            <p className="mt-2 text-center text-sm text-gray-600 dark:text-white">
+            <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-200">Sign up for an account</h2>
+            <p className="mt-2 text-center text-sm text-gray-600 dark:text-gray-300">
               Or{' '}
               <a href="/tabs/login" className="font-medium text-indigo-600 hover:text-indigo-500">
                Sign in to an existing account
@@ -132,8 +132,8 @@ export const Signup = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
             </p>
           </div>
   
-          <div className="mt-4 sm:mx-auto sm:w-full sm:max-w-md">
-            <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+          <div className="bg-white dark:bg-black mt-4 sm:mx-auto sm:w-full sm:max-w-md">
+            <div className="py-8 px-4 shadow sm:rounded-lg sm:px-10">
               <form className="space-y-6" onSubmit={handleSubmit}>
                 <div>
                   <label htmlFor="tel" className="block text-sm font-medium text-gray-700 dark:text-white">

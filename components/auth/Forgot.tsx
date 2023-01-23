@@ -74,15 +74,15 @@ export const Forgot = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
 
     return (
       <>
-        <div className="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8 bg-gradient-to-br from-fuchsia-500 to-purple-600">
+        <div className="flex flex-col justify-center py-12 sm:px-6 lg:px-8 bg-gradient-to-br from-fuchsia-500 to-purple-600">
           <div className="sm:mx-auto sm:w-full sm:max-w-md">
             <img
               className="mx-auto h-12 w-auto"
-              src="/imgs/WeWatch/WeWatch_LogoStrap_black.svg"
+              src="/imgs/WeWatch/WeWatch_LogoStrap_orange.svg"
               alt="WeWatch"
             />
-            <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">Reset account password</h2>
-            <p className="mt-2 text-center text-sm text-gray-600">
+            <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-200">Reset account password</h2>
+            <p className="mt-2 text-center text-sm text-gray-600 dark:text-gray-300">
               Or{' '}
               <a href="/tabs/signup" className="font-medium text-indigo-600 hover:text-indigo-500">
                 start your free account
@@ -91,10 +91,10 @@ export const Forgot = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
           </div>
   
           <div className="mt-4 sm:mx-auto sm:w-full sm:max-w-md">
-            <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+            <div className="bg-white dark:bg-black py-8 px-4 shadow sm:rounded-lg sm:px-10">
               <form className="space-y-6" onSubmit={handleSubmit}>
                 <div>
-                  <label htmlFor="tel" className="block text-sm font-medium text-gray-700">
+                  <label htmlFor="tel" className="block text-sm font-medium text-gray-700 dark:text-gray-200">
                     Mobile
                   </label>
                   <div className="mt-1">
@@ -105,7 +105,7 @@ export const Forgot = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
                       error={phoneNumber ? (isValidPhoneNumber(phoneNumber) ? undefined : 'Invalid phone number') : 'Phone number required'}
                       value={phoneNumber}
                       onChange={handlePhone} 
-                      className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                      className="block w-full appearance-none rounded-md text-gray-900 dark:text-gray-200 border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                       />
 
                       {/* <p>={phoneNumber ? (isValidPhoneNumber(phoneNumber) ? undefined : 'Invalid phone number') : 'Phone number required'}</p> */}
