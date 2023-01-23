@@ -400,7 +400,7 @@ const NewDetail = ({history}) => {
                   </div>
                 </div>
 
-                <label htmlFor="categories" className="block text-xl font-medium text-gray-700 dark:text-gray-300 sm:mt-px sm:pt-2 mt-4 mb-2">
+                <label htmlFor="categories" className="block font-medium text-gray-700 dark:text-gray-300 sm:mt-px sm:pt-2 mt-4">
                     <IonButton onClick={()=>{setOpenIconKey(!openIconKey)}} slot="icon-only" shape="round" color={"warning" } fill={"outline"}  size="small" className='float-right'>
                       <IonIcon  icon={information} />
                     </IonButton>
