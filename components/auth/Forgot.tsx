@@ -84,7 +84,7 @@ export const Forgot = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
             <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-200">Reset account password</h2>
             <p className="mt-2 text-center text-sm text-gray-600 dark:text-gray-300">
               Or{' '}
-              <a href="/tabs/signup" className="font-medium text-indigo-600 hover:text-indigo-500">
+              <a href="/tabs/signup" className="font-medium text-ww-primary hover:text-ww-secondary">
                 start your free account
               </a>
             </p>
@@ -105,7 +105,7 @@ export const Forgot = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
                       error={phoneNumber ? (isValidPhoneNumber(phoneNumber) ? undefined : 'Invalid phone number') : 'Phone number required'}
                       value={phoneNumber}
                       onChange={handlePhone} 
-                      className="block w-full appearance-none rounded-md text-gray-900 dark:text-gray-200 border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                      className="block w-full appearance-none rounded-md text-gray-900 dark:text-gray-200 border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-yellow-500 sm:text-sm"
                       />
 
                       {/* <p>={phoneNumber ? (isValidPhoneNumber(phoneNumber) ? undefined : 'Invalid phone number') : 'Phone number required'}</p> */}
@@ -118,7 +118,7 @@ export const Forgot = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
   
                 <div className="flex items-center justify-between">
                   <div className="text-sm">
-                    <a href="/tabs/login" className="font-medium text-indigo-600 hover:text-indigo-500">
+                    <a href="/tabs/login" className="font-medium text-ww-primary hover:text-ww-secondary">
                       Log in?
                     </a>
                   </div>
@@ -128,7 +128,7 @@ export const Forgot = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
                 <div>
                   <button
                     type="submit"
-                    className="flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                    className="flex w-full justify-center rounded-md border border-transparent bg-yellow-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2"
                   >
                     Send Verification
                   </button>

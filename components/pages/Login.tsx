@@ -15,6 +15,7 @@ import React, { useState } from 'react';
 import Login from '../auth/Login';
 import Signup from '../auth/Signup';
 import { Verify } from '../auth/Verify';
+import { displayPhone } from '../util/display';
   
   
 export const LoginPage = ({history}) => {
@@ -22,10 +23,6 @@ export const LoginPage = ({history}) => {
     const [phoneNumber, setPhoneNumber] = useState<string>();
     const [displayPhoneNumber, setDisplayPhoneNumber] = useState<string>();
     const [authMode, setAuthMode] = useState<'login' | 'verify' | 'signup' | 'post'>('login');
-
-    const displayPhone = (phoneNumber: string) => {
-      return phoneNumber+"TODO***s";
-    }
 
     const callSetPhoneNumber = (phoneNumber) => {
       setPhoneNumber(phoneNumber);

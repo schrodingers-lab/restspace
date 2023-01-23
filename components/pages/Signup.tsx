@@ -15,16 +15,13 @@ import React, { useState } from 'react';
 import Login from '../auth/Login';
 import Signup from '../auth/Signup';
 import { Verify } from '../auth/Verify';
+import { displayPhone } from '../util/display';
   
 export const SignupPage = ({history}) => {
 
   const [phoneNumber, setPhoneNumber] = useState<string>();
   const [displayPhoneNumber, setDisplayPhoneNumber] = useState<string>();
   const [authMode, setAuthMode] = useState<'login' | 'verify' | 'signup' | 'post'>('signup');
-
-  const displayPhone = (phoneNumber: string) => {
-    return phoneNumber+"TODO***s";
-  }
 
   const callSetPhoneNumber = (phoneNumber) => {
     setPhoneNumber(phoneNumber);
@@ -54,10 +51,12 @@ export const SignupPage = ({history}) => {
           </IonToolbar>
         </IonHeader>
         <IonContent>
+          <div className='mx-2'>
             { authMode == 'login' && <Login sendPhoneNumberFnc={callSetPhoneNumber} sendAuthStateFnc={callSetAuthMode} />}
             { authMode == 'signup' && <Signup sendPhoneNumberFnc={callSetPhoneNumber} sendAuthStateFnc={callSetAuthMode} />}
             { authMode == 'verify' && <Verify phoneNumber={phoneNumber} displayPhoneNumber={displayPhoneNumber} sendAuthStateFnc={callSetAuthMode}/>}
             { authMode == 'post' && <p>Logged in, lets TODO next step delayed route and reset state</p>}
+          </div>
         </IonContent>
     </IonPage>
     );

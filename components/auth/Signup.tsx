@@ -126,7 +126,7 @@ export const Signup = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
             <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-200">Sign up for an account</h2>
             <p className="mt-2 text-center text-sm text-gray-600 dark:text-gray-300">
               Or{' '}
-              <a href="/tabs/login" className="font-medium text-indigo-600 hover:text-indigo-500">
+              <a href="/tabs/login" className="font-medium text-ww-primary hover:text-ww-secondary">
                Sign in to an existing account
               </a>  
             </p>
@@ -147,7 +147,7 @@ export const Signup = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
                       error={phoneNumber ? (isValidPhoneNumber(phoneNumber) ? undefined : 'Invalid phone number') : 'Phone number required'}
                       value={phoneNumber}
                       onChange={handlePhone} 
-                      className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm text-black dark:text-white"
+                      className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-yellow-500 sm:text-sm text-black dark:text-white"
                       />
 
                       {/* <p>={phoneNumber ? (isValidPhoneNumber(phoneNumber) ? undefined : 'Invalid phone number') : 'Phone number required'}</p> */}
@@ -166,7 +166,7 @@ export const Signup = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
                       onChange={handlePassword}
                       ref={passwordRef}
                       required
-                      className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm text-black dark:text-white"
+                      className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-ww-secondary focus:outline-none focus:ring-yellow-500 sm:text-sm text-black dark:bg-black dark:text-white"
                     />
                   </div>
                 </div>
@@ -179,7 +179,7 @@ export const Signup = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
   
                 <div className="flex items-center justify-between pb-8">
                   <div className="text-sm">
-                    <a href="/tabs/forgot" className="font-medium text-indigo-600 hover:text-indigo-500">
+                    <a href="/tabs/forgot" className="font-medium text-ww-primary hover:text-ww-secondary">
                       Forgot your password?
                     </a>
                   </div>
@@ -198,7 +198,7 @@ export const Signup = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
                       />
                     </div>
                     <div className="ml-3 text-sm">
-                      <p className="text-black dark:text-white">By creating an account you agree to the <a href='/tabs/terms' className="font-medium text-indigo-600 hover:text-indigo-500">Terms and Conditions</a></p>
+                      <p className="text-black dark:text-white">By creating an account you agree to the <a href='/tabs/terms' className="font-medium text-ww-primary hover:text-ww-secondary">Terms and Conditions</a></p>
                     </div>
                   </div>
                 </div>
@@ -206,7 +206,7 @@ export const Signup = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
                 <div>
                   <button
                     type="submit"
-                    className="flex w-full justify-center rounded-md border border-transparent bg-indigo-600 text-white py-2 px-4 text-sm font-medium "
+                    className="flex w-full justify-center rounded-md border border-transparent bg-yellow-600 text-white py-2 px-4 text-sm font-medium "
                   >
                     Sign up
                   </button>

@@ -15,6 +15,7 @@ import React, { useState } from 'react';
 import { Forgot } from '../auth/Forgot';
 import { UpdatePassword } from '../auth/UpdatePassword';
 import { Verify } from '../auth/Verify';
+import { displayPhone } from '../util/display';
   
   
 export const ForgotPage = ({history}) => {
@@ -22,12 +23,6 @@ export const ForgotPage = ({history}) => {
     const [phoneNumber, setPhoneNumber] = useState<string>();
     const [displayPhoneNumber, setDisplayPhoneNumber] = useState<string>();
     const [authMode, setAuthMode] = useState<'forgot' | 'update' | 'post'>('forgot');
-
-    const displayPhone = (phoneNumber: string) => {
-      if (!phoneNumber) return '';
-      if (phoneNumber?.length < 4) return phoneNumber;
-      return `${'*'.repeat(phoneNumber.length - 4)}${phoneNumber.slice(-4)}`;
-    }
 
     const callSetPhoneNumber = (phoneNumber) => {
       setPhoneNumber(phoneNumber);

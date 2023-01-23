@@ -64,7 +64,7 @@ const TourPage = () => {
                   <div className="grid grid-cols-1 gap-y-20 ">
                       <div  className="flex flex-col rounded-2xl bg-white shadow-xl">
                         <div className="relative flex-1 px-6 pt-16 pb-8 md:px-8">
-                          <div className="top-0 inline-block -translate-y-1/2 transform rounded-xl bg-indigo-600 p-5 shadow-lg">
+                          <div className="top-0 inline-block -translate-y-1/2 transform rounded-xl bg-yellow-600 p-5 shadow-lg">
                             <IonIcon icon={map} color="light"  />
                           </div>
                           <h3 className="text-xl font-medium text-gray-900">Dynamic Map</h3>
@@ -101,7 +101,7 @@ const TourPage = () => {
                   <div className="grid grid-cols-1 gap-y-20 ">
                       <div  className="flex flex-col rounded-2xl bg-white shadow-xl">
                         <div className="relative flex-1 px-6 pt-16 pb-8 md:px-8">
-                          <div className="top-0 inline-block -translate-y-1/2 transform rounded-xl bg-indigo-600 p-5 shadow-lg">
+                          <div className="top-0 inline-block -translate-y-1/2 transform rounded-xl bg-yellow-600 p-5 shadow-lg">
                             <IonIcon icon={bookmark} color="light" />
                           </div>
                           <h3 className="text-xl font-medium text-gray-900">Bookmark</h3>
@@ -136,7 +136,7 @@ const TourPage = () => {
                   <div className="grid grid-cols-1 gap-y-20 ">
                       <div  className="flex flex-col rounded-2xl bg-white shadow-xl">
                         <div className="relative flex-1 px-6 pt-16 pb-8 md:px-8">
-                          <div className="top-0 inline-block -translate-y-1/2 transform rounded-xl bg-indigo-600 p-5 shadow-lg">
+                          <div className="top-0 inline-block -translate-y-1/2 transform rounded-xl bg-yellow-600 p-5 shadow-lg">
                             <IonIcon icon={filter} color="light" />
                           </div>
                           <h3 className="text-xl font-medium text-gray-900">Filtering</h3>
@@ -171,7 +171,7 @@ const TourPage = () => {
                   <div className="grid grid-cols-1 gap-y-20 ">
                       <div  className="flex flex-col rounded-2xl bg-white shadow-xl">
                         <div className="relative flex-1 px-6 pt-16 pb-8 md:px-8">
-                          <div className="top-0 inline-block -translate-y-1/2 transform rounded-xl bg-indigo-600 p-5 shadow-lg">
+                          <div className="top-0 inline-block -translate-y-1/2 transform rounded-xl bg-yellow-600 p-5 shadow-lg">
                             <IonIcon icon={person} color="light" />
                           </div>
                           <h3 className="text-xl font-medium text-gray-900">Profile</h3>

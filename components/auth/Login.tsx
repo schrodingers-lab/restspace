@@ -95,7 +95,7 @@ export const Login = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
             <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-200">Sign in to your account</h2>
             <p className="mt-2 text-center text-m text-gray-600 dark:text-gray-300">
               Or{' '}
-              <a href="/tabs/signup" className="font-medium text-indigo-600 hover:text-indigo-500">
+              <a href="/tabs/signup" className="font-medium text-ww-primary hover:text-ww-secondary">
                 start your free account
               </a>  
             </p>
@@ -115,7 +115,7 @@ export const Login = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
                       onCountryChange={onCountryChange}
                       value={phoneNumber}
                       onChange={handlePhone} 
-                      className="block w-full appearance-none rounded-md border border-gray-300 bg-white text-gray-900 dark:bg-black dark:text-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                      className="block w-full appearance-none rounded-md border border-gray-300 bg-white text-gray-900 dark:bg-black dark:text-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-yellow-500 sm:text-sm"
                       />
                   </div>
                 </div>
@@ -132,7 +132,7 @@ export const Login = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
                       onChange={handlePassword}
                       ref={passwordRef}
                       required
-                      className="block w-full appearance-none rounded-md border border-gray-300 text-gray-900 dark:bg-black dark:text-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                      className="block w-full appearance-none rounded-md border border-gray-300 text-gray-900 dark:bg-black dark:text-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-yellow-500 sm:text-sm"
                     />
                   </div>
                 </div>
@@ -144,7 +144,7 @@ export const Login = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
                 <div className="flex items-center justify-between">
   
                   <div className="text-sm">
-                    <a href="/tabs/forgot" className="font-medium text-indigo-600 hover:text-indigo-500">
+                    <a href="/tabs/forgot" className="font-medium text-ww-primary hover:text-ww-secondary">
                       Forgot your password?
                     </a>
                   </div>
@@ -154,7 +154,7 @@ export const Login = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
                 <div>
                   <button
                     type="submit"
-                    className="flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                    className="flex w-full justify-center rounded-md border border-transparent bg-ww-primary py-2 px-4 text-sm font-medium text-white shadow-sm hover:ww-secondary focus:outline-none focus:ring-2 focus:ww-secondary focus:ring-offset-2"
                   >
                     Sign in
                   </button>

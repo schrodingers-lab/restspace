@@ -25,7 +25,9 @@ export const Chat = ({ chatId }) => {
         <div> No Messages</div>
       }
       {chatId && !user &&
-        <NoUserCard/>
+        <div className="mx-2">
+          <NoUserCard  />
+        </div>
       }
       {chatId && user &&
         <>

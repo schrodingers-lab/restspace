@@ -23,11 +23,11 @@ export const NoUserCard = () => {
                 </svg>
                 <h2 className="mt-2 text-lg font-medium text-gray-900 dark:text-gray-200">No logged in User</h2>
                 <p className="mt-1 text-sm text-gray-600 dark:text-gray-300">This feature needs an account.</p>
-                <a href="/tabs/login" className="font-medium text-indigo-600 hover:text-indigo-500">
+                <a href="/tabs/login" className="font-medium text-ww-primary hover:text-ww-secondary">
                   Sign in
                 </a>
                 <p className="mt-1 text-sm text-gray-600 dark:text-gray-300">Or</p>
-                <a href="/tabs/signup" className="font-medium text-indigo-600 hover:text-indigo-500">
+                <a href="/tabs/signup" className="font-medium text-ww-primary hover:text-ww-secondary">
                   Sign Up
                 </a>
               </div>

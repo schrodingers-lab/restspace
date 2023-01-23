@@ -40,7 +40,7 @@ const DashboardPage = (props) => {
           <button
             onClick={handleReturn}
             type="button"
-            className="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            className="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2"
           >
             Return
           </button>
@@ -67,7 +67,7 @@ const DashboardPage = (props) => {
          
               <div className="absolute inset-x-0 bottom-0 bg-gray-50 px-4 py-4 sm:px-6">
                 <div className="text-sm">
-                  <div className="font-medium text-indigo-600 hover:text-indigo-500">
+                  <div className="font-medium text-ww-primary hover:text-ww-secondary">
                     {' '}
                     View all
                   </div>
@@ -92,7 +92,7 @@ const DashboardPage = (props) => {
          
               <div className="absolute inset-x-0 bottom-0 bg-gray-50 px-4 py-4 sm:px-6">
                 <div className="text-sm">
-                  <div className="font-medium text-indigo-600 hover:text-indigo-500">
+                  <div className="font-medium text-ww-primary hover:text-ww-secondary">
                     {' '}
                     View all
                   </div>

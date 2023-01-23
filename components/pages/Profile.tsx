@@ -110,7 +110,9 @@ import NoUserCard from '../cards/NoUserCard';
           </IonHeader>
 
           {(!authUser) && 
-            <NoUserCard/>
+            <div className="mx-2">
+              <NoUserCard  />
+            </div>
           }
 
           {authUser &&
@@ -119,14 +121,14 @@ import NoUserCard from '../cards/NoUserCard';
                 <div className="space-y-6 sm:space-y-5">
                   <div>
                     {/* <h3 className="text-lg font-medium leading-6 text-gray-900">My Public Profile</h3> */}
-                    <p className="mt-1 max-w-2xl text-sm text-gray-500">
+                    <p className="mt-1 max-w-2xl text-sm text-gray-500 dark:text-gray-200">
                       This information will be displayed publicly so be careful what you share.
                     </p>
                   </div>
 
                   <div className="space-y-6 sm:space-y-5">
                     <div className="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
-                      <label htmlFor="username" className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
+                      <label htmlFor="username" className="block text-sm font-medium text-gray-700 dark:text-gray-300 sm:mt-px sm:pt-2">
                         Username
                       </label>
                       <div className="mt-1 sm:col-span-2 sm:mt-0">
@@ -137,16 +139,16 @@ import NoUserCard from '../cards/NoUserCard';
                             id="username"
                             value={username}
                             onChange={handleUsername}
-                            className="block w-full min-w-0 flex-1 rounded-none rounded-r-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                            className="block w-full min-w-0 flex-1 rounded-none dark:bg-black dark:text-white rounded-r-md border-gray-300 focus:border-ww-secondary focus:ring-ww-secondary sm:text-sm"
                           />
                           
                         </div>
-                        <p className="mt-2 text-sm text-gray-500">This needs to unique, and meet our terms of service.</p>
+                        <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">This needs to unique, and meet our terms of service.</p>
                       </div>
                     </div>
 
                     <div className="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
-                      <label htmlFor="about" className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
+                      <label htmlFor="about" className="block text-sm font-medium text-gray-700 dark:text-gray-300 sm:mt-px sm:pt-2">
                         About
                       </label>
                       <div className="mt-1 sm:col-span-2 sm:mt-0">
@@ -156,14 +158,14 @@ import NoUserCard from '../cards/NoUserCard';
                           rows={3}
                           value={about}
                           onChange={handleAbout}
-                          className="block w-full max-w-lg rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                          className="block w-full max-w-lg rounded-md border-gray-300 text-gray-500 dark:text-gray-300  dark:bg-black shadow-sm focus:border-ww-secondary focus:ring-ww-secondary sm:text-sm"
                         />
-                        <p className="mt-2 text-sm text-gray-500">Write a few sentences about yourself.</p>
+                        <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">Write a few sentences about yourself.</p>
                       </div>
                     </div>
 
                     <div className="sm:grid sm:grid-cols-3 sm:items-center sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
-                      <label htmlFor="photo" className="block text-sm font-medium text-gray-700">
+                      <label htmlFor="photo" className="block text-sm font-medium text-gray-700 dark:text-gray-200">
                         Avatar
                       </label>
                       <div className="mt-1 sm:col-span-2 sm:mt-0">
@@ -171,7 +173,7 @@ import NoUserCard from '../cards/NoUserCard';
                           <UserProfileAvatar userProfile={newProfile} size={16}/>
                         </div>
                         <div className="flex items-center w-full justify-center">
-                          <p className="mt-2 text-sm text-gray-500">How will you be seen in the App.</p>
+                          <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">How will you be seen in the App.</p>
                         </div>
                         <div className="flex items-center justify-center mt-2">
                           <SingleImageUploader 
@@ -194,14 +196,14 @@ import NoUserCard from '../cards/NoUserCard';
                   <button
                     type="button"
                     onClick={resetData}
-                    className="rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                    className="rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2"
                   >
                     Cancel
                   </button>
                   
                   <button
                     type="submit"
-                    className="ml-3 inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                    className="ml-3 inline-flex justify-center rounded-md border border-transparent bg-yellow-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2"
                   >
                     Save
                   </button>

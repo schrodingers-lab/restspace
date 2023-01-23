@@ -363,7 +363,11 @@ const NewDetail = ({history}) => {
           {error}
         </div>
         
-        {(!authUser ) && <NoUserCard/>}
+        {(!authUser ) &&
+          <div className="mx-2">
+            <NoUserCard  />
+          </div>
+        }
 
         { authUser && 
           <form className="space-y-8 divide-y divide-gray-200 px-4 my-8" onSubmit={handleSubmit}>
@@ -387,7 +391,7 @@ const NewDetail = ({history}) => {
                       id="name"
                       value={name}
                       onChange={handleName}
-                      className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                      className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-yellow-500 sm:text-sm"
                     />
                   </div>
                 </div>
@@ -448,7 +452,7 @@ const NewDetail = ({history}) => {
                       id="about"
                       name="about"
                       rows={3}
-                      className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                      className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-yellow-500 sm:text-sm"
                       value={about}
                       onChange={handleAboutChange}
                     />
@@ -528,13 +532,13 @@ const NewDetail = ({history}) => {
                 <button
                   type="button"
                   onClick={resetData}
-                  className="rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                  className="rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="ml-3 inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                  className="ml-3 inline-flex justify-center rounded-md border border-transparent bg-yellow-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2"
                 >
                   Save
                 </button>

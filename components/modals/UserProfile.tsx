@@ -33,22 +33,22 @@ import UserProfileAvatar from '../ui/UserProfileAvatar';
           </IonToolbar>
         </IonHeader>
         <IonContent>
-          <div className="relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all w-full">
+          <div className="relative transform overflow-hidden rounded-lg bg-white dark:bg-black dark:text-white px-4 pt-5 pb-4 text-left shadow-xl transition-all w-full">
             <div>
               <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
                 <UserProfileAvatar userProfile={userProfile} size={12} /><br/>
               </div>
               <div className="mt-3 text-center sm:mt-5">
-                <div className="text-xl font-medium leading-6 text-gray-900">
+                <div className="text-xl font-medium leading-6 text-gray-900 dark:text-gray-100">
                   {userProfile?.username}
                 </div>
                 <div className="mt-2">
 
                     {userProfile?.inserted_at && 
-                        <p className="text-sm text-gray-500">Joined: {formatDistanceToNow(new Date(userProfile.inserted_at),{addSuffix: true})}</p>
+                        <p className="text-sm text-gray-500 dark:text-gray-200">Joined: {formatDistanceToNow(new Date(userProfile.inserted_at),{addSuffix: true})}</p>
                     }
                 
-                  <p className="text-sm text-gray-500">
+                  <p className="text-sm text-gray-500  dark:text-gray-200">
                     {userProfile?.about}
                   </p>
                 </div>

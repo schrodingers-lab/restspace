@@ -14,6 +14,7 @@ import {
 import React, { useState } from 'react';
 import Forgot from '../auth/Forgot';
 import {UpdatePassword} from '../auth/UpdatePassword';
+import { displayPhone } from '../util/display';
   
   
 export const UpdatePasswordPage = ({history}) => {
@@ -21,10 +22,6 @@ export const UpdatePasswordPage = ({history}) => {
   const [phoneNumber, setPhoneNumber] = useState<string>();
   const [displayPhoneNumber, setDisplayPhoneNumber] = useState<string>();
   const [authMode, setAuthMode] = useState< 'update' | 'post'>('update');
-
-  const displayPhone = (phoneNumber: string) => {
-    return phoneNumber+"TODO***s";
-  }
 
   const callSetPhoneNumber = (phoneNumber) => {
     setPhoneNumber(phoneNumber);

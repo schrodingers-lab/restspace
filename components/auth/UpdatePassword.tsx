@@ -188,7 +188,7 @@ export const UpdatePassword = ( {phoneNumber, displayPhoneNumber, sendAuthStateF
                       onChange={handlePassword}
                       ref={passwordRef}
                       required
-                      className="block w-full appearance-none rounded-md border border-gray-300 text-gray-900 dark:bg-black dark:text-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                      className="block w-full appearance-none rounded-md border border-gray-300 text-gray-900 dark:bg-black dark:text-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-yellow-500 sm:text-sm"
                     />
                   </div>
                 </div>
@@ -200,7 +200,7 @@ export const UpdatePassword = ( {phoneNumber, displayPhoneNumber, sendAuthStateF
                 <div className="flex items-center justify-between">
   
                   <div className="text-sm">
-                    <a onClick={resendCode} className="font-medium text-indigo-600 hover:text-indigo-500">
+                    <a onClick={resendCode} className="font-medium text-ww-primary hover:text-ww-secondary">
                       Resend Code?
                     </a>
                   </div>
@@ -210,7 +210,7 @@ export const UpdatePassword = ( {phoneNumber, displayPhoneNumber, sendAuthStateF
                 <div>
                   <button
                     type="submit"
-                    className="flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                    className="flex w-full justify-center rounded-md border border-transparent bg-yellow-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2"
                   >
                     Update
                   </button>

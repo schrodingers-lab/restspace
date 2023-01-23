@@ -145,7 +145,7 @@ export const Verify = ( {phoneNumber, displayPhoneNumber, sendAuthStateFnc}) => 
               src="/imgs/WeWatch/WeWatch_LogoStrap_orange.svg"
               alt="WeWatch"
             />
-            <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-200">Verify</h2>
+            <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-200">Secure Code</h2>
             <p className="mt-2 text-center text-sm text-gray-600 dark:text-gray-300">
   
             </p>
@@ -165,7 +165,6 @@ export const Verify = ( {phoneNumber, displayPhoneNumber, sendAuthStateFnc}) => 
                   <input ref={token3Ref} onChange={handleToken3} value={token3} onKeyUp={e => inputfocus(e)}  autoComplete="off" tabIndex={3} className="m-2 border h-10 w-10 text-center form-control rounded text-gray-900 dark:text-gray-200 dark:bg-black" type="text" id="third" maxLength={1} /> 
                   <input ref={token4Ref} onChange={handleToken4} value={token4} onKeyUp={e => inputfocus(e)}  autoComplete="off" tabIndex={4} className="m-2 border h-10 w-10 text-center form-control rounded text-gray-900 dark:text-gray-200 dark:bg-black" type="text" id="fourth" maxLength={1} />
                   <input ref={token5Ref} onChange={handleToken5} value={token5} onKeyUp={e => inputfocus(e)}  autoComplete="off" tabIndex={5} className="m-2 border h-10 w-10 text-center form-control rounded text-gray-900 dark:text-gray-200 dark:bg-black" type="text" id="fifth" maxLength={1} /> 
-                  <input ref={token5Ref} onChange={handleToken5} value={token5} onKeyUp={e => inputfocus(e)}  autoComplete="off" tabIndex={5} className="m-2 border h-10 w-10 text-center form-control rounded text-gray-900 dark:text-gray-200 dark:bg-black" type="text" id="fifth" maxLength={1} /> 
                   <input ref={token6Ref} onChange={handleToken6} value={token6} onKeyUp={e => inputfocus(e)}  autoComplete="off" tabIndex={6} className="m-2 border h-10 w-10 text-center form-control rounded text-gray-900 dark:text-gray-200 dark:bg-black" type="text" id="sixth" maxLength={1} />
                 </div>
 
@@ -176,7 +175,7 @@ export const Verify = ( {phoneNumber, displayPhoneNumber, sendAuthStateFnc}) => 
                 <div className="flex items-center justify-between">
   
                   <div className="text-sm">
-                    <a onClick={resendCode} className="font-medium text-indigo-600 hover:text-indigo-500">
+                    <a onClick={resendCode} className="font-medium text-ww-primary hover:text-ww-secondary">
                       Resend Code?
                     </a>
                   </div>
@@ -186,7 +185,7 @@ export const Verify = ( {phoneNumber, displayPhoneNumber, sendAuthStateFnc}) => 
                 <div>
                   <button
                     type="submit"
-                    className="flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                    className="flex w-full justify-center rounded-md border border-transparent bg-yellow-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2"
                   >
                     Verify
                   </button>

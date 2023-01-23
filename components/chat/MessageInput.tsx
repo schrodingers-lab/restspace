@@ -41,7 +41,7 @@ export default function MessageInput({chatId}) {
     <div className="flex items-start space-x-4 mx-2 py-4">
       <div className="min-w-0 flex-1">
         <form action="#" className="relative" onSubmit={handleSubmit}>
-          <div className="overflow-hidden rounded-lg border border-gray-300 shadow-sm focus-within:border-indigo-500 focus-within:ring-1 focus-within:ring-indigo-500">
+          <div className="overflow-hidden rounded-lg border border-gray-300 shadow-sm focus-within:border-ww-primary focus-within:ring-1 focus-within:ring-ww-primary">
             <label htmlFor="message" className="sr-only">
               Add your message
             </label>
@@ -50,7 +50,7 @@ export default function MessageInput({chatId}) {
               name="message"
               id="message"
               ref={messageTextArea}
-              className="block w-full resize-none border-0 py-3 focus:ring-0 sm:text-sm"
+              className="block w-full resize-none border-0 py-3 focus:ring-0 sm:text-sm dark:bg-black dark:text-white"
               placeholder="Add your message..."
               value={messageText}
               onChange={(e) => setMessageText(e.target.value)}
@@ -72,7 +72,7 @@ export default function MessageInput({chatId}) {
             <div className="flex-shrink-0">
               <button
                 type="submit"
-                className="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                className="inline-flex items-center rounded-md border border-transparent bg-yellow-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2"
               >
                 Post
               </button>
