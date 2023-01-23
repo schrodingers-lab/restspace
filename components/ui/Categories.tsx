@@ -3,10 +3,10 @@ import classNames from 'classnames';
 import { IonButton, IonIcon } from '@ionic/react';
 import { information } from 'ionicons/icons';
 
-export const Categories = ({incident, showAll=false, className, ...props  }) => {
+export const Categories = ({incident, showAll=false}) => {
 
     return (
-        <div id="categories" {...props} className={classNames('', className)}>
+        <div id="categories">
             { (incident.stolenvehicle || showAll) && 
                 <IonButton slot="icon-only"   shape="round" color={incident.stolenvehicle ? "primary" : "medium" }  >
                     <IonIcon src="/svgs/wewatch/stolen-vehicle.svg" />

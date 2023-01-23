@@ -2,10 +2,10 @@ import React from 'react';
 import classNames from 'classnames';
 import { IonIcon } from '@ionic/react';
 
-export const CategoriesIcons = ({incident, showAll=false, className, ...props  })  => {
+export const CategoriesIcons = ({incident, showAll=false })  => {
 
     return (
-        <div id="categories" {...props} className={classNames('', className)}>
+        <div id="categories">
             { (incident.stolenvehicle || showAll) && 
                 <IonIcon src="/svgs/wewatch/stolen-vehicle.svg" color={incident.stolenvehicle ? "primary" : "medium"  } className="px-2" />
                  

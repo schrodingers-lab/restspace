@@ -21,7 +21,7 @@ import { eye, easel } from 'ionicons/icons';
 import CategoriesIcons from '../ui/CategoriesIcons';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 
-function MapInfo(props) {
+const MapInfo = (props) => {
   const { incident, history } = props;
   const displayName = `#${incident?.id} - ${incident?.name}`;
 
@@ -32,7 +32,7 @@ function MapInfo(props) {
   return (
     <div className="grid grid-rows-2 text-gray-800 bg-white dark:bg-black dark:text-white" onClick={() => handleClick()}>
       <div className='text-2xl'>
-        <CategoriesIcons incident={incident} />
+        <CategoriesIcons incident={incident} showAll={false}/>
       </div>
       
       <div className='text-md'>
