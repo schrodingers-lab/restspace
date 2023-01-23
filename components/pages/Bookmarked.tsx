@@ -132,9 +132,9 @@ const Bookmarked = ({history}) => {
         </IonRefresher>
 
         <div className="flex items-center">
-          <div className="rounded-md bg-blue-50 p-4 w-full">
+          <div className="rounded-md bg-gray-50 dark:bg-gray-900 p-4 w-full">
             <div className="flex w-full justify-between">
-              <p className="text-sm text-blue-700 w-fill">Pull this content down to trigger a refresh.</p>
+              <p className="text-sm text-gray-500 w-fill">Pull this down to trigger a refresh.</p>
             </div>
           </div>
         </div>

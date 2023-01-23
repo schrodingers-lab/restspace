@@ -25,7 +25,7 @@ const IconKey = ({ open, onDidDismiss }) => {
       <IonModal isOpen={open} onDidDismiss={onDidDismiss}>
         <IonHeader>
           <IonToolbar>
-            <IonTitle>Icon Key</IonTitle>
+            <IonTitle>Icon Key - Categories</IonTitle>
             <IonButton slot="end" fill="clear" color="primary" onClick={onDidDismiss}>
               <IonIcon icon={close} />
             </IonButton>

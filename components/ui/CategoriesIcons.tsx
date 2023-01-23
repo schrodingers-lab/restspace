@@ -1,13 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import classNames from 'classnames';
-import { IonButton, IonIcon } from '@ionic/react';
-import { information } from 'ionicons/icons';
+import { IonIcon } from '@ionic/react';
 
-export const CategoriesIcons = ({incident, showAll=false}) => {
+export const CategoriesIcons = ({incident, showAll=false, className, ...props  })  => {
 
     return (
-      <>
-        <div id="categories">
+        <div id="categories" {...props} className={classNames('', className)}>
             { (incident.stolenvehicle || showAll) && 
                 <IonIcon src="/svgs/wewatch/stolen-vehicle.svg" color={incident.stolenvehicle ? "primary" : "medium"  } className="px-2" />
                  
@@ -50,7 +48,6 @@ export const CategoriesIcons = ({incident, showAll=false}) => {
                 <IonIcon src="/svgs/wewatch/unfamiliar-person.svg" color={incident.unfamiliar ? "secondary" : "medium"  } className="px-2" />
             }
         </div>
-      </>
     )
   }
 

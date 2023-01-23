@@ -1,6 +1,8 @@
 import React from 'react';
 import Card from '../ui/Card';
 import Categories from '../ui/Categories';
+import CategoriesIcons from '../ui/CategoriesIcons';
+import ToggleDateDisplay from '../ui/ToggleDatesDisplay';
 import { displayCoverImage } from '../util/display';
 
 export const IncidentCard = ({incident, key, onClickFnc}) => {
@@ -16,15 +18,11 @@ export const IncidentCard = ({incident, key, onClickFnc}) => {
       <div className="h-32 w-full relative">
         <img className="h-32 px-auto w-full object-cover object-center" src={img0} alt="image" />
       </div>
-      <div className="px-4 py-4 bg-white rounded-b-xl dark:bg-black">
-        {/* <h4 className="font-bold py-0 text-s text-gray-400 dark:text-gray-500 uppercase">{incident.about}</h4> */}
-        <h2 className="font-bold text-xl text-gray-800 dark:text-gray-100">#{incident.id} - {incident.name}</h2>
-        <p className="sm:text-sm text-s text-gray-500 mr-1 my-3 dark:text-gray-400">{incident.about}</p>
-        <div className="flex items-center space-x-4">
-          <h3 className="text-gray-500 dark:text-gray-200 m-l-8 text-sm font-medium">{incident.author}</h3>
-        </div>
-        <div className='w-full'>
-          <Categories incident={incident} showAll={false} />
+      <div className="px-4 py-4 bg-gray-100 rounded-b-xl dark:bg-gray-900">
+       <h2 className="font-bold text-l text-gray-800 dark:text-gray-100">#{incident.id} - {incident.name}</h2>
+        <div className='w-full pt-2'>
+          <ToggleDateDisplay input_date={incident?.inserted_at} enableToggle={false} className="float-right" />
+          <CategoriesIcons incident={incident} showAll={false} />
         </div>
       </div>
     </Card>
