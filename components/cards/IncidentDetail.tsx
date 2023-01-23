@@ -184,11 +184,13 @@ export const IncidentDetail = ({incident , files, supabase}) => {
           </IonItem>
         </CopyToClipboard>
 
-        <label htmlFor="location" className="block text-xl font-medium text-gray-700 dark:text-gray-300 sm:mt-px sm:pt-2 mt-4 mb-2">
+        <div className="w-full">
+        <label htmlFor="when" className="block text-xl font-medium text-gray-700 dark:text-gray-300 sm:mt-px sm:pt-2 mt-4 mb-2">
             When             
         </label>
-        <div id="location" className="area-map-section h-64 mb-10">
+        <div id="when" className="">
           <ToggleDateDisplay input_date={incident.inserted_at} />
+        </div>
         </div>
 
         <div className="w-full">
