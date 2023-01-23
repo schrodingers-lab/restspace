@@ -359,7 +359,7 @@ const NewDetail = ({history}) => {
           <IonButtons slot="start">
             <IonBackButton defaultHref="/tabs/map" />
           </IonButtons>
-          <IonTitle>Create</IonTitle>
+          <IonTitle>New</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
@@ -437,19 +437,19 @@ const NewDetail = ({history}) => {
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                     Level 2
                   </label>
-                  <IonButton slot="icon-only" shape="round" color={loitering ? "primary" : "medium" } onClick={() => { setLoitering(!loitering)}} >
+                  <IonButton slot="icon-only" shape="round" color={loitering ? "secondary" : "medium" } onClick={() => { setLoitering(!loitering)}} >
                     <IonIcon src="/svgs/wewatch/loitering.svg" />
                   </IonButton>
 
-                  <IonButton slot="icon-only" shape="round" color={disturbance ? "primary" : "medium" } onClick={() => { setDisturbance(!disturbance)}} >
+                  <IonButton slot="icon-only" shape="round" color={disturbance ? "secondary" : "medium" } onClick={() => { setDisturbance(!disturbance)}} >
                     <IonIcon src="/svgs/wewatch/disturbance.svg" />
                   </IonButton>
 
-                  <IonButton slot="icon-only" shape="round" color={suspicious ? "primary" : "medium" } onClick={() => { setSuspicious(!suspicious)}} >
+                  <IonButton slot="icon-only" shape="round" color={suspicious ? "secondary" : "medium" } onClick={() => { setSuspicious(!suspicious)}} >
                     <IonIcon src="/svgs/wewatch/suspicious.svg" />
                   </IonButton>
 
-                  <IonButton slot="icon-only" shape="round" color={unfamiliar ? "primary" : "medium" } onClick={() => { setUnfamiliar(!unfamiliar)}} >
+                  <IonButton slot="icon-only" shape="round" color={unfamiliar ? "secondary" : "medium" } onClick={() => { setUnfamiliar(!unfamiliar)}} >
                     <IonIcon src="/svgs/wewatch/unfamiliar-person.svg" />
                   </IonButton>
                 </div>
