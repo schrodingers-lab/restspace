@@ -18,7 +18,7 @@ import {
 } from '@ionic/react';
 import { Camera, CameraResultType } from "@capacitor/camera";
 
-import { search, navigate, bookmark, locate, share, bus, phonePortrait, trash } from 'ionicons/icons';
+import { search, navigate, bookmark, locate, share, bus, phonePortrait, trash, information } from 'ionicons/icons';
 import React, { useRef, useEffect, useState } from 'react';
 import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react';
 import * as turfdistance from '@turf/distance';
@@ -34,6 +34,7 @@ import { useStore } from '../../store/user';
 import { SingleImageUploader } from '../uploader/SingleImageUploader';
 import { getRoundedTime } from '../util/dates';
 import { addChat } from '../../store/chat';
+import IconKey from '../modals/IconKey';
 
 const NewDetail = ({history}) => {
 
@@ -74,6 +75,9 @@ const NewDetail = ({history}) => {
   const [isToastOpen, setIsToastOpen] = useState<boolean>(false);
   const [toastMessage, setToastMessage] = useState<string | undefined>();
   const {authUser} = useStore({});
+
+  const [openIconKey, setOpenIconKey] = useState(false);
+
 
   const handleName = (event) => {
     setName(event.target.value || '');
@@ -206,7 +210,7 @@ const NewDetail = ({history}) => {
   useEffect(() => {
     if(userLocation && currentLocation){
       // calc in meters
-      const distanceToIncident = turfdistance.default([userLocation.latitude,userLocation.longitude], [currentLocation.latitude,currentLocation.longitude],{units: 'meters'}) ;
+      const distanceToIncident = turfdistance.default([userLocation.latitude,userLocation.longitude], [currentLocation.latitude,currentLocation.longitude],{units: 'kilometers'}) ;
       setDistanceToIncident(distanceToIncident)
     }
   }, [userLocation, currentLocation])
@@ -226,7 +230,7 @@ const NewDetail = ({history}) => {
         markers.forEach( marker => {
           marker.remove();
         })
-        const marker = new mapboxgl.Marker({draggable: true})
+        const marker = new mapboxgl.Marker({draggable: true, color: '#F15A24'})
           .setLngLat([lng, lat])
           .addTo(map.current);
 
@@ -282,7 +286,7 @@ const NewDetail = ({history}) => {
         setUserLocation(geo_coords?.coords);
     });
 
-    const marker = new mapboxgl.Marker({draggable: true})
+    const marker = new mapboxgl.Marker({draggable: true, color: '#F15A24'})
         .setLngLat([lng, lat])
         .addTo(map.current);
     
@@ -374,14 +378,14 @@ const NewDetail = ({history}) => {
             <div className="space-y-8 divide-y divide-gray-200">
               <div className='header-section'>
                 <h3 className="text-lg font-medium leading-6 text-gray-900">New Incident</h3>
-                <p className="mt-1 text-sm text-gray-500">
+                <p className="mt-1 text-sm text-gray-500 dark:text-gray-300">
                   This information will be displayed publicly so be careful what you share.
                 </p>
               </div>
 
               <div className="mt-8 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
                 <div className="sm:col-span-6">
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                  <label htmlFor="name" className="block pt-4 text-sm font-medium text-gray-700 dark:text-white">
                     Name
                   </label>
                   <div className="mt-1">
@@ -391,13 +395,20 @@ const NewDetail = ({history}) => {
                       id="name"
                       value={name}
                       onChange={handleName}
-                      className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-yellow-500 sm:text-sm"
+                      className="block w-full text-black dark:text-white dark:bg-black rounded-md border-gray-300 shadow-sm focus:border-ww-secondary focus:ring-yellow-500 sm:text-sm"
                     />
                   </div>
                 </div>
 
-                <div className="sm:col-span-6">
-                  <label className="block text-sm font-medium text-gray-700">
+                <label htmlFor="categories" className="block text-xl font-medium text-gray-700 dark:text-gray-300 sm:mt-px sm:pt-2 mt-4 mb-2">
+                    <IonButton onClick={()=>{setOpenIconKey(!openIconKey)}} slot="icon-only" shape="round" color={"warning" } fill={"outline"}  size="small" className='float-right'>
+                      <IonIcon  icon={information} />
+                    </IonButton>
+                    Categories             
+                </label>
+
+                <div id="categories" className="sm:col-span-6">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                     Level 1
                   </label>
                   <IonButton slot="icon-only" shape="round" color={stolenvehicle ? "primary" : "medium" } onClick={(event) => {setStolenvehicle(!stolenvehicle)}} >
@@ -423,7 +434,7 @@ const NewDetail = ({history}) => {
                 </div>
 
                 <div className="sm:col-span-6">
-                  <label className="block text-sm font-medium text-gray-700">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                     Level 2
                   </label>
                   <IonButton slot="icon-only" shape="round" color={loitering ? "primary" : "medium" } onClick={() => { setLoitering(!loitering)}} >
@@ -444,7 +455,7 @@ const NewDetail = ({history}) => {
                 </div>
 
                 <div className="sm:col-span-6">
-                  <label htmlFor="about" className="block text-sm font-medium text-gray-700">
+                  <label htmlFor="about" className="block text-sm font-medium text-gray-700 dark:text-white">
                     What is happening
                   </label>
                   <div className="mt-1">
@@ -452,19 +463,19 @@ const NewDetail = ({history}) => {
                       id="about"
                       name="about"
                       rows={3}
-                      className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-yellow-500 sm:text-sm"
+                      className="block w-full rounded-md border-gray-300 text-black dark:bg-black dark:text-white shadow-sm focus:border-ww-secondary focus:ring-yellow-500 sm:text-sm"
                       value={about}
                       onChange={handleAboutChange}
                     />
                   </div>
-                  <p className="mt-2 text-sm text-gray-500">Write a few sentences about the incident.</p>
+                  <p className="mt-2 text-sm text-gray-500 dark:text-gray-300">Write a few sentences about the incident.</p>
                 </div>
 
                 <div className="sm:col-span-6">
-                  <label htmlFor="about" className="block text-sm font-medium text-gray-700">
+                  <label htmlFor="about" className="block text-sm font-medium text-gray-700 dark:text-white">
                     When (approximately)?
                   </label>
-                  <IonDatetimeButton datetime="datetime"></IonDatetimeButton>
+                  <IonDatetimeButton datetime="datetime" className="py-4"></IonDatetimeButton>
     
                   <IonModal keepContentsMounted={true}>
                     <IonDatetime 
@@ -479,7 +490,7 @@ const NewDetail = ({history}) => {
                 </div> 
 
                 <div className="sm:col-span-6">
-                  <label htmlFor="about" className="block text-sm font-medium text-gray-700">
+                  <label htmlFor="about" className="block text-sm font-medium text-gray-700 dark:text-white">
                     Where (approximately)?
                   </label>
 
@@ -488,19 +499,24 @@ const NewDetail = ({history}) => {
                     <IonLabel className="ion-text-wrap">
                       Longitude: {lng} <br/>
                       Latitude: {lat} <br/>
-                      {distanceToIncident > 0 &&
-                        "Distance (meters): "+ distanceToIncident
+                      {distanceToIncident > 0 && distanceToIncident <= 2 &&
+                        "Distance from here (~km): "+ distanceToIncident.toFixed(2)
+                      }
+                      {distanceToIncident > 2 &&
+                        "Distance from here (~km): "+ Math.floor(distanceToIncident)
                       }
                     </IonLabel>
                   </IonItem>
-
-                  <div className="area-map-section h-64 my-10">
+                      
+                  <div className="area-map-section h-64">
                     <div ref={mapContainer} className="w-full h-64"/> 
                   </div>
+                  <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">Drag map pin to approximate location.</p>
+                  
                 </div>
 
                 <div className="sm:col-span-6">
-                  <label htmlFor="cover-photo" className="block text-sm font-medium text-gray-700">
+                  <label htmlFor="cover-photo" className="block text-sm font-medium text-gray-700 dark:text-white">
                     Photos?
                   </label>
                   <div className="flex items-center justify-center mt-2">
@@ -511,9 +527,10 @@ const NewDetail = ({history}) => {
                   </div>
                 </div>
 
+              { files && files.length > 0 &&
                 <div className="sm:col-span-6">
                   {/* TODO remove images, so not tagged */}
-                  <IonList>
+                  <IonList className="bg-white dark:bg-black dark:text-white">
                     {files.map((s: any) => (
                       <div key={s?.id}>
                         <div style={{width : 400, margin : 'auto'}}>
@@ -523,6 +540,7 @@ const NewDetail = ({history}) => {
                     ))}
                   </IonList>
                 </div>
+}
 
               </div>
             </div>
@@ -547,6 +565,7 @@ const NewDetail = ({history}) => {
           </form>
 
         }
+        <IconKey open={openIconKey} onDidDismiss={() => setOpenIconKey(false)} />
         <IonToast
             isOpen={isToastOpen}
             message={toastMessage}

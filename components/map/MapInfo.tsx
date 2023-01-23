@@ -18,39 +18,30 @@ import {
 } from '@ionic/react';
 
 import { eye, easel } from 'ionicons/icons';
+import CategoriesIcons from '../ui/CategoriesIcons';
+import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 
 function MapInfo(props) {
   const { incident, history } = props;
   const displayName = `#${incident?.id} - ${incident?.name}`;
-  const incident_url = incident?.cover_image_url;
-  const [isVisible, setIsVisible] = useState(false);
-
-  const handleImage = () => {
-    setIsVisible(true);
-  }
 
   const handleClick = () => {
     history.push(`/tabs/incidents/${incident.id}`);
   }
 
   return (
-    <div >
-       <h2 className="font-bold text-gray-800">{displayName}</h2>
-      {/* Too many images loading on search */}
-      {isVisible && <img width={240} src={incident?.cover_image_url} loading="lazy"/>}
-
-
-      <IonButton onClick={() => handleClick()}> 
-        <IonIcon slot="start" icon={eye} />
-          More
-      </IonButton>
-
-      {!isVisible && incident?.cover_image_url && 
-      <IonButton onClick={() => handleImage()} >
-        <IonIcon slot="start" icon={easel} />
-        Image
-      </IonButton>
-      }
+    <div className="grid grid-rows-2 text-gray-800 bg-white dark:bg-black dark:text-white" onClick={() => handleClick()}>
+      <div className='text-2xl'>
+        <CategoriesIcons incident={incident} />
+      </div>
+      
+      <div className='text-md'>
+        <h2 className="text-gray-800 bg-white dark:bg-black dark:text-white">{displayName}</h2>
+        
+        <div className="text-ww-primary float-right">
+          {formatDistanceToNow(new Date(incident.inserted_at),{addSuffix: true})}
+        </div>
+      </div>
     </div>
   );
 }

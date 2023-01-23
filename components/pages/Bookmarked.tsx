@@ -46,7 +46,7 @@ const Bookmarked = ({history}) => {
         .select('*, bookmarks!inner(*)')
         .eq('bookmarks.user_id', user?.id)
         .eq('visible', true)
-        
+        .order('inserted_at', {ascending: false})
         if(error){
           setError(error.message)
         }else {

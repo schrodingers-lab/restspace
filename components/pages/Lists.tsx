@@ -16,9 +16,10 @@ import {
   IonButtons,
   IonMenuButton
 } from '@ionic/react';
+import { displayCoverImage } from '../util/display';
 
 const ListEntry = ({ list, ...props }) => {
-  const img0 = list?.cover_image_url || "/imgs/default_cover_image.png";
+  const img0 = displayCoverImage(list?.cover_image_url);
   return (
   <IonItem routerLink={`/tabs/incidents/${list.id}`} className="list-entry">
     <IonLabel>#{list.id} - {list.name}</IonLabel>

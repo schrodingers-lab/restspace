@@ -4,7 +4,7 @@ import Card from '../ui/Card';
 export const UpgradeCard = () => {
   return (
     <Card className="my-20 mx-auto">
-      <div className="px-4 py-4 bg-white rounded-b-xl dark:bg-gray-900">
+      <div className="px-4 py-4 bg-white rounded-b-xl dark:bg-black">
         <h4 className="font-bold py-0 text-s text-gray-400 dark:text-gray-500 uppercase">Upgrade Now</h4>
         <h2 className="font-bold text-2xl text-gray-800 dark:text-gray-100">New Version is Available</h2>
         <div className="my-30">

@@ -18,7 +18,6 @@ export default function MessageInput({chatId}) {
       addMessage(messageText,chatId, authUser?.id, supabase)
       setMessageText('');
       if (messageTextArea.current){
-        // debugger;
         messageTextArea.current.innerText = undefined;
       }
     }

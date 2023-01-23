@@ -105,7 +105,7 @@ export const Forgot = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
                       error={phoneNumber ? (isValidPhoneNumber(phoneNumber) ? undefined : 'Invalid phone number') : 'Phone number required'}
                       value={phoneNumber}
                       onChange={handlePhone} 
-                      className="block w-full appearance-none rounded-md text-gray-900 dark:text-gray-200 border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-yellow-500 sm:text-sm"
+                      className="block w-full appearance-none rounded-md text-gray-900 dark:text-gray-200 border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-ww-secondary focus:ring-yellow-500 sm:text-sm"
                       />
 
                       {/* <p>={phoneNumber ? (isValidPhoneNumber(phoneNumber) ? undefined : 'Invalid phone number') : 'Phone number required'}</p> */}

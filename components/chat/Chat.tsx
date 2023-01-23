@@ -1,3 +1,4 @@
+import { IonTitle } from "@ionic/react";
 import { useUser } from "@supabase/auth-helpers-react";
 import { useEffect, useRef } from "react";
 import { useStore } from "../../store/chat";
@@ -22,7 +23,7 @@ export const Chat = ({ chatId }) => {
 	return (
     <>
       {chatId == undefined && 
-        <div> No Messages</div>
+        <IonTitle size="large">No Messages</IonTitle> 
       }
       {chatId && !user &&
         <div className="mx-2">

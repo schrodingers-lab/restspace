@@ -176,11 +176,13 @@ const ListDetail = ({ match }) => {
             <IonTitle size="large">{selectedIncident?.name}</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <div className="flex items-center justify-between text-red-500">
-          {error}
-        </div>
         
-        {selectedIncident && <IncidentDetail incident={selectedIncident}  files={files} supabase={supabase}/>}
+          <div className="flex items-center justify-between text-red-500">
+            {error}
+          </div>
+          
+          {selectedIncident && <IncidentDetail incident={selectedIncident}  files={files} supabase={supabase}/>}
+          
       </IonContent>
     </IonPage>
   );

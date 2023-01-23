@@ -235,3 +235,8 @@ http://ionicframework.com/docs/theming/ */
     background-color: #000000;
     color: white;
   }
+
+  .dark .mapboxgl-popup-content {
+    background-color: #000000;
+    color: white;
+  }

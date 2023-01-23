@@ -18,10 +18,11 @@ import {
   IonFabList,
   IonSegment,
   IonSegmentButton,
+  IonList,
 } from '@ionic/react';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 
-import { search, navigate, bookmark, locate, share, bus, phonePortrait, shareSocial } from 'ionicons/icons';
+import { search, navigate, bookmark, locate, share, bus, phonePortrait, shareSocial, information } from 'ionicons/icons';
 import React, { useRef, useEffect, useState } from 'react';
 
 // import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
@@ -30,10 +31,13 @@ import { Chat } from '../chat/Chat';
 import { findObjectChat } from '../../store/chat';
 import { mapboxglStyle, mapboxglAccessToken } from '../util/mapbox';
 import { Share } from '@capacitor/share';
+import IconKey from '../modals/IconKey';
+import { displayCoverImage, displayLevelColor } from '../util/display';
+import Categories from '../ui/Categories';
 
 export const IncidentDetail = ({incident , files, supabase}) => {
   
-  const img0 = incident?.cover_image_url || "/imgs/default_cover_image.png"; //default img
+  const img0 = displayCoverImage(incident?.cover_image_url);
 
   const mapContainer = useRef<any>(null);
   const map = useRef<any>(null);
@@ -45,6 +49,8 @@ export const IncidentDetail = ({incident , files, supabase}) => {
   const [segmentMode, setSegmentMode] = useState<string | undefined>('messages');
   const [chatId, setChatId] = useState<any>();
   const [canShare, setCanShare] = useState<boolean>(false);
+
+  const [openIconKey, setOpenIconKey] = useState(false);
   
   useEffect(() => {
     //Check for share web api
@@ -83,8 +89,8 @@ export const IncidentDetail = ({incident , files, supabase}) => {
         let geo_coords = geo as any;
         setCurrentLocation(geo_coords?.coords);
     });
-
-    const marker = new mapboxgl.Marker()
+    const markerColor = displayLevelColor(incident);
+    const marker = new mapboxgl.Marker({color: markerColor})
         .setLngLat([incident.longitude, incident.latitude])
         .addTo(map.current);
 
@@ -125,53 +131,37 @@ export const IncidentDetail = ({incident , files, supabase}) => {
       <div className="h-64 w-full relative">
         <img className="h-64 px-auto w-full object-cover object-center" src={img0} alt="image" />
       </div>
-      <div className="px-4 py-4 bg-white rounded-b-xl dark:bg-gray-900">
+      <div className="px-4 py-4 bg-white rounded-b-xl dark:bg-black">
         <h2 className="font-bold text-2xl text-gray-800 dark:text-gray-100">#{incident.id} - {incident.name}</h2>
-        <h4 className="font-bold py-0 text-s text-gray-400 dark:text-gray-500">{incident.about}</h4>
+        
         
         {/* TODO should avatar */}
         <div className="flex items-center space-x-4">
           <h3 className="text-gray-500 dark:text-gray-200 m-l-8 text-md font-medium">{incident.creator}</h3>
         </div>
-
-        <IonButton slot="icon-only" disabled={true} shape="round" color={incident.stolenvehicle ? "primary" : "medium" }  >
-          <IonIcon src="/svgs/wewatch/stolen-vehicle.svg" />
-        </IonButton>
         
-        <IonButton slot="icon-only" disabled={true} shape="round" color={incident.breakenter ? "primary" : "medium" }  >
-          <IonIcon src="/svgs/wewatch/break-enter.svg" />
-        </IonButton>
 
-        <IonButton slot="icon-only" disabled={true} shape="round" color={incident.propertydamage ? "primary" : "medium" }  >
-          <IonIcon src="/svgs/wewatch/property-damage.svg" />
-        </IonButton>
 
-        <IonButton slot="icon-only" disabled={true} shape="round" color={incident.violencethreat ? "primary" : "medium" }  >
-          <IonIcon src="/svgs/wewatch/violence-threats.svg" />
-        </IonButton>
+        <label htmlFor="categories" className="block text-xl font-medium text-gray-700 dark:text-gray-300 sm:mt-px sm:pt-2 mt-4 mb-2">
+            <IonButton onClick={()=>{setOpenIconKey(!openIconKey)}} slot="icon-only" shape="round" color={"warning" } fill={"outline"}  size="small" className='float-right'>
+              <IonIcon  icon={information} />
+            </IonButton>
+            Categories             
+        </label>
 
-        <IonButton slot="icon-only" disabled={true} shape="round" color={incident.theft ? "primary" : "medium" }>
-          <IonIcon src="/svgs/wewatch/theft.svg" />
-        </IonButton>
+        <div id="categories" >
+          <Categories  incident={incident} showAll={false} />
+        </div>
 
-        
-        <IonButton slot="icon-only" disabled={true} shape="round" color={incident.loitering ? "primary" : "medium" }  >
-          <IonIcon src="/svgs/wewatch/loitering.svg" />
-        </IonButton>
+        <label htmlFor="about" className="block text-xl font-medium text-gray-700 dark:text-gray-300 sm:mt-px sm:pt-2 mt-4 mb-2">
+            About             
+        </label>
+        <div id="about" className="font-bold py-0 text-l text-gray-400 dark:text-gray-200">{incident.about || "-"}</div>
 
-        <IonButton slot="icon-only" disabled={true} shape="round" color={incident.disturbance ? "primary" : "medium" } >
-          <IonIcon src="/svgs/wewatch/disturbance.svg" />
-        </IonButton>
-
-        <IonButton slot="icon-only" disabled={true} shape="round" color={incident.suspicious ? "primary" : "medium" } >
-          <IonIcon src="/svgs/wewatch/suspicious.svg" />
-        </IonButton>
-
-        <IonButton slot="icon-only" disabled={true} shape="round" color={incident.unfamiliar ? "primary" : "medium" } >
-          <IonIcon src="/svgs/wewatch/unfamiliar-person.svg" />
-        </IonButton>
-
-        <div className="area-map-section h-64 my-10">
+        <label htmlFor="location" className="block text-xl font-medium text-gray-700 dark:text-gray-300 sm:mt-px sm:pt-2 mt-4 mb-2">
+            Location             
+        </label>
+        <div id="location" className="area-map-section h-64 mb-10">
           <div ref={mapContainer} className="w-full h-64"/> 
         </div>
 
@@ -212,7 +202,7 @@ export const IncidentDetail = ({incident , files, supabase}) => {
 
       </div>
 
-      <div className="px-4 py-4 bg-white rounded-b-xl dark:bg-gray-900">
+      <div className="px-4 py-4 bg-white rounded-b-xl dark:bg-black">
 
       <IonSegment value={segmentMode} onIonChange={handleSegment}>
           <IonSegmentButton value="messages">
@@ -238,7 +228,7 @@ export const IncidentDetail = ({incident , files, supabase}) => {
         }
         
       </div>
-
+      <IconKey open={openIconKey} onDidDismiss={() => setOpenIconKey(false)} />
       <IonToast
             isOpen={isToastOpen}
             message={toastMessage}

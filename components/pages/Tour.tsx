@@ -73,7 +73,7 @@ const TourPage = () => {
                           </p>
                         </div>
                         <div className="rounded-bl-2xl rounded-br-2xl bg-gray-50 p-6 md:px-8">
-                          <a href={"/tabs/map"} className="text-base font-medium text-indigo-700 hover:text-indigo-600">
+                          <a href={"/tabs/map"} className="text-base font-medium text-ww-primary hover:text-ww-secondary">
                             Search Now<span aria-hidden="true"></span>
                           </a>
                         </div>
@@ -110,7 +110,7 @@ const TourPage = () => {
                           </p>
                         </div>
                         <div className="rounded-bl-2xl rounded-br-2xl bg-gray-50 p-6 md:px-8">
-                          <a href={"/tabs/bookmarked"} className="text-base font-medium text-indigo-700 hover:text-indigo-600">
+                          <a href={"/tabs/bookmarked"} className="text-base font-medium text-ww-primary hover:text-ww-secondary">
                             Bookmarks<span aria-hidden="true"></span>
                           </a>
                         </div>
@@ -145,7 +145,7 @@ const TourPage = () => {
                           </p>
                         </div>
                         <div className="rounded-bl-2xl rounded-br-2xl bg-gray-50 p-6 md:px-8">
-                          <a href={"/tabs/map"} className="text-base font-medium text-indigo-700 hover:text-indigo-600">
+                          <a href={"/tabs/map"} className="text-base font-medium text-ww-primary hover:text-ww-secondary">
                             Filtering on Map<span aria-hidden="true"></span>
                           </a>
                         </div>
@@ -180,7 +180,7 @@ const TourPage = () => {
                           </p>
                         </div>
                         <div className="rounded-bl-2xl rounded-br-2xl bg-gray-50 p-6 md:px-8">
-                          <a href={"/tabs/profile"} className="text-base font-medium text-indigo-700 hover:text-indigo-600">
+                          <a href={"/tabs/profile"} className="text-base font-medium text-ww-primary hover:text-ww-secondary">
                             Join Community<span aria-hidden="true"></span>
                           </a>
                         </div>

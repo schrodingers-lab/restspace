@@ -16,21 +16,20 @@ import {
   IonMenuButton,
   IonFabList
 } from '@ionic/react';
-import { search, filter, bookmark, locate, trendingUpOutline } from 'ionicons/icons';
+import { search, filter, information } from 'ionicons/icons';
 import Notifications from '../modals/Notifications';
 import React, {useRef, useEffect, useState } from 'react';
-import ReactDOM from  'react-dom';
 import { notificationsOutline } from 'ionicons/icons';
 import { getIncidents } from '../../store/selectors';
 import Store from '../../store';
-import { createClient } from '@supabase/supabase-js';
 import * as turfdistance from '@turf/distance';
 import { useDebouncedCallback } from 'use-debounce';
-import IncidentMarker from "../cards/IncidentMarker";
 import MapInfo from "../map/MapInfo";
 import * as mapboxgl from 'mapbox-gl'; 
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
-const mapboxglAccessToken = 'pk.eyJ1IjoiZGFycmVuLXByb3JvdXRlIiwiYSI6ImNsM2M2cjRhOTAxd3YzY3JvYjl1OXQ3Y3oifQ.lerkA3MPLmhRgla3jQnCGg';
+import IconKey from '../modals/IconKey';
+import { displayLevelColor } from '../util/display';
+import { mapboxglAccessToken, mapboxglStyle } from '../util/mapbox';
 
 
 const Map = ({history}) => {
@@ -58,6 +57,8 @@ const Map = ({history}) => {
   const [disturbanceFilter, setDisturbanceFilter] = useState(false);
   const [suspiciousFilter, setSuspiciousFilter] = useState(false);
   const [unfamiliarFilter, setUnfamiliarFilter] = useState(false);
+
+  const [openIconKey, setOpenIconKey] = useState(false);
 
   const [session, setSession] = useState<any>(null);
   // Create a single supabase client for interacting with your database 
@@ -147,7 +148,7 @@ const Map = ({history}) => {
     map.current = new mapboxgl.Map({
       accessToken: mapboxglAccessToken,
       container: mapContainer.current,
-      style: 'mapbox://styles/mapbox/streets-v11',
+      style: mapboxglStyle,
       center: [lng, lat],
       zoom: zoom
     });
@@ -185,15 +186,16 @@ const Map = ({history}) => {
       const placeholder = document.createElement('div');
       let root =  createRoot(placeholder)
       root.render(el);
-      const popup = new mapboxgl.Popup({ offset: 25, className: 'incidentPopup', closeButton: true, closeOnClick: true})
-                          .setDOMContent(placeholder)
+      const popup = new mapboxgl.Popup({ offset: 25, className: 'incidentPopup', closeButton: false, closeOnClick: true})
+              .setDOMContent(placeholder)
       return popup
   }
 
     const newMarkers: any[] = [];
     incidents?.map(mapIncident => {
       const m_popup = addPopup(<MapInfo incident={mapIncident} history={history} />)
-      const marker = new mapboxgl.Marker()
+      const markerColor = displayLevelColor(mapIncident);
+      const marker = new mapboxgl.Marker({color: markerColor})
         .setLngLat([mapIncident.longitude, mapIncident.latitude])
         .setPopup(m_popup)
         .addTo(map.current);
@@ -240,8 +242,15 @@ const Map = ({history}) => {
           </IonFabButton>
         </IonFab>
 
+        <IonFab  vertical="bottom" horizontal="start" slot="fixed">
+          <IonFabButton onClick={() => { setOpenIconKey(!openIconKey) }} size="small" color={"medium" } >
+            <IonIcon icon={information} />
+          </IonFabButton>
+        </IonFab>
+
         <IonFab ref={filterFabRef} horizontal="start" vertical="top"  slot="fixed" activated={filterOpen}>
-          <IonFabButton onClick={() => { setFilterOpen(!filterOpen) }} size="small" color={(stolenvehicleFilter || breakenterFilter || propertydamageFilter || violencethreatFilter || breakenterFilter || stolenvehicleFilter || propertydamageFilter) ? "primary" : "medium" } >
+          
+          <IonFabButton onClick={() => { setFilterOpen(!filterOpen) }} size="small" color={(stolenvehicleFilter || breakenterFilter || propertydamageFilter || violencethreatFilter || breakenterFilter || stolenvehicleFilter || propertydamageFilter) ? "primary" : ((loiteringFilter || disturbanceFilter || suspiciousFilter || unfamiliarFilter) ? "secondary" : "medium")} >
             <IonIcon icon={filter} />
           </IonFabButton>
           <IonFabList side="bottom">
@@ -263,25 +272,27 @@ const Map = ({history}) => {
             </IonFabButton>
 
             {/* --level-2-- */}
-            <IonFabButton color={loiteringFilter ? "primary" : "medium" } onClick={() => { setLoiteringFilter(!loiteringFilter); debouncedSearch(); }}>
+            <IonFabButton color={loiteringFilter ? "secondary" : "medium" } onClick={() => { setLoiteringFilter(!loiteringFilter); debouncedSearch(); }}>
               <IonIcon src="/svgs/wewatch/loitering.svg" />
             </IonFabButton>
 
-            <IonFabButton color={disturbanceFilter ? "primary" : "medium" } onClick={() => { setDisturbanceFilter(!disturbanceFilter); debouncedSearch(); }}>
+            <IonFabButton color={disturbanceFilter ? "secondary" : "medium" } onClick={() => { setDisturbanceFilter(!disturbanceFilter); debouncedSearch(); }}>
               <IonIcon src="/svgs/wewatch/disturbance.svg" />
             </IonFabButton>
 
-            <IonFabButton color={suspiciousFilter ? "primary" : "medium" } onClick={() => { setSuspiciousFilter(!suspiciousFilter); debouncedSearch(); }}>
+            <IonFabButton color={suspiciousFilter ? "secondary" : "medium" } onClick={() => { setSuspiciousFilter(!suspiciousFilter); debouncedSearch(); }}>
               <IonIcon src="/svgs/wewatch/suspicious.svg" />
             </IonFabButton>
 
-            <IonFabButton color={unfamiliarFilter ? "primary" : "medium" } onClick={() => { setUnfamiliarFilter(!unfamiliarFilter); debouncedSearch(); }}>
+            <IonFabButton color={unfamiliarFilter ? "secondary" : "medium" } onClick={() => { setUnfamiliarFilter(!unfamiliarFilter); debouncedSearch(); }}>
               <IonIcon src="/svgs/wewatch/unfamiliar-person.svg" />
             </IonFabButton>
 
 
           </IonFabList>
         </IonFab>
+        
+        <IconKey open={openIconKey} onDidDismiss={() => setOpenIconKey(false)} />
       </IonContent>
     </IonPage>
   );
