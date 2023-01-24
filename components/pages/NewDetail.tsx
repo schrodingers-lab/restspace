@@ -16,28 +16,29 @@ import {
   IonToast,
   IonToolbar,IonDatetime, IonDatetimeButton, IonModal
 } from '@ionic/react';
-import { Camera, CameraResultType } from "@capacitor/camera";
 
-import { search, navigate, bookmark, locate, share, bus, phonePortrait, trash, information } from 'ionicons/icons';
-import React, { useRef, useEffect, useState } from 'react';
+
+import { locate, trash, information } from 'ionicons/icons';
+import React, { useEffect, useState } from 'react';
 import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react';
-import * as turfdistance from '@turf/distance';
-import { attachOutline, cameraOutline } from 'ionicons/icons';
 import NoUserCard from '../cards/NoUserCard';
-import { Geolocation } from '@capacitor/geolocation';
-import { format, utcToZonedTime } from 'date-fns-tz';
 
-import * as mapboxgl from 'mapbox-gl'; 
+import { format, utcToZonedTime } from 'date-fns-tz';
 import { fileUrl, updateFileRelatedObject } from '../../store/file';
-import { mapboxglAccessToken, mapboxglStyle } from '../util/mapbox';
+
+
 import { useStore } from '../../store/user';
 import { SingleImageUploader } from '../uploader/SingleImageUploader';
 import { getRoundedTime } from '../util/dates';
 import { addChat } from '../../store/chat';
 import IconKey from '../modals/IconKey';
+import MapDraggableMarker from '../map/MapDraggableMarker';
+import { distanceMaxIncident } from '../util/mapbox';
+import { generateRandomName } from '../util/data';
+import { useRouter } from 'next/router';
 
 const NewDetail = ({history}) => {
-
+  const router = useRouter();
   const supabase = useSupabaseClient();
   const [error, setError] = useState("");
   // Get the time zone set on the user's device
@@ -55,22 +56,13 @@ const NewDetail = ({history}) => {
   const [suspicious, setSuspicious] = useState(false);
   const [unfamiliar, setUnfamiliar] = useState(false);
 
-  const [name, setName] = useState<string>('Unnamed');
+  const [name, setName] = useState<string>(generateRandomName());
   const [about, setAbout] = useState<string>('');
   const [whenStr, setWhenStr] = useState<string>();
 
-  const [lng, setLng] = useState(145.749049);
-  const [lat, setLat] = useState(-16.935682);
-  const [zoom, setZoom] = useState(11);
-  const [markers, setMarkers] = useState<any[]>([]);
-
-  const mapContainer = useRef<any>(null);
-  const map = useRef<any>(null);
-
-  const [geoLocateCtl, setGeoLocateCtl] = useState<any>();
-  const [currentLocation, setCurrentLocation] = useState<any>();
-  const [userLocation, setUserLocation] = useState<any>();
-  const [distanceToIncident, setDistanceToIncident] = useState<number>(0);
+  const [lng, setLng] = useState();
+  const [lat, setLat] = useState();
+  const [distanceToIncident, setDistanceToIncident] = useState<number>();
 
   const [isToastOpen, setIsToastOpen] = useState<boolean>(false);
   const [toastMessage, setToastMessage] = useState<string | undefined>();
@@ -102,9 +94,49 @@ const NewDetail = ({history}) => {
     console.log('cancelled')
   }
 
+  const locationSetter = (location, distance) => {
+    //Location from mapDraggableMarker
+    // console.log("location", location, distance);
+    setLng(location?.longitude);
+    setLat(location?.latitude);
+    setDistanceToIncident(distance);
+  } 
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     setError('');
+
+    //Check that we have some categories
+    if ( !stolenvehicle &&
+      !breakenter &&
+      !propertydamage &&
+      !violencethreat &&
+      !theft &&
+      ! suspicious &&
+      !loitering &&
+      !unfamiliar &&
+      !disturbance) {
+        setError('Need at least 1 category');
+        return;
+    }
+
+    if(!name || name.trim().length == 0){
+      setError('Need a name.');
+      return;
+    }
+
+    if(!about || about.trim().length == 0){
+      setError('Need to enter what happened. ');
+      return;
+    }
+
+    // Check if close to base
+    if (distanceToIncident) {
+      if ( distanceToIncident > distanceMaxIncident){
+        setError('Too far from location create an incident there');
+        return;
+      }
+    }
 
     const insertData = createNewIncident();
     const {data, error} = await supabase.from('incidents')
@@ -113,7 +145,7 @@ const NewDetail = ({history}) => {
     if(error){
       setError(error.message);
     } else{
-      //TODO alert user to creation
+    
       console.log("created - ",data)
       const newId = data[0].id;
 
@@ -130,19 +162,23 @@ const NewDetail = ({history}) => {
       const slug = `incident-${newId}`;
       const res = addChat(slug, authUser.id, false, true, 'incidents', newId, supabase);
    
+      //Notify User
       setToastMessage("Created incident #"+newId);
       setIsToastOpen(true);
+
+      //Reset State for next incidnet
       resetData();
+
+      // Go to detail page
       history.push('/tabs/incidents/'+newId);
     }
   }
 
 
   const resetData = () =>{
-    setName('Unnamed');
+    setName(generateRandomName);
     setAbout('');
     setWhenStr(getCurrentDateStr())
-
     setFiles([]);
 
     setStolenvehicle(false);
@@ -207,128 +243,6 @@ const NewDetail = ({history}) => {
     resetData();
   },[]);
 
-  useEffect(() => {
-    if(userLocation && currentLocation){
-      // calc in meters
-      const distanceToIncident = turfdistance.default([userLocation.latitude,userLocation.longitude], [currentLocation.latitude,currentLocation.longitude],{units: 'kilometers'}) ;
-      setDistanceToIncident(distanceToIncident)
-    }
-  }, [userLocation, currentLocation])
-
-  useEffect(() => {
-    if (currentLocation && currentLocation.longitude && currentLocation.latitude){
-
-      setLat(currentLocation.latitude);
-      setLng(currentLocation.longitude);
-
-      if (map.current && currentLocation.longitude && currentLocation.latitude){
-        const center = new mapboxgl.LngLat(currentLocation.longitude, currentLocation.latitude);
-        // Center the map
-        map.current.setCenter(center);
-
-        //Redo marker?
-        markers.forEach( marker => {
-          marker.remove();
-        })
-        const marker = new mapboxgl.Marker({draggable: true, color: '#F15A24'})
-          .setLngLat([lng, lat])
-          .addTo(map.current);
-
-        marker.on('dragend', ()=>{
-          const lngLat = marker.getLngLat();
-          if(lngLat?.lng){
-            setCurrentLocation({
-                longitude: lngLat.lng,
-                latitude: lngLat.lat
-            });
-
-            setLat(lngLat.lat);
-            setLng(lngLat.lng);
-          }
-        });
-
-        setMarkers([marker]);
-
-        
-      }
-    }
-  },[map, currentLocation])
-
-  useEffect(() => {
-    
-    if (map.current) return; // initialize map only once
-    if (!mapContainer.current) return; // initialize map only once container is there
-    map.current = new mapboxgl.Map({
-      accessToken: mapboxglAccessToken,
-      container: mapContainer.current,
-      style: mapboxglStyle,
-      center: [lng, lat],
-      zoom: zoom
-    });
-
-    const geoLocate = new mapboxgl.GeolocateControl({
-      positionOptions: {
-      enableHighAccuracy: true
-      },
-      // When active the map will receive updates to the device's location as it changes.
-      trackUserLocation: false,
-      // Draw an arrow next to the location dot to indicate which direction the device is heading.
-      showUserHeading: true
-    });
-
-    setGeoLocateCtl(geoLocate);
-    map.current.addControl(geoLocate);
-
-    geoLocate.on('geolocate', (geo) => {
-        console.log('A geolocate event has occurred.', geo);
-        let geo_coords = geo as any;
-        setCurrentLocation(geo_coords?.coords);
-        setUserLocation(geo_coords?.coords);
-    });
-
-    const marker = new mapboxgl.Marker({draggable: true, color: '#F15A24'})
-        .setLngLat([lng, lat])
-        .addTo(map.current);
-    
-    marker.on('dragend', ()=>{
-      const lngLat = marker.getLngLat();
-      if(lngLat?.lng){
-        setCurrentLocation({
-          longitude: lngLat.lng,
-          latitude: lngLat.lat
-        });
-
-        setLat(lngLat.lat);
-        setLng(lngLat.lng);
-      }
-    });
-
-    setMarkers([marker]);
-
-  }, [map, mapContainer]);
-
-  useEffect(() => {
-    const getCurrentLocation = async () => {
-      try {
-        const position = await Geolocation.getCurrentPosition();
-        setCurrentLocation(position?.coords);
-        setUserLocation(position?.coords);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    getCurrentLocation();
-  }, []);
-
-  const getCurrentLocation = async () => {
-    try {
-      const position = await Geolocation.getCurrentPosition();
-      setCurrentLocation(position);
-      setUserLocation(position);
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
 
   const RenderImage: React.FC<any> = ({file}) => {
@@ -363,10 +277,7 @@ const NewDetail = ({history}) => {
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
-        <div className="flex items-center justify-between text-red-500">
-          {error}
-        </div>
-        
+       
         {(!authUser ) &&
           <div className="mx-2">
             <NoUserCard  />
@@ -377,7 +288,6 @@ const NewDetail = ({history}) => {
           <form className="space-y-8 divide-y divide-gray-200 px-4 my-8" onSubmit={handleSubmit}>
             <div className="space-y-8 divide-y divide-gray-200">
               <div className='header-section'>
-                <h3 className="text-lg font-medium leading-6 text-gray-900">New Incident</h3>
                 <p className="mt-1 text-sm text-gray-500 dark:text-gray-300">
                   This information will be displayed publicly so be careful what you share.
                 </p>
@@ -499,18 +409,20 @@ const NewDetail = ({history}) => {
                     <IonLabel className="ion-text-wrap">
                       Longitude: {lng} <br/>
                       Latitude: {lat} <br/>
-                      {distanceToIncident > 0 && distanceToIncident <= 2 &&
-                        "Distance from here (~km): "+ distanceToIncident.toFixed(2)
-                      }
-                      {distanceToIncident > 2 &&
-                        "Distance from here (~km): "+ Math.floor(distanceToIncident)
-                      }
+                      
+                      <span className={(distanceToIncident > distanceMaxIncident) ? 'text-red-700' : ''}>
+                        {distanceToIncident > 0 && distanceToIncident <= 5 &&
+                          "Distance from you (~km): "+ distanceToIncident.toFixed(2)
+                        }
+                        {distanceToIncident > 5 &&
+                          "Distance from you (~km): "+ Math.floor(distanceToIncident)
+                        }
+                      </span>
+
                     </IonLabel>
                   </IonItem>
                       
-                  <div className="area-map-section h-64">
-                    <div ref={mapContainer} className="w-full h-64"/> 
-                  </div>
+                  <MapDraggableMarker sendLocationFnc={locationSetter} autoLocate={true} />
                   <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">Drag map pin to approximate location.</p>
                   
                 </div>
@@ -543,6 +455,10 @@ const NewDetail = ({history}) => {
 }
 
               </div>
+            </div>
+
+            <div className="flex w-full text-center items-center justify-between text-red-500">
+              {error}
             </div>
 
             <div className="pt-5">

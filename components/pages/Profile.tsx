@@ -18,57 +18,78 @@ import {
   import Store from '../../store';
   import { getNotifications } from '../../store/selectors';
   
-  import { close } from 'ionicons/icons';
+  import { close, locate } from 'ionicons/icons';
   import React, { useEffect, useState } from 'react';
-import { updateProfile, useStore } from '../../store/user';
-import UserProfileAvatar from '../ui/UserProfileAvatar';
-import { SingleImageUploader } from '../uploader/SingleImageUploader';
-import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react';
-import { fileUrl } from '../../store/file';
-import NoUserCard from '../cards/NoUserCard';
-  
+  import { updateProfile, useStore } from '../../store/user';
+  import UserProfileAvatar from '../ui/UserProfileAvatar';
+  import { SingleImageUploader } from '../uploader/SingleImageUploader';
+  import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react';
+  import { fileUrl, updateFileRelatedObject } from '../../store/file';
+  import NoUserCard from '../cards/NoUserCard';
+  import MapDraggableMarker from '../map/MapDraggableMarker';
+import { defaultInitialLat, defaultInitialLng, distanceMaxBase } from '../util/mapbox';
 
-  const ProfilePage = () => {
+  const ProfilePage = ({history}) => {
     const { authUser, authUserProfile } = useStore({})
     const supabase = useSupabaseClient();
     const [error, setError] = useState("");
-    const [ avatarFile, setAvatarFile] = useState<any>();
 
+    const [ avatarFile, setAvatarFile] = useState<any>();
     const [ username, setUsername] = useState<string >('');
     const [ about, setAbout] = useState<string >('');
+    const [ location, setLocation] = useState<any >();
+
+    const [ distance, setDistance] = useState<number >();
     const [ newProfile, setNewProfile] = useState<any>();
 
     const [isToastOpen, setIsToastOpen] = useState<boolean>(false);
     const [toastMessage, setToastMessage] = useState<string | undefined>();
 
-
-
     const resetData = () => {
+      setError('');
       if (authUserProfile) {
         setUsername(authUserProfile.username)
-        setAbout(authUserProfile.about)
-        setNewProfile({...authUserProfile})
+        setAbout(authUserProfile.about);
+        setNewProfile({...authUserProfile});
+        const location = {
+          longitude: (authUserProfile.longitude ? authUserProfile.longitude : defaultInitialLng),
+          latitude: (authUserProfile.latitude ? authUserProfile.latitude : defaultInitialLat)
+        };
+        setLocation(location);
       }
     }
 
+    const locationSetter = (markerLocation, distance) => {
+      //Location from mapDraggableMarker
+      if(markerLocation){
+        setLocation(markerLocation);
+      } 
+      //if location is on, gets distance from current location
+      setDistance(distance);
+    } 
+
     useEffect(() => {
+      //Set data
       if(authUserProfile){
         resetData();
       }
     },[authUserProfile])
 
     useEffect(() => {
+      //Keep new profile object in sync for update
       let avatar_url = authUserProfile?.avatar_url;
       if (avatarFile){
         avatar_url = fileUrl(avatarFile);
       }
       const profile = {...authUserProfile, username: username, about: about, avatar_url: avatar_url}
       setNewProfile(profile)
-    },[username,about,avatarFile, authUserProfile])
+    },[username, about, avatarFile, authUserProfile])
     
-    const selectAvatarFile = (uploadedFile) => {
+    const selectAvatarFile = async (uploadedFile) => {
       if (uploadedFile){
         setAvatarFile(uploadedFile);
+        // update generic file upload to user image
+        const fileRes = await updateFileRelatedObject(uploadedFile?.id, 'users', authUser.id, supabase);
       }
     }
 
@@ -80,16 +101,45 @@ import NoUserCard from '../cards/NoUserCard';
       setAbout(event.target.value || '');
     }
 
+    const handleCancel = () => {
+      resetData();
+      // history.push('/tabs/home');
+    }
+
     const handleSubmit = async (event) => {
       event.preventDefault();
       setError('');
+
+      // Check if close to base
+      if (distance) {
+        if ( distance > distanceMaxBase){
+          setError('Too far from location to set as base');
+          return;
+        }
+      }
+
+      // Storage location
+      if(location){
+        newProfile.geom = {
+          type: 'Point',
+          coordinates: [location.longitude,location.latitude]
+        };
+        newProfile.longitude = location.longitude;
+        newProfile.latitude = location.latitude;
+      }
+
+      //Update user profile (RLS active)
       const res = await updateProfile(newProfile, supabase);
       if (res?.error) {
+        //Show error
         setError(res.error?.message)
       } else {
-        console.log('success')
+        //Notify User
+        setToastMessage('Updated Profile');
+        setIsToastOpen(true);
+        //Move to home after update
+        history.push('/tabs/home');
       }
-      console.log('res',res)
     }
 
     return (
@@ -116,7 +166,7 @@ import NoUserCard from '../cards/NoUserCard';
           }
 
           {authUser &&
-            <form onSubmit={handleSubmit} className="mt-6 space-y-8 divide-y divide-gray-20 overflow-scroll mx-4">
+            <form onSubmit={handleSubmit} className="mt-6 space-y-4 overflow-scroll mx-4">
               <div className="space-y-8 divide-y divide-gray-200 sm:space-y-5">
                 <div className="space-y-6 sm:space-y-5">
                   <div>
@@ -183,6 +233,40 @@ import NoUserCard from '../cards/NoUserCard';
                         </div>
                       </div>
                     </div>
+
+                    <div className="sm:grid sm:grid-cols-3 sm:items-center sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
+                      <label htmlFor="location" className="block text-sm font-medium text-gray-700 dark:text-gray-200">
+                        Location
+                      </label>
+                      <IonItem color={"light"} className="my-2">
+                        <IonIcon slot="end" icon={locate} />
+                        <IonLabel className="ion-text-wrap">
+                          Longitude: {location?.longitude} <br/>
+                          Latitude: {location?.latitude} <br/>
+                          
+                          <span className={(distance > distanceMaxBase) ? 'text-red-700' : ''}>
+                            {distance > 0 && distance <= 5 &&
+                              "Distance from you (~km): "+ distance.toFixed(2)
+                            }
+                            {distance > 5 &&
+                              "Distance from you (~km): "+ Math.floor(distance)
+                            }
+                          </span>
+
+                        </IonLabel>
+                      </IonItem>
+                      <div className="mt-1 sm:col-span-2 sm:mt-0">
+                        {authUserProfile && 
+                          <MapDraggableMarker 
+                            sendLocationFnc={locationSetter} 
+                            initialLng={authUserProfile.longitude ? authUserProfile.longitude : defaultInitialLng} 
+                            initialLat={authUserProfile.latitude ? authUserProfile.latitude : defaultInitialLat}
+                           />
+                        }
+                      </div>
+                      <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">Drag marker to you base location for notifications.</p>
+                      
+                    </div>
                   </div>
                 </div>
               </div>
@@ -191,11 +275,11 @@ import NoUserCard from '../cards/NoUserCard';
                 {error}
               </div>
 
-              <div className="pt-5 mb-4">
+              <div className="pb-4">
                 <div className="flex justify-end">
                   <button
                     type="button"
-                    onClick={resetData}
+                    onClick={handleCancel}
                     className="rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2"
                   >
                     Cancel
@@ -203,7 +287,7 @@ import NoUserCard from '../cards/NoUserCard';
                   
                   <button
                     type="submit"
-                    className="ml-3 inline-flex justify-center rounded-md border border-transparent bg-ww-primary  py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2"
+                    className="ml-3 inline-flex justify-center rounded-md border border-transparent bg-ww-primary  py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-ww-secondary focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2"
                   >
                     Save
                   </button>
