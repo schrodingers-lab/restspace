@@ -4,6 +4,8 @@ import { Geolocation } from '@capacitor/geolocation';
 
 import * as mapboxgl from 'mapbox-gl'; 
 import { mapboxglAccessToken, mapboxglStyle, defaultInitialLat, defaultInitialLng, defaultInitialZoom } from '../util/mapbox';
+import { IonFab, IonFabButton, IonIcon } from '@ionic/react';
+import { reload, search } from 'ionicons/icons';
 
 
 export const MapDraggableMarker = ({initialLat=defaultInitialLat, initialLng=defaultInitialLng, initialZoom=defaultInitialZoom, sendLocationFnc, autoLocate=false, resetCenter=null}) => {
@@ -19,6 +21,23 @@ export const MapDraggableMarker = ({initialLat=defaultInitialLat, initialLng=def
     
     const mapContainer = useRef<any>(null);
     const map = useRef<any>(null);
+
+    const reloadPosition = () => {
+        const center = new mapboxgl.LngLat(initialLng, initialLat)
+        marker?.setLngLat([initialLng, initialLat])
+        // Center the map
+        map.current.flyTo({
+            center: center,
+            essential: true // this animation is considered essential with respect to prefers-reduced-motion
+        });
+        setCurrentLocation({
+            longitude: initialLng,
+            latitude: initialLat
+          });
+
+        setLat(initialLat);
+        setLng(initialLng);
+    }
 
     useEffect(() => {
         if(userLocation && currentLocation){
@@ -136,6 +155,8 @@ export const MapDraggableMarker = ({initialLat=defaultInitialLat, initialLng=def
             setLng(lngLat.lng);
           }
         });
+
+        
     
         setMarker(mapMarker);
     
@@ -161,7 +182,14 @@ export const MapDraggableMarker = ({initialLat=defaultInitialLat, initialLng=def
 
     return (
         <div className="area-map-section h-64">
-            <div ref={mapContainer} className="w-full h-64"/> 
+             
+            <div ref={mapContainer} className="w-full h-64">
+                <IonFab slot="fixed" horizontal="start" vertical="top">
+                    <IonFabButton size="small" color={'medium'} onClick={reloadPosition}>
+                        <IonIcon icon={reload} />
+                    </IonFabButton>
+                </IonFab>  
+            </div> 
         </div>
     )
 };
