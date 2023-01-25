@@ -189,7 +189,7 @@ import { defaultInitialLat, defaultInitialLng, distanceMaxBase } from '../util/m
                             id="username"
                             value={username}
                             onChange={handleUsername}
-                            className="block w-full min-w-0 flex-1 rounded-none dark:bg-black dark:text-white rounded-r-md border-gray-300 focus:border-ww-secondary focus:ring-ww-secondary sm:text-sm"
+                            className="block w-full min-w-0 flex-1 rounded-md dark:bg-black dark:text-white rounded-r-md border-gray-300 focus:border-ww-secondary focus:ring-ww-secondary caret-ww-secondary sm:text-sm"
                           />
                           
                         </div>
@@ -208,7 +208,7 @@ import { defaultInitialLat, defaultInitialLng, distanceMaxBase } from '../util/m
                           rows={3}
                           value={about}
                           onChange={handleAbout}
-                          className="block w-full max-w-lg rounded-md border-gray-300 text-gray-500 dark:text-gray-300  dark:bg-black shadow-sm focus:border-ww-secondary focus:ring-ww-secondary sm:text-sm"
+                          className="block w-full max-w-lg rounded-md border-gray-300 text-gray-500 dark:text-gray-300  dark:bg-black shadow-sm focus:border-ww-secondary focus:ring-ww-secondary caret-ww-secondary sm:text-sm"
                         />
                         <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">Write a few sentences about yourself.</p>
                       </div>
@@ -280,14 +280,14 @@ import { defaultInitialLat, defaultInitialLng, distanceMaxBase } from '../util/m
                   <button
                     type="button"
                     onClick={handleCancel}
-                    className="rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2"
+                    className="rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-ww-secondary focus:ring-offset-2"
                   >
                     Cancel
                   </button>
                   
                   <button
                     type="submit"
-                    className="ml-3 inline-flex justify-center rounded-md border border-transparent bg-ww-primary  py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-ww-secondary focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2"
+                    className="ml-3 inline-flex justify-center rounded-md border border-transparent bg-ww-primary  py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-ww-secondary focus:outline-none focus:ring-2 focus:ring-ww-secondary focus:ring-offset-2"
                   >
                     Save
                   </button>
