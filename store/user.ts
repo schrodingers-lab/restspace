@@ -1,37 +1,29 @@
 import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react'
 import { useState, useEffect } from 'react'
+import { addToNewMap, arrayToMap } from '../components/util/data'
 
 /**
  * @param {number} userId load user profile
  * @param {array[number]} userIds load users profile
  */
 export const useStore = (props) => {
+  const authUser = useUser();
+  const supabase = useSupabaseClient();
   const [userIds, setUserIds] = useState([])
   const [userProfiles, setUserProfiles] = useState(new Map())
   const [authUserProfile, setAuthUserProfile] = useState(undefined)
 
-  const authUser = useUser();
-  const supabase = useSupabaseClient();
-
-  // load the user profiles
-  const arrayToMap = (array: any[], key: string) => {
-    return array.reduce((map, obj) => {
-        map.set(obj[key], obj);
-        return map;
-    }, new Map());
-  }
-
-  // Update when the route changes
+  // Update when the props changes (effect to listen for [props.userId])
   useEffect(() => {
     const handleAsync = async () => {
-      return await fetchUser(props.userId, (user) => userProfiles.set(props.userId, user), supabase);
+      // return new map to trigger consumer hooks
+      return await fetchUser(props.userId, (user) => { setUserProfiles(addToNewMap(userProfiles, user.id, user))}, supabase);
     }
-
-    if (props?.userId > 0) {
+    
+    if (props?.userId?.length > 0) {
       if(userIds.includes(props.userId)){
         return;
       }
-      
       if(!userIds.includes(props.userId)){
           setUserIds([...userIds, props.userId]);
           handleAsync();
@@ -48,7 +40,7 @@ export const useStore = (props) => {
       handleAsync();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.userIds, supabase])
+  }, [props.  , supabase])
 
 
   useEffect( () => {
@@ -68,7 +60,6 @@ export const useStore = (props) => {
     
   }, [authUser, supabase])
 
-  
   return {
     // We can export computed values here to map the authors to each message
     authUser,

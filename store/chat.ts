@@ -1,5 +1,6 @@
 import { useSupabaseClient } from '@supabase/auth-helpers-react'
 import { useState, useEffect } from 'react'
+import { arrayToMap } from '../components/util/data'
 
 /**
  * @param {number} chatId the currently selected Chat
@@ -128,14 +129,6 @@ export const useStore = (props) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [newOrUpdatedUser]);
-
-  // load the user profiles
-  const arrayToMap = (array: any[], key: string) => {
-    return array.reduce((map, obj) => {
-        map.set(obj[key], obj);
-        return map;
-    }, new Map());
-  }
 
   useEffect( () => {
     const handleAsync = async () => {

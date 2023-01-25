@@ -12,13 +12,11 @@ import {
   IonToolbar,
 } from '@ionic/react';
 import { useEffect, useState } from 'react';
-import { cog, bookmark, map,home, list, newspaper, person, earthOutline, construct } from 'ionicons/icons';
+import { cog, bookmark, map,home, list, logOut, logIn, newspaper, person, earthOutline, construct } from 'ionicons/icons';
 
 import { useUser, useSupabaseClient } from '@supabase/auth-helpers-react'
 import { useRouter } from 'next/router';
-const isAdmin = true;
-
-
+import { useStore } from '../store/user';
 
 const pages = [
   {
@@ -39,7 +37,14 @@ const pages = [
     title: 'Bookmarked',
     icon: bookmark,
     url: '/tabs/bookmarked',
+  },  
+  {
+    title: 'Profile',
+    icon: person,
+    url: '/tabs/profile',
   },
+
+  
   {
     title: 'Tour',
     icon: earthOutline,
@@ -63,6 +68,8 @@ const Menu = () => {
   // const [isDark, setIsDark] = useState(true);
   const user = useUser();
   const supabase = useSupabaseClient();
+  const { authUserProfile } = useStore({});
+
 
   const router = useRouter();
   const goToAdmin = () => {
@@ -105,7 +112,7 @@ const Menu = () => {
           { user &&
             <IonMenuToggle autoHide={false} key='user'>
               <IonItem onClick={signOut} detail={false} lines="none">
-                <IonIcon icon={person} slot="start" />
+                <IonIcon icon={logOut} slot="start" />
                 <IonLabel>Sign Out</IonLabel>
               </IonItem>
             </IonMenuToggle>
@@ -114,7 +121,7 @@ const Menu = () => {
            { !user &&
             <IonMenuToggle autoHide={false} key='user'>
               <IonItem routerLink={'/tabs/login'} routerDirection="none" detail={false} lines="none">
-                <IonIcon icon={person} slot="start" />
+                <IonIcon icon={logIn} slot="start" />
                 <IonLabel>Sign In</IonLabel>
               </IonItem>
             </IonMenuToggle>
@@ -129,7 +136,7 @@ const Menu = () => {
             </IonMenuToggle>
           ))}
 
-          { isAdmin &&
+          { authUserProfile?.admin &&
             <IonMenuToggle autoHide={false} key='admin'>
               <IonItem onClick={goToAdmin} detail={false} lines="none">
                 <IonIcon icon={construct} slot="start" />

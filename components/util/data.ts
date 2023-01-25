@@ -9,3 +9,18 @@ export const generateRandomName = () => {
 
       return uniqueNamesGenerator(customConfig)
 }
+
+
+export const arrayToMap = (array: any[], key: string) => {
+  return array.reduce((map, obj) => {
+      map.set(obj[key], obj);
+      return map;
+  }, new Map());
+}
+
+export const addToNewMap = (existingMap: Map<string, any>, additionKey: string, additionValue: any) => {
+  debugger;
+  const newMap = new Map(existingMap);
+  newMap.set(additionKey, additionValue);
+  return newMap;
+}

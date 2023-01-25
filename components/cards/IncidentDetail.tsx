@@ -22,23 +22,28 @@ import {
 } from '@ionic/react';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 
-import { search, navigate, bookmark, locate, share, bus, phonePortrait, shareSocial, information } from 'ionicons/icons';
+import { search, navigate, bookmark, locate, share, bus, phonePortrait, shareSocial, information, reload } from 'ionicons/icons';
 import React, { useRef, useEffect, useState } from 'react';
 
 // import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
 import * as mapboxgl from 'mapbox-gl'; 
 import { Chat } from '../chat/Chat';
 import { findObjectChat } from '../../store/chat';
-import { mapboxglStyle, mapboxglAccessToken } from '../util/mapbox';
+import { mapboxglStyle, mapboxglAccessToken, defaultInitialZoom } from '../util/mapbox';
 import { Share } from '@capacitor/share';
 import IconKey from '../modals/IconKey';
 import { displayCoverImage, displayLevelColor } from '../util/display';
 import Categories from '../ui/Categories';
 import ToggleDateDisplay from '../ui/ToggleDatesDisplay';
+import intlFormatDistanceWithOptions from 'date-fns/esm/fp/intlFormatDistanceWithOptions/index.js';
+import { useStore } from '../../store/user';
+import UserProfile from '../modals/UserProfile';
+import UserProfileAvatar from '../ui/UserProfileAvatar';
 
 export const IncidentDetail = ({incident , files, supabase}) => {
   
   const img0 = displayCoverImage(incident?.cover_image_url);
+  const { userProfiles } = useStore({userId: incident?.user_id})
 
   const mapContainer = useRef<any>(null);
   const map = useRef<any>(null);
@@ -50,8 +55,19 @@ export const IncidentDetail = ({incident , files, supabase}) => {
   const [segmentMode, setSegmentMode] = useState<string | undefined>('messages');
   const [chatId, setChatId] = useState<any>();
   const [canShare, setCanShare] = useState<boolean>(false);
-
+  const [creator, setCreator] = useState<any>();
   const [openIconKey, setOpenIconKey] = useState(false);
+  const [openCreator, setOpenCreator] = useState(false);
+
+  const reloadPosition = () => {
+    const center = new mapboxgl.LngLat(incident.longitude, incident.latitude)
+    // Center the map
+    map.current.flyTo({
+        center: center,
+        zoom: defaultInitialZoom,
+        essential: true // this animation is considered essential with respect to prefers-reduced-motion
+    });
+}
   
   useEffect(() => {
     //Check for share web api
@@ -97,12 +113,25 @@ export const IncidentDetail = ({incident , files, supabase}) => {
 
     findObjectChat('incidents', incident.id, setChatId, supabase);
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [incident]);
 
-
+  useEffect(() => {
+    if(incident?.user_id) {
+      if(userProfiles.has(incident?.user_id)){
+        // Set the creator profile
+        setCreator(userProfiles.get(incident?.user_id))
+        console.info("creator loaded")
+      }
+    }
+  }, [userProfiles, incident]);
 
   const externalMaps = ()=>{
     window.open(`http://maps.apple.com/?ll=${incident.latitude},${incident.longitude}`)
+  }
+
+  const toggleUserModal = () => {
+    setOpenCreator(!openCreator);
   }
 
   const handleSegment = (event) => {
@@ -117,7 +146,7 @@ export const IncidentDetail = ({incident , files, supabase}) => {
     if (canShare) {
       await Share.share({
         title: 'WeWatch - Incident #'+incident?.id,
-        text: 'Keep in the loop with Incident #'+incident?.id,
+        text: 'Stay informed about Incident #'+incident?.id,
         url: 'https://app.wewatchapp.com/tabs/incidents/'+incident?.id,
         dialogTitle: 'Share with the socials',
       })
@@ -142,6 +171,16 @@ export const IncidentDetail = ({incident , files, supabase}) => {
         </div>
         
 
+        {creator && 
+          <div className="flex items-center space-x-4 py-4" onClick={toggleUserModal}>
+                <UserProfileAvatar userProfile={creator} size={12}/>
+                <div className="ml-3">
+                  <p className="text-sm font-medium text-gray-700 group-hover:text-gray-900 dark:text-gray-300 dark:group-hover:text-gray-200">{creator?.username}</p>
+                  <p className="text-xs font-medium text-gray-500 group-hover:text-gray-700 dark:text-gray-500 dark:group-hover:text-gray-700">Creator&apos;s Profile</p>
+                </div>
+                <UserProfile open={openCreator} onDidDismiss={()=>{toggleUserModal}} userProfile={creator} />
+          </div> 
+        }
 
         <label htmlFor="categories" className="block text-xl font-medium text-gray-700 dark:text-gray-300 sm:mt-px sm:pt-2 mt-4 mb-2">
             <IonButton onClick={()=>{setOpenIconKey(!openIconKey)}} slot="icon-only" shape="round" color={"warning" } fill={"outline"}  size="small" className='float-right'>
@@ -154,16 +193,31 @@ export const IncidentDetail = ({incident , files, supabase}) => {
           <Categories  incident={incident} showAll={false} />
         </div>
 
+        <div className="w-full">
+        <label htmlFor="when" className="block text-xl font-medium text-gray-700 dark:text-gray-300 sm:mt-px sm:pt-2 mt-4 mb-2">
+            When             
+        </label>
+        <div id="when" className="">
+          <ToggleDateDisplay input_date={incident.inserted_at} />
+        </div>
+        </div>
+
         <label htmlFor="about" className="block text-xl font-medium text-gray-700 dark:text-gray-300 sm:mt-px sm:pt-2 mt-4 mb-2">
-            About             
+            What happened             
         </label>
         <div id="about" className="font-bold py-0 text-l text-gray-400 dark:text-gray-200">{incident.about || "-"}</div>
 
         <label htmlFor="location" className="block text-xl font-medium text-gray-700 dark:text-gray-300 sm:mt-px sm:pt-2 mt-4 mb-2">
-            Location             
+            Where             
         </label>
         <div id="location" className="area-map-section h-64 mb-10">
-          <div ref={mapContainer} className="w-full h-64"/> 
+          <div ref={mapContainer} className="w-full h-64">
+            <IonFab slot="fixed" horizontal="start" vertical="top">
+                <IonFabButton size="small" color={'medium'} onClick={reloadPosition}>
+                    <IonIcon icon={reload} />
+                </IonFabButton>
+            </IonFab>  
+          </div> 
         </div>
 
         <CopyToClipboard 
@@ -184,16 +238,7 @@ export const IncidentDetail = ({incident , files, supabase}) => {
           </IonItem>
         </CopyToClipboard>
 
-        <div className="w-full">
-        <label htmlFor="when" className="block text-xl font-medium text-gray-700 dark:text-gray-300 sm:mt-px sm:pt-2 mt-4 mb-2">
-            When             
-        </label>
-        <div id="when" className="">
-          <ToggleDateDisplay input_date={incident.inserted_at} />
-        </div>
-        </div>
-
-        <div className="w-full">
+        <div className="w-full my-2">
             { canShare &&
               <IonButton onClick={() => shareIncident()} className="text-sm">
                 <IonIcon slot="start" icon={shareSocial} />
