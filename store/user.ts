@@ -40,7 +40,7 @@ export const useStore = (props) => {
       handleAsync();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.  , supabase])
+  }, [props.userIds, supabase])
 
 
   useEffect( () => {
