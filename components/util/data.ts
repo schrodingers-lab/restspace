@@ -19,7 +19,6 @@ export const arrayToMap = (array: any[], key: string) => {
 }
 
 export const addToNewMap = (existingMap: Map<string, any>, additionKey: string, additionValue: any) => {
-  debugger;
   const newMap = new Map(existingMap);
   newMap.set(additionKey, additionValue);
   return newMap;
