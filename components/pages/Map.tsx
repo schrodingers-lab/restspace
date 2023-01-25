@@ -14,7 +14,9 @@ import {
   IonIcon,
   IonContent,
   IonMenuButton,
-  IonFabList
+  IonFabList,
+  IonSegment,
+  IonSegmentButton
 } from '@ionic/react';
 import { search, filter, information } from 'ionicons/icons';
 import Notifications from '../modals/Notifications';
@@ -215,11 +217,15 @@ const Map = ({history}) => {
     geoSearch();
   });
 
+  const handleListSegment = () =>{
+    history.push('/tabs/incidents');
+  }
+
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Map</IonTitle>
+          <IonTitle>Incidents</IonTitle>
           <IonButtons slot="start">
             <IonMenuButton />
           </IonButtons>
@@ -232,6 +238,14 @@ const Map = ({history}) => {
       </IonHeader>
       <IonContent fullscreen>
         <Notifications open={showNotifications} onDidDismiss={() => setShowNotifications(false)} />
+        <IonSegment value="map">
+          <IonSegmentButton value="map">
+            Map
+          </IonSegmentButton>
+          <IonSegmentButton value="list" onClick={handleListSegment}>
+            List
+          </IonSegmentButton>
+        </IonSegment>
         <div className="map-section">
           <div ref={mapContainer} className="map-container"/>
         </div>

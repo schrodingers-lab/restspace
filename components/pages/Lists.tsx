@@ -14,7 +14,9 @@ import {
   IonThumbnail,
   IonImg,
   IonButtons,
-  IonMenuButton
+  IonMenuButton,
+  IonSegment,
+  IonSegmentButton
 } from '@ionic/react';
 import { displayCoverImage } from '../util/display';
 
@@ -32,6 +34,7 @@ const ListEntry = ({ list, ...props }) => {
 
 const AllLists = () => {
   let incidents = Store.useState(selectors.getIncidents);
+
   console.log("incidents",incidents);
   return (
     <>
@@ -54,12 +57,17 @@ const AllLists = () => {
   );
 };
 
-const Lists = () => {
+const Lists = ({history}) => {
+
+  const handleMapSegment = () =>{
+    history.push('/tabs/map');
+  }
+
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Lists</IonTitle>
+          <IonTitle>Incidents</IonTitle>
           <IonButtons slot="start">
             <IonMenuButton />
           </IonButtons>
@@ -71,6 +79,14 @@ const Lists = () => {
             <IonTitle size="large">Lists</IonTitle>
           </IonToolbar>
         </IonHeader>
+        <IonSegment value="list">
+          <IonSegmentButton value="map" onClick={handleMapSegment}>
+            Map
+          </IonSegmentButton>
+          <IonSegmentButton value="list">
+            List
+          </IonSegmentButton>
+        </IonSegment>
         <AllLists />
       </IonContent>
     </IonPage>

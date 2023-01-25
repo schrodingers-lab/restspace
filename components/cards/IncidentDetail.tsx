@@ -48,6 +48,7 @@ export const IncidentDetail = ({incident , files, supabase}) => {
   const mapContainer = useRef<any>(null);
   const map = useRef<any>(null);
 
+  const [marker, setMarker] = useState<any>();
   const [geoLocateCtl, setGeoLocateCtl] = useState<any>();
   const [currentLocation, setCurrentLocation] = useState<any>();
   const [isToastOpen, setIsToastOpen] = useState<boolean>(false);
@@ -60,14 +61,28 @@ export const IncidentDetail = ({incident , files, supabase}) => {
   const [openCreator, setOpenCreator] = useState(false);
 
   const reloadPosition = () => {
-    const center = new mapboxgl.LngLat(incident.longitude, incident.latitude)
+    const center = new mapboxgl.LngLat(incident?.longitude, incident?.latitude)
     // Center the map
-    map.current.flyTo({
+    map?.current.flyTo({
         center: center,
         zoom: defaultInitialZoom,
         essential: true // this animation is considered essential with respect to prefers-reduced-motion
     });
-}
+  }
+
+  const redrawMarker = () => {
+    if(map.current){
+      if(marker){
+        marker.remove();
+      }
+
+      const markerColor = displayLevelColor(incident);
+      const newMarker = new mapboxgl.Marker({color: markerColor})
+          .setLngLat([incident.longitude, incident.latitude])
+          .addTo(map.current);
+      setMarker(newMarker);
+    }
+  }
   
   useEffect(() => {
     //Check for share web api
@@ -79,7 +94,14 @@ export const IncidentDetail = ({incident , files, supabase}) => {
   }, []);
 
   useEffect(() => {
-    if (map.current) return; // initialize map only once
+    //load incident chat
+    findObjectChat('incidents', incident.id, setChatId, supabase);
+    
+    if (map.current) {
+      redrawMarker();
+      return; // initialize map only once
+    }
+
     map.current = new mapboxgl.Map({
       accessToken: mapboxglAccessToken,
       container: mapContainer.current,
@@ -110,8 +132,7 @@ export const IncidentDetail = ({incident , files, supabase}) => {
     const marker = new mapboxgl.Marker({color: markerColor})
         .setLngLat([incident.longitude, incident.latitude])
         .addTo(map.current);
-
-    findObjectChat('incidents', incident.id, setChatId, supabase);
+    setMarker(marker);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [incident]);
