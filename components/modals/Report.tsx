@@ -65,7 +65,7 @@ import UserProfileAvatar from '../ui/UserProfileAvatar';
                         rows={3}
                         value={reason}
                         onChange={handleReason}
-                        className="block w-full max-w-lg rounded-md border-gray-300 text-gray-500 dark:text-gray-300  dark:bg-black shadow-sm focus:border-ww-secondary focus:ring-ww-secondary sm:text-sm"
+                        className="block w-full max-w-lg rounded-md border-gray-300 text-gray-500 dark:text-gray-300  dark:bg-black shadow-sm focus:border-ww-secondary focus:ring-ww-secondary caret-ww-secondary sm:text-sm"
                       />
                       <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">Write a few sentences about yourself.</p>
                     </div>

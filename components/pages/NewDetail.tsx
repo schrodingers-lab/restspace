@@ -305,7 +305,7 @@ const NewDetail = ({history}) => {
                       id="name"
                       value={name}
                       onChange={handleName}
-                      className="block w-full text-black dark:text-white dark:bg-black rounded-md border-gray-300 shadow-sm focus:border-ww-secondary focus:ring-yellow-500 sm:text-sm"
+                      className="block w-full text-black dark:text-white dark:bg-black rounded-md border-gray-300 shadow-sm focus:border-ww-secondary focus:ring-ww-secondary caret-ww-secondary sm:text-sm"
                     />
                   </div>
                 </div>
@@ -373,7 +373,7 @@ const NewDetail = ({history}) => {
                       id="about"
                       name="about"
                       rows={3}
-                      className="block w-full rounded-md border-gray-300 text-black dark:bg-black dark:text-white shadow-sm focus:border-ww-secondary focus:ring-yellow-500 sm:text-sm"
+                      className="block w-full rounded-md border-gray-300 text-black dark:bg-black dark:text-white shadow-sm focus:border-ww-secondary focus:ring-ww-secondary caret-ww-secondary sm:text-sm"
                       value={about}
                       onChange={handleAboutChange}
                     />
