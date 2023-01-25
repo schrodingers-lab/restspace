@@ -39,7 +39,7 @@ export default function MessageInput({chatId}) {
   }
 
   return (
-    <div className="flex items-start space-x-4 mx-2 py-4">
+    <div className="flex items-start space-x-4 py-4">
       <div className="min-w-0 flex-1">
         <form action="#" className="relative" onSubmit={handleSubmit}>
           <div className="overflow-hidden rounded-lg border border-gray-300 shadow-sm focus-within:border-ww-primary focus-within:ring-1 focus-within:ring-ww-primary">
