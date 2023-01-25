@@ -26,13 +26,12 @@ const ListEntry = ({ incident, ...props }) => {
   const img0 = displayCoverImage(incident?.cover_image_url);
   return (
   <IonItem routerLink={`/tabs/incidents/${incident.id}`} className="incident-entry">
-      <IonLabel>#{incident.id} - {incident.name}<br/>
+    <IonLabel>#{incident.id} - {incident.name}<br/>
       <CategoriesIcons incident={incident} showAll={false}/>
     </IonLabel>
     <div className="text-ww-primary float-right text-xs">
-          {formatDistanceToNow(new Date(incident.inserted_at),{addSuffix: true})}
-        </div>
-    {/* TODO add icons for incidents */}
+      {formatDistanceToNow(new Date(incident.inserted_at),{addSuffix: true})}
+    </div>
     <IonThumbnail slot="end">
         <IonImg src={img0} />
     </IonThumbnail>
