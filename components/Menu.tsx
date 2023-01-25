@@ -12,7 +12,7 @@ import {
   IonToolbar,
 } from '@ionic/react';
 import { useEffect, useState } from 'react';
-import { cog, bookmark, map,home, list, logOut, logIn, newspaper, person, earthOutline, construct } from 'ionicons/icons';
+import { cog, bookmark, map,home, list, logOut, logIn, newspaper, person, earthOutline, construct, chatboxEllipses, chatbox } from 'ionicons/icons';
 
 import { useUser, useSupabaseClient } from '@supabase/auth-helpers-react'
 import { useRouter } from 'next/router';
@@ -44,6 +44,11 @@ const pages = [
     icon: bookmark,
     url: '/tabs/bookmarked',
   },  
+  {
+    title: 'Messages',
+    icon: chatbox,
+    url: '/tabs/chats',
+  }, 
   {
     title: 'Profile',
     icon: person,
