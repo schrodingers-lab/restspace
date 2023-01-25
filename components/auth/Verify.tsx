@@ -124,11 +124,12 @@ export const Verify = ( {phoneNumber, displayPhoneNumber, sendAuthStateFnc}) => 
           } else if (error?.message == "Token has expired or is invalid") {
             //failed to login
             setError('Token has expired or is invalid');
+          } else {
+            setError(error?.message);
           }
+        }else {
+          setError(error?.message);
         }
-      } else {
-        //TODO redirect to home
-        console.log("logged in")
       }
 
       console.log("supaState",  data, error );
@@ -185,7 +186,7 @@ export const Verify = ( {phoneNumber, displayPhoneNumber, sendAuthStateFnc}) => 
                 <div>
                   <button
                     type="submit"
-                    className="flex w-full justify-center rounded-md border border-transparent bg-yellow-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2"
+                    className="flex w-full justify-center rounded-md border border-transparent bg-yellow-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-ww-secondary focus:ring-offset-2"
                   >
                     Verify
                   </button>

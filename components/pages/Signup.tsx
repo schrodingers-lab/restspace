@@ -55,7 +55,7 @@ export const SignupPage = ({history}) => {
             { authMode == 'login' && <Login sendPhoneNumberFnc={callSetPhoneNumber} sendAuthStateFnc={callSetAuthMode} />}
             { authMode == 'signup' && <Signup sendPhoneNumberFnc={callSetPhoneNumber} sendAuthStateFnc={callSetAuthMode} />}
             { authMode == 'verify' && <Verify phoneNumber={phoneNumber} displayPhoneNumber={displayPhoneNumber} sendAuthStateFnc={callSetAuthMode}/>}
-            { authMode == 'post' && <p>Logged in, lets TODO next step delayed route and reset state</p>}
+            { authMode == 'post' && <p>Logged in....</p>}
           </div>
         </IonContent>
     </IonPage>

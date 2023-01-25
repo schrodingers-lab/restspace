@@ -115,7 +115,7 @@ export const Login = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
                       onCountryChange={onCountryChange}
                       value={phoneNumber}
                       onChange={handlePhone} 
-                      className="block w-full appearance-none rounded-md border border-gray-300 bg-white text-gray-900 dark:bg-black dark:text-gray-300 px-3 py-2 shadow-sm focus:border-ww-secondary focus:ring-yellow-500 sm:text-sm"
+                      className="block w-full appearance-none rounded-md border border-gray-300 bg-white text-gray-900 dark:bg-black dark:text-gray-300 px-3 py-2 shadow-sm focus:border-ww-secondary focus:ring-ww-secondary sm:text-sm"
                       />
                   </div>
                 </div>
@@ -132,7 +132,7 @@ export const Login = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
                       onChange={handlePassword}
                       ref={passwordRef}
                       required
-                      className="block w-full appearance-none rounded-md border border-gray-300 text-gray-900 dark:bg-black dark:text-gray-300 px-3 py-2 shadow-sm focus:border-ww-secondary focus:ring-yellow-500 sm:text-sm"
+                      className="block w-full appearance-none rounded-md border border-gray-300 text-gray-900 dark:bg-black dark:text-gray-300 px-3 py-2 shadow-sm focus:border-ww-secondary focus:ring-ww-secondary sm:text-sm"
                     />
                   </div>
                 </div>

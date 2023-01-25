@@ -188,7 +188,7 @@ export const UpdatePassword = ( {phoneNumber, displayPhoneNumber, sendAuthStateF
                       onChange={handlePassword}
                       ref={passwordRef}
                       required
-                      className="block w-full appearance-none rounded-md border border-gray-300 text-gray-900 dark:bg-black dark:text-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-ww-secondary focus:ring-yellow-500 sm:text-sm"
+                      className="block w-full appearance-none rounded-md border border-gray-300 text-gray-900 dark:bg-black dark:text-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-ww-secondary focus:ring-ww-secondary sm:text-sm"
                     />
                   </div>
                 </div>
@@ -210,7 +210,7 @@ export const UpdatePassword = ( {phoneNumber, displayPhoneNumber, sendAuthStateF
                 <div>
                   <button
                     type="submit"
-                    className="flex w-full justify-center rounded-md border border-transparent bg-yellow-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2"
+                    className="flex w-full justify-center rounded-md border border-transparent bg-yellow-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-ww-secondary focus:ring-offset-2"
                   >
                     Update
                   </button>

@@ -194,7 +194,6 @@ const NewDetail = ({history}) => {
   }
 
   const createNewIncident = () => {
-    // TODO default cover image
     let cover_image_url;
     if (files && files.length > 0){
       cover_image_url = fileUrl(files[0]);
@@ -441,7 +440,6 @@ const NewDetail = ({history}) => {
 
               { files && files.length > 0 &&
                 <div className="sm:col-span-6">
-                  {/* TODO remove images, so not tagged */}
                   <IonList className="bg-white dark:bg-black dark:text-white">
                     {files.map((s: any) => (
                       <div key={s?.id}>
@@ -466,13 +464,13 @@ const NewDetail = ({history}) => {
                 <button
                   type="button"
                   onClick={resetData}
-                  className="rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2"
+                  className="rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-ww-secondary focus:ring-offset-2"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="ml-3 inline-flex justify-center rounded-md border border-transparent bg-ww-primary py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2"
+                  className="ml-3 inline-flex justify-center rounded-md border border-transparent bg-ww-primary py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-ww-secondary focus:ring-offset-2"
                 >
                   Save
                 </button>

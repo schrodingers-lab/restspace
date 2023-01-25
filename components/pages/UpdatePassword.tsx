@@ -51,7 +51,7 @@ export const UpdatePasswordPage = ({history}) => {
         </IonHeader>
         <IonContent>
             { authMode == 'update' && <UpdatePassword phoneNumber={phoneNumber} displayPhoneNumber={displayPhoneNumber} sendAuthStateFnc={callSetAuthMode}/>}
-            { authMode == 'post' && <p>reset, lets TODO next step delayed route  and reset state</p>}
+            { authMode == 'post' && <p>Password reset...</p>}
         </IonContent>
     </IonPage>
     );

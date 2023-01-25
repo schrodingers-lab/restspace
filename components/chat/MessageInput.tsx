@@ -73,7 +73,7 @@ export default function MessageInput({chatId}) {
             <div className="flex-shrink-0">
               <button
                 type="submit"
-                className="inline-flex items-center rounded-md border border-transparent bg-ww-primary px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2"
+                className="inline-flex items-center rounded-md border border-transparent bg-ww-primary px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-ww-secondary focus:ring-offset-2"
               >
                 <IonIcon slot="start" icon={send} color="white"/><span className="px-2">Post</span>
               </button>

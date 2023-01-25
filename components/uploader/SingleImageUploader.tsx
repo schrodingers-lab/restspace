@@ -126,7 +126,7 @@ export const SingleImageUploader = ({authUser, supabase, addFileFnc}) => {
         <button
           onClick={takePicture}
           type="button"
-          className="relative inline-flex items-center rounded-l-md border border-gray-300 bg-white dark:bg-black px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 focus:z-10 focus:border-ww-secondary focus:ring-yellow-500 focus:outline-none focus:ring-1 "
+          className="relative inline-flex items-center rounded-l-md border border-gray-300 bg-white dark:bg-black px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 focus:z-10 focus:border-ww-secondary focus:ring-ww-secondary focus:outline-none focus:ring-1 "
         >
           <IonIcon icon={cameraOutline} slot="start" />
           <span className="px-4">Camera</span>
@@ -134,7 +134,7 @@ export const SingleImageUploader = ({authUser, supabase, addFileFnc}) => {
         <button
           onClick={triggerUploadFiles}
           type="button"
-          className="relative -ml-px inline-flex items-center rounded-r-md border border-gray-300 bg-white dark:bg-black px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300  hover:bg-gray-50 focus:z-10 focus:border-ww-secondary focus:ring-yellow-500 focus:outline-none focus:ring-1"
+          className="relative -ml-px inline-flex items-center rounded-r-md border border-gray-300 bg-white dark:bg-black px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300  hover:bg-gray-50 focus:z-10 focus:border-ww-secondary focus:ring-ww-secondary focus:outline-none focus:ring-1"
         >
           <IonIcon icon={attachOutline} slot="start" />
           <span className="px-4">Upload</span>

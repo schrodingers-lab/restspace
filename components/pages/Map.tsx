@@ -117,9 +117,6 @@ const Map = ({history}) => {
       setError(error?.message);
     }
 
-    // console.log("supabase lng", lng);
-    // console.log("supabase lat", lat);
-    // console.log("supabase distance", distance);
     Store.update(s => {
       s.incidents = data ? data : [];
     });

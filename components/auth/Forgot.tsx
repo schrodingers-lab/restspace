@@ -105,7 +105,7 @@ export const Forgot = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
                       error={phoneNumber ? (isValidPhoneNumber(phoneNumber) ? undefined : 'Invalid phone number') : 'Phone number required'}
                       value={phoneNumber}
                       onChange={handlePhone} 
-                      className="block w-full appearance-none rounded-md text-gray-900 dark:text-gray-200 border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-ww-secondary focus:ring-yellow-500 sm:text-sm"
+                      className="block w-full appearance-none rounded-md text-gray-900 dark:text-gray-200 border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-ww-secondary focus:ring-ww-secondary sm:text-sm"
                       />
 
                       {/* <p>={phoneNumber ? (isValidPhoneNumber(phoneNumber) ? undefined : 'Invalid phone number') : 'Phone number required'}</p> */}
@@ -128,7 +128,7 @@ export const Forgot = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
                 <div>
                   <button
                     type="submit"
-                    className="flex w-full justify-center rounded-md border border-transparent bg-yellow-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2"
+                    className="flex w-full justify-center rounded-md border border-transparent bg-yellow-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-ww-secondary focus:ring-offset-2"
                   >
                     Send Verification
                   </button>
