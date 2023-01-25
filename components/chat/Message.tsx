@@ -5,20 +5,22 @@ import { useUser } from '@supabase/auth-helpers-react'
 import UserProfileAvatar from '../ui/UserProfileAvatar';
 import { eyeOff, eye, trash } from 'ionicons/icons';
 import { formatDistanceToNow } from 'date-fns';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import UserProfile from '../modals/UserProfile';
 import { FabUgcMessageActions } from '../cards/FabUgcMessageActions';
 
 export const Message = ({ message }) => {
   const user = useUser();
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
+  const [isMyMessage, setIsMyMessage] = useState(false)
+  const [bgColor, setBgColor] = useState('bg-yellow-500')
+  
+  useEffect(() => {
+    setIsMyMessage(user?.id == message?.user_id);
+    setBgColor(user?.id == message?.user_id ? 'bg-green-500': 'bg-yellow-500')
+  },[user, message]);
 
   if (!message.id) return <></>
-
-  const isMyMessage = () => {
-    return user?.id == message?.user_id
-  }
-  const bgColor = isMyMessage ? 'bg-green-500': 'bg-yellow-500';
 
   const toggleUserModal = () => {
     setOpen(!open);
