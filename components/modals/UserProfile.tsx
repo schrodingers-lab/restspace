@@ -10,17 +10,18 @@ import {
     IonItem,
     IonNote,
     IonLabel,
+    IonFab,
+    IonFabButton,
   } from '@ionic/react';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
-import { close } from 'ionicons/icons';
-import React from 'react';
+import { close, flag } from 'ionicons/icons';
+import React, { useState } from 'react';
 import UserProfileAvatar from '../ui/UserProfileAvatar';
+import Report from './Report';
   
   const UserProfile = ({ open, onDidDismiss, userProfile }) => {  
-
-    const reportUser = () => {
-      alert('TODO REPORT');
-    }
+    const [openReport, setOpenReport] = useState(false);
+    const [reportMode, setReportMode] = useState('person');
 
     return (
       <IonModal isOpen={open} onDidDismiss={onDidDismiss}>
@@ -33,7 +34,7 @@ import UserProfileAvatar from '../ui/UserProfileAvatar';
           </IonToolbar>
         </IonHeader>
         <IonContent>
-          <div className="relative transform overflow-hidden rounded-lg bg-white dark:bg-black dark:text-white px-4 pt-5 pb-4 text-left shadow-xl transition-all w-full">
+          <div className="transform overflow-hidden rounded-lg bg-white dark:bg-black dark:text-white px-4 pt-5 pb-4 text-left shadow-xl transition-all w-full">
             <div>
               <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
                 <UserProfileAvatar userProfile={userProfile} size={12} /><br/>
@@ -54,18 +55,26 @@ import UserProfileAvatar from '../ui/UserProfileAvatar';
                 </div>
               </div>
             </div>
-
-            <div className="mt-5 items-center justify-center rounded-full">
-              <button
-                type="button"
-                className="inline-flex w-full justify-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 sm:w-auto sm:text-sm"
-                onClick={reportUser}
+            {/* <div className="mt-3 py-10 text-center sm:mt-5 relative">
+              <IonFab horizontal="center" vertical="bottom" slot="fixed" >
+              <IonFabButton
+                onClick={() => {
+                  // setOpenReport(!openReport)
+                  setOpenReport(true);
+                  debugger;
+                  console.log('ff')
+                }}
+                size="small"
+                color={"medium"}
               >
-                Report
-              </button>
+                <IonIcon icon={flag} size="small"/>
+              </IonFabButton>
+              </IonFab>
+            </div> */}
+
             </div>
-          </div>
         </IonContent>
+
       </IonModal>
     );
   };

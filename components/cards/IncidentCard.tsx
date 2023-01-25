@@ -5,7 +5,7 @@ import CategoriesIcons from '../ui/CategoriesIcons';
 import ToggleDateDisplay from '../ui/ToggleDatesDisplay';
 import { displayCoverImage } from '../util/display';
 
-export const IncidentCard = ({incident, key, onClickFnc}) => {
+export const IncidentCard = ({incident, onClickFnc},{key="incident-key-1"}) => {
   const img0 = displayCoverImage(incident?.cover_image_url ); 
 
   const internalOnClick = () => {

@@ -15,7 +15,7 @@ export const UserProfileAvatar = ({userProfile, size=8}) => {
             />
         }
         { !avatarSrc && initials && 
-            <span className={`inline-flex h-${size} w-${size} items-center justify-center rounded-full bg-gray-500`}>
+            <span className={`inline-flex h-${size} w-${size} items-center justify-center rounded-full bg-gray-400`}>
                 <span className="font-medium leading-none text-white">{initials}</span>
             </span>
         }

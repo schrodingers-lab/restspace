@@ -35,15 +35,15 @@ import IconKey from '../modals/IconKey';
 import { displayCoverImage, displayLevelColor } from '../util/display';
 import Categories from '../ui/Categories';
 import ToggleDateDisplay from '../ui/ToggleDatesDisplay';
-import intlFormatDistanceWithOptions from 'date-fns/esm/fp/intlFormatDistanceWithOptions/index.js';
 import { useStore } from '../../store/user';
 import UserProfile from '../modals/UserProfile';
 import UserProfileAvatar from '../ui/UserProfileAvatar';
+import { FabUgcIncidentActions } from './FabUgcIncidentActions';
 
 export const IncidentDetail = ({incident , files, supabase}) => {
   
   const img0 = displayCoverImage(incident?.cover_image_url);
-  const { userProfiles } = useStore({userId: incident?.user_id})
+  const { authUser, userProfiles } = useStore({userId: incident?.user_id})
 
   const mapContainer = useRef<any>(null);
   const map = useRef<any>(null);
@@ -178,19 +178,15 @@ export const IncidentDetail = ({incident , files, supabase}) => {
   }
   
   return (
-    <Card className="my-4 mx-auto">
+    <>
+    <Card className="mt-0 mx-auto">
+      
       <div className="h-64 w-full relative">
+        {authUser && <FabUgcIncidentActions incident={incident} creator={creator} />}
         <img className="h-64 px-auto w-full object-cover object-center" src={img0} alt="image" />
       </div>
       <div className="px-4 py-4 bg-white rounded-b-xl dark:bg-black">
         <h2 className="font-bold text-2xl text-gray-800 dark:text-gray-100">#{incident.id} - {incident.name}</h2>
-        
-        
-        {/* TODO should avatar */}
-        <div className="flex items-center space-x-4">
-          <h3 className="text-gray-500 dark:text-gray-200 m-l-8 text-md font-medium">{incident.creator}</h3>
-        </div>
-        
 
         {creator && 
           <div className="flex items-center space-x-4 py-4" onClick={toggleUserModal}>
@@ -292,7 +288,7 @@ export const IncidentDetail = ({incident , files, supabase}) => {
 
         {segmentMode == 'photos' && 
           <div className="my-4 mx-auto mt-10 w-full" >
-            <IncidentCarousel files={files} />
+            <IncidentCarousel files={files} creator={creator} />
           </div>
         }
 
@@ -314,6 +310,7 @@ export const IncidentDetail = ({incident , files, supabase}) => {
             onDidDismiss={() => setIsToastOpen(false)}
         />
     </Card>
+    </>
   );
 }
   

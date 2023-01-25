@@ -21,7 +21,6 @@ import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react';
 import { notificationsOutline } from 'ionicons/icons';
 
 import { search, filter, bookmark, bookmarkOutline } from 'ionicons/icons';
-import { setErrorHandler } from 'ionicons/dist/types/stencil-public-runtime';
 
 
 const ListDetail = ({ match }) => {
@@ -140,12 +139,12 @@ const ListDetail = ({ match }) => {
     }
 
     if (incidentId && user?.id){
-      
       if (isBookmarked){
         await removeBookmark();
       } else 
         await createBookmark();
     } else {
+    
       setPopoverOpen(true);
     }
   }
@@ -164,7 +163,7 @@ const ListDetail = ({ match }) => {
               {isBookmarked && <IonIcon icon={bookmark} />}
               {!isBookmarked && <IonIcon icon={bookmarkOutline} />}
             </IonButton>
-            <IonPopover ref={popover} isOpen={popoverOpen} onDidDismiss={() => setPopoverOpen(false)}>
+            <IonPopover ref={popover} trigger="bookmark" isOpen={popoverOpen} onDidDismiss={() => setPopoverOpen(false)}>
               <IonContent class="ion-padding">login or sign up for free to access this feature</IonContent>
             </IonPopover>
           </IonButtons>

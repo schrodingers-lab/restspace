@@ -31,7 +31,7 @@ export const Chat = ({ chatId }) => {
         </div>
       }
       {chatId && user &&
-        <>
+        <div className="mx-2">
           <ul>
             {messages && messages.length > 0 && messages.map((message) => <Message message={message} key={message.id} />)}
             {messages && messages.length == 0 && 
@@ -42,7 +42,7 @@ export const Chat = ({ chatId }) => {
             <div ref={messagesEndRef} />
           </ul>
           {user && <MessageInput chatId={chatId} />}
-        </>
+        </div>
       }
 
     </>
