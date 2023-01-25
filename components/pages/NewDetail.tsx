@@ -487,6 +487,7 @@ const NewDetail = ({history}) => {
             message={toastMessage}
             duration={2000}
             position={'bottom'}
+            color={'success'}
             onDidDismiss={() => setIsToastOpen(false)}
         />
       </IonContent>

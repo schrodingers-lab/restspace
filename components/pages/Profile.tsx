@@ -300,7 +300,7 @@ import { defaultInitialLat, defaultInitialLng, distanceMaxBase } from '../util/m
             message={toastMessage}
             duration={4000}
             position={'top'}
-            color={'medium'}
+            color={'success'}
             onDidDismiss={() => setIsToastOpen(false)}
           />
         </IonContent>

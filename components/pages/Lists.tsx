@@ -19,12 +19,19 @@ import {
   IonSegmentButton
 } from '@ionic/react';
 import { displayCoverImage } from '../util/display';
+import CategoriesIcons from '../ui/CategoriesIcons';
+import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 
-const ListEntry = ({ list, ...props }) => {
-  const img0 = displayCoverImage(list?.cover_image_url);
+const ListEntry = ({ incident, ...props }) => {
+  const img0 = displayCoverImage(incident?.cover_image_url);
   return (
-  <IonItem routerLink={`/tabs/incidents/${list.id}`} className="list-entry">
-    <IonLabel>#{list.id} - {list.name}</IonLabel>
+  <IonItem routerLink={`/tabs/incidents/${incident.id}`} className="incident-entry">
+      <IonLabel>#{incident.id} - {incident.name}<br/>
+      <CategoriesIcons incident={incident} showAll={false}/>
+    </IonLabel>
+    <div className="text-ww-primary float-right text-xs">
+          {formatDistanceToNow(new Date(incident.inserted_at),{addSuffix: true})}
+        </div>
     {/* TODO add icons for incidents */}
     <IonThumbnail slot="end">
         <IonImg src={img0} />
@@ -38,8 +45,8 @@ const AllLists = () => {
   console.log("incidents",incidents);
   return (
     <>
-      {incidents?.length > 0 && incidents.map((list, i) => (
-        <ListEntry list={list} key={i} />
+      {incidents?.length > 0 && incidents.map((incident, i) => (
+        <ListEntry incident={incident} key={i} />
       ))}
 
       {incidents?.length === 0 && 
