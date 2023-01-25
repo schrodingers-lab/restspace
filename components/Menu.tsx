@@ -23,13 +23,19 @@ const pages = [
     title: 'Home',
     icon: home,
     url: '/tabs/home',
-  },{
+  },
+  {
+    title: 'Tour',
+    icon: earthOutline,
+    url: '/tour',
+  },
+  {
     title: 'Map',
     icon: map,
     url: '/tabs/map',
   },
   {
-    title: 'Lists',
+    title: 'List',
     icon: list,
     url: '/tabs/incidents',
   },
@@ -43,18 +49,12 @@ const pages = [
     icon: person,
     url: '/tabs/profile',
   },
-
-  
-  {
-    title: 'Tour',
-    icon: earthOutline,
-    url: '/tour',
-  },
   {
     title: 'Settings',
     icon: cog,
     url: '/tabs/settings',
   },
+
   {
     title: 'Terms of Use',
     icon: newspaper,

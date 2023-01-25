@@ -47,6 +47,7 @@ const Map = ({history}) => {
   const [zoom, setZoom] = useState(13);
   const [markers, setMarkers] = useState<any[]>([]);
 
+  const [error, setError] = useState<string>();
   const [filterOpen, setFilterOpen] = useState(false);
 
   const [stolenvehicleFilter, setStolenvehicleFilter] = useState(false);
@@ -109,7 +110,12 @@ const Map = ({history}) => {
     if (unfamiliarFilter){
       query.eq('unfamiliar', true);
     }
-    const { data, error } = await query.select();
+    // temporary-order-creation (not incidented_at, so we see newest)
+    const { data, error } = await query.select().order('inserted_at',{ascending: false});
+
+    if (error){
+      setError(error?.message);
+    }
 
     // console.log("supabase lng", lng);
     // console.log("supabase lat", lat);
