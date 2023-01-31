@@ -1,9 +1,9 @@
 
 import { useRouter } from 'next/router'
-
+import addHours from 'date-fns/addHours';
 import { useContext, useEffect, useRef, useState } from 'react'
 import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react'
-import { useStore } from '../../../store/user'
+import { updateProfile, useStore } from '../../../store/user'
 import Layout from '../../../components/adminchat/Layout'
 import Message from '../../../components/adminchat/Message'
 import MessageInput from '../../../components/adminchat/MessageInput'
@@ -15,7 +15,6 @@ const UserPage = (props) => {
   const user = useUser();
   const supabase = useSupabaseClient();
 
-  const messagesEndRef = useRef(null)
 
   // Else load up the page
   const { id: userId } = router.query
@@ -23,6 +22,13 @@ const UserPage = (props) => {
   const [userProfile, setUserProfile] = useState<any>();
 
   const handleReturn = () => {
+    router.push('/admin/users');
+  }
+
+  const shadowBan = (hours: number) => {
+    userProfile.banned_to = addHours(new Date(),  hours)
+    const res = updateProfile(userProfile, supabase);
+
     router.push('/admin/users');
   }
 
@@ -124,10 +130,25 @@ const UserPage = (props) => {
           Cancel
         </button>
         <button
+          onClick={()=>shadowBan(24)}
           type="button"
           className="rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-ww-secondary focus:ring-offset-2"
         >
-          Shadow Ban
+          Ban 24 hours
+        </button>        
+        <button
+        onClick={()=>shadowBan(48)}
+          type="button"
+          className="rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-ww-secondary focus:ring-offset-2"
+        >
+          Ban 48 hours
+        </button>
+        <button
+        onClick={()=>shadowBan(-1)}
+          type="button"
+          className="rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-ww-secondary focus:ring-offset-2"
+        >
+          End Ban
         </button>
         <button
           type="submit"
@@ -137,6 +158,7 @@ const UserPage = (props) => {
         </button>
       </div>
     </div>
+    
   </form>
   </div>
 )

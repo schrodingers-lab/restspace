@@ -11,7 +11,9 @@ create table public.users (
   latitude    numeric,
   admin       boolean default false,
   inserted_at timestamp with time zone default timezone('utc'::text, now()) not null,
-  updated_at  timestamp with time zone default timezone('utc'::text, now()) not null
+  updated_at  timestamp with time zone default timezone('utc'::text, now()) not null,
+  banned_to   timestamp with time zone,
+  perm_ban    boolean default false,
 );
 SELECT AddGeometryColumn ('','users','geom',4326,'POINT',2);
 

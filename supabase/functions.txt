@@ -7,5 +7,6 @@ CREATE OR REPLACE FUNCTION geo_incidents(x numeric, y numeric, distance int)
             ST_MakePoint(x, y)::geography,
             distance, 
             true 
-      );
+      )
+    and user_id not in ( select id from users where banned_to > now());
 $$ language sql;

@@ -71,6 +71,9 @@ import UserProfileAvatar from "../../../components/ui/UserProfileAvatar";
                 <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
                   Admin
                 </th>
+                <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                  Banned to
+                </th>
                 <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-6">
                   <span className="sr-only">Actions</span>
                 </th>
@@ -92,6 +95,9 @@ import UserProfileAvatar from "../../../components/ui/UserProfileAvatar";
                  <td className="px-3 py-4 text-sm text-gray-500">
                     {person.admin && <p>TRUE</p>} 
                     {!person.admin && <p>FALSE</p>}
+                 </td>
+                 <td className="px-3 py-4 text-sm text-gray-500">
+                    {person.banned_to}
                  </td>
                   <td className="py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                     <a href={`/admin/users/${person.id}`} className="text-indigo-600 hover:text-indigo-900">
