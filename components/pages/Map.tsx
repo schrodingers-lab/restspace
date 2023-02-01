@@ -28,7 +28,7 @@ import * as turfdistance from '@turf/distance';
 import { useDebouncedCallback } from 'use-debounce';
 import MapInfo from "../map/MapInfo";
 import * as mapboxgl from 'mapbox-gl'; 
-import { useSupabaseClient } from '@supabase/auth-helpers-react';
+import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react';
 import IconKey from '../modals/IconKey';
 import { displayLevelColor } from '../util/display';
 import { mapboxglAccessToken, mapboxglStyle } from '../util/mapbox';
@@ -66,22 +66,22 @@ const Map = ({history}) => {
   const [session, setSession] = useState<any>(null);
   // Create a single supabase client for interacting with your database 
   const supabase = useSupabaseClient();
+  const user = useUser();
 
-  useEffect(() => {
-    const loadSession = async () => {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession()
-      console.log("session",session);
-      setSession(session);
-    }
-    loadSession();
-  }, [supabase])
+  // useEffect(() => {
+  //   const loadSession = async () => {
+  //     const {
+  //       data: { session },
+  //     } = await supabase.auth.getSession()
+  //     console.log("session",session);
+  //     setSession(session);
+  //   }
+  //   loadSession();
+  // }, [supabase])
 
   const geoSearch = async () => {
     const query = supabase
-      .rpc('geo_incidents', { x: lng, y: lat, distance: distance })
-
+      .rpc('geo_caller_incidents', { x: lng, y: lat, distance: distance, caller_id: user.id })
     query.eq('visible', true);
     if (stolenvehicleFilter){
       query.eq('stolenvehicle', true);
