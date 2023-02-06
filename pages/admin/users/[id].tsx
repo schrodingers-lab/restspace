@@ -157,6 +157,13 @@ const UserPage = (props) => {
           Ban 48 hours
         </button>
         <button
+        onClick={()=>shadowBan((24*365))}
+          type="button"
+          className="rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-ww-secondary focus:ring-offset-2"
+        >
+          Ban 1 year
+        </button>
+        <button
         onClick={()=>shadowBan(-1)}
           type="button"
           className="rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-ww-secondary focus:ring-offset-2"
