@@ -3,7 +3,11 @@ import PhoneInput, { formatPhoneNumber, formatPhoneNumberIntl, isValidPhoneNumbe
 import React, {useState,useRef, useEffect} from 'react';
 import { SupabaseClient } from '@supabase/supabase-js';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
-
+import { ErrorCard } from '../cards/ErrorCard';
+import { Icon } from 'ionicons/dist/types/components/icon/icon';
+import { eye } from 'ionicons/icons';
+import { IonIcon } from '@ionic/react';
+import 'react-phone-number-input/style.css';
 
 export const Signup = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
     const supabaseClient = useSupabaseClient();
@@ -12,7 +16,7 @@ export const Signup = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
     const [password, setPassword] = useState<string>();
     const passwordRef = useRef<HTMLInputElement>(null);
 
-    const [error, setError] = useState<string>('');
+    const [errorMessage, setErrorMessage] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(false);
     const [termsAccepted, setTermsAccepted] = useState<boolean>(false);
     const [isChecked, setIsChecked] = useState(false)
@@ -25,7 +29,7 @@ export const Signup = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
 
     useEffect(() => {
       if(sendAuthStateFnc){
-        console.log("send auth",sendAuthStateFnc);
+        // console.log("send auth",sendAuthStateFnc);
         sendAuthStateFnc(authState);
       }
     }, [authState, sendAuthStateFnc]);
@@ -38,9 +42,8 @@ export const Signup = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
 
 
     const changePasswordType = () => {
-      console.log("changePasswordType");
       if(passwordRef?.current){
-        passwordRef.current.type ="password";
+        passwordRef.current.type =passwordRef.current.type == "password" ? "text" : "password";
       }
     } 
 
@@ -55,11 +58,25 @@ export const Signup = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
       event.preventDefault();
 
       if (!termsAccepted){
-        setError("You need to accept the Terms to create an account");
+        setErrorMessage("You need to accept the Terms to create an account");
         return;
       }
 
-      setError('')
+      if (!phoneNumber){
+        setErrorMessage("Phone number required");
+        return;
+      } else {
+        if (!isValidPhoneNumber(phoneNumber)){
+          setErrorMessage("Invalid phone number");
+          return;
+        }
+      }
+      if (!password){
+        setErrorMessage("Password is required");
+        return;
+      }
+
+      setErrorMessage('')
       setLoading(true)
 
       console.log("phoneNumber", phoneNumber)
@@ -87,31 +104,29 @@ export const Signup = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
             console.log("Needs to be confirmed", result);
           } else if (error?.message == "Invalid login credentials") {
             //failed to login
-            setError('Invalid login credentials');
+            setErrorMessage('Invalid login credentials');
           } else {
-            setError(error.message);
+            setErrorMessage(error.message);
           }
         }
       } else {
-        //TODO redirect to home
-        console.log("signed up in move to verify");
-
+        // console.log("signed up in move to verify");
         // verify phone (send SMS verification)
         let verifyRes = await supabaseClient.auth.signInWithOtp({
           phone: phoneNumber
         });
-
-        console.log("verifyRes",verifyRes);
-
+        console.log("verifyRes",verifyRes); 
         setAuthState('verify');
       }
-
-      console.log("supaState", data, error);
       setLoading(false);
     }
 
     const onCountryChange = ( country) => {
-      console.log("We are currently only open to Australian Mobile users", country)
+      if(country == "AU"){
+        setErrorMessage('');
+      } else {
+        setErrorMessage("We are currently only open to Australian users");
+      }
     }
 
     return (
@@ -133,7 +148,7 @@ export const Signup = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
           </div>
   
           <div className="bg-white dark:bg-black mt-4 sm:mx-auto sm:w-full sm:max-w-md">
-            <div className="py-8 px-4 shadow sm:rounded-lg sm:px-10">
+            <div className="py-8 px-4 shadow  sm:px-10">
               <form className="space-y-6" onSubmit={handleSubmit}>
                 <div>
                   <label htmlFor="tel" className="block text-sm font-medium text-gray-700 dark:text-white">
@@ -141,13 +156,16 @@ export const Signup = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
                   </label>
                   <div className="mt-1">
                     <PhoneInput
+                      countries={["AU"]}
                       international={false}
                       defaultCountry="AU"
+                      countryCallingCodeEditable={false}
                       onCountryChange={onCountryChange}
                       error={phoneNumber ? (isValidPhoneNumber(phoneNumber) ? undefined : 'Invalid phone number') : 'Phone number required'}
                       value={phoneNumber}
+                      smartCaret={false}
                       onChange={handlePhone} 
-                      className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-ww-secondary focus:ring-ww-secondary sm:text-sm text-black dark:text-white"
+                      className="block w-full appearance-none rounded-md px-3 py-2 placeholder-gray-400 shadow-sm focus:border-ww-secondary focus:ring-ww-secondary sm:text-sm text-black dark:text-white"
                       />
 
                       {/* <p>={phoneNumber ? (isValidPhoneNumber(phoneNumber) ? undefined : 'Invalid phone number') : 'Phone number required'}</p> */}
@@ -157,8 +175,10 @@ export const Signup = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
                 <div>
                   <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-white">
                     Password
+                    <IonIcon icon={eye} size={'medium'} className="float-right" onClick={() => changePasswordType()}/>
                   </label>
                   <div className="">
+                   
                     <input
                       name="password"
                       type="password"
@@ -168,16 +188,19 @@ export const Signup = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
                       required
                       className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-ww-secondary focus:outline-none focus:ring-ww-secondary sm:text-sm text-black dark:bg-black dark:text-white"
                     />
+                     
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between text-red-500">
-                  {error}
+                <div className="flex items-center justify-between">
+                  {errorMessage && 
+                    <ErrorCard errorMessage={errorMessage}/>
+                  }
                 </div>
 
                 
   
-                <div className="flex items-center justify-between pb-8">
+                <div className="flex items-center justify-between pb-6">
                   <div className="text-sm">
                     <a href="/tabs/forgot" className="font-medium text-ww-primary hover:text-ww-secondary">
                       Forgot your password?

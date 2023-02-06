@@ -36,8 +36,12 @@ import MapDraggableMarker from '../map/MapDraggableMarker';
 import { distanceMaxIncident } from '../util/mapbox';
 import { generateRandomName } from '../util/data';
 import { useRouter } from 'next/router';
+import { fetchIncident } from '../../store/incident';
 
-const NewDetail = ({history}) => {
+const EditDetail = ({history, match }) => {
+  const {
+    params: { incidentId },
+  } = match;
   const router = useRouter();
   const supabase = useSupabaseClient();
   const [error, setError] = useState("");
@@ -70,6 +74,33 @@ const NewDetail = ({history}) => {
 
   const [openIconKey, setOpenIconKey] = useState(false);
 
+  const [incident, setIncident] = useState<any>();
+
+  useEffect(() => {
+    const fetchData = async() => {
+      // You can await here
+      const { incident, error} = await fetchIncident(incidentId, null, supabase);
+      setIncident(incident);
+      loadFiles();
+      resetData();
+    }
+    fetchData();
+    
+  }, [incidentId]);
+
+  const loadFiles =  async() => {
+    const { data, error } = await supabase.from('files')
+          .select('*')
+          .eq('object_type', 'incidents')
+          .eq('object_id', ""+incidentId)
+          .eq('visible', true);
+          
+          if(error){
+            setError(error.message)
+          }else {
+            setFiles(data);
+          }
+  }
 
   const handleName = (event) => {
     setName(event.target.value || '');
@@ -180,21 +211,22 @@ const NewDetail = ({history}) => {
 
 
   const resetData = () =>{
-    setName(generateRandomName);
-    setAbout('');
-    setWhenStr(getCurrentDateStr())
-    setFiles([]);
+    if(incident){
+      setName(incident.name);
+      setAbout(incident.about);
+      handleIncidentDate(new Date(incident.incident_at))
 
-    setStolenvehicle(false);
-    setBreakenter(false);
-    setPropertydamage(false);
-    setViolencethreat(false);
-    setTheft(false);
-  
-    setLoitering(false);
-    setDisturbance(false);
-    setSuspicious(false);
-    setUnfamiliar(false);
+      setStolenvehicle(incident.stolenvehicle);
+      setBreakenter(incident.breakenter);
+      setPropertydamage(incident.propertydamage);
+      setViolencethreat(incident.violencethreat);
+      setTheft(incident.theft);
+    
+      setLoitering(incident.loitering);
+      setDisturbance(incident.disturbance);
+      setSuspicious(incident.suspicious);
+      setUnfamiliar(incident.unfamiliar);
+    }
   }
 
   const createNewIncident = () => {
@@ -232,14 +264,7 @@ const NewDetail = ({history}) => {
     return incident;
   }
 
-  const getCurrentDateStr = () => {
-    const selectedDate = getRoundedTime();
-    const zonedTime = utcToZonedTime(selectedDate, userTimeZone);
-    // Create a formatted string from the zoned time
-    const dateStr = format(zonedTime,  "yyyy-MM-dd'T'HH:mm:ss.SSSxxx", { timeZone: userTimeZone });
-    console.log(dateStr);
-    return dateStr;
-  }
+
 
   useEffect(() => {   
     // setWhenStr(getCurrentDateStr); 
@@ -276,7 +301,7 @@ const NewDetail = ({history}) => {
           <IonButtons slot="start">
             <IonBackButton defaultHref="/tabs/map" />
           </IonButtons>
-          <IonTitle>New</IonTitle>
+          <IonTitle>Edit</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
@@ -497,4 +522,4 @@ const NewDetail = ({history}) => {
   );
 };
 
-export default NewDetail;
+export default EditDetail;

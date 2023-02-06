@@ -109,11 +109,13 @@ export const fetchIncidents = async (incidentIds, setState, supabase) => {
 
 export const fetchIncident = async (incidentId, setState, supabase) => {
     try {
-      const { data, error } = await supabase.from('users').select(`*`).eq('id', incidentId)
-      
-      let incident = data[0]
-      if (setState) setState(incident)
-      return incident
+      const { data, error } = await supabase.from('incidents').select(`*`).eq('id', incidentId)
+      let incident;
+      if(data[0]) {
+        incident = data[0];
+        if (setState) setState(incident);
+      }
+      return { incident, error }
     } catch (error) {
       console.log('error', error)
     }

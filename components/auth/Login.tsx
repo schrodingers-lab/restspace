@@ -3,6 +3,9 @@ import PhoneInput, { formatPhoneNumber, formatPhoneNumberIntl, isValidPhoneNumbe
 import React, {useState,useRef, useEffect} from 'react';
 import { SupabaseClient } from '@supabase/supabase-js';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
+import { IonIcon } from '@ionic/react';
+import { eye } from 'ionicons/icons';
+import { ErrorCard } from '../cards/ErrorCard';
 
 
 export const Login = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
@@ -12,14 +15,13 @@ export const Login = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
     const [password, setPassword] = useState<string>();
     const passwordRef = useRef<HTMLInputElement>(null);
 
-    const [error, setError] = useState<string>('');
+    const [errorMessage, setErrorMessage] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(false);
     const [authState, setAuthState] = useState<string>('login');
 
     const changePasswordType = () => {
-      console.log("changePasswordType");
       if(passwordRef?.current){
-        passwordRef.current.type ="password";
+        passwordRef.current.type =passwordRef.current.type == "password" ? "text" : "password";
       }
     } 
 
@@ -45,8 +47,21 @@ export const Login = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault()
+      if (!phoneNumber){
+        setErrorMessage("Phone number required");
+        return;
+      } else {
+        if (!isValidPhoneNumber(phoneNumber)){
+          setErrorMessage("Invalid phone number");
+          return;
+        }
+      }
+      if (!password){
+        setErrorMessage("Password is required");
+        return;
+      }
 
-      setError('')
+      setErrorMessage('')
       setLoading(true)
 
       console.log("phoneNumber", phoneNumber)
@@ -69,7 +84,9 @@ export const Login = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
             console.log("Needs to be confirmed");
           } else if (error?.message == "Invalid login credentials") {
             //failed to login
-            setError('Invalid login credentials');
+            setErrorMessage('Invalid login credentials');
+          } else {
+            setErrorMessage(error?.message);
           }
         }
       } else {
@@ -79,8 +96,11 @@ export const Login = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
     }
 
     const onCountryChange = ( country) => {
-      //TODO notification of only Aus
-      console.log("We are currently only open to Australian Mobile users", country)
+      if(country == "AU"){
+        setErrorMessage('');
+      } else {
+        setErrorMessage("We are currently only open to Australian users");
+      }
     }
 
     return (
@@ -110,19 +130,21 @@ export const Login = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
                   </label>
                   <div className="mt-1">
                     <PhoneInput
+                      countries={["AU"]}
                       international={false}
                       defaultCountry="AU"
                       onCountryChange={onCountryChange}
                       value={phoneNumber}
                       onChange={handlePhone} 
-                      className="block w-full appearance-none rounded-md border border-gray-300 bg-white text-gray-900 dark:bg-black dark:text-gray-300 px-3 py-2 shadow-sm focus:border-ww-secondary focus:ring-ww-secondary sm:text-sm"
+                      className="block w-full appearance-none rounded-md px-3 py-2 placeholder-gray-400 shadow-sm focus:border-ww-secondary focus:ring-ww-secondary sm:text-sm text-black dark:text-white"
                       />
                   </div>
                 </div>
   
                 <div>
                   <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-200">
-                    Password
+                    Password 
+                    <IonIcon icon={eye} size={'medium'} className="float-right" onClick={() => changePasswordType()}/>
                   </label>
                   <div className="mt-1">
                     <input
@@ -137,9 +159,9 @@ export const Login = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between text-red-500">
-                  {error}
-                </div>
+                {errorMessage && 
+                    <ErrorCard errorMessage={errorMessage}/>
+                }
   
                 <div className="flex items-center justify-between">
   

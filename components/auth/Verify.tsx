@@ -8,6 +8,21 @@ import { useSupabaseClient } from '@supabase/auth-helpers-react';
 export const Verify = ( {phoneNumber, displayPhoneNumber, sendAuthStateFnc}) => {
     const supabaseClient = useSupabaseClient();
 
+    // Listen to paste on the document
+    document.addEventListener("paste", (e: ClipboardEvent) => {
+
+      let textdata = e.clipboardData.getData('text/plain');
+      // split clipboard text into single characters
+      if(textdata && textdata.length > 0 ){
+        let data = textdata.split('');
+        // find all other text inputs
+        [].forEach.call(document.querySelectorAll("input[type=tel]"), (node, index) => {
+            // And set input value to the relative character
+            node.value = data[index];
+        });
+      }
+    });
+
     // const [phoneNumber, setPhoneNumber] = useState<string>();
     const [token1, setToken1] = useState<undefined|0|1|2|3|4|5|6|7|8|9>();
     const [token2, setToken2] = useState<undefined|0|1|2|3|4|5|6|7|8|9>();

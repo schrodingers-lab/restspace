@@ -20,6 +20,7 @@ import ChatsPage from './Chats';
 import ProfilePage from './Profile';
 import ChatDetail from './ChatDetail';
 import Mine from './Mine';
+import EditDetail from './EditDetail';
 
 const Tabs = () => {
 
@@ -41,6 +42,7 @@ const Tabs = () => {
         <Route path="/tabs/map" component={Map} exact={true} />
         <Route path="/tabs/incidents" component={Lists} exact={true} />
         <Route path="/tabs/incidents/:incidentId" component={ListDetail} exact={true} />
+        <Route path="/tabs/incident/edit/:incidentId" component={EditDetail} exact={true} />
         <Route path="/tabs/chats" component={ChatsPage} exact={true} />
         <Route path="/tabs/chats/:chatId" component={ChatDetail} exact={true} />
         <Route path="/tabs/profile" component={ProfilePage} exact={true} />

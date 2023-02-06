@@ -22,7 +22,7 @@ import {
 } from '@ionic/react';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 
-import { search, navigate, bookmark, locate, share, bus, phonePortrait, shareSocial, information, reload } from 'ionicons/icons';
+import { search, navigate, bookmark, locate, share, bus, create, shareSocial, information, reload } from 'ionicons/icons';
 import React, { useRef, useEffect, useState } from 'react';
 
 // import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
@@ -39,11 +39,12 @@ import { useStore } from '../../store/user';
 import UserProfile from '../modals/UserProfile';
 import UserProfileAvatar from '../ui/UserProfileAvatar';
 import { FabUgcIncidentActions } from './FabUgcIncidentActions';
+import { useRouter } from 'next/router';
 
-export const IncidentDetail = ({incident , files, supabase}) => {
+export const IncidentDetail = ({incident, files, supabase}) => {
   
   const img0 = displayCoverImage(incident?.cover_image_url);
-  const { authUser, userProfiles } = useStore({userId: incident?.user_id})
+  const { authUser, authUserProfile, userProfiles } = useStore({userId: incident?.user_id})
 
   const mapContainer = useRef<any>(null);
   const map = useRef<any>(null);
@@ -59,6 +60,12 @@ export const IncidentDetail = ({incident , files, supabase}) => {
   const [creator, setCreator] = useState<any>();
   const [openIconKey, setOpenIconKey] = useState(false);
   const [openCreator, setOpenCreator] = useState(false);
+  const [isEditor, setIsEditor] = useState(false);
+  const router = useRouter();
+
+  const goToEdit = (incidentId) => {
+    router.push('/tabs/incident/edit/'+incidentId);
+  }
 
   const reloadPosition = () => {
     const center = new mapboxgl.LngLat(incident?.longitude, incident?.latitude)
@@ -141,11 +148,21 @@ export const IncidentDetail = ({incident , files, supabase}) => {
     if(incident?.user_id) {
       if(userProfiles.has(incident?.user_id)){
         // Set the creator profile
-        setCreator(userProfiles.get(incident?.user_id))
-        console.info("creator loaded")
+        const creator = userProfiles.get(incident?.user_id)
+        setCreator(creator);
+        if (authUser?.id == incident?.user_id) {
+          setIsEditor(true)
+        } else {
+          if (authUserProfile?.admin) {
+            setIsEditor(true)
+          }
+          setIsEditor(false)
+        }
       }
     }
-  }, [userProfiles, incident]);
+  }, [userProfiles, incident, authUser, authUserProfile]);
+
+  
 
   const externalMaps = ()=>{
     window.open(`http://maps.apple.com/?ll=${incident.latitude},${incident.longitude}`)
@@ -183,6 +200,19 @@ export const IncidentDetail = ({incident , files, supabase}) => {
       
       <div className="h-64 w-full relative">
         {authUser && <FabUgcIncidentActions incident={incident} creator={creator} />}
+        { isEditor && 
+        <IonFab horizontal="start" vertical="top" slot="fixed" >
+          <IonFabButton
+            onClick={() => {
+              goToEdit(incident?.id)
+            }}
+            size="small"
+            color={"medium"}
+          >
+            <IonIcon icon={create} />
+          </IonFabButton>
+        </IonFab>}
+
         <img className="h-64 px-auto w-full object-cover object-center" src={img0} alt="image" />
       </div>
       <div className="px-4 py-4 bg-white rounded-b-xl dark:bg-black">
