@@ -11,7 +11,7 @@ CREATE OR REPLACE FUNCTION geo_incidents(x numeric, y numeric, distance int)
     and user_id not in ( select id from users where banned_to > now());
 $$ language sql;
 
-CREATE OR REPLACE FUNCTION geo_caller_incidents(x numeric, y numeric, distance int, caller_id text)
+CREATE OR REPLACE FUNCTION geo_caller_incidents(x numeric, y numeric, distance int, caller_id text default '0')
   RETURNS setof incidents as $$
     select * 
     from incidents

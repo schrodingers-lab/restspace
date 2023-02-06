@@ -77,7 +77,7 @@ const MapPage = ({history}) => {
 
   const geoSearch = async () => {
     const query = supabase
-      .rpc('geo_caller_incidents', { x: lng, y: lat, distance: distance, caller_id: user.id });
+      .rpc('geo_caller_incidents', { x: lng, y: lat, distance: distance, caller_id: user?.id });
 
     // still visible
     query.eq('visible', true);
