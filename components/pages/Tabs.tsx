@@ -19,6 +19,7 @@ import Home from './Home';
 import ChatsPage from './Chats';
 import ProfilePage from './Profile';
 import ChatDetail from './ChatDetail';
+import Mine from './Mine';
 
 const Tabs = () => {
 
@@ -44,6 +45,7 @@ const Tabs = () => {
         <Route path="/tabs/chats/:chatId" component={ChatDetail} exact={true} />
         <Route path="/tabs/profile" component={ProfilePage} exact={true} />
         <Route path="/tabs/bookmarked" component={Bookmarked} exact={true} />
+        <Route path="/tabs/mine" component={Mine} exact={true} />
       
         <Route path="/tabs" render={() => <Redirect to="/tabs/home" />} exact={true} />
       </IonRouterOutlet>

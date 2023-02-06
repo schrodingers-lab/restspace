@@ -25,38 +25,24 @@ import { addHours } from 'date-fns';
 import { dateString } from '../util/dates';
 import { useEffect } from 'react';
 import IncidentCard from '../cards/IncidentCard';
+import IncidentCardMini from '../cards/IncidentCardMini';
+import { localIncidentDistance } from '../util/mapbox';
+import { getPagination } from '../util/data';
+import { fetchUserIncidents, fetchUserIncidentsPages, geoTimedSearchPaged } from '../../store/incident';
+import Card from '../ui/Card';
   
   const Home = ({history}) => {
     const settings = Store.useState(selectors.getSettings);
     const [showNotifications, setShowNotifications] = useState(false);
-    const [incidents, setIncidents] = useState([]);
+
     const [localIncidents, setLocalIncidents] = useState([]);
-    
     const [myIncidents, setMyIncidents] = useState([]);
+
     const [error, setError] = useState<string>();
     const supabase = useSupabaseClient();
     const user = useUser();
     const {authUserProfile} = useStore({});
 
-    const geoSearch = async (lng, lat, distance, ageInHours) => {
-      const query = supabase
-        .rpc('geo_caller_incidents', { x: lng, y: lat, distance: distance, caller_id: user.id });
-        
-      // still visible
-      query.eq('visible', true);
-      // number of hours visible
-      // query.gt('inserted_at', dateString(addHours(new Date(), -ageInHours)));
-      
-      
-      // temporary-order-creation (not incidented_at, so we see newest, top for clicking)
-      const { data, error } = await query.select().order('inserted_at',{ascending: false});
-  
-      if (error){
-        setError(error?.message);
-      }
-
-      return data
-    }
 
     const goToIncident = (incident) => {
       if (incident && incident.id){
@@ -67,10 +53,11 @@ import IncidentCard from '../cards/IncidentCard';
     useEffect(() => {
       //Check for share web api
       const handleAsync = async () => {
-        debugger
          // Get User Home Base and search for incidents.
-        const localIncidents = await geoSearch(authUserProfile.longitude, authUserProfile.latitude, 1000, 72) ;
-        setLocalIncidents(localIncidents)
+        const {data, error} = await geoTimedSearchPaged(authUserProfile.longitude, authUserProfile.latitude, localIncidentDistance, user.id, 10072, 0, 3, supabase) ;
+        setLocalIncidents(data);
+        const result = await fetchUserIncidentsPages(user.id, null, 0, 3, supabase);
+        setMyIncidents(result.data)
       }
       if (authUserProfile?.longitude) {
         handleAsync();
@@ -89,28 +76,31 @@ import IncidentCard from '../cards/IncidentCard';
           </IonToolbar>
         </IonHeader>
         <IonContent className='dark:bg-black bg-red'>
-          {/* <IonList>
-            <IonItem>
-              <IonLabel>Enable Notifications</IonLabel>
-              <IonToggle
-                checked={settings.enableNotifications}
-                onIonChange={e => {
-                  setSettings({
-                    ...settings,
-                    enableNotifications: e.target.checked,
-                  });
-                }}
-              />
-            </IonItem>
-          </IonList> */}
-  
-          <h2>Welcome back</h2>
-          <IonCard>
-           TODO
-          </IonCard>
 
-            {localIncidents && localIncidents.map((i, index) => (
-            <IncidentCard key={index} onClickFnc={goToIncident} incident={i} />
+          <div className="px-4 pt-4 pb-4 ">
+            <h2 className="font-bold text-xl text-gray-600 dark:text-gray-100">Welcome back <span className="font-bold text-xl text-ww-secondary">{authUserProfile?.username}</span></h2>
+          </div>
+
+          <label className="block text-sm px-6 font-medium text-gray-700 dark:text-white">
+              Recent Incidents near you
+          </label>
+          {localIncidents && localIncidents.map((i, index) => (
+            <IncidentCardMini key={index} onClickFnc={goToIncident} incident={i} />
+          ))}
+
+          <Card className="my-4 mx-auto">
+            <div className="px-4 pt-12 pb-4 bg-ww-secondary rounded-xl ">
+              <h2 className="font-bold text-l text-gray-800 dark:text-gray-100">This is Ad Space...</h2>
+              <p className="font-bold text-gray-800 dark:text-gray-100">Support us and advertise here</p>
+            </div>
+          </Card>
+
+          <label className="block text-sm px-4 font-medium text-gray-700 dark:text-white">
+              Your Incidents
+          </label>
+
+          {myIncidents && myIncidents.map((i, index) => (
+            <IncidentCardMini key={index} onClickFnc={goToIncident} incident={i} />
           ))}
   
         </IonContent>
@@ -119,3 +109,4 @@ import IncidentCard from '../cards/IncidentCard';
   };
   
   export default Home;
+

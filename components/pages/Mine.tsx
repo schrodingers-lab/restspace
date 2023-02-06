@@ -22,16 +22,15 @@ import Store from '../../store';
 import React from 'react';
 import { useUser, useSupabaseClient } from '@supabase/auth-helpers-react'
 import NoUserCard from '../cards/NoUserCard';
+import { fetchUserIncidents } from '../../store/incident';
 
-const Bookmarked = ({history}) => {
+const Mine = ({history}) => {
   const [showNotifications, setShowNotifications] = useState(false);
-
   const [error, setError] = useState("");
   const supabaseClient = useSupabaseClient();
   const user = useUser();
   const [data, setData] = useState<any>();
   const [loading, setLoading] = useState<boolean>(false);
-
 
 
   useEffect(() => {
@@ -42,23 +41,15 @@ const Bookmarked = ({history}) => {
       setLoading(true);
   
       if (user?.id){
-        const { data, error } = await supabaseClient.from('incidents')
-        .select('*, bookmarks!inner(*)')
-        .eq('bookmarks.user_id', user?.id)
-        .eq('visible', true)
-        .order('inserted_at', {ascending: false})
+        const { data, error } = await fetchUserIncidents(user.id, null, supabaseClient);
         if(error){
           setError(error.message)
         }else {
           setData(data);
         }
       }
-  
       setLoading(false);
-      
-      console.log('load bookmarked incidents', data, error);
     }
-
     if (user) {
       loadData();
     } else{
@@ -83,9 +74,7 @@ const Bookmarked = ({history}) => {
         setLoading(true);
     
         if (user?.id){
-          const { data, error } = await supabaseClient.from('incidents')
-          .select('*, bookmarks!inner(*)')
-          .eq('bookmarks.user_id', user?.id)
+          const { data, error } = await fetchUserIncidents(user.id, null, supabaseClient);
           
           if(error){
             setError(error.message)
@@ -108,7 +97,7 @@ const Bookmarked = ({history}) => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Bookmarked</IonTitle>
+          <IonTitle>My Incidents</IonTitle>
           <IonButtons slot="start">
             <IonMenuButton />
           </IonButtons>
@@ -122,7 +111,7 @@ const Bookmarked = ({history}) => {
       <IonContent className="ion-padding" fullscreen>
         <IonHeader collapse="condense">
           <IonToolbar>
-            <IonTitle size="large">Bookmarks</IonTitle>
+            <IonTitle size="large">My Incidents</IonTitle>
           </IonToolbar>
         </IonHeader>
         <Notifications open={showNotifications} onDidDismiss={() => setShowNotifications(false)} />
@@ -165,8 +154,8 @@ const Bookmarked = ({history}) => {
                 d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"
               />
             </svg>
-            <h3 className="mt-2 text-sm font-medium text-gray-900">No bookmarks</h3>
-            <p className="mt-1 text-sm text-gray-500">Get started by creating a new bookmark on an incident.</p>
+            <h3 className="mt-2 text-sm font-medium text-gray-900">No Incidents</h3>
+            <p className="mt-1 text-sm text-gray-500">Get started by creating a new incident.</p>
           </div>
         }
 
@@ -179,4 +168,4 @@ const Bookmarked = ({history}) => {
   );
 };
 
-export default Bookmarked;
+export default Mine;

@@ -12,7 +12,7 @@ import {
   IonToolbar,
 } from '@ionic/react';
 import { useEffect, useState } from 'react';
-import { cog, bookmark, map,home, list, logOut, logIn, newspaper, person, earthOutline, construct, chatboxEllipses, chatbox } from 'ionicons/icons';
+import { cog, bookmark, map,home, list, logOut, logIn, newspaper, person, earthOutline, construct, chatboxEllipses, chatbox, create } from 'ionicons/icons';
 
 import { useUser, useSupabaseClient } from '@supabase/auth-helpers-react'
 import { useRouter } from 'next/router';
@@ -20,24 +20,20 @@ import { useStore } from '../store/user';
 
 const pages = [
   {
+    title: 'Profile',
+    icon: person,
+    url: '/tabs/profile',
+  },
+  {
     title: 'Home',
     icon: home,
     url: '/tabs/home',
   },
+ 
   {
-    title: 'Tour',
-    icon: earthOutline,
-    url: '/tour',
-  },
-  {
-    title: 'Map',
+    title: 'Incidents',
     icon: map,
     url: '/tabs/map',
-  },
-  {
-    title: 'List',
-    icon: list,
-    url: '/tabs/incidents',
   },
   {
     title: 'Bookmarked',
@@ -45,21 +41,25 @@ const pages = [
     url: '/tabs/bookmarked',
   },  
   {
+    title: 'My Incidents',
+    icon: create,
+    url: '/tabs/mine',
+  }, 
+  {
     title: 'Messages',
     icon: chatbox,
     url: '/tabs/chats',
   }, 
   {
-    title: 'Profile',
-    icon: person,
-    url: '/tabs/profile',
-  },
-  {
     title: 'Settings',
     icon: cog,
     url: '/tabs/settings',
   },
-
+  {
+    title: 'Tour',
+    icon: earthOutline,
+    url: '/tour',
+  },
   {
     title: 'Terms of Use',
     icon: newspaper,

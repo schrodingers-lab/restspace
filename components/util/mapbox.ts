@@ -13,6 +13,7 @@ export const defaultInitialZoom = 11;
 export const distanceMaxBase = 2.5;
 export const distanceMaxIncident = 1.25;
 
+export const localIncidentDistance = 10000;
 
 
 export const metersToKm = (meters) => {
