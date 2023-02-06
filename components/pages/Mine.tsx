@@ -23,6 +23,7 @@ import React from 'react';
 import { useUser, useSupabaseClient } from '@supabase/auth-helpers-react'
 import NoUserCard from '../cards/NoUserCard';
 import { fetchUserIncidents } from '../../store/incident';
+import { ErrorCard } from '../cards/ErrorCard';
 
 const Mine = ({history}) => {
   const [showNotifications, setShowNotifications] = useState(false);
@@ -128,8 +129,10 @@ const Mine = ({history}) => {
           </div>
         </div>
 
-        <div className="flex items-center justify-between text-red-500">
-          {error}
+        <div className="flex items-center justify-between">
+          {error && 
+            <ErrorCard errorMessage={error}/>
+          }
         </div>
 
 

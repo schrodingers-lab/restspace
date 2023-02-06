@@ -3,6 +3,7 @@ import PhoneInput, { formatPhoneNumber, formatPhoneNumberIntl, isValidPhoneNumbe
 import React, {useState,useRef, useEffect} from 'react';
 import { SupabaseClient } from '@supabase/supabase-js';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
+import { ErrorCard } from '../cards/ErrorCard';
 
 
 export const UpdatePassword = ( {phoneNumber, displayPhoneNumber, sendAuthStateFnc}) => {
@@ -193,8 +194,10 @@ export const UpdatePassword = ( {phoneNumber, displayPhoneNumber, sendAuthStateF
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between text-red-500">
-                  {error}
+                <div className="flex items-center justify-between">
+                  {error && 
+                    <ErrorCard errorMessage={error}/>
+                  }
                 </div>
 
                 <div className="flex items-center justify-between">

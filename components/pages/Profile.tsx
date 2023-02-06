@@ -28,6 +28,7 @@ import {
   import NoUserCard from '../cards/NoUserCard';
   import MapDraggableMarker from '../map/MapDraggableMarker';
 import { defaultInitialLat, defaultInitialLng, distanceMaxBase } from '../util/mapbox';
+import { ErrorCard } from '../cards/ErrorCard';
 
   const ProfilePage = ({history}) => {
     const { authUser, authUserProfile } = useStore({})
@@ -271,8 +272,10 @@ import { defaultInitialLat, defaultInitialLng, distanceMaxBase } from '../util/m
                 </div>
               </div>
 
-              <div className="flex items-center justify-between text-red-500">
-                {error}
+              <div className="flex items-center justify-between">
+                {error && 
+                  <ErrorCard errorMessage={error}/>
+                }
               </div>
 
               <div className="pb-4">

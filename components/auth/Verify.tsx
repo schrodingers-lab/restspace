@@ -3,6 +3,7 @@ import PhoneInput, { formatPhoneNumber, formatPhoneNumberIntl, isValidPhoneNumbe
 import React, {useState,useRef, useEffect} from 'react';
 import { SupabaseClient } from '@supabase/supabase-js';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
+import { ErrorCard } from '../cards/ErrorCard';
 
 
 export const Verify = ( {phoneNumber, displayPhoneNumber, sendAuthStateFnc}) => {
@@ -184,8 +185,10 @@ export const Verify = ( {phoneNumber, displayPhoneNumber, sendAuthStateFnc}) => 
                   <input ref={token6Ref} onChange={handleToken6} value={token6} onKeyUp={e => inputfocus(e)}  autoComplete="off" tabIndex={6} className="m-2 border h-10 w-10 text-center form-control rounded text-gray-900 dark:text-gray-200 dark:bg-black" type="tel" id="sixth" maxLength={1} />
                 </div>
 
-                <div className="flex items-center justify-between text-red-500">
-                  {error}
+                <div className="flex items-center justify-between">
+                  {error && 
+                    <ErrorCard errorMessage={error}/>
+                  }
                 </div>
 
                 <div className="flex items-center justify-between">

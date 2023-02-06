@@ -37,6 +37,7 @@ import { distanceMaxIncident } from '../util/mapbox';
 import { generateRandomName } from '../util/data';
 import { useRouter } from 'next/router';
 import { fetchIncident } from '../../store/incident';
+import { ErrorCard } from '../cards/ErrorCard';
 
 const EditDetail = ({history, match }) => {
   const {
@@ -484,9 +485,11 @@ const EditDetail = ({history, match }) => {
               </div>
             </div>
 
-            <div className="flex w-full text-center items-center justify-between text-red-500">
-              {error}
-            </div>
+          <div className="flex items-center justify-between">
+            {error && 
+              <ErrorCard errorMessage={error}/>
+            }
+          </div>
 
             <div className="pt-5">
               <div className="flex justify-end">
