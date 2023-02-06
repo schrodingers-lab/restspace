@@ -4,6 +4,8 @@ import {
   IonButtons,
   IonCheckbox,
   IonContent,
+  IonFab,
+  IonFabButton,
   IonHeader,
   IonIcon,
   IonItem,
@@ -18,12 +20,14 @@ import {
 import React, { useRef, useEffect, useState } from 'react';
 import IncidentDetail from '../cards/IncidentDetail';
 import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react';
-import { notificationsOutline } from 'ionicons/icons';
+import { create, notificationsOutline } from 'ionicons/icons';
 
 import { search, filter, bookmark, bookmarkOutline } from 'ionicons/icons';
+import { useRouter } from 'next/router';
+import { useStore } from '../../store/user';
 
 
-const ListDetail = ({ match }) => {
+const ListDetail = ({ history, match }) => {
   const {
     params: { incidentId },
   } = match;
@@ -31,11 +35,13 @@ const ListDetail = ({ match }) => {
   const [selectedIncident, setSelectedIncident] = useState<any>(null);
   const [isBookmarked, setIsBookmarked] = useState<boolean>(false);
 
+  const [isEditor, setIsEditor] = useState(false);
   const popover = useRef<HTMLIonPopoverElement>(null);
   const [popoverOpen, setPopoverOpen] = useState(false);
 
   const [error, setError] = useState("");
   const user = useUser();
+  const {authUserProfile} = useStore({});
   const [files, setFiles] = useState([]);
 
 
@@ -149,6 +155,22 @@ const ListDetail = ({ match }) => {
     }
   }
 
+
+  useEffect(() => {
+  if (user?.id == selectedIncident?.user_id) {
+    setIsEditor(true)
+  } else {
+    if (authUserProfile?.admin) {
+      setIsEditor(true)
+    }
+    setIsEditor(false)
+  }
+  }, [selectedIncident, user, authUserProfile]);
+
+  const goToEdit = (incidentId) => {
+    history.push('/tabs/incident/edit/'+incidentId);
+  }
+
   return (
     <IonPage>
       <IonHeader>
@@ -175,10 +197,20 @@ const ListDetail = ({ match }) => {
             <IonTitle size="large">{selectedIncident?.name}</IonTitle>
           </IonToolbar>
         </IonHeader>
-        
-          <div className="flex items-center justify-between text-red-500">
-            {error}
-          </div>
+
+        { isEditor && 
+          <IonFab horizontal="start" vertical="top" slot="fixed" >
+          <IonFabButton
+            onClick={() => {
+              goToEdit(selectedIncident?.id)
+            }}
+            size="small"
+            color={"medium"}
+          >
+            <IonIcon icon={create} />
+          </IonFabButton>
+        </IonFab>
+        }
           
           {selectedIncident && <IncidentDetail incident={selectedIncident}  files={files} supabase={supabase}/>}
           

@@ -60,12 +60,6 @@ export const IncidentDetail = ({incident, files, supabase}) => {
   const [creator, setCreator] = useState<any>();
   const [openIconKey, setOpenIconKey] = useState(false);
   const [openCreator, setOpenCreator] = useState(false);
-  const [isEditor, setIsEditor] = useState(false);
-  const router = useRouter();
-
-  const goToEdit = (incidentId) => {
-    router.push('/tabs/incident/edit/'+incidentId);
-  }
 
   const reloadPosition = () => {
     const center = new mapboxgl.LngLat(incident?.longitude, incident?.latitude)
@@ -150,14 +144,6 @@ export const IncidentDetail = ({incident, files, supabase}) => {
         // Set the creator profile
         const creator = userProfiles.get(incident?.user_id)
         setCreator(creator);
-        if (authUser?.id == incident?.user_id) {
-          setIsEditor(true)
-        } else {
-          if (authUserProfile?.admin) {
-            setIsEditor(true)
-          }
-          setIsEditor(false)
-        }
       }
     }
   }, [userProfiles, incident, authUser, authUserProfile]);
@@ -200,18 +186,7 @@ export const IncidentDetail = ({incident, files, supabase}) => {
       
       <div className="h-64 w-full relative">
         {authUser && <FabUgcIncidentActions incident={incident} creator={creator} />}
-        { isEditor && 
-        <IonFab horizontal="start" vertical="top" slot="fixed" >
-          <IonFabButton
-            onClick={() => {
-              goToEdit(incident?.id)
-            }}
-            size="small"
-            color={"medium"}
-          >
-            <IonIcon icon={create} />
-          </IonFabButton>
-        </IonFab>}
+
 
         <img className="h-64 px-auto w-full object-cover object-center" src={img0} alt="image" />
       </div>
