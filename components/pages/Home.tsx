@@ -30,6 +30,7 @@ import { localIncidentDistance } from '../util/mapbox';
 import { getPagination } from '../util/data';
 import { fetchUserIncidents, fetchUserIncidentsPages, geoTimedSearchPaged } from '../../store/incident';
 import Card from '../ui/Card';
+import NoUserCard from '../cards/NoUserCard';
   
   const Home = ({history}) => {
     const settings = Store.useState(selectors.getSettings);
@@ -38,7 +39,7 @@ import Card from '../ui/Card';
     const [localIncidents, setLocalIncidents] = useState([]);
     const [myIncidents, setMyIncidents] = useState([]);
 
-    const [error, setError] = useState<string>();
+    const [loading, setLoading] = useState<boolean>(false);
     const supabase = useSupabaseClient();
     const user = useUser();
     const {authUserProfile} = useStore({});
@@ -53,11 +54,13 @@ import Card from '../ui/Card';
     useEffect(() => {
       //Check for share web api
       const handleAsync = async () => {
+        setLoading(true);
          // Get User Home Base and search for incidents.
         const {data, error} = await geoTimedSearchPaged(authUserProfile.longitude, authUserProfile.latitude, localIncidentDistance, user.id, 10072, 0, 3, supabase) ;
         setLocalIncidents(data);
         const result = await fetchUserIncidentsPages(user.id, null, 0, 3, supabase);
         setMyIncidents(result.data)
+        setLoading(false);
       }
       if (authUserProfile?.longitude) {
         handleAsync();
@@ -75,18 +78,23 @@ import Card from '../ui/Card';
             </IonButtons>
           </IonToolbar>
         </IonHeader>
-        <IonContent className='dark:bg-black bg-red'>
+        <IonContent className='dark:bg-black bg-red mx-auto'>
+        <div className="mx-2">
+          { user && <div className="px-4 pt-4 pb-4 ">
+              <h2 className="font-bold text-xl text-gray-600 dark:text-gray-100">Welcome back <span className="font-bold text-xl text-ww-secondary">{authUserProfile?.username}</span></h2>
+            </div>
+          }
 
-          <div className="px-4 pt-4 pb-4 ">
-            <h2 className="font-bold text-xl text-gray-600 dark:text-gray-100">Welcome back <span className="font-bold text-xl text-ww-secondary">{authUserProfile?.username}</span></h2>
-          </div>
-
-          <label className="block text-sm px-6 font-medium text-gray-700 dark:text-white">
-              Recent Incidents near you
-          </label>
-          {localIncidents && localIncidents.map((i, index) => (
+          { user &&
+            <label className="block text-sm px-6 font-medium text-gray-700 dark:text-white">
+                Recent Incidents near you
+            </label>
+          }
+          { user && localIncidents && localIncidents.map((i, index) => (
             <IncidentCardMini key={index} onClickFnc={goToIncident} incident={i} />
           ))}
+       
+          {(!user && !loading) && <NoUserCard/>}
 
           <Card className="my-4 mx-auto">
             <div className="px-4 pt-12 pb-4 bg-ww-secondary rounded-xl ">
@@ -95,14 +103,17 @@ import Card from '../ui/Card';
             </div>
           </Card>
 
-          <label className="block text-sm px-4 font-medium text-gray-700 dark:text-white">
-              Your Incidents
-          </label>
+          { user &&
+            <label className="block text-sm px-4 font-medium text-gray-700 dark:text-white">
+                Your Incidents
+            </label>
+          }
 
-          {myIncidents && myIncidents.map((i, index) => (
+          { user && myIncidents && myIncidents.map((i, index) => (
             <IncidentCardMini key={index} onClickFnc={goToIncident} incident={i} />
           ))}
-  
+
+          </div>
         </IonContent>
       </IonPage>
     );
