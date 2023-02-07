@@ -1,0 +1,38 @@
+create function public.authorize(
+  user_id uuid
+)
+returns boolean as $$
+declare
+  bind_permissions int;
+begin
+  select count(*)
+  from public.users as user_profiles
+  where user_profiles.user_id = authorize.user_id
+  and user_profiles.is_admin = true
+  into bind_permissions;
+  
+  return bind_permissions > 0;
+end;
+$$ language plpgsql security definer;
+
+
+
+create policy "Allow authorized read access" on public.reports for select using ( authorize(auth.uid()));
+create policy "Allow authorized delete access" on public.reports for delete using ( authorize(auth.uid()));
+create policy "Allow authorized update access" on public.reports for update using ( authorize(auth.uid()));
+
+create policy "Allow authorized read access" on public.chats for select using ( authorize(auth.uid()));
+create policy "Allow authorized delete access" on public.chats for delete using ( authorize(auth.uid()));
+create policy "Allow authorized update access" on public.chats for update using ( authorize(auth.uid()));
+
+create policy "Allow authorized read access" on public.messages for select using ( authorize(auth.uid()));
+create policy "Allow authorized delete access" on public.messages for delete using ( authorize(auth.uid()));
+create policy "Allow authorized update access" on public.messages for update using ( authorize(auth.uid()));
+
+create policy "Allow authorized read access" on public.incidents for select using ( authorize(auth.uid()));
+create policy "Allow authorized delete access" on public.incidents for delete using ( authorize(auth.uid()));
+create policy "Allow authorized update access" on public.incidents for update using ( authorize(auth.uid()));
+
+create policy "Allow authorized read access" on public.files for select using ( authorize(auth.uid()));
+create policy "Allow authorized delete access" on public.files for delete using ( authorize(auth.uid()));
+create policy "Allow authorized update access" on public.files for update using ( authorize(auth.uid()));
