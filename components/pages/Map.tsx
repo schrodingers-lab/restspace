@@ -188,7 +188,7 @@ const MapPage = ({history}) => {
   }, []);
 
   useEffect(() => {
-    if (!map.current) return; // initialize map only once
+    // if (!map.current) return; // initialize map only once
     //old approach
     // console.log("draw markers");
     // markers?.map(marker => {
@@ -235,8 +235,7 @@ const MapPage = ({history}) => {
   });
 
   const loadSourceData = (incidents) => {
-
-    if (!incidents || incidents.length === 0 || loaded === false) return;
+    if (loaded === false) return;
     const incidentsGeoJson = incidents?.map(mapIncident => {
       return convertIncidentToGeoJson(mapIncident);
     });
@@ -246,6 +245,8 @@ const MapPage = ({history}) => {
       "features": incidentsGeoJson
     }
     map.current?.getSource('incidents').setData(geoJson);
+
+    if (!incidents || incidents.length === 0) return;
 
     map.current.on('click', 'unclustered-point', (e) => {
       const coordinates = e.features[0].geometry.coordinates.slice();
