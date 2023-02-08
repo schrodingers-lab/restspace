@@ -10,32 +10,117 @@ import {
     IonItem,
     IonNote,
     IonLabel,
+    IonToast,
   } from '@ionic/react';
+import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react';
+import { SupabaseClient } from '@supabase/supabase-js';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 import { close } from 'ionicons/icons';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
+import { createReport } from '../../store/report';
+import { useStore } from '../../store/user';
+import { ErrorCard } from '../cards/ErrorCard';
 import UserProfileAvatar from '../ui/UserProfileAvatar';
   
-  const Report = ({ open, onDidDismiss, reportMode="person", incident=null, person=null, cover_photo_url=null, file=null }) => {  
+  const Report = ({ open, onDidDismiss, reportMode="person", incident=null, personId=null, person=null, cover_photo_url=null, file=null, message=null }) => {  
 
     const [reason, setReason] = useState('');
+    const {authUser} = useStore({})
+    const supabase = useSupabaseClient();
+
+    const [error, setError] = useState("");
+    const [isToastOpen, setIsToastOpen] = useState<boolean>(false);
+    const [toastMessage, setToastMessage] = useState<string | undefined>();
+
+    const resetData = () => {
+      setReason('');
+      setError('');
+    }
 
     const handleReason = (event) => {
       setReason(event.target.value || '');
     }
-    const handleSubmit = () => {
-      alert('TODO REPORT');
+
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault();    
+
+      const report = newReportData();
+      try{ 
+       setError('');
+       const {data, error} = await createReport(report, supabase);
+
+       if(data && data[0]){
+        //Notify User
+        setToastMessage("Lodged Report #"+data[0]?.id);
+        setIsToastOpen(true);
+       }
+        if (error){
+          setError(error?.message)
+        }
+
+      } catch (e) {
+        console.error('failed to lodged',e);
+        if (e){
+          setError(e?.message)
+        }
+      }
+      resetData();
+      onDidDismiss();
+    }
+
+    const newReportData = () => {
+
+      let reportJson = {
+        user_id: authUser?.id ,
+        reason: reason,
+        mode: reportMode,
+      }
+
+      if (reportMode == 'cover_image'){
+        reportJson['object_type']='incident';
+        reportJson['object_id']=incident?.id;
+      } else if (reportMode == 'incident'){
+        reportJson['object_type']='incident';
+        reportJson['object_id']=incident?.id;
+      } else if (reportMode == 'person'){
+        reportJson['object_type']='person';
+        reportJson['object_id']= personId ? personId : person?.id;
+      } else if (reportMode == 'message'){
+        reportJson['object_type']='message';
+        reportJson['object_id']=message?.id;
+      } else if (reportMode == 'image'){
+        reportJson['object_type']='image';
+        reportJson['object_id']=file?.id;
+      }
+
+      return (reportJson)
+    }
+
+    const displayTitle = () => {
+      if (reportMode == 'cover_image'){
+        return "Cover Image";
+      } else if (reportMode == 'incident'){
+        return "Incident";
+      } else if (reportMode == 'person'){
+        return "Person";
+      } else if (reportMode == 'message'){
+        return "Message";
+      } else if (reportMode == 'image'){
+        return "Image"
+      }
+       
     }
 
     const handleCancel = () => {
-      console.log('ff')
+      resetData();
+      onDidDismiss();
     }
 
     return (
       <IonModal isOpen={open} onDidDismiss={onDidDismiss}>
         <IonHeader>
           <IonToolbar>
-            <IonTitle>Report {reportMode}</IonTitle>
+            <IonTitle>Report {displayTitle()}</IonTitle>
             <IonButton slot="end" fill="clear" color="primary" onClick={onDidDismiss}>
               <IonIcon icon={close} />
             </IonButton>
@@ -48,7 +133,7 @@ import UserProfileAvatar from '../ui/UserProfileAvatar';
                 <div>
                   {/* <h3 className="text-lg font-medium leading-6 text-gray-900">My Public Profile</h3> */}
                   <p className="mt-1 max-w-2xl text-sm text-gray-500 dark:text-gray-200">
-                    This information will be displayed publicly so be careful what you share.
+                    This information will be sent to moderators.
                   </p>
                 </div>
 
@@ -67,11 +152,16 @@ import UserProfileAvatar from '../ui/UserProfileAvatar';
                         onChange={handleReason}
                         className="block w-full max-w-lg rounded-md border-gray-300 text-gray-500 dark:text-gray-300  dark:bg-black shadow-sm focus:border-ww-secondary focus:ring-ww-secondary caret-ww-secondary sm:text-sm"
                       />
-                      <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">Write a few sentences about yourself.</p>
+                      <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">Write a few sentences for the moderators.</p>
                     </div>
                   </div>
                 </div>
               </div>
+            </div>
+            <div className="flex items-center justify-between">
+              {error && 
+                <ErrorCard errorMessage={error}/>
+              }
             </div>
             <div className="pb-4">
               <div className="flex justify-end">
@@ -92,7 +182,14 @@ import UserProfileAvatar from '../ui/UserProfileAvatar';
               </div>
             </div>
           </form>
-
+          <IonToast
+            isOpen={isToastOpen}
+            message={toastMessage}
+            duration={2000}
+            position={'bottom'}
+            color={'success'}
+            onDidDismiss={() => setIsToastOpen(false)}
+        />
         </IonContent>
       </IonModal>
     );

@@ -138,6 +138,31 @@ const EditDetail = ({history, match }) => {
     setDistanceToIncident(distance);
   } 
 
+  useEffect(() => {
+    // Only run query once user is logged in.
+    const loadData = async () =>{
+      setError("");
+      const { data, error } = await supabase.from('files')
+      .select('*')
+      .eq('object_type', 'incidents')
+      .eq('object_id', ""+incidentId)
+      .eq('visible', true);
+      
+      if(error){
+        setError(error.message)
+      }else {
+        setFiles(data);
+      }
+      
+    }
+
+    if (incident?.id) {
+      loadData();
+    } else{
+      setFiles(undefined);
+    }
+  }, [incident])
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     setError('');

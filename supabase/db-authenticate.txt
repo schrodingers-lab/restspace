@@ -1,4 +1,4 @@
-create function public.authorize(
+CREATE OR REPLACE  function public.authorize(
   user_id uuid
 )
 returns boolean as $$
@@ -7,8 +7,8 @@ declare
 begin
   select count(*)
   from public.users as user_profiles
-  where user_profiles.user_id = authorize.user_id
-  and user_profiles.is_admin = true
+  where user_profiles.id = user_id
+  and user_profiles.admin = true
   into bind_permissions;
   
   return bind_permissions > 0;

@@ -52,7 +52,7 @@ export const FabUgcMessageActions = ({message, chat=null, creator=null}) => {
         </IonFabButton>
       </IonFabList>
     </IonFab>
-    <Report open={openReporter} onDidDismiss={() => setOpenReporter(false)} reportMode={reportMode}  />
+    <Report open={openReporter} onDidDismiss={() => setOpenReporter(false)} reportMode={reportMode}  message={message} personId={message.userId} />
     </>
   );
 };
