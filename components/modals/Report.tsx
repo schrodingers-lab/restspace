@@ -70,27 +70,32 @@ import UserProfileAvatar from '../ui/UserProfileAvatar';
 
     const newReportData = () => {
 
+
+      let object_type;
+      let object_id;
+      if (reportMode == 'cover_image'){
+        object_type='incident';
+        object_id=incident?.id;
+      } else if (reportMode == 'incident'){
+        object_type='incident';
+        object_id=incident?.id;
+      } else if (reportMode == 'person'){
+        object_type='person';
+        object_id= personId ? personId : person?.id;
+      } else if (reportMode == 'message'){
+        object_type='message';
+        object_id=message?.id;
+      } else if (reportMode == 'image'){
+        object_type='image';
+        object_id=file?.id;
+      }
+
       let reportJson = {
         user_id: authUser?.id ,
         reason: reason,
         mode: reportMode,
-      }
-
-      if (reportMode == 'cover_image'){
-        reportJson['object_type']='incident';
-        reportJson['object_id']=incident?.id;
-      } else if (reportMode == 'incident'){
-        reportJson['object_type']='incident';
-        reportJson['object_id']=incident?.id;
-      } else if (reportMode == 'person'){
-        reportJson['object_type']='person';
-        reportJson['object_id']= personId ? personId : person?.id;
-      } else if (reportMode == 'message'){
-        reportJson['object_type']='message';
-        reportJson['object_id']=message?.id;
-      } else if (reportMode == 'image'){
-        reportJson['object_type']='image';
-        reportJson['object_id']=file?.id;
+        object_type: object_type,
+        object_id: object_id
       }
 
       return (reportJson)

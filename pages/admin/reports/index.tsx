@@ -6,15 +6,16 @@ import UserProfileAvatar from "../../../components/ui/UserProfileAvatar";
 
 
   export default function UsersPage() {
-    const [userProfiles, setUserProfiles] = useState<any>([]);
+    const [reports, setReports] = useState<any>([]);
     const supabase = useSupabaseClient();
     const router = useRouter();
 
     // Update when the route changes
     useEffect(() => {
         const handleAsync = async () => {
-            let { data } = await supabase.from('users').select(`*`);
-            setUserProfiles(data);
+            let { data } = await supabase.from('reports').select(`*`);
+            setReports(data);
+            console.log(data)
         }
         handleAsync();
     }, []);
@@ -28,9 +29,9 @@ import UserProfileAvatar from "../../../components/ui/UserProfileAvatar";
 
         <div className="sm:flex sm:items-center">
           <div className="sm:flex-auto">
-            <h1 className="text-2xl font-semibold text-gray-900">Manage Users</h1>
+            <h1 className="text-2xl font-semibold text-gray-900">Manage Reports</h1>
             <p className="mt-2 text-sm text-gray-700">
-              A list of all the users in the app, plus the user admin functions.
+              A list of all the users reports in the app, plus the action functions.
             </p>
           </div>
           <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none px-4">
@@ -54,28 +55,28 @@ import UserProfileAvatar from "../../../components/ui/UserProfileAvatar";
             <thead className="bg-gray-50">
               <tr>
                 <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
-                  Id
-                </th>
-                <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
-                  Username
+                  Ref
                 </th>
                 <th
                   scope="col"
                   className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell"
                 >
-                  Avatar
+                  Reason
                 </th>
                 <th
                   scope="col"
                   className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 sm:table-cell"
                 >
-                Joined
+                Mode
                 </th>
                 <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                  Admin
+                  Raised By
                 </th>
                 <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                  Banned to
+                  Raised At
+                </th>
+                <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                  Related UGC Content
                 </th>
                 <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-6">
                   <span className="sr-only">Actions</span>
@@ -83,32 +84,36 @@ import UserProfileAvatar from "../../../components/ui/UserProfileAvatar";
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200 bg-white">
-              {userProfiles.map((person) => (
-                <tr key={person.id}>
+              {reports.map((report) => (
+                <tr key={report.id}>
                   <td className="w-full max-w-0 py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:w-auto sm:max-w-none sm:pl-6">
-                    {person.id}
-    
-                  </td>
-                  <td className="w-full max-w-0 py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:w-auto sm:max-w-none sm:pl-6">
-                    {person.username}
-    
+                    {report.id}
+  
                   </td>
                   <td className="px-3 py-4 text-sm text-gray-500">
-                    <UserProfileAvatar userProfile={person} />
+                    {report.reason}
                  </td>
                   <td className="px-3 py-4 text-sm text-gray-500">
-                    {formatDistanceToNow(new Date(person.inserted_at),{addSuffix: true})}
+                    {report.mode}
                  </td>
                  <td className="px-3 py-4 text-sm text-gray-500">
-                    {person.admin && <p>TRUE</p>} 
-                    {!person.admin && <p>FALSE</p>}
+                    <a href={`/admin/users/${report.user_id}`} target="blank" className="text-indigo-600 hover:text-indigo-900 px-2" >{report.user_id} </a>
                  </td>
                  <td className="px-3 py-4 text-sm text-gray-500">
-                    {person.banned_to}
+                    {report.created_at}
                  </td>
-                  <td className="py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                    <a href={`/admin/users/${person.id}`} className="text-indigo-600 hover:text-indigo-900">
-                      Edit
+                 <td className="px-3 py-4 text-sm text-gray-500">
+                    {report.object_type} #{report.object_id}
+                 </td>
+                  <td className="py-4 pl-3 px-1pr-4 text-right text-sm font-medium sm:pr-6">
+                    <a href={`/admin/reports/${report.id}`} className="text-indigo-600 hover:text-indigo-900 px-2">
+                      Complete
+                    </a>
+                    <a href={`/admin/reports/${report.id}`} className="text-indigo-600 hover:text-indigo-900 px-2">
+                      Delete
+                    </a>
+                    <a href={`/admin/reports/${report.id}`} className="text-indigo-600 hover:text-indigo-900  px-2">
+                      Hide
                     </a>
                   </td>
                 </tr>

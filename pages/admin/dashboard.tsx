@@ -104,7 +104,7 @@ const DashboardPage = (props) => {
           </div>
 
           <div
-            key='chats'
+            key='reports'
             className="relative overflow-hidden rounded-lg bg-white px-4 pt-5 pb-12 shadow sm:px-6 sm:pt-6"
             onClick={goToUgcReports}
           >
