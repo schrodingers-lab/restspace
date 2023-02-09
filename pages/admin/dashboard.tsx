@@ -23,7 +23,9 @@ const DashboardPage = (props) => {
   const goToAdminUsers = () => {
     router.push('/admin/users');
   }
-
+  const goToUgcReports = () => {
+    router.push('/admin/reports');
+  }
   
 
   // Render the chats and messages
@@ -89,6 +91,31 @@ const DashboardPage = (props) => {
             </dt>
             <dd className="ml-16 flex items-baseline pb-6 sm:pb-7">
               <p className="text-2xl font-semibold text-gray-900">Manage Chats</p>
+         
+              <div className="absolute inset-x-0 bottom-0 bg-gray-50 px-4 py-4 sm:px-6">
+                <div className="text-sm">
+                  <div className="font-medium text-ww-primary hover:text-ww-secondary">
+                    {' '}
+                    View all
+                  </div>
+                </div>
+              </div>
+            </dd>
+          </div>
+
+          <div
+            key='chats'
+            className="relative overflow-hidden rounded-lg bg-white px-4 pt-5 pb-12 shadow sm:px-6 sm:pt-6"
+            onClick={goToUgcReports}
+          >
+            <dt>
+              <div className="absolute rounded-md bg-indigo-500 p-3">
+                R
+              </div>
+              <p className="ml-16 truncate text-sm font-medium text-gray-500">Reports</p>
+            </dt>
+            <dd className="ml-16 flex items-baseline pb-6 sm:pb-7">
+              <p className="text-2xl font-semibold text-gray-900">Manage UGC Reports</p>
          
               <div className="absolute inset-x-0 bottom-0 bg-gray-50 px-4 py-4 sm:px-6">
                 <div className="text-sm">
