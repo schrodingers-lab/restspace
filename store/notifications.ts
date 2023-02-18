@@ -88,7 +88,7 @@ export const useStore = (props) => {
   useEffect(() => {
     if (notifications) {
       setActiveNotifications(notifications.filter((notification) => {
-        return !notification.completed;
+        return !notification?.completed;
       }));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
