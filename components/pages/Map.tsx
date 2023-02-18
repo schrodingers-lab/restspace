@@ -16,7 +16,8 @@ import {
   IonMenuButton,
   IonFabList,
   IonSegment,
-  IonSegmentButton
+  IonSegmentButton,
+  IonBadge
 } from '@ionic/react';
 import { search, filter, information } from 'ionicons/icons';
 import Notifications from '../modals/Notifications';
@@ -35,6 +36,7 @@ import { addPopup, mapboxglAccessToken, mapboxglStyle } from '../util/mapbox';
 import { convertIncidentToGeoJson } from '../util/data';
 import addHours from 'date-fns/addHours';
 import { dateString } from '../util/dates';
+import { useStore } from '../../store/notifications';
 
 
 const MapPage = ({history}) => {
@@ -74,6 +76,8 @@ const MapPage = ({history}) => {
   // Create a single supabase client for interacting with your database 
   const supabase = useSupabaseClient();
   const user = useUser();
+
+  const {activeNotifications} = useStore({userId: user?.id});
 
   const geoSearch = async () => {
     const query = supabase
@@ -372,12 +376,15 @@ const MapPage = ({history}) => {
           <IonButtons slot="end">
             <IonButton onClick={() => setShowNotifications(true)}>
               <IonIcon icon={notificationsOutline} />
+              {activeNotifications.length > 0 && 
+                <IonBadge color="primary">{activeNotifications.length}</IonBadge>
+              }
             </IonButton>
           </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
-        <Notifications open={showNotifications} onDidDismiss={() => setShowNotifications(false)} />
+        <Notifications open={showNotifications} history={history} onDidDismiss={() => setShowNotifications(false)} />
         <IonSegment value="map">
           <IonSegmentButton value="map">
             Map
