@@ -63,15 +63,11 @@ export const Login = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
 
       setErrorMessage('')
       setLoading(true)
-
-      console.log("phoneNumber", phoneNumber)
-      console.log("password", password);
      
       const  {data ,error} = await supabaseClient.auth.signInWithPassword({
         phone: phoneNumber,
         password: password,
       })
-      console.log("supaState", data, error);
 
       if (error) {
         if (error?.name == "AuthApiError"){
