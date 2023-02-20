@@ -9,8 +9,6 @@ export const useStore = (props) => {
   const [notifications, setNotifications] = useState([])
   const [activeNotifications, setActiveNotifications] = useState([])
   const [userId, setUserId] = useState()
-  const [userProfiles, setUserProfiles] = useState(new Map())
-
 
   const [updateNotification, handleUpdateNotification] = useState(null)
   const [newNotification, handleNewNotification] = useState(null)
@@ -52,11 +50,11 @@ export const useStore = (props) => {
   // Update when the route changes
   useEffect(() => {
     if (props?.userId > 0) {
-      setUserProfiles(props.userId);
       setNotifications([]);
       fetchUserNotifications(props.userId, (notifications) => {
         setNotifications(notifications);
       }, supabase)
+      setUserId(props.userId);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.userId])
