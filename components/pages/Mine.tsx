@@ -32,7 +32,7 @@ const Mine = ({history}) => {
   const [error, setError] = useState("");
   const supabaseClient = useSupabaseClient();
   const user = useUser(); 
-  const {activeNotifications} = useStore({userId: user?.id});
+  // const {activeNotifications} = useStore({userId: user?.id});
   const [data, setData] = useState<any>();
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -105,14 +105,14 @@ const Mine = ({history}) => {
           <IonButtons slot="start">
             <IonMenuButton />
           </IonButtons>
-          <IonButtons slot="end">
+          {/* <IonButtons slot="end">
             <IonButton onClick={() => setShowNotifications(true)}>
               <IonIcon icon={notificationsOutline} />
               {activeNotifications.length > 0 && 
                 <IonBadge color="primary">{activeNotifications.length}</IonBadge>
               }
             </IonButton>
-          </IonButtons>
+          </IonButtons> */}
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding" fullscreen>
