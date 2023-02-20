@@ -32,7 +32,7 @@ import * as mapboxgl from 'mapbox-gl';
 import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react';
 import IconKey from '../modals/IconKey';
 import { displayLevelColor } from '../util/display';
-import { addPopup, ageInHours, hoursOfActiveIncidents, mapboxglAccessToken, mapboxglStyle } from '../util/mapbox';
+import { addPopup, ageInHours, mapboxglAccessToken, mapboxglStyle } from '../util/mapbox';
 import { convertIncidentToGeoJson } from '../util/data';
 import addHours from 'date-fns/addHours';
 import { dateString } from '../util/dates';
