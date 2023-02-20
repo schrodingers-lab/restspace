@@ -45,6 +45,7 @@ const ListDetail = ({ history, match }) => {
   const authUserProfile = useStoreState(UserStore, selectors.getAuthUserProfile);
   const [files, setFiles] = useState([]);
 
+
   useEffect(() => {
     const fetchData = async() => {
       // You can await here

@@ -51,7 +51,7 @@ import { useStore } from "../../store/chat";
     return (
       <div>
 
-        <label className="block text-sm px-6 font-medium text-gray-700 dark:text-white"  key="recent-incident-label">
+        <label className="block text-sm px-6 font-medium text-gray-700 dark:text-white"  key="public-channel-label">
           Public Channels
         </label>
   
@@ -62,8 +62,8 @@ import { useStore } from "../../store/chat";
         </ul>
 
         <hr></hr>
-        
-        <label className="block text-sm px-6 font-medium text-gray-700 dark:text-white"  key="recent-incident-label">
+
+        <label className="block text-sm px-6 font-medium text-gray-700 dark:text-white"  key="member-channel-label">
           Your Incident Channels
         </label>
   

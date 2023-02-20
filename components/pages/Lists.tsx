@@ -1,5 +1,4 @@
 import Store from '../../store';
-import * as selectors from '../../store/selectors';
 import React, { useRef, useEffect, useState } from 'react';
 import {
   IonPage,
@@ -16,11 +15,21 @@ import {
   IonButtons,
   IonMenuButton,
   IonSegment,
-  IonSegmentButton
+  IonSegmentButton,
+  IonBadge,
+  IonButton,
+  IonIcon
 } from '@ionic/react';
 import { displayCoverImage } from '../util/display';
 import CategoriesIcons from '../ui/CategoriesIcons';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
+import { useStoreState } from 'pullstate';
+import { UserStore } from '../../store/user';
+import * as selectors from '../../store/selectors';
+import { NotificationStore, useNotificationsStore } from '../../store/notifications';
+import { notificationsOutline } from 'ionicons/icons';
+import Notifications from '../modals/Notifications';
+import { useUser } from '@supabase/auth-helpers-react';
 
 export const ListEntry = ({ incident, ...props }) => {
   const img0 = displayCoverImage(incident?.cover_image_url);
@@ -64,6 +73,10 @@ const AllLists = () => {
 };
 
 const Lists = ({history}) => {
+  const user = useUser();
+  const {userId} = useNotificationsStore({userId: user?.id});
+  const activeNotifications = useStoreState(NotificationStore, selectors.getActiveNotifications);
+  const [showNotifications, setShowNotifications] = useState(false);
 
   const handleMapSegment = () =>{
     history.push('/tabs/map');
@@ -77,9 +90,19 @@ const Lists = ({history}) => {
           <IonButtons slot="start">
             <IonMenuButton />
           </IonButtons>
+          <IonButtons slot="end">
+            <IonButton onClick={() => setShowNotifications(true)}>
+              <IonIcon icon={notificationsOutline} />
+              {activeNotifications.length > 0 && 
+                <IonBadge color="primary">{activeNotifications.length}</IonBadge>
+              }
+            </IonButton>
+          </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
+        <Notifications open={showNotifications} history={history} onDidDismiss={() => setShowNotifications(false)} />
+        
         <IonHeader collapse="condense">
           <IonToolbar>
             <IonTitle size="large">Lists</IonTitle>

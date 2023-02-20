@@ -25,7 +25,7 @@ import { useUser, useSupabaseClient } from '@supabase/auth-helpers-react'
 import NoUserCard from '../cards/NoUserCard';
 import { fetchUserIncidents } from '../../store/incident';
 import { ErrorCard } from '../cards/ErrorCard';
-import { NotificationStore } from '../../store/notifications';
+import { NotificationStore, useNotificationsStore } from '../../store/notifications';
 import { useStoreState } from 'pullstate';
 import * as selectors from '../../store/selectors';
 
@@ -34,6 +34,7 @@ const Mine = ({history}) => {
   const [error, setError] = useState("");
   const supabaseClient = useSupabaseClient();
   const user = useUser();
+  const {userId} = useNotificationsStore({userId: user?.id});
   const activeNotifications = useStoreState(NotificationStore, selectors.getActiveNotifications);
   const [data, setData] = useState<any>();
   const [loading, setLoading] = useState<boolean>(false);

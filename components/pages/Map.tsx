@@ -39,7 +39,7 @@ import { dateString } from '../util/dates';
 import { useStoreState } from 'pullstate';
 import { UserStore } from '../../store/user';
 import * as selectors from '../../store/selectors';
-import { NotificationStore } from '../../store/notifications';
+import { NotificationStore, useNotificationsStore } from '../../store/notifications';
 
 const MapPage = ({history}) => {
   const incidents = Store.useState(getIncidents);
@@ -76,7 +76,7 @@ const MapPage = ({history}) => {
   // Create a single supabase client for interacting with your database 
   const supabase = useSupabaseClient();
   const user = useUser();
-
+  const {userId} = useNotificationsStore({userId: user?.id});
   const activeNotifications = useStoreState(NotificationStore, selectors.getActiveNotifications);
 
 
