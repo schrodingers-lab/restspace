@@ -13,6 +13,7 @@ import {
   IonRefresher,
   IonRefresherContent,
   RefresherEventDetail,
+  IonBadge,
 } from '@ionic/react';
 import Notifications from '../modals/Notifications';
 import { useEffect, useState } from 'react';
@@ -23,6 +24,7 @@ import React from 'react';
 import { useUser, useSupabaseClient } from '@supabase/auth-helpers-react'
 import NoUserCard from '../cards/NoUserCard';
 import { ErrorCard } from '../cards/ErrorCard';
+import { useStore } from '../../store/notifications';
 
 const Bookmarked = ({history}) => {
   const [showNotifications, setShowNotifications] = useState(false);
@@ -30,6 +32,8 @@ const Bookmarked = ({history}) => {
   const [error, setError] = useState("");
   const supabaseClient = useSupabaseClient();
   const user = useUser();
+
+  const {activeNotifications} = useStore({userId: user?.id});
   const [data, setData] = useState<any>();
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -116,6 +120,9 @@ const Bookmarked = ({history}) => {
           <IonButtons slot="end">
             <IonButton onClick={() => setShowNotifications(true)}>
               <IonIcon icon={notificationsOutline} />
+              {activeNotifications.length > 0 && 
+                <IonBadge color="primary">{activeNotifications.length}</IonBadge>
+              }
             </IonButton>
           </IonButtons>
         </IonToolbar>
@@ -126,7 +133,7 @@ const Bookmarked = ({history}) => {
             <IonTitle size="large">Bookmarks</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <Notifications open={showNotifications} onDidDismiss={() => setShowNotifications(false)} />
+        <Notifications open={showNotifications} history={history} onDidDismiss={() => setShowNotifications(false)} />
 
         <IonRefresher slot="fixed" onIonRefresh={handleRefresh}>
           <IonRefresherContent></IonRefresherContent>

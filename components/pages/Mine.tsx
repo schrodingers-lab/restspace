@@ -13,6 +13,7 @@ import {
   IonRefresher,
   IonRefresherContent,
   RefresherEventDetail,
+  IonBadge,
 } from '@ionic/react';
 import Notifications from '../modals/Notifications';
 import { useEffect, useState } from 'react';
@@ -24,12 +25,14 @@ import { useUser, useSupabaseClient } from '@supabase/auth-helpers-react'
 import NoUserCard from '../cards/NoUserCard';
 import { fetchUserIncidents } from '../../store/incident';
 import { ErrorCard } from '../cards/ErrorCard';
+import { useStore } from '../../store/notifications';
 
 const Mine = ({history}) => {
   const [showNotifications, setShowNotifications] = useState(false);
   const [error, setError] = useState("");
   const supabaseClient = useSupabaseClient();
-  const user = useUser();
+  const user = useUser(); 
+  const {activeNotifications} = useStore({userId: user?.id});
   const [data, setData] = useState<any>();
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -105,6 +108,9 @@ const Mine = ({history}) => {
           <IonButtons slot="end">
             <IonButton onClick={() => setShowNotifications(true)}>
               <IonIcon icon={notificationsOutline} />
+              {activeNotifications.length > 0 && 
+                <IonBadge color="primary">{activeNotifications.length}</IonBadge>
+              }
             </IonButton>
           </IonButtons>
         </IonToolbar>
@@ -115,7 +121,7 @@ const Mine = ({history}) => {
             <IonTitle size="large">My Incidents</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <Notifications open={showNotifications} onDidDismiss={() => setShowNotifications(false)} />
+        <Notifications open={showNotifications} history={history} onDidDismiss={() => setShowNotifications(false)} />
 
         <IonRefresher slot="fixed" onIonRefresh={handleRefresh}>
           <IonRefresherContent></IonRefresherContent>

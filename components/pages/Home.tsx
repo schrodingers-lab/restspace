@@ -12,13 +12,17 @@ import {
     IonCardContent,
     IonButtons,
     IonMenuButton,
+    IonBadge,
+    IonButton,
+    IonIcon,
   } from '@ionic/react';
   
   import Store from '../../store';
   import * as selectors from '../../store/selectors';
   import { setSettings } from '../../store/actions';
   import React, { use, useState } from 'react';
-import { useStore } from '../../store/user';
+  import { useStore } from '../../store/user';
+  import { useStore as useNotificationsStore } from '../../store/notifications';
 import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react';
 import distance from '@turf/distance';
 import { addHours } from 'date-fns';
@@ -31,6 +35,7 @@ import { getPagination } from '../util/data';
 import { fetchUserIncidents, fetchUserIncidentsPages, geoTimedSearchPaged } from '../../store/incident';
 import Card from '../ui/Card';
 import NoUserCard from '../cards/NoUserCard';
+import { notificationsOutline } from 'ionicons/icons';
   
   const Home = ({history}) => {
     const settings = Store.useState(selectors.getSettings);
@@ -43,6 +48,7 @@ import NoUserCard from '../cards/NoUserCard';
     const supabase = useSupabaseClient();
     const user = useUser();
     const {authUserProfile} = useStore({});
+    const {activeNotifications} = useNotificationsStore({userId: user?.id});
 
 
     const goToIncident = (incident) => {
@@ -75,6 +81,14 @@ import NoUserCard from '../cards/NoUserCard';
             <IonTitle>Home</IonTitle>
             <IonButtons slot="start">
               <IonMenuButton />
+            </IonButtons>
+            <IonButtons slot="end">
+            <IonButton onClick={() => setShowNotifications(true)}>
+              <IonIcon icon={notificationsOutline} />
+              {activeNotifications.length > 0 && 
+                <IonBadge color="primary">{activeNotifications.length}</IonBadge>
+              }
+            </IonButton>
             </IonButtons>
           </IonToolbar>
         </IonHeader>
