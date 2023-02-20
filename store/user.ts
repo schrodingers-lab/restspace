@@ -1,51 +1,68 @@
 import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react'
 import { useState, useEffect } from 'react'
 import { addToNewMap, arrayToMap } from '../components/util/data'
+import { Store } from 'pullstate';
+
+export const UserStore = new Store({
+  userProfiles: new Map(),
+  userIds: [],
+  authUser: undefined,
+  authUserProfile: undefined,
+});
 
 /**
  * @param {number} userId load user profile
  * @param {array[number]} userIds load users profile
  */
-export const useStore = (props) => {
+export const useUserStore = (props) => {
   const authUser = useUser();
   const supabase = useSupabaseClient();
   const [userIds, setUserIds] = useState([])
-  const [userProfiles, setUserProfiles] = useState(new Map())
-  const [authUserProfile, setAuthUserProfile] = useState(undefined)
-
+  
   // Update when the props changes (effect to listen for [props.userId])
   useEffect(() => {
-    const handleAsync = async () => {
-      // return new map to trigger consumer hooks
-      return await fetchUser(props.userId, (user) => { setUserProfiles(addToNewMap(userProfiles, user.id, user))}, supabase);
-    }
-    
     if (props?.userId?.length > 0) {
       if(userIds.includes(props.userId)){
         return;
       }
       if(!userIds.includes(props.userId)){
           setUserIds([...userIds, props.userId]);
-          handleAsync();
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.userId, supabase])
 
   useEffect( () => {
-    const handleAsync = async () => {
-      return await fetchUsers(props.userIds, (users) => setUserProfiles(arrayToMap(users,'id')), supabase);
-    }
     if (props.userIds && props.userIds.length > 0){
-      handleAsync();
+      setUserIds(props.userIds)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.userIds, supabase])
 
+
+  useEffect( () => {
+    const handleAsync = async () => {
+      const result = await fetchUsers(userIds, supabase);
+      UserStore.update(s => {
+        s.userProfiles = arrayToMap(result.data,'id')
+      });
+    }
+    if (userIds && userIds.length > 0){
+      handleAsync();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userIds, supabase])
+
   useEffect( () => {
     // load auth user profile
     const handleAsync = async () => {
-      return await fetchUser(authUser.id, (userProfile) => setAuthUserProfile(userProfile), supabase);
+      const result = await fetchUser(authUser.id, supabase);
+      UserStore.update(s => {
+        s.authUser = authUser;
+        s.authUserProfile = result.data;
+      });
+
+      return result; 
     }
 
     // check if authuser and profile
@@ -54,16 +71,17 @@ export const useStore = (props) => {
       handleAsync();
     } else{
       // clear profile
-      setAuthUserProfile(undefined);
+      UserStore.update(s => {
+        s.authUser = null;
+        s.authUserProfile = null;
+      });
     }
     
   }, [authUser, supabase])
 
+
   return {
     // We can export computed values here to map the authors to each message
-    authUser,
-    authUserProfile,
-    userProfiles,
     userIds,
   }
 }
@@ -71,32 +89,26 @@ export const useStore = (props) => {
 /**
  * Fetch a single user
  * @param {number} userId
- * @param {function} setState Optionally pass in a hook or callback to set the state
  */
-export const fetchUser = async (userId, setState, supabase) => {
+export const fetchUser = async (userId,  supabase) => {
   try {
-    let { data } = await supabase.from('users').select(`*`).eq('id', userId)
-    let user = data[0]
-    if (setState) setState(user)
-    return user
+    let { data, error } = await supabase.from('users').select(`*`).eq('id', userId).single()
+    return { data, error }
   } catch (error) {
-    console.log('error', error)
+    console.error('error', error)
   }
 }
 
 /**
  * Fetch a multiple user
  * @param {array} userIds
- * @param {function} setState Optionally pass in a hook or callback to set the state
  */
-export const fetchUsers = async (userIds, setState, supabase) => {
+export const fetchUsers = async (userIds, supabase) => {
   try {
-    const { data } = await supabase.from('users').select(`*`).in('id', userIds)
-    const users = data
-    if (setState) setState(users)
-    return users
+    const { data, error } = await supabase.from('users').select(`*`).in('id', userIds)
+    return { data, error }
   } catch (error) {
-    console.log('error', error)
+    console.error('error', error)
   }
 }
 

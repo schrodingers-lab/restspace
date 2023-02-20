@@ -34,10 +34,14 @@ export const Message = ({ message }) => {
     console.log('dismiss modal')
     setIsActionsVisible(!isActionsVisible);
   }
-  
-  return (
-    <div key={message.id} className={`flex space-x-3 py-4 mt-4 mb-4 p-4 rounded-xl ${bgColor} relative`}>
-       
+
+  const renderMessage = () =>{
+
+    if ( message?.visible == false) {
+      return ( <div className="px-6">This message is no longer visible</div>);
+    } else {
+      return (
+        <>
         <div className="flex-shrink-0" onClick={toggleUserModal}>
             <UserProfileAvatar userProfile={message?.author} /><br/>
             <UserProfile open={open} onDidDismiss={onDidDismiss} userProfile={message?.author} />
@@ -49,7 +53,14 @@ export const Message = ({ message }) => {
         {!isMyMessage && isActionsVisible &&
           <FabUgcMessageActions message={message} creator={message?.author}  />
         }
-    
+        </>
+      )
+    }
+  }
+  
+  return (
+    <div key={message.id} className={`flex space-x-3 py-4 mt-4 mb-4 p-4 rounded-xl ${bgColor} relative`}>
+       { renderMessage() }
     </div>
   )
 }

@@ -16,16 +16,20 @@ import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react';
 import { SupabaseClient } from '@supabase/supabase-js';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 import { close } from 'ionicons/icons';
+import { useStoreState } from 'pullstate';
 import React, { useRef, useState } from 'react';
 import { createReport } from '../../store/report';
-import { useStore } from '../../store/user';
+import { UserStore, useUserStore } from '../../store/user';
 import { ErrorCard } from '../cards/ErrorCard';
 import UserProfileAvatar from '../ui/UserProfileAvatar';
+import * as selectors from '../../store/selectors';
   
   const Report = ({ open, onDidDismiss, reportMode="person", incident=null, personId=null, person=null, cover_photo_url=null, file=null, message=null }) => {  
 
     const [reason, setReason] = useState('');
-    const {authUser} = useStore({})
+    const authUser = useUser();
+    const {userIds} = useUserStore({userId: person?.id});
+    const authUserProfile = useStoreState(UserStore, selectors.getAuthUserProfile);
     const supabase = useSupabaseClient();
 
     const [error, setError] = useState("");

@@ -20,11 +20,11 @@ import {
 import React, { useRef, useEffect, useState } from 'react';
 import IncidentDetail from '../cards/IncidentDetail';
 import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react';
-import { create, notificationsOutline } from 'ionicons/icons';
+import { create, bookmark, bookmarkOutline } from 'ionicons/icons';
+import { useStoreState } from 'pullstate';
+import { useUserStore, UserStore } from '../../store/user';
+import * as selectors from '../../store/selectors';
 
-import { search, filter, bookmark, bookmarkOutline } from 'ionicons/icons';
-import { useRouter } from 'next/router';
-import { useStore } from '../../store/user';
 
 
 const ListDetail = ({ history, match }) => {
@@ -41,7 +41,10 @@ const ListDetail = ({ history, match }) => {
 
   const [error, setError] = useState("");
   const user = useUser();
-  const {authUserProfile} = useStore({});
+  const {userIds} = useUserStore({userId: user?.id});
+  const authUserProfile = useStoreState(UserStore, selectors.getAuthUserProfile);
+
+  // const {authUserProfile} = useStore({});
   const [files, setFiles] = useState([]);
 
 
@@ -68,8 +71,7 @@ const ListDetail = ({ history, match }) => {
         .select('*')
         .eq('incident_id', incidentId)
         .eq('user_id', user.id)
-
-      console.log("retrieve bookmark", incidentId, user?.id, data, error)
+        
       if(data && data.length > 0){
         setIsBookmarked(true)
      }

@@ -20,18 +20,24 @@ import {
   
   import { close, locate } from 'ionicons/icons';
   import React, { useEffect, useState } from 'react';
-  import { updateProfile, useStore } from '../../store/user';
+  import { updateProfile, UserStore, useUserStore } from '../../store/user';
   import UserProfileAvatar from '../ui/UserProfileAvatar';
   import { SingleImageUploader } from '../uploader/SingleImageUploader';
   import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react';
   import { fileUrl, updateFileRelatedObject } from '../../store/file';
   import NoUserCard from '../cards/NoUserCard';
   import MapDraggableMarker from '../map/MapDraggableMarker';
-import { defaultInitialLat, defaultInitialLng, distanceMaxBase } from '../util/mapbox';
-import { ErrorCard } from '../cards/ErrorCard';
+  import { defaultInitialLat, defaultInitialLng, distanceMaxBase } from '../util/mapbox';
+  import { ErrorCard } from '../cards/ErrorCard';
+  import { useStoreState } from 'pullstate';
+  import * as selectors from '../../store/selectors';
 
   const ProfilePage = ({history}) => {
-    const { authUser, authUserProfile } = useStore({});
+ 
+    const authUser = useUser();
+    const {userIds} = useUserStore({userId: authUser?.id});
+    const authUserProfile = useStoreState(UserStore, selectors.getAuthUserProfile);
+
     const supabase = useSupabaseClient();
     const [error, setError] = useState("");
 
@@ -139,6 +145,7 @@ import { ErrorCard } from '../cards/ErrorCard';
         //Notify User
         setToastMessage('Updated Profile');
         setIsToastOpen(true);
+
         //Move to home after update
         history.push('/tabs/home');
       }

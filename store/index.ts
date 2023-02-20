@@ -1,14 +1,16 @@
 import { Store as PullStateStore } from 'pullstate';
 
 const incidents: any[] = [];
-const notifications: any[] = [];
 const bookmarks: any[] = [];
+const activeNotifications: any[] = [];
+const notifications: any[] = [];
  
 const Store = new PullStateStore({
   safeAreaTop: 0,
   safeAreaBottom: 0,
   menuOpen: false,
   notificationsOpen: false,
+  activeNotifications,
   currentPage: null,
   incidents,
   bookmarks,

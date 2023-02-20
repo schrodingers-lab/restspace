@@ -35,16 +35,23 @@ import IconKey from '../modals/IconKey';
 import { displayCoverImage, displayLevelColor } from '../util/display';
 import Categories from '../ui/Categories';
 import ToggleDateDisplay from '../ui/ToggleDatesDisplay';
-import { useStore } from '../../store/user';
 import UserProfile from '../modals/UserProfile';
 import UserProfileAvatar from '../ui/UserProfileAvatar';
 import { FabUgcIncidentActions } from './FabUgcIncidentActions';
 import { useRouter } from 'next/router';
+import { useUser } from '@supabase/auth-helpers-react';
+import { useStoreState } from 'pullstate';
+import { useUserStore, UserStore } from '../../store/user';
+import * as selectors from '../../store/selectors';
 
 export const IncidentDetail = ({incident, files, supabase}) => {
   
   const img0 = displayCoverImage(incident?.cover_image_url);
-  const { authUser, authUserProfile, userProfiles } = useStore({userId: incident?.user_id})
+  // const { authUser, authUserProfile, userProfiles } = useStore({userId: incident?.user_id})
+  const authUser = useUser();
+  const {userIds} = useUserStore({userId: incident?.user_id});
+  const authUserProfile = useStoreState(UserStore, selectors.getAuthUserProfile);
+  const userProfiles = useStoreState(UserStore, selectors.getUserProfiles);
 
   const mapContainer = useRef<any>(null);
   const map = useRef<any>(null);

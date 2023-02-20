@@ -10,11 +10,6 @@ import UpgradeCard from './cards/UpgradeCard';
 import Tabs from './pages/Tabs';
 import Store from '../store';
 import * as selectors from '../store/selectors';
-import { createClient } from '@supabase/supabase-js';
-import {LoginPage} from './pages/Login';
-import SignupPage from './pages/Signup';
-import ForgotPage from './pages/Forgot';
-import UpdatePasswordPage from './pages/UpdatePassword';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import TourPage from './pages/Tour';
 

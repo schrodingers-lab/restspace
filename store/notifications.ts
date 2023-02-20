@@ -1,18 +1,25 @@
 import { useSupabaseClient } from '@supabase/auth-helpers-react'
+import { Store } from 'pullstate';
 import { useState, useEffect } from 'react'
 import { arrayToMap } from '../components/util/data'
+
+
+export const NotificationStore = new Store({
+  notifications: [],
+  userId: undefined,
+});
 
 /**
  * @param {number} chatId the currently selected Chat
  */
-export const useStore = (props) => {
-  const [notifications, setNotifications] = useState([])
-  const [activeNotifications, setActiveNotifications] = useState([])
-  const [userId, setUserId] = useState()
+export const useNotificationsStore = (props) => {
 
+  const [userId, setUserId] = useState()
+  const notifications = NotificationStore.useState(s => s.notifications);
   const [updateNotification, handleUpdateNotification] = useState(null)
   const [newNotification, handleNewNotification] = useState(null)
-
+  
+  
   const supabase = useSupabaseClient();
 
   // Load initial data and set up listeners
@@ -47,10 +54,11 @@ export const useStore = (props) => {
 
   // Update when the route changes
   useEffect(() => {
-    if (props?.userId > 0) {
-      setNotifications([]);
+    if (props?.userId?.length > 0) {
       fetchUserNotifications(props.userId, (notifications) => {
-        setNotifications(notifications);
+        NotificationStore.update(s => {
+          s.notifications = notifications;
+        });
       }, supabase)
       setUserId(props.userId);
     }
@@ -60,43 +68,38 @@ export const useStore = (props) => {
 
   // New notification received from Postgres
   useEffect(() => {
-    if (newNotification) setNotifications(notifications.concat(newNotification))
+    if (newNotification) {
+      NotificationStore.update(s => {
+        s.notifications =  s.notifications.concat(newNotification);
+      });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [newNotification])
 
   // Updated notification received from Postgres
   useEffect(() => {
-    console.log('updateNotification', updateNotification);
-    if (updateNotification) {
-      const index = notifications.findIndex(rect => rect?.id === updateNotification?.id);
+    if (updateNotification?.id) {
+      const index = notifications.findIndex(rect => rect?.id === updateNotification?.id)
       if (index !== -1) {
         // Object exists in the array, replace it
-        setNotifications(notifications.splice(index, 1, updateNotification))
-        // console.log('updated', notifications)
+        const newNotifications = [...notifications]
+        newNotifications[index] = updateNotification;
+        //Update the store
+        NotificationStore.update(s => {
+          s.notifications = newNotifications;
+        });
       } else {
         // Object does not exist in the array, add it
-        setNotifications(notifications.concat(updateNotification))
+        NotificationStore.update(s => {
+          s.notifications = notifications.concat(updateNotification);
+        });
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [updateNotification])
 
-  // Updated notification received from Postgres
-  useEffect(() => {
-    if (notifications) {
-      setActiveNotifications(notifications.filter((notification) => {
-        return !notification?.completed;
-      }));
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [notifications])
-
-
   return {
-    // We can export computed values here to map the authors to each message
-    notifications: notifications || [],
-    activeNotifications: activeNotifications || [],
-    userId,
+    userId
   }
 }
 
@@ -137,9 +140,13 @@ export const fetchUserNotifications = async (userId, setState, supabase) => {
  */
 export const completeNotification = async (notification, supabase) => {
   try {
-    notification.completed = true;
+    const completedNotification = {...notification, completed: true}
     let { data } = await supabase.from('notifications')
-          .update(notification).eq('id', notification.id);
+          .update(completedNotification).eq('id', notification.id);
+
+    //Update should come back via realtime
+    // Notification state is updated in teh realtime
+
     return data
   } catch (error) {
     console.error('error', error)

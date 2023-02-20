@@ -16,7 +16,10 @@ import { cog, bookmark, map,home, list, logOut, logIn, newspaper, person, earthO
 
 import { useUser, useSupabaseClient } from '@supabase/auth-helpers-react'
 import { useRouter } from 'next/router';
-import { useStore } from '../store/user';
+import { useStoreState } from 'pullstate';
+import { useUserStore, UserStore } from '../store/user';
+import * as selectors from '../store/selectors';
+
 
 const pages = [
   {
@@ -73,7 +76,8 @@ const Menu = () => {
   // const [isDark, setIsDark] = useState(true);
   const user = useUser();
   const supabase = useSupabaseClient();
-  const { authUserProfile } = useStore({});
+  const {userIds} = useUserStore({userId: user?.id});
+  const authUserProfile = useStoreState(UserStore, selectors.getAuthUserProfile);
 
 
   const router = useRouter();

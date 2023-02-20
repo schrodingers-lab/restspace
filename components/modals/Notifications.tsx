@@ -14,22 +14,25 @@ import {
 
 import { close, closeCircleOutline, mailUnread } from 'ionicons/icons';
 import React from 'react';
-import { completeNotification, useStore } from '../../store/notifications';
-import {  useStore as useUserStore } from '../../store/user';
+import { completeNotification, NotificationStore } from '../../store/notifications';
+import {  UserStore, useUserStore } from '../../store/user';
 import { SupabaseClient, useSupabaseClient, useUser } from '@supabase/auth-helpers-react';
 import { useRouter } from 'next/router';
 import ToggleDateDisplay from '../ui/ToggleDatesDisplay';
 import NotificationChatItem from '../notifications/NotificationChatItem';
 import NotificationIncidentItem from '../notifications/NotificationIncidentItem';
-
+import { useStoreState } from 'pullstate';
+import * as selectors from '../../store/selectors';
 
 
 
 const Notifications = ({ open, onDidDismiss, history }) => {
   const supabaseClient = useSupabaseClient();
   const user = useUser();
-  const {activeNotifications} = useStore({userId: user?.id});
-  const { authUserProfile } = useUserStore({})
+  const {userIds} = useUserStore({userId: user?.id});
+  const authUserProfile = useStoreState(UserStore, selectors.getAuthUserProfile);
+  const activeNotifications = useStoreState(NotificationStore, selectors.getActiveNotifications);
+
 
   const doCompleteNotification = async(notification, supabase) => {
     if (notification?.id) {

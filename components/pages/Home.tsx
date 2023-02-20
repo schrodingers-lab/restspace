@@ -24,8 +24,8 @@ import {
   import * as selectors from '../../store/selectors';
   import { setSettings } from '../../store/actions';
   import React, { use, useState } from 'react';
-  import { useStore } from '../../store/user';
-  import { useStore as useNotificationsStore } from '../../store/notifications';
+  import { UserStore } from '../../store/user';
+  import { NotificationStore, useNotificationsStore } from '../../store/notifications';
 import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react';
 import distance from '@turf/distance';
 import { addHours } from 'date-fns';
@@ -40,26 +40,33 @@ import Card from '../ui/Card';
 import NoUserCard from '../cards/NoUserCard';
 import { notificationsOutline } from 'ionicons/icons';
 import Notifications from '../modals/Notifications';
+import { useStoreState } from 'pullstate';
   
   const Home = ({history}) => {
-    const settings = Store.useState(selectors.getSettings);
+    const supabase = useSupabaseClient();
+
     const [showNotifications, setShowNotifications] = useState(false);
 
     const [localIncidents, setLocalIncidents] = useState([]);
     const [myIncidents, setMyIncidents] = useState([]);
-
     const [loading, setLoading] = useState<boolean>(false);
-    const supabase = useSupabaseClient();
+    
     const user = useUser();
-    const {authUserProfile} = useStore({});
-    const {activeNotifications} = useNotificationsStore({userId: user?.id});
-
+    const authUserProfile = useStoreState(UserStore, selectors.getAuthUserProfile);
+    const activeNotifications = useStoreState(NotificationStore, selectors.getActiveNotifications);
+    const {userId} = useNotificationsStore({userId: user?.id});
+    
 
     const goToIncident = (incident) => {
       if (incident && incident.id){
         history.push('/tabs/incidents/'+incident?.id);
       }
     }
+    
+    const gotoProfile = () => {
+      history.push('/tabs/profile');
+    }
+    
 
     const loadUserData = async () => {
    
@@ -92,6 +99,7 @@ import Notifications from '../modals/Notifications';
       }
       if (authUserProfile) {
         handleAsync();
+        console.log('new user profile',authUserProfile)
       }
     }, [authUserProfile]);
   
@@ -127,14 +135,20 @@ import Notifications from '../modals/Notifications';
           </div>  
         
         <div className="mx-2" key="recent-incidents">
-          { user && <div className="px-4 pt-4 pb-4 ">
+          { user && authUserProfile?.username && <div className="px-4 pt-4 pb-4 ">
               <h2 className="font-bold text-xl text-gray-600 dark:text-gray-100">Welcome back <span className="font-bold text-xl text-ww-secondary">{authUserProfile?.username}</span></h2>
             </div>
           }
 
+          { user && !authUserProfile?.username && <div className="px-4 pt-4 pb-4 ">
+              <h2 className="font-bold text-xl text-gray-600 dark:text-gray-100" onClick={() => gotoProfile()}>Lets get you a <span className="font-bold text-xl text-ww-secondary">Username</span></h2>
+            </div>
+          }
+
+
           { user &&
             <label className="block text-sm px-6 font-medium text-gray-700 dark:text-white"  key="recent-incident-label">
-                Recent Incidents near you
+                Recent Incidents Nearby
             </label>
           }
           { user && localIncidents && localIncidents.map((i, index) => (
@@ -169,7 +183,7 @@ import Notifications from '../modals/Notifications';
 
           { user &&
             <label className="block text-sm px-4 font-medium text-gray-700 dark:text-white"  key="my-incident-label">
-                Your Incidents
+                Your Recent Incidents
             </label>
           }
 

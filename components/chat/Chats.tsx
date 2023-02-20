@@ -47,7 +47,7 @@ import { useStore } from "../../store/chat";
   export default function Chats() {
 
     const { publicChats } = useStore({})
-
+    
     return (
       <div>
         <ul role="list" className="divide-y divide-gray-200">
