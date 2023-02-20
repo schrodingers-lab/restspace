@@ -17,8 +17,6 @@ export const useStore = (props) => {
 
   // Load initial data and set up listeners
   useEffect(() => {
-    // Get Notifications
-    fetchNotifications(setNotifications, supabase)
     // Listen for new and deleted notifications
     const notificationsListener = supabase
       .channel('public:notifications')
@@ -108,7 +106,7 @@ export const useStore = (props) => {
  */
 export const fetchNotifications = async (setState, supabase) => {
   try {
-    let { data } = await supabase.from('notifications').select('*').order('created_at');
+    let { data } = await supabase.from('notifications').select('*').order('created_at', { ascending: false });
     if (setState) setState(data)
     return data
   } catch (error) {
@@ -123,7 +121,7 @@ export const fetchNotifications = async (setState, supabase) => {
  */
 export const fetchUserNotifications = async (userId, setState, supabase) => {
   try {
-    let { data } = await supabase.from('notifications').select(`*`).eq('user_id', userId)
+    let { data } = await supabase.from('notifications').select(`*`).eq('user_id', userId).order('created_at', { ascending: false });
     if (setState) setState(data)
     return data
   } catch (error) {

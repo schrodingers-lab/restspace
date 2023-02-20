@@ -169,6 +169,23 @@ export const fetchChats = async (setState, supabase) => {
 }
 
 /**
+ * Fetch a single chat
+ * @param {number} chatId
+ * @param {function} setState Optionally pass in a hook or callback to set the state
+ */
+export const fetchChat = async (chatId, setState, supabase) => {
+  try {
+    let { data, error } = await supabase.from('chats').select(`*`).eq('id', chatId).single()
+ 
+    if (setState) setState(data)
+    return {data, error}
+  } catch (error) {
+    console.log('error', error)
+  }
+}
+
+
+/**
  * Fetch a single user
  * @param {number} userId
  * @param {function} setState Optionally pass in a hook or callback to set the state

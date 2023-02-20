@@ -19,6 +19,8 @@ import {  useStore as useUserStore } from '../../store/user';
 import { SupabaseClient, useSupabaseClient, useUser } from '@supabase/auth-helpers-react';
 import { useRouter } from 'next/router';
 import ToggleDateDisplay from '../ui/ToggleDatesDisplay';
+import NotificationChatItem from '../notifications/NotificationChatItem';
+import NotificationIncidentItem from '../notifications/NotificationIncidentItem';
 
 
 
@@ -41,22 +43,38 @@ const Notifications = ({ open, onDidDismiss, history }) => {
       history.push('/tabs/incidents/' + notification.object_id);
     } else if (notification?.object_type == 'chats') {
       history.push('/tabs/chats/' + notification.object_id);
+    } else if (notification?.object_type == 'messages') {
+      history.push('/tabs/chats/' + notification.object_id);
     } else if (notification?.object_type == 'attached') {
       history.push('/admin/incidents/' + notification.object_id) + '#messages';
     }
     onDidDismiss();
   }
 
-  const NotificationItem =({ notification, supabase }) => {
+  const NotificationItem =({ notification, supabase, itemKey}) => {
     if (notification && notification.object_type == 'incidents') {
-      return <NotificationIncidentItem notification={notification} supabase={supabase} />
+      return <NotificationIncidentItem
+              notification={notification} 
+              supabase={supabase} 
+              itemKey={itemKey} 
+              history={history} 
+              doCompleteNotification={doCompleteNotification} 
+              onDidDismiss={onDidDismiss} />
+    } else if (notification && notification.object_type == 'chats') {
+      return <NotificationChatItem 
+              notification={notification} 
+              supabase={supabase} 
+              itemKey={itemKey} 
+              history={history} 
+              doCompleteNotification={doCompleteNotification} 
+              onDidDismiss={onDidDismiss} />
     } else {
-      return <NotificationGeneralItem notification={notification} supabase={supabase} />
+      return <NotificationGeneralItem notification={notification} supabase={supabase} itemKey={itemKey}/>
     }
   };
 
-  const NotificationGeneralItem = ({ notification, supabase }) => (
-    <IonItem onClick={(e) => {e.preventDefault(); visitNotificationObject(notification)}}>
+  const NotificationGeneralItem = ({ notification, supabase, itemKey }) => (
+    <IonItem onClick={(e) => {e.preventDefault(); visitNotificationObject(notification)}} key={itemKey}>
       <IonLabel>{notification.message}</IonLabel>
       <IonNote slot="end"><ToggleDateDisplay input_date={notification.created_at} /></IonNote>
       <IonButton slot="end" color="dark" onClick={(e) => {e.preventDefault(); doCompleteNotification(notification, supabase)}}>
@@ -64,17 +82,6 @@ const Notifications = ({ open, onDidDismiss, history }) => {
       </IonButton>
     </IonItem>
   );  
-
-  const NotificationIncidentItem = ({ notification, supabase }) => (
-    <IonItem>
-      <IonLabel  onClick={(e) => {e.preventDefault(); visitNotificationObject(notification)}}>Incident {notification.object_id} raised - {notification.message}</IonLabel>
-      <IonNote slot="end"><ToggleDateDisplay input_date={notification.created_at} /></IonNote>
-      <IonButton slot="end" color="dark" onClick={(e) => {e.preventDefault(); doCompleteNotification(notification, supabase)}}>
-        <IonIcon icon={closeCircleOutline} />
-      </IonButton>
-    </IonItem>
-  );  
-
 
   return (
     <IonModal isOpen={open} onDidDismiss={onDidDismiss}>
@@ -95,17 +102,17 @@ const Notifications = ({ open, onDidDismiss, history }) => {
         <IonList>
           {activeNotifications.map((notification, i) => {
               return (
-                <>
+                <div key={i}>
                   {notification.completed == false && 
-                    <NotificationItem notification={notification} supabase={supabaseClient} key={i} />
+                    <NotificationItem notification={notification} supabase={supabaseClient} itemKey={"NotificationItem-"+i} />
                   }
-                </>
+                </div>
               )
             }
           )}
 
           {(activeNotifications && activeNotifications.length == 0) && 
-            <div className="text-center">
+            <div className="text-center" key="active-empty">
               <h3 className="mt-2 text-sm font-medium text-gray-900 dark:text-gray-200">No Notifications</h3>
               {authUserProfile && !authUserProfile.longitude &&
                 <p className="mt-1 text-sm text-gray-500 dark:text-gray-300">Ensure you have your location set on your Profile.</p>

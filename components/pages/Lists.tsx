@@ -22,7 +22,7 @@ import { displayCoverImage } from '../util/display';
 import CategoriesIcons from '../ui/CategoriesIcons';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 
-const ListEntry = ({ incident, ...props }) => {
+export const ListEntry = ({ incident, ...props }) => {
   const img0 = displayCoverImage(incident?.cover_image_url);
   return (
   <IonItem routerLink={`/tabs/incidents/${incident.id}`} className="incident-entry">
@@ -73,7 +73,7 @@ const Lists = ({history}) => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Incidents</IonTitle>
+          <IonTitle><img  src="/imgs/WeWatch/WeWatch_LogoStrap_orange.svg" className="h-8"/></IonTitle>
           <IonButtons slot="start">
             <IonMenuButton />
           </IonButtons>
@@ -82,7 +82,7 @@ const Lists = ({history}) => {
       <IonContent fullscreen>
         <IonHeader collapse="condense">
           <IonToolbar>
-          <IonTitle><img  src="/imgs/WeWatch/WeWatch_LogoStrap_orange.svg" className="h-8"/></IonTitle>
+            <IonTitle size="large">Lists</IonTitle>
           </IonToolbar>
         </IonHeader>
         <IonSegment value="list">
