@@ -36,6 +36,7 @@ import { fetchUserIncidents, fetchUserIncidentsPages, geoTimedSearchPaged } from
 import Card from '../ui/Card';
 import NoUserCard from '../cards/NoUserCard';
 import { notificationsOutline } from 'ionicons/icons';
+import Notifications from '../modals/Notifications';
   
   const Home = ({history}) => {
     const settings = Store.useState(selectors.getSettings);
@@ -93,6 +94,8 @@ import { notificationsOutline } from 'ionicons/icons';
           </IonToolbar>
         </IonHeader>
         <IonContent className='dark:bg-black bg-red mx-auto'>
+        <Notifications open={showNotifications} history={history} onDidDismiss={() => setShowNotifications(false)} />
+       
         <div className="mx-2">
           { user && <div className="px-4 pt-4 pb-4 ">
               <h2 className="font-bold text-xl text-gray-600 dark:text-gray-100">Welcome back <span className="font-bold text-xl text-ww-secondary">{authUserProfile?.username}</span></h2>
