@@ -31,7 +31,7 @@ import { defaultInitialLat, defaultInitialLng, distanceMaxBase } from '../util/m
 import { ErrorCard } from '../cards/ErrorCard';
 
   const ProfilePage = ({history}) => {
-    const { authUser, authUserProfile } = useStore({})
+    const { authUser, authUserProfile } = useStore({});
     const supabase = useSupabaseClient();
     const [error, setError] = useState("");
 
@@ -39,6 +39,7 @@ import { ErrorCard } from '../cards/ErrorCard';
     const [ username, setUsername] = useState<string >('');
     const [ about, setAbout] = useState<string >('');
     const [ location, setLocation] = useState<any >();
+
 
     const [ distance, setDistance] = useState<number >();
     const [ newProfile, setNewProfile] = useState<any>();
