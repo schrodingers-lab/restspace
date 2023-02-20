@@ -11,12 +11,11 @@ import {
   IonNote,
   IonLabel,
 } from '@ionic/react';
-import Store from '../../store';
-import { getNotifications } from '../../store/selectors';
 
 import { close, closeCircleOutline, mailUnread } from 'ionicons/icons';
 import React from 'react';
 import { completeNotification, useStore } from '../../store/notifications';
+import {  useStore as useUserStore } from '../../store/user';
 import { SupabaseClient, useSupabaseClient, useUser } from '@supabase/auth-helpers-react';
 import { useRouter } from 'next/router';
 import ToggleDateDisplay from '../ui/ToggleDatesDisplay';
@@ -28,6 +27,7 @@ const Notifications = ({ open, onDidDismiss, history }) => {
   const supabaseClient = useSupabaseClient();
   const user = useUser();
   const {activeNotifications} = useStore({userId: user?.id});
+  const { authUserProfile } = useUserStore({})
 
   const doCompleteNotification = async(notification, supabase) => {
     if (notification?.id) {
@@ -94,9 +94,28 @@ const Notifications = ({ open, onDidDismiss, history }) => {
         </IonHeader>
         <IonList>
           {activeNotifications.map((notification, i) => {
-              return <NotificationItem notification={notification} supabase={supabaseClient} key={i} />
+              return (
+                <>
+                  {notification.completed == false && 
+                    <NotificationItem notification={notification} supabase={supabaseClient} key={i} />
+                  }
+                </>
+              )
             }
           )}
+
+          {(activeNotifications && activeNotifications.length == 0) && 
+            <div className="text-center">
+              <h3 className="mt-2 text-sm font-medium text-gray-900 dark:text-gray-200">No Notifications</h3>
+              {authUserProfile && !authUserProfile.longitude &&
+                <p className="mt-1 text-sm text-gray-500 dark:text-gray-300">Ensure you have your location set on your Profile.</p>
+              }
+
+              {authUserProfile && authUserProfile.longitude &&
+                <p className="mt-1 text-sm text-gray-500 dark:text-gray-300">No notifications for your area.</p>
+              }
+            </div>
+          }
         </IonList>
       </IonContent>
     </IonModal>

@@ -54,10 +54,14 @@ export const useStore = (props) => {
       .subscribe()
     // Cleanup on unmount
     return () => {
-    //  // const channels = supabase.getChannels()
-    //   supabase.removeChannel('public:messages')
-    //   supabase.removeChannel('public:chats')
-      supabase.removeAllChannels()
+
+      const channels = supabase.getChannels();
+      channels.forEach(channel => {
+        if (channel.topic === 'public:messages' || channel.topic === 'public:chats') {
+          console.log("unsubscribe channel", channel)
+          channel.unsubscribe();
+        }
+      });
     }
   }, []);
 

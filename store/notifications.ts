@@ -30,7 +30,7 @@ export const useStore = (props) => {
       .on(
         'postgres_changes',
         { event: 'UPDATE', schema: 'public', table: 'notifications' },
-        (payload) => handleUpdateNotification(payload)
+        (payload) => handleUpdateNotification(payload.new)
       )
       .subscribe()
 
@@ -74,9 +74,10 @@ export const useStore = (props) => {
       if (index !== -1) {
         // Object exists in the array, replace it
         setNotifications(notifications.splice(index, 1, updateNotification))
+        // console.log('updated', notifications)
       } else {
         // Object does not exist in the array, add it
-        setNotifications(notifications.concat(newNotification))
+        setNotifications(notifications.concat(updateNotification))
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -111,7 +112,7 @@ export const fetchNotifications = async (setState, supabase) => {
     if (setState) setState(data)
     return data
   } catch (error) {
-    console.log('error', error)
+    console.error('error', error)
   }
 }
 
@@ -126,7 +127,7 @@ export const fetchUserNotifications = async (userId, setState, supabase) => {
     if (setState) setState(data)
     return data
   } catch (error) {
-    console.log('error', error)
+    console.error('error', error)
   }
 }
 
@@ -143,7 +144,7 @@ export const completeNotification = async (notification, supabase) => {
           .update(notification).eq('id', notification.id);
     return data
   } catch (error) {
-    console.log('error', error)
+    console.error('error', error)
   }
 }
 

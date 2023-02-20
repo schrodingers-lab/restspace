@@ -79,7 +79,7 @@ import Notifications from '../modals/Notifications';
       <IonPage>
         <IonHeader>
           <IonToolbar>
-            <IonTitle>Home</IonTitle>
+            <IonTitle><img  src="/imgs/WeWatch/WeWatch_LogoStrap_orange.svg" className="h-8"/></IonTitle>
             <IonButtons slot="start">
               <IonMenuButton />
             </IonButtons>
