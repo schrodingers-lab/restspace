@@ -32,7 +32,7 @@ import * as mapboxgl from 'mapbox-gl';
 import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react';
 import IconKey from '../modals/IconKey';
 import { displayLevelColor } from '../util/display';
-import { addPopup, mapboxglAccessToken, mapboxglStyle } from '../util/mapbox';
+import { addPopup, ageInHours, hoursOfActiveIncidents, mapboxglAccessToken, mapboxglStyle } from '../util/mapbox';
 import { convertIncidentToGeoJson } from '../util/data';
 import addHours from 'date-fns/addHours';
 import { dateString } from '../util/dates';
@@ -55,8 +55,6 @@ const MapPage = ({history}) => {
 
   const [error, setError] = useState<string>();
   const [filterOpen, setFilterOpen] = useState(false);
-
-
   const [loaded, setLoaded] = useState(false);
 
   const [stolenvehicleFilter, setStolenvehicleFilter] = useState(false);
@@ -77,7 +75,7 @@ const MapPage = ({history}) => {
   const supabase = useSupabaseClient();
   const user = useUser();
 
-  const {activeNotifications} = useStore({userId: user?.id});
+  // const {activeNotifications} = useStore({});
 
   const geoSearch = async () => {
     const query = supabase
@@ -86,7 +84,7 @@ const MapPage = ({history}) => {
     // still visible
     query.eq('visible', true);
     // number of hours visible
-    // query.gt('inserted_at', dateString(addHours(new Date(),-56)));
+    query.gt('inserted_at', dateString(addHours(new Date(),-ageInHours)));
     
     if (stolenvehicleFilter){
       query.eq('stolenvehicle', true);
@@ -373,14 +371,14 @@ const MapPage = ({history}) => {
           <IonButtons slot="start">
             <IonMenuButton />
           </IonButtons>
-          <IonButtons slot="end">
+          {/* <IonButtons slot="end">
             <IonButton onClick={() => setShowNotifications(true)}>
               <IonIcon icon={notificationsOutline} />
               {activeNotifications.length > 0 && 
                 <IonBadge color="primary">{activeNotifications.length}</IonBadge>
               }
             </IonButton>
-          </IonButtons>
+          </IonButtons> */}
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>

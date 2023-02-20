@@ -14,7 +14,7 @@ export const distanceMaxBase = 2.5;
 export const distanceMaxIncident = 1.25;
 
 export const localIncidentDistance = 10000;
-
+export const ageInHours = 72;
 
 export const metersToKm = (meters) => {
     if (meters == undefined || meters == null || meters < 1) return 1;

@@ -33,7 +33,7 @@ import { dateString } from '../util/dates';
 import { useEffect } from 'react';
 import IncidentCard from '../cards/IncidentCard';
 import IncidentCardMini from '../cards/IncidentCardMini';
-import { localIncidentDistance } from '../util/mapbox';
+import { ageInHours, localIncidentDistance } from '../util/mapbox';
 import { getPagination } from '../util/data';
 import { fetchUserIncidents, fetchUserIncidentsPages, geoTimedSearchPaged } from '../../store/incident';
 import Card from '../ui/Card';
@@ -62,14 +62,14 @@ import Notifications from '../modals/Notifications';
     }
 
     const loadUserData = async () => {
-      console.log("load me")
+   
       setLoading(true);
       setLocalIncidents([]);
       setMyIncidents([]);
-      
+
       // Get User Home Base and search for incidents.
       if (authUserProfile?.longitude) {
-        const {data, error} = await geoTimedSearchPaged(authUserProfile.longitude, authUserProfile.latitude, localIncidentDistance, user.id, 10072, 0, 3, supabase) ;
+        const {data, error} = await geoTimedSearchPaged(authUserProfile.longitude, authUserProfile.latitude, localIncidentDistance, user.id, ageInHours, 0, 3, supabase) ;
         setLocalIncidents(data);
       }
 
@@ -80,7 +80,6 @@ import Notifications from '../modals/Notifications';
 
     const handleRefresh = async(event: CustomEvent<RefresherEventDetail>) => {
       setTimeout(async () => {
-       
         await loadUserData();
         event.detail.complete();
       }, 2000);
@@ -92,7 +91,6 @@ import Notifications from '../modals/Notifications';
         await loadUserData()
       }
       if (authUserProfile) {
-        console.log("load me")
         handleAsync();
       }
     }, [authUserProfile]);

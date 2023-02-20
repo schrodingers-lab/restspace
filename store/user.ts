@@ -42,7 +42,6 @@ export const useStore = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.userIds, supabase])
 
-
   useEffect( () => {
     // load auth user profile
     const handleAsync = async () => {
