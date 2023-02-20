@@ -118,7 +118,14 @@ import Notifications from '../modals/Notifications';
           <IonRefresherContent></IonRefresherContent>
         </IonRefresher>
         <Notifications open={showNotifications} history={history} onDidDismiss={() => setShowNotifications(false)} />
-       
+        <div className="flex items-center">
+            <div className="rounded-md bg-gray-50 dark:bg-gray-900 p-4 w-full">
+              <div className="flex w-full justify-between">
+                <p className="text-sm text-gray-500 w-fill">Pull this down to trigger a refresh.</p>
+              </div>
+            </div>
+          </div>  
+        
         <div className="mx-2" key="recent-incidents">
           { user && <div className="px-4 pt-4 pb-4 ">
               <h2 className="font-bold text-xl text-gray-600 dark:text-gray-100">Welcome back <span className="font-bold text-xl text-ww-secondary">{authUserProfile?.username}</span></h2>
@@ -178,6 +185,8 @@ import Notifications from '../modals/Notifications';
               </div>
             </Card>
           }
+
+
 
           </div>
         </IonContent>
