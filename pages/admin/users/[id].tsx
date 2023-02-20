@@ -3,12 +3,14 @@ import { useRouter } from 'next/router'
 import addHours from 'date-fns/addHours';
 import { useContext, useEffect, useRef, useState } from 'react'
 import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react'
-import { updateProfile, useStore } from '../../../store/user'
+import { updateProfile, UserStore,  useUserStore } from '../../../store/user'
 import Layout from '../../../components/adminchat/Layout'
 import Message from '../../../components/adminchat/Message'
 import MessageInput from '../../../components/adminchat/MessageInput'
 import { handleClientScriptLoad } from 'next/script'
 import UserProfileAvatar from '../../../components/ui/UserProfileAvatar'
+import { useStoreState } from 'pullstate';
+import * as selectors from '../../../store/selectors';
 
 const UserPage = (props) => {
   const router = useRouter();
@@ -18,7 +20,10 @@ const UserPage = (props) => {
 
   // Else load up the page
   const { id: userId } = router.query
-  const { userProfiles, authUser, authUserProfile } = useStore({ userId })
+   const authUser = useUser();
+  const {userIds} = useUserStore({userId: userId});
+  const userProfiles = useStoreState(UserStore, selectors.getUserProfiles);
+
   const [userProfile, setUserProfile] = useState<any>();
 
   const handleReturn = () => {

@@ -43,10 +43,7 @@ const ListDetail = ({ history, match }) => {
   const user = useUser();
   const {userIds} = useUserStore({userId: user?.id});
   const authUserProfile = useStoreState(UserStore, selectors.getAuthUserProfile);
-
-  // const {authUserProfile} = useStore({});
   const [files, setFiles] = useState([]);
-
 
   useEffect(() => {
     const fetchData = async() => {

@@ -18,7 +18,6 @@ import {
 import { moon } from 'ionicons/icons';
 import Store from '../../store';
 import * as selectors from '../../store/selectors';
-import { setSettings } from '../../store/actions';
 import React, { useState } from 'react';
 
 const Settings = () => {
@@ -51,22 +50,6 @@ const Settings = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        {/* <IonList>
-          <IonItem>
-            <IonLabel>Enable Notifications</IonLabel>
-            <IonToggle
-              checked={settings.enableNotifications}
-              onIonChange={e => {
-                setSettings({
-                  ...settings,
-                  enableNotifications: e.target.checked,
-                });
-              }}
-            />
-          </IonItem>
-        </IonList> */}
-
-
         <IonList>
           <IonItem>
             <IonIcon slot="start" icon={moon}/>

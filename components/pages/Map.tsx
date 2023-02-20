@@ -36,8 +36,10 @@ import { addPopup, ageInHours, mapboxglAccessToken, mapboxglStyle } from '../uti
 import { convertIncidentToGeoJson } from '../util/data';
 import addHours from 'date-fns/addHours';
 import { dateString } from '../util/dates';
-import { useStore } from '../../store/notifications';
-
+import { useStoreState } from 'pullstate';
+import { UserStore } from '../../store/user';
+import * as selectors from '../../store/selectors';
+import { NotificationStore } from '../../store/notifications';
 
 const MapPage = ({history}) => {
   const incidents = Store.useState(getIncidents);
@@ -75,7 +77,8 @@ const MapPage = ({history}) => {
   const supabase = useSupabaseClient();
   const user = useUser();
 
-  // const {activeNotifications} = useStore({});
+  const activeNotifications = useStoreState(NotificationStore, selectors.getActiveNotifications);
+
 
   const geoSearch = async () => {
     const query = supabase
@@ -371,14 +374,14 @@ const MapPage = ({history}) => {
           <IonButtons slot="start">
             <IonMenuButton />
           </IonButtons>
-          {/* <IonButtons slot="end">
+          <IonButtons slot="end">
             <IonButton onClick={() => setShowNotifications(true)}>
               <IonIcon icon={notificationsOutline} />
               {activeNotifications.length > 0 && 
                 <IonBadge color="primary">{activeNotifications.length}</IonBadge>
               }
             </IonButton>
-          </IonButtons> */}
+          </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>

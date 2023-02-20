@@ -1,8 +1,6 @@
 import { Store as PullStateStore } from 'pullstate';
 
-const incidents: any[] = [];
-const bookmarks: any[] = [];
-const activeNotifications: any[] = [];
+const incidents: any[] = [];;
 const notifications: any[] = [];
  
 const Store = new PullStateStore({
@@ -10,10 +8,8 @@ const Store = new PullStateStore({
   safeAreaBottom: 0,
   menuOpen: false,
   notificationsOpen: false,
-  activeNotifications,
   currentPage: null,
   incidents,
-  bookmarks,
   notifications,
   settings: {
     appVersion: 2.4

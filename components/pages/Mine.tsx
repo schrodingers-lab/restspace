@@ -25,14 +25,16 @@ import { useUser, useSupabaseClient } from '@supabase/auth-helpers-react'
 import NoUserCard from '../cards/NoUserCard';
 import { fetchUserIncidents } from '../../store/incident';
 import { ErrorCard } from '../cards/ErrorCard';
-import { useStore } from '../../store/notifications';
+import { NotificationStore } from '../../store/notifications';
+import { useStoreState } from 'pullstate';
+import * as selectors from '../../store/selectors';
 
 const Mine = ({history}) => {
   const [showNotifications, setShowNotifications] = useState(false);
   const [error, setError] = useState("");
   const supabaseClient = useSupabaseClient();
-  const user = useUser(); 
-  // const {activeNotifications} = useStore({userId: user?.id});
+  const user = useUser();
+  const activeNotifications = useStoreState(NotificationStore, selectors.getActiveNotifications);
   const [data, setData] = useState<any>();
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -105,14 +107,14 @@ const Mine = ({history}) => {
           <IonButtons slot="start">
             <IonMenuButton />
           </IonButtons>
-          {/* <IonButtons slot="end">
+          <IonButtons slot="end">
             <IonButton onClick={() => setShowNotifications(true)}>
               <IonIcon icon={notificationsOutline} />
               {activeNotifications.length > 0 && 
                 <IonBadge color="primary">{activeNotifications.length}</IonBadge>
               }
             </IonButton>
-          </IonButtons> */}
+          </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding" fullscreen>

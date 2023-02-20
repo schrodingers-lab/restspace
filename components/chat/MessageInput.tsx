@@ -3,14 +3,17 @@ import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react';
 import { send } from 'ionicons/icons';
 import { Fragment, useRef, useState } from 'react'
 import { addMessage } from '../../store/chat';
-import { useStore } from '../../store/user';
+import { useStoreState } from 'pullstate';
+import { useUserStore, UserStore } from '../../store/user';
+import * as selectors from '../../store/selectors';
+
 import UserProfileAvatar from '../ui/UserProfileAvatar';
 
 
 
 export default function MessageInput({chatId}) {
   
-  const {authUser } = useStore({});
+  const authUser = useUser();
   const [messageText, setMessageText] = useState('')
   const supabase = useSupabaseClient();
   const messageTextArea = useRef<HTMLTextAreaElement>(null);

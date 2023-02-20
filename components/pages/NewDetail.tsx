@@ -26,8 +26,6 @@ import NoUserCard from '../cards/NoUserCard';
 import { format, utcToZonedTime } from 'date-fns-tz';
 import { fileUrl, updateFileRelatedObject } from '../../store/file';
 
-
-import { useStore } from '../../store/user';
 import { SingleImageUploader } from '../uploader/SingleImageUploader';
 import { getRoundedTime } from '../util/dates';
 import { addChat } from '../../store/chat';
@@ -67,7 +65,7 @@ const NewDetail = ({history}) => {
 
   const [isToastOpen, setIsToastOpen] = useState<boolean>(false);
   const [toastMessage, setToastMessage] = useState<string | undefined>();
-  const {authUser} = useStore({});
+  const authUser = useUser();
 
   const [openIconKey, setOpenIconKey] = useState(false);
 

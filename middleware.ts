@@ -18,7 +18,8 @@ export async function middleware(req: NextRequest) {
   // Check auth condition
   if (session) {
     // Run queries with RLS on the server
-    const user = await fetchUser(session?.user?.id,null,supabase);
+    const {data, error} = await fetchUser(session?.user?.id,supabase);
+    const user = data;
     if (user?.admin == true) {
       // Authentication successful, forward request to protected route.
       redirect = false;

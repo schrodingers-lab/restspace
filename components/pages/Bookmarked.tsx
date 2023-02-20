@@ -24,19 +24,22 @@ import React from 'react';
 import { useUser, useSupabaseClient } from '@supabase/auth-helpers-react'
 import NoUserCard from '../cards/NoUserCard';
 import { ErrorCard } from '../cards/ErrorCard';
-import { useStore } from '../../store/notifications';
+import { useNotificationsStore, NotificationStore} from '../../store/notifications';
+import { useStoreState } from 'pullstate';
+import { useUserStore, UserStore } from '../../store/user';
 
+import * as selectors from '../../store/selectors';
 const Bookmarked = ({history}) => {
   const [showNotifications, setShowNotifications] = useState(false);
 
   const [error, setError] = useState("");
   const supabaseClient = useSupabaseClient();
   const user = useUser();
+  const {userId} = useNotificationsStore({userId: user?.id});
+  const activeNotifications = useStoreState(NotificationStore, selectors.getActiveNotifications);
 
-  // const {activeNotifications} = useStore({userId: user?.id});
   const [data, setData] = useState<any>();
   const [loading, setLoading] = useState<boolean>(false);
-
 
 
   useEffect(() => {
@@ -117,14 +120,14 @@ const Bookmarked = ({history}) => {
           <IonButtons slot="start">
             <IonMenuButton />
           </IonButtons>
-          {/* <IonButtons slot="end">
-            <IonButton onClick={() => setShowNotifications(true)}>
-              <IonIcon icon={notificationsOutline} />
-              {activeNotifications.length > 0 && 
-                <IonBadge color="primary">{activeNotifications.length}</IonBadge>
-              }
-            </IonButton>
-          </IonButtons> */}
+          <IonButtons slot="end">
+              <IonButton onClick={() => setShowNotifications(true)}>
+                <IonIcon icon={notificationsOutline} />
+                {activeNotifications.length > 0 && 
+                  <IonBadge color="primary">{activeNotifications.length}</IonBadge>
+                }
+              </IonButton>
+            </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding" fullscreen>

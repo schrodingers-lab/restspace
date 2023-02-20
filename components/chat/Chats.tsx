@@ -50,6 +50,23 @@ import { useStore } from "../../store/chat";
     
     return (
       <div>
+
+        <label className="block text-sm px-6 font-medium text-gray-700 dark:text-white"  key="recent-incident-label">
+          Public Channels
+        </label>
+  
+        <ul role="list" className="divide-y divide-gray-200">
+          {publicChats.map((chatItem) => (
+            <ChatItem chat={chatItem} key={chatItem.id} />
+          ))}
+        </ul>
+
+        <hr></hr>
+        
+        <label className="block text-sm px-6 font-medium text-gray-700 dark:text-white"  key="recent-incident-label">
+          Your Incident Channels
+        </label>
+  
         <ul role="list" className="divide-y divide-gray-200">
           {publicChats.map((chatItem) => (
             <ChatItem chat={chatItem} key={chatItem.id} />

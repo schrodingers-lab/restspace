@@ -20,27 +20,23 @@ import {
     RefresherEventDetail,
   } from '@ionic/react';
   
-  import Store from '../../store';
+
   import * as selectors from '../../store/selectors';
-  import { setSettings } from '../../store/actions';
-  import React, { use, useState } from 'react';
+  import React, { useState } from 'react';
   import { UserStore } from '../../store/user';
   import { NotificationStore, useNotificationsStore } from '../../store/notifications';
-import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react';
-import distance from '@turf/distance';
-import { addHours } from 'date-fns';
-import { dateString } from '../util/dates';
-import { useEffect } from 'react';
-import IncidentCard from '../cards/IncidentCard';
-import IncidentCardMini from '../cards/IncidentCardMini';
-import { ageInHours, localIncidentDistance } from '../util/mapbox';
-import { getPagination } from '../util/data';
-import { fetchUserIncidents, fetchUserIncidentsPages, geoTimedSearchPaged } from '../../store/incident';
-import Card from '../ui/Card';
-import NoUserCard from '../cards/NoUserCard';
-import { notificationsOutline } from 'ionicons/icons';
-import Notifications from '../modals/Notifications';
-import { useStoreState } from 'pullstate';
+  import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react';
+
+  import { useEffect } from 'react';
+  import IncidentCardMini from '../cards/IncidentCardMini';
+  import { ageInHours, localIncidentDistance } from '../util/mapbox';
+  import { getPagination } from '../util/data';
+  import { fetchUserIncidents, fetchUserIncidentsPages, geoTimedSearchPaged } from '../../store/incident';
+  import Card from '../ui/Card';
+  import NoUserCard from '../cards/NoUserCard';
+  import { notificationsOutline } from 'ionicons/icons';
+  import Notifications from '../modals/Notifications';
+  import { useStoreState } from 'pullstate';
   
   const Home = ({history}) => {
     const supabase = useSupabaseClient();
@@ -112,12 +108,12 @@ import { useStoreState } from 'pullstate';
               <IonMenuButton />
             </IonButtons>
             <IonButtons slot="end">
-            <IonButton onClick={() => setShowNotifications(true)}>
-              <IonIcon icon={notificationsOutline} />
-              {activeNotifications.length > 0 && 
-                <IonBadge color="primary">{activeNotifications.length}</IonBadge>
-              }
-            </IonButton>
+              <IonButton onClick={() => setShowNotifications(true)}>
+                <IonIcon icon={notificationsOutline} />
+                {activeNotifications.length > 0 && 
+                  <IonBadge color="primary">{activeNotifications.length}</IonBadge>
+                }
+              </IonButton>
             </IonButtons>
           </IonToolbar>
         </IonHeader>
@@ -175,10 +171,12 @@ import { useStoreState } from 'pullstate';
           {(!user && !loading) && <NoUserCard/>}
 
           <Card className="my-4 mx-auto" key="advert">
+            <a href='mailto:admin@wewatchapp.com?subject=WeWatch Advert' target='_blank' rel='noreferrer noopener'>
             <div className="px-4 pt-12 pb-4 bg-ww-secondary rounded-xl ">
               <h2 className="font-bold text-l text-gray-800 dark:text-gray-100">This is Ad Space...</h2>
               <p className="font-bold text-gray-800 dark:text-gray-100">Support us and advertise here</p>
             </div>
+            </a>
           </Card>
 
           { user &&

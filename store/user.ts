@@ -2,6 +2,9 @@ import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react'
 import { useState, useEffect } from 'react'
 import { addToNewMap, arrayToMap } from '../components/util/data'
 import { Store } from 'pullstate';
+import { enableMapSet } from 'immer';
+
+enableMapSet();
 
 export const UserStore = new Store({
   userProfiles: new Map(),
@@ -43,6 +46,7 @@ export const useUserStore = (props) => {
   useEffect( () => {
     const handleAsync = async () => {
       const result = await fetchUsers(userIds, supabase);
+      console.log("userIds", userIds, result)
       UserStore.update(s => {
         s.userProfiles = arrayToMap(result.data,'id')
       });
@@ -121,6 +125,9 @@ export const updateProfile = async (newProfile, supabase) => {
   try {
     let result = await supabase.from('users')
           .update(newProfile).eq('id', newProfile.id);
+    UserStore.update(s => {
+      s.userProfiles = s.userProfiles.set(result.newProfile.id, newProfile)
+    });
     return result
   } catch (error) {
     console.log('error', error)

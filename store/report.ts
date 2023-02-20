@@ -1,24 +1,33 @@
 import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react'
-import addHours from 'date-fns/addHours';
 import { useState, useEffect } from 'react'
-import { addToNewMap, arrayToMap, getPagination } from '../components/util/data'
-import { dateString } from '../components/util/dates';
+import { Store } from 'pullstate';
+import { addToNewMap, arrayToMap, getPagination } from '../components/util/data';
+import { enableMapSet } from 'immer';
+
+enableMapSet();
+
+export const ReportStore = new Store({
+  reports: new Map(),
+  reportIds: []
+});
 
 /**
  * @param {number} reportId load user profile
  * @param {array[number]} reportIds load users profile
  */
-export const useStore = (props) => {
+export const useReportsStore = (props) => {
   const authUser = useUser();
   const supabase = useSupabaseClient();
   const [reportIds, setReportIds] = useState([])
-  const [reports, setReports] = useState(new Map())
 
   // Update when the props changes (effect to listen for [props.reportId])
   useEffect(() => {
     const handleAsync = async () => {
       // return new map to trigger consumer hooks
-      return await fetchReport(props.reportId, (report) => { setReports(addToNewMap(reports, report.id, report))}, supabase);
+      const result =  await fetchReport(props.reportId, supabase);
+      ReportStore.update(s => {
+        s.reports = arrayToMap(result.data,'id')
+      });
     }
     
     if (props?.reportId?.length > 0) {
@@ -35,7 +44,10 @@ export const useStore = (props) => {
 
   useEffect( () => {
     const handleAsync = async () => {
-      return await fetchReports(props.reportIds, (reports) => setReports(arrayToMap(reports,'id')), supabase);
+      const result =  await fetchReports(props.reportIds, supabase);
+      ReportStore.update(s => {
+        s.reports = arrayToMap(result.data,'id')
+      });
     }
     if (props.reportIds && props.reportIds.length > 0){
       handleAsync();
@@ -43,27 +55,7 @@ export const useStore = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.reportIds, supabase])
 
-
-//   useEffect( () => {
-//     // load auth user profile
-//     const handleAsync = async () => {
-//       return await fetchUserReports(authUser.id, (reports) => setUserReports(reports)), supabase);
-//     }
-
-//     // check if authuser and profile
-//     if (authUser){
-//       // load from supabase
-//       handleAsync();
-//     } else{
-//       // clear profile
-//       setAuthUserProfile(undefined);
-//     }
-    
-//   }, [authUser, supabase])
-
   return {
-    // We can export computed values here to map the authors to each message
-    reports,
     reportIds,
   }
 }
@@ -85,7 +77,9 @@ export const fetchUserReportsPaged = async (userId, setState, page=0, pageSize=1
     try {
       const { from, to } = getPagination(page, pageSize);
       let result= await supabase.from('reports').select(`*`).eq('user_id', userId).range(from, to);
-      
+      ReportStore.update(s => {
+        s.reports = arrayToMap(result.data,'id')
+      });
       return result
     } catch (error) {
       console.log('error', error)
@@ -97,27 +91,27 @@ export const fetchUserReportsPaged = async (userId, setState, page=0, pageSize=1
  * @param {array} reportIds
  * @param {function} setState Optionally pass in a hook or callback to set the state
  */
-export const fetchReports = async (reportIds, setState, supabase) => {
+export const fetchReports = async (reportIds,  supabase) => {
   try {
     const result = await supabase.from('reports').select(`*`).in('id', reportIds)
-    if (setState) setState(result.data)
+    ReportStore.update(s => {
+      s.reports = arrayToMap(result.data,'id')
+    });
     return result
   } catch (error) {
-    console.log('error', error)
+    console.error('error', error)
   }
 }
 
-export const fetchReport = async (reportId, setState, supabase) => {
+export const fetchReport = async (reportId,  supabase) => {
     try {
-      const { data, error } = await supabase.from('reports').select(`*`).eq('id', reportId)
-      let report;
-      if(data[0]) {
-        report = data[0];
-        if (setState) setState(report);
-      }
-      return { report, error }
+      const { data, error } = await supabase.from('reports').select(`*`).eq('id', reportId).single();
+      ReportStore.update(s => {
+        s.reports = s.reports.set(data.id, data)
+      });
+      return { data, error }
     } catch (error) {
-      console.log('error', error)
+      console.error('error', error)
     }
   }
 
@@ -130,6 +124,9 @@ export const updateReport = async (report, supabase) => {
   try {
     const result = await supabase.from('reports')
           .update(report).eq('id', report.id);
+    ReportStore.update(s => {
+      s.reports = s.reports.set(result.data.id, result.data)
+    });
     return result
   } catch (error) {
     console.log('error', error)
@@ -142,8 +139,12 @@ export const updateReport = async (report, supabase) => {
  */
 export const createReport = async (reportData, supabase) => {
     try {
+      debugger;
       const result = await supabase.from('reports')
-            .insert(reportData).select();
+            .insert(reportData).select().single();
+      ReportStore.update(s => {
+        s.reports = s.reports.set(result.data.id, result.data)
+      });
       return result
     } catch (error) {
       console.error('error createReport', error)
