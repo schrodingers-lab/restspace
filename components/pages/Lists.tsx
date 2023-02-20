@@ -82,7 +82,7 @@ const Lists = ({history}) => {
       <IonContent fullscreen>
         <IonHeader collapse="condense">
           <IonToolbar>
-            <IonTitle size="large">Lists</IonTitle>
+          <IonTitle><img  src="/imgs/WeWatch/WeWatch_LogoStrap_orange.svg" className="h-8"/></IonTitle>
           </IonToolbar>
         </IonHeader>
         <IonSegment value="list">
