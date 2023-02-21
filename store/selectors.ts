@@ -4,6 +4,10 @@ const getState = state => state;
 
 export const getIncidents = createSelector(getState, state => state.incidents);
 
+export const getChats = createSelector(getState, state => state.chats);
+export const getPublicChats = createSelector(getState, state => state.chats.filter(chat =>  chat?.public));
+export const getMessages = createSelector(getState, state => state.messages);
+
 export const getSettings = createSelector(getState, state => state.settings);
 
 export const getNotifications = createSelector(getState, state => state.notifications);

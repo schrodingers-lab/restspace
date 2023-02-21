@@ -1,14 +1,21 @@
 import { IonTitle } from "@ionic/react";
 import { useUser } from "@supabase/auth-helpers-react";
 import { useEffect, useRef } from "react";
-import { useStore } from "../../store/chat";
 import NoUserCard from "../cards/NoUserCard";
 import Message from "./Message";
 import MessageInput from "./MessageInput";
+import { NotificationStore, useNotificationsStore } from '../../store/notifications';
+import { useStoreState } from 'pullstate';
+import * as selectors from '../../store/selectors';
+import { useChatStore, ChatStore } from "../../store/chat";
 
 export const Chat = ({ chatId }) => {
-  const { messages } = useStore({ chatId });
+
   const user = useUser();
+  const {userId} = useNotificationsStore({userId: user?.id});
+  const {userIds} = useChatStore({chatId: chatId});
+  const activeNotifications = useStoreState(NotificationStore, selectors.getActiveNotifications);
+  const messages = useStoreState(ChatStore, selectors.getMessages);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
 

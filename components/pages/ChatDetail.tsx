@@ -1,28 +1,15 @@
 import {
-    IonModal,
     IonHeader,
     IonToolbar,
     IonTitle,
     IonContent,
-    IonButton,
-    IonIcon,
-    IonList,
-    IonItem,
-    IonNote,
-    IonLabel,
     IonPage,
     IonButtons,
     IonBackButton,
   } from '@ionic/react';
-  import Store from '../../store';
-  import { getNotifications } from '../../store/selectors';
-  
-  import { close } from 'ionicons/icons';
-  import React, { useEffect, useState } from 'react';
-  import Chats from '../chat/Chats';
-import { useSupabaseClient } from '@supabase/auth-helpers-react';
-import { useStore } from '../../store/chat';
-import { Chat } from '../chat/Chat';
+
+  import React from 'react';
+  import { Chat } from '../chat/Chat';
   
 
   const ChatDetail = ({ match }) => {

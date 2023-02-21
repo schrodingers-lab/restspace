@@ -3,11 +3,15 @@ import { useRouter } from 'next/router'
 
 import { useContext, useEffect, useRef, useState } from 'react'
 import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react'
-import { addMessage, useStore } from '../../../store/chat'
+import { addMessage } from '../../../store/chat'
 import Layout from '../../../components/adminchat/Layout'
 import Message from '../../../components/adminchat/Message'
 import MessageInput from '../../../components/adminchat/MessageInput'
-import { handleClientScriptLoad } from 'next/script'
+import { NotificationStore, useNotificationsStore } from '../../../store/notifications';
+import { useStoreState } from 'pullstate';
+import * as selectors from '../../../store/selectors';
+import { useChatStore, ChatStore } from "../../../store/chat";
+
 
 const ChatsPage = (props) => {
   const router = useRouter();
@@ -18,7 +22,11 @@ const ChatsPage = (props) => {
 
   // Else load up the page
   const { id: chatId } = router.query
-  const { messages, chats } = useStore({ chatId })
+  const authUser = useUser();
+  const {userIds} = useChatStore({chatId: chatId});
+  const activeNotifications = useStoreState(NotificationStore, selectors.getActiveNotifications);
+  const messages = useStoreState(ChatStore, selectors.getMessages);
+  const chats = useStoreState(ChatStore, selectors.getChats);
   const [activeChat, setActiveChat] = useState<any>();
 
   // useEffect(() => {

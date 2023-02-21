@@ -20,11 +20,12 @@ export const NotificationChatItem = ({ notification, supabase, itemKey, history,
         const handleAsync = async () => {
             await setIncident(null);
             if (chat?.object_type == 'incidents' && chat?.object_id) {
-                const { incident, error } = await fetchIncident(chat.object_id, setIncident, supabase );
+                const { data, error } = await fetchIncident(chat.object_id,  supabase );
+                setIncident(data)
                 if(error){
                     setError(error.message)
                 }
-                setTitle(`#${incident.id}-${incident.name}`)
+                setTitle(`#${data.id}-${data.name}`)
                 setIcon(chatbubble)
             } else {
                 setTitle(`#${chat.id}- ${chat.slug}`)

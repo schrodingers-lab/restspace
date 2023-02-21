@@ -16,7 +16,8 @@ export const NotificationIncidentItem = ({ notification, supabase, itemKey, hist
         const handleAsync = async () => {
             await setIncident(null);
             if (notification?.object_type == 'incidents' && notification?.object_id) {
-                const { incident, error } = await fetchIncident(notification.object_id, setIncident, supabase );
+                const { data, error } = await fetchIncident(notification.object_id,  supabase );
+                setIncident(data)
                 if(error){
                     setError(error.message)
                 }

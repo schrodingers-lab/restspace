@@ -1,16 +1,23 @@
 import { useSupabaseClient } from '@supabase/auth-helpers-react'
+import { Store } from 'pullstate';
 import { useState, useEffect } from 'react'
 import { arrayToMap } from '../components/util/data'
+
+export const ChatStore = new Store({
+  userProfiles: new Map(),
+  userIds: [],
+  chats: [],
+  messages: [],
+});
 
 /**
  * @param {number} chatId the currently selected Chat
  */
-export const useStore = (props) => {
-  const [chats, setChats] = useState([])
-  const [publicChats, setPublicChats] = useState([])
-  const [messages, setMessages] = useState([])
+export const useChatStore = (props) => {
+
   const [userIds, setUserIds] = useState([])
-  const [userProfiles, setUserProfiles] = useState(new Map())
+  const messages = ChatStore.useState(s => s.messages);
+
   const [newMessage, handleNewMessage] = useState(null)
   const [newChat, handleNewChat] = useState(null)
   const [newOrUpdatedUser, handleNewOrUpdatedUser] = useState(null)
@@ -19,10 +26,18 @@ export const useStore = (props) => {
 
   const supabase = useSupabaseClient();
 
+  const chats = ChatStore.useState(s => s.chats);
+  const publicChats = ChatStore.useState(s => s.chats.filter(chat=> chat.public));
   // Load initial data and set up listeners
   useEffect(() => {
-    // Get Chats
-    fetchChats(setChats, supabase)
+
+    //Load Chats
+    fetchChats((chats) => {
+      ChatStore.update(s => {
+        s.chats = chats;
+      });
+     }, supabase);
+
     // Listen for new and deleted messages
     const messageListener = supabase
       .channel('public:messages')
@@ -67,23 +82,19 @@ export const useStore = (props) => {
 
   // Update when the route changes
   useEffect(() => {
-    if (chats) {
-      setPublicChats(chats.filter(chat => chat.public == true))
-    } else{
-      setPublicChats([]);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [chats])
-
-  // Update when the route changes
-  useEffect(() => {
     if (props?.chatId > 0) {
-      setMessages([]);
       fetchMessages(props.chatId, (messages) => {
-        setMessages(messages);
+        // setMessages(messages);
+        //Update the store
+        ChatStore.update(s => {
+          s.messages = messages;
+        });
         const userIds = messages.map(message => message.user_id);
         if(userIds?.length > 0){
             setUserIds(Array.from(new Set(userIds)));
+            ChatStore.update(s => {
+              s.userIds = Array.from(new Set(userIds));
+            });
         } else {
             setUserIds([]);
         }
@@ -98,7 +109,9 @@ export const useStore = (props) => {
       const handleAsync = async () => {
         let authorId = newMessage.user_id
         if (!userIds.includes(authorId)) await fetchUser(authorId, (user) => handleNewOrUpdatedUser(user), supabase)
-        setMessages(messages.concat(newMessage))
+        ChatStore.update(s => {
+          s.messages = messages.concat(newMessage);
+        });
       }
       handleAsync()
     }
@@ -107,19 +120,31 @@ export const useStore = (props) => {
 
   // Deleted message received from postgres
   useEffect(() => {
-    if (deletedMessage) setMessages(messages.filter((message) => message.id !== deletedMessage.id))
+    if (deletedMessage)  {
+      ChatStore.update(s => {
+        s.messages = messages.filter((message) => message.id !== deletedMessage.id )
+      });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deletedMessage])
 
   // New chat received from Postgres
   useEffect(() => {
-    if (newChat) setChats(chats.concat(newChat))
+    if (newChat) {
+      ChatStore.update(s => {
+        s.chats = chats.concat(newChat)
+      });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [newChat])
 
   // Deleted chat received from postgres
   useEffect(() => {
-    if (deletedChat) setChats(chats.filter((chat) => chat.id !== deletedChat.id))
+    if (deletedChat) {
+      ChatStore.update(s => {
+        s.chats = chats.filter((chat) => chat.id !== deletedChat.id);
+      });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deletedChat])
 
@@ -127,8 +152,11 @@ export const useStore = (props) => {
   useEffect(() => {
     if (newOrUpdatedUser) {
         if (!userIds.includes(newOrUpdatedUser.id)){
-            setUserIds(existing => [...existing, newOrUpdatedUser.id]);
-            userProfiles.set(newOrUpdatedUser.id, newOrUpdatedUser);
+             ChatStore.update(s => {
+              s.userIds = [...s.userIds, newOrUpdatedUser.id];
+              s.userProfiles = s.userProfiles.set(newOrUpdatedUser.id, newOrUpdatedUser);
+            });
+            
         }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -136,7 +164,10 @@ export const useStore = (props) => {
 
   useEffect( () => {
     const handleAsync = async () => {
-      return await fetchUsers(userIds, (users) => setUserProfiles(arrayToMap(users,'id')), supabase);
+      const result = await fetchUsers(userIds, null, supabase);
+      ChatStore.update(s => {
+        s.userProfiles = arrayToMap( result.data,'id');
+      });
     }
     if (userIds && userIds.length > 0){
       handleAsync();
@@ -144,13 +175,9 @@ export const useStore = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userIds])
 
-  
+
   return {
-    // We can export computed values here to map the authors to each message
-    messages: messages.map((x) => ({ ...x, author: userProfiles?.get(x?.user_id) })),
-    chats: chats !== null ? chats.sort((a, b) => a.slug.localeCompare(b.slug)) : [],
     userIds,
-    publicChats,
   }
 }
 
@@ -192,10 +219,9 @@ export const fetchChat = async (chatId, setState, supabase) => {
  */
 export const fetchUser = async (userId, setState, supabase) => {
   try {
-    let { data } = await supabase.from('users').select(`*`).eq('id', userId)
-    let user = data[0]
-    if (setState) setState(user)
-    return user
+    let { data, error } = await supabase.from('users').select(`*`).eq('id', userId).single()
+    if (setState) setState(data)
+    return { data, error }
   } catch (error) {
     console.log('error', error)
   }
@@ -208,10 +234,9 @@ export const fetchUser = async (userId, setState, supabase) => {
  */
 export const fetchUsers = async (userIds, setState, supabase) => {
   try {
-    const { data } = await supabase.from('users').select(`*`).in('id', userIds)
-    const users = data
-    if (setState) setState(users)
-    return users
+    const { data, error } = await supabase.from('users').select(`*`).in('id', userIds)
+    if (setState) setState(data)
+    return { data, error }
   } catch (error) {
     console.log('error', error)
   }

@@ -46,7 +46,7 @@ export const useUserStore = (props) => {
   useEffect( () => {
     const handleAsync = async () => {
       const result = await fetchUsers(userIds, supabase);
-      console.log("userIds", userIds, result)
+      // console.log("userIds", userIds, result)
       UserStore.update(s => {
         s.userProfiles = arrayToMap(result.data,'id')
       });

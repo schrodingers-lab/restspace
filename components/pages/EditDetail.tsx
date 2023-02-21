@@ -79,8 +79,8 @@ const EditDetail = ({history, match }) => {
   useEffect(() => {
     const fetchData = async() => {
       // You can await here
-      const { incident, error} = await fetchIncident(incidentId, null, supabase);
-      setIncident(incident);
+      const { data, error} = await fetchIncident(incidentId, supabase);
+      setIncident(data);
       loadFiles();
       resetData();
     }

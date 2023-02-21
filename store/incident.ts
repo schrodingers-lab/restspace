@@ -3,7 +3,15 @@ import addHours from 'date-fns/addHours';
 import { useState, useEffect } from 'react'
 import { addToNewMap, arrayToMap, getPagination } from '../components/util/data'
 import { dateString } from '../components/util/dates';
+import { Store } from 'pullstate';
+import { enableMapSet } from 'immer';
 
+enableMapSet();
+
+export const IncidentStore = new Store({
+  incidents: new Map(),
+  incidentIds: []
+});
 /**
  * @param {number} incidentId load user profile
  * @param {array[number]} incidentIds load users profile
@@ -12,13 +20,12 @@ export const useStore = (props) => {
   const authUser = useUser();
   const supabase = useSupabaseClient();
   const [incidentIds, setIncidentIds] = useState([])
-  const [incidents, setIncidents] = useState(new Map())
 
   // Update when the props changes (effect to listen for [props.incidentId])
   useEffect(() => {
     const handleAsync = async () => {
       // return new map to trigger consumer hooks
-      return await fetchIncident(props.incidentId, (incident) => { setIncidents(addToNewMap(incidents, incident.id, incident))}, supabase);
+      return await fetchIncident(props.incidentId, supabase);
     }
     
     if (props?.incidentId?.length > 0) {
@@ -35,7 +42,8 @@ export const useStore = (props) => {
 
   useEffect( () => {
     const handleAsync = async () => {
-      return await fetchIncidents(props.incidentIds, (incidents) => setIncidents(arrayToMap(incidents,'id')), supabase);
+      const result =  await fetchIncidents(props.incidentIds, supabase);
+      return result;
     }
     if (props.incidentIds && props.incidentIds.length > 0){
       handleAsync();
@@ -43,27 +51,7 @@ export const useStore = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.incidentIds, supabase])
 
-
-//   useEffect( () => {
-//     // load auth user profile
-//     const handleAsync = async () => {
-//       return await fetchUserIncidents(authUser.id, (incidents) => setUserIncidents(incidents)), supabase);
-//     }
-
-//     // check if authuser and profile
-//     if (authUser){
-//       // load from supabase
-//       handleAsync();
-//     } else{
-//       // clear profile
-//       setAuthUserProfile(undefined);
-//     }
-    
-//   }, [authUser, supabase])
-
   return {
-    // We can export computed values here to map the authors to each message
-    incidents,
     incidentIds,
   }
 }
@@ -97,25 +85,25 @@ export const fetchUserIncidentsPages = async (userId, setState, page=0, pageSize
  * @param {array} incidentIds
  * @param {function} setState Optionally pass in a hook or callback to set the state
  */
-export const fetchIncidents = async (incidentIds, setState, supabase) => {
+export const fetchIncidents = async (incidentIds, supabase) => {
   try {
     const result = await supabase.from('incidents').select(`*`).in('id', incidentIds)
-    if (setState) setState(result.data)
+    IncidentStore.update(s => {
+      s.incidents = arrayToMap(result.data,'id')
+    });
     return result
   } catch (error) {
     console.log('error', error)
   }
 }
 
-export const fetchIncident = async (incidentId, setState, supabase) => {
+export const fetchIncident = async (incidentId, supabase) => {
     try {
-      const { data, error } = await supabase.from('incidents').select(`*`).eq('id', incidentId)
-      let incident;
-      if(data[0]) {
-        incident = data[0];
-        if (setState) setState(incident);
-      }
-      return { incident, error }
+      const result = await supabase.from('incidents').select(`*`).eq('id', incidentId).single();
+      IncidentStore.update(s => {
+        s.incidents = s.incidents.set(incidentId, result.data);
+      });
+      return result
     } catch (error) {
       console.log('error', error)
     }
@@ -130,6 +118,9 @@ export const updateIncident = async (incident, supabase) => {
   try {
     const result = await supabase.from('incidents')
           .update(incident).eq('id', incident.id);
+    IncidentStore.update(s => {
+      s.incidents = s.incidents.set(incident.id, result.data);
+    });
     return result
   } catch (error) {
     console.log('error', error)
@@ -143,8 +134,8 @@ export const geoTimedSearch = async (lng, lat, distance, caller_id, ageInHours=7
 
     query.eq('visible', true);
     // number of hours visible
-    // query.gt('inserted_at', dateString(addHours(new Date(), -ageInHours)));
-    debugger;
+    query.gt('inserted_at', dateString(addHours(new Date(), -ageInHours)));
+
     
     // temporary-order-creation (not incidented_at, so we see newest, top for clicking)
     const result = await query.select("*").order('inserted_at',{ascending: false});

@@ -1,6 +1,9 @@
 import { IonItem } from "@ionic/react";
-import { useStore } from "../../store/chat";
-
+import { NotificationStore, useNotificationsStore } from '../../store/notifications';
+import { useStoreState } from 'pullstate';
+import * as selectors from '../../store/selectors';
+import { ChatStore, useChatStore } from "../../store/chat";
+import { useUser } from "@supabase/auth-helpers-react";
 
   const ChatItem = ({ chat }) => (
     <IonItem key={chat.id} className="py-4" routerLink={'/tabs/chats/'+chat.id} routerDirection="none" detail={false} lines="none">
@@ -45,8 +48,12 @@ import { useStore } from "../../store/chat";
   
   
   export default function Chats() {
-
-    const { publicChats } = useStore({})
+    const user = useUser();
+    const {userId} = useNotificationsStore({userId: user?.id});
+    const {userIds} = useChatStore({});
+    const activeNotifications = useStoreState(NotificationStore, selectors.getActiveNotifications);
+    const publicChats = useStoreState(ChatStore, selectors.getPublicChats);
+  
     
     return (
       <div>
