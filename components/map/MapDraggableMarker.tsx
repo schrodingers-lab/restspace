@@ -180,6 +180,12 @@ export const MapDraggableMarker = ({initialLat=defaultInitialLat, initialLng=def
         getCurrentLocation();
       }, []);
 
+
+      map.current?.on('render', function () {
+        // Resize to fill space
+        map.current.resize();
+      });
+
     return (
         <div className="area-map-section h-64">
              
