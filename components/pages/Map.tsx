@@ -33,7 +33,7 @@ import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react';
 import IconKey from '../modals/IconKey';
 import { displayLevelColor } from '../util/display';
 import { addPopup, ageInHours, mapboxglAccessToken, mapboxglStyle } from '../util/mapbox';
-import { convertIncidentToGeoJson } from '../util/data';
+import { arrayToMap, convertIncidentToGeoJson } from '../util/data';
 import addHours from 'date-fns/addHours';
 import { dateString } from '../util/dates';
 import { useStoreState } from 'pullstate';
@@ -124,7 +124,7 @@ const MapPage = ({history}) => {
     }
 
     IncidentStore.update(s => {
-      s.incidents = data ? data : [];
+      s.incidents = data ? arrayToMap(data,'id') : new Map();
     });
     console.log("Store.update incidents", data);
   }
