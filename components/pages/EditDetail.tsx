@@ -35,13 +35,14 @@ import MapDraggableMarker from '../map/MapDraggableMarker';
 import { distanceMaxIncident } from '../util/mapbox';
 import { generateRandomName } from '../util/data';
 import { useRouter } from 'next/router';
-import { fetchIncident } from '../../store/incident';
+import { fetchIncident, updateIncident } from '../../store/incident';
 import { ErrorCard } from '../cards/ErrorCard';
 
 const EditDetail = ({history, match }) => {
   const {
     params: { incidentId },
   } = match;
+
   const router = useRouter();
   const supabase = useSupabaseClient();
   const [error, setError] = useState("");
@@ -78,7 +79,6 @@ const EditDetail = ({history, match }) => {
 
   useEffect(() => {
     const fetchData = async() => {
-      // You can await here
       const { data, error} = await fetchIncident(incidentId, supabase);
       setIncident(data);
       loadFiles();
@@ -199,8 +199,7 @@ const EditDetail = ({history, match }) => {
     }
 
     const insertData = createNewIncident();
-    const {data, error} = await supabase.from('incidents')
-    .insert(insertData).select();
+    const {data, error} = await updateIncident(insertData, supabase);
 
     if(error){
       setError(error.message);
@@ -218,12 +217,10 @@ const EditDetail = ({history, match }) => {
         }
       });
 
-      // Create a new Chat for an incident
-      const slug = `incident-${newId}`;
-      const res = addChat(slug, authUser.id, false, true, 'incidents', newId, supabase);
+
    
       //Notify User
-      setToastMessage("Created incident #"+newId);
+      setToastMessage("Updated incident #"+newId);
       setIsToastOpen(true);
 
       //Reset State for next incidnet
@@ -340,11 +337,6 @@ const EditDetail = ({history, match }) => {
         { authUser && 
           <form className="space-y-8 divide-y divide-gray-200 px-4 my-8" onSubmit={handleSubmit}>
             <div className="space-y-8 divide-y divide-gray-200">
-              <div className='header-section'>
-                <p className="mt-1 text-sm text-gray-500 dark:text-gray-300">
-                  This information will be displayed publicly so be careful what you share.
-                </p>
-              </div>
 
               <div className="mt-8 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
                 <div className="sm:col-span-6">
