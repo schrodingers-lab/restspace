@@ -183,14 +183,12 @@ export const useChatStore = (props) => {
 
   useEffect( () => {
     const handleAsync = async () => {
-      debugger;
       const result = await fetchUsers(userIds, null, supabase);
       ChatStore.update(s => {
         s.authors = arrayToMap( result.data,'id');
       });
     }
     if (userIds && userIds.length > 0){
-      debugger;
       handleAsync();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
