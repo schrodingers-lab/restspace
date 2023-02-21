@@ -51,7 +51,7 @@ const EditDetail = ({history, match }) => {
   const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
   const [files, setFiles] = useState<any[]>([]);
   const [coverImageUrl, setCoverImageUrl] = useState<string | undefined>();
-  const [stolenvehicle, setStolenvehicle] = useState();
+  const [stolenvehicle, setStolenvehicle] = useState(false);
   const [breakenter, setBreakenter] = useState(false);
   const [propertydamage, setPropertydamage] = useState(false);
   const [violencethreat, setViolencethreat] = useState(false);
