@@ -81,7 +81,6 @@ const EditDetail = ({history, match }) => {
   useEffect(() => {
     const fetchData = async() => {
       if(incidentId && supabase){
-        debugger;
         const result = await fetchIncident(incidentId, supabase);
         setIncident(result?.data);
         loadFiles(incidentId);
@@ -219,14 +218,14 @@ const EditDetail = ({history, match }) => {
     }
 
     const updatedIncidentData = recreatIncident();
-    const {data, error} = await updateIncident(updatedIncidentData, supabase);
+    const result = await updateIncident(updatedIncidentData, supabase);
     //Update the incident in the store
     IncidentStore.update(s => {
       s.incidents = s.incidents.set(updatedIncidentData.id, updatedIncidentData);
     });
 
-    if(error){
-      setError(error.message);
+    if(result?.error){
+      setError(result?.error);
     } else{
     
       //Notify User

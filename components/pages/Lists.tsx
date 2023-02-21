@@ -24,9 +24,9 @@ import { displayCoverImage } from '../util/display';
 import CategoriesIcons from '../ui/CategoriesIcons';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 import { useStoreState } from 'pullstate';
-import { UserStore } from '../../store/user';
 import * as selectors from '../../store/selectors';
 import { NotificationStore, useNotificationsStore } from '../../store/notifications';
+import { IncidentStore } from '../../store/incident';
 import { notificationsOutline } from 'ionicons/icons';
 import Notifications from '../modals/Notifications';
 import { useUser } from '@supabase/auth-helpers-react';
@@ -48,7 +48,7 @@ export const ListEntry = ({ incident, ...props }) => {
 )};
 
 const AllLists = () => {
-  let incidents = Store.useState(selectors.getIncidents);
+  const incidents = useStoreState(IncidentStore, selectors.getIncidents);
 
   console.log("incidents",incidents);
   return (

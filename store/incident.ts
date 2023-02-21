@@ -19,13 +19,20 @@ export const IncidentStore = new Store({
 export const useStore = (props) => {
   const authUser = useUser();
   const supabase = useSupabaseClient();
+
+  const incidents = IncidentStore.useState(s => s.incidents);
   const [incidentIds, setIncidentIds] = useState([])
 
   // Update when the props changes (effect to listen for [props.incidentId])
   useEffect(() => {
     const handleAsync = async () => {
       // return new map to trigger consumer hooks
-      return await fetchIncident(props.incidentId, supabase);
+      const result = await fetchIncident(props.incidentId, supabase);
+      if(incidents.has(props.incidentId)){
+        IncidentStore.update(s => {
+          s.incidents =  s.incidents.set(props.incidentId, result.data);
+        })
+      }
     }
     
     if (props?.incidentId?.length > 0) {
@@ -100,9 +107,6 @@ export const fetchIncidents = async (incidentIds, supabase) => {
 export const fetchIncident = async (incidentId, supabase) => {
     try {
       const result = await supabase.from('incidents').select(`*`).eq('id', incidentId).single();
-      IncidentStore.update(s => {
-        s.incidents = s.incidents.set(incidentId, result.data);
-      });
       return result
     } catch (error) {
       console.log('error', error)
