@@ -45,7 +45,6 @@ const ListDetail = ({ history, match }) => {
   const authUserProfile = useStoreState(UserStore, selectors.getAuthUserProfile);
   const [files, setFiles] = useState([]);
 
-
   useEffect(() => {
     const fetchData = async() => {
       // You can await here
@@ -171,6 +170,8 @@ const ListDetail = ({ history, match }) => {
     history.push('/tabs/incident/edit/'+incidentId);
   }
 
+
+
   return (
     <IonPage>
       <IonHeader>
@@ -213,7 +214,7 @@ const ListDetail = ({ history, match }) => {
         }
           
           {selectedIncident && <IncidentDetail incident={selectedIncident}  files={files} supabase={supabase}/>}
-          
+         
       </IonContent>
     </IonPage>
   );
