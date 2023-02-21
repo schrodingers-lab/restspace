@@ -61,8 +61,8 @@ const EditDetail = ({history, match }) => {
   const [suspicious, setSuspicious] = useState(false);
   const [unfamiliar, setUnfamiliar] = useState(false);
 
-  const [name, setName] = useState<string>(generateRandomName());
-  const [about, setAbout] = useState<string>('');
+  const [name, setName] = useState<string>();
+  const [about, setAbout] = useState<string>();
   const [whenStr, setWhenStr] = useState<string>();
 
   const [lng, setLng] = useState();
@@ -86,7 +86,7 @@ const EditDetail = ({history, match }) => {
     }
     fetchData();
     
-  }, [incidentId]);
+  }, []);
 
   const loadFiles =  async() => {
     const { data, error } = await supabase.from('files')
@@ -165,7 +165,7 @@ const EditDetail = ({history, match }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setError('');
-
+    debugger
     //Check that we have some categories
     if ( !stolenvehicle &&
       !breakenter &&
@@ -198,20 +198,19 @@ const EditDetail = ({history, match }) => {
       }
     }
 
-    const insertData = createNewIncident();
-    const {data, error} = await updateIncident(insertData, supabase);
+    const updatedIncidentData = recreatIncident();
+    const {data, error} = await updateIncident(updatedIncidentData, supabase);
 
     if(error){
       setError(error.message);
     } else{
     
-      console.log("created - ",data)
-      const newId = data[0].id;
-
+      console.log("updated - ",data)
+    
       // Update uploaded files to reference the newly created active files.
       files.forEach(async (file) => {
         console.log('update file',file);
-        const fileRes = await updateFileRelatedObject(file.id, 'incidents', newId, supabase);
+        const fileRes = await updateFileRelatedObject(file.id, 'incidents', incidentId, supabase);
         if (fileRes?.error){
           console.error("failed to update files")
         }
@@ -220,14 +219,14 @@ const EditDetail = ({history, match }) => {
 
    
       //Notify User
-      setToastMessage("Updated incident #"+newId);
+      setToastMessage("Updated incident #"+incidentId);
       setIsToastOpen(true);
 
-      //Reset State for next incidnet
+      //Reset State for next incident
       resetData();
 
       // Go to detail page
-      history.push('/tabs/incidents/'+newId);
+      history.push('/tabs/incidents/'+incidentId);
     }
   }
 
@@ -251,13 +250,14 @@ const EditDetail = ({history, match }) => {
     }
   }
 
-  const createNewIncident = () => {
+  const recreatIncident = () => {
     let cover_image_url;
     if (files && files.length > 0){
       cover_image_url = fileUrl(files[0]);
     }
 
     let incident = {
+      id: incidentId,
       name: name,
       about: about,
       user_id: authUser.id,
