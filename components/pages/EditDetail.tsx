@@ -35,8 +35,9 @@ import MapDraggableMarker from '../map/MapDraggableMarker';
 import { distanceMaxIncident } from '../util/mapbox';
 import { generateRandomName } from '../util/data';
 import { useRouter } from 'next/router';
-import { fetchIncident, updateIncident } from '../../store/incident';
+import { fetchIncident, IncidentStore, updateIncident } from '../../store/incident';
 import { ErrorCard } from '../cards/ErrorCard';
+import { NotificationStore } from '../../store/notifications';
 
 const EditDetail = ({history, match }) => {
   const {
@@ -79,16 +80,31 @@ const EditDetail = ({history, match }) => {
 
   useEffect(() => {
     const fetchData = async() => {
-      const { data, error} = await fetchIncident(incidentId, supabase);
-      setIncident(data);
-      loadFiles();
-      resetData();
+      if(incidentId && supabase){
+        const { data, error} = await fetchIncident(incidentId, supabase);
+        setIncident(data);
+        loadFiles(incidentId);
+        resetData(data);
+      }
     }
     fetchData();
     
   }, []);
 
-  const loadFiles =  async() => {
+  useEffect(() => {
+    const fetchData = async() => {
+      if(incidentId && supabase){
+        const { data, error} = await fetchIncident(incidentId, supabase);
+        setIncident(data);
+        loadFiles(incidentId);
+        resetData(data);
+      }
+    }
+    fetchData();
+    
+  }, [incidentId, supabase]);
+
+  const loadFiles =  async(incidentId) => {
     const { data, error } = await supabase.from('files')
           .select('*')
           .eq('object_type', 'incidents')
@@ -165,7 +181,7 @@ const EditDetail = ({history, match }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setError('');
-    debugger
+
     //Check that we have some categories
     if ( !stolenvehicle &&
       !breakenter &&
@@ -200,6 +216,10 @@ const EditDetail = ({history, match }) => {
 
     const updatedIncidentData = recreatIncident();
     const {data, error} = await updateIncident(updatedIncidentData, supabase);
+    //Update the incident in the store
+    IncidentStore.update(s => {
+      s.incidents = s.incidents.set(updatedIncidentData.id, updatedIncidentData);
+    });
 
     if(error){
       setError(error.message);
@@ -223,7 +243,7 @@ const EditDetail = ({history, match }) => {
       setIsToastOpen(true);
 
       //Reset State for next incident
-      resetData();
+      // resetData();
 
       // Go to detail page
       history.push('/tabs/incidents/'+incidentId);
@@ -231,7 +251,7 @@ const EditDetail = ({history, match }) => {
   }
 
 
-  const resetData = () =>{
+  const resetData = (incident) =>{
     if(incident){
       setName(incident.name);
       setAbout(incident.about);
@@ -285,15 +305,6 @@ const EditDetail = ({history, match }) => {
     
     return incident;
   }
-
-
-
-  useEffect(() => {   
-    // setWhenStr(getCurrentDateStr); 
-    resetData();
-  },[]);
-
-
 
   const RenderImage: React.FC<any> = ({file}) => {
     const removeFile = () => {
