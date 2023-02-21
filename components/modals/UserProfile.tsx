@@ -55,24 +55,8 @@ import Report from './Report';
                 </div>
               </div>
             </div>
-            {/* <div className="mt-3 py-10 text-center sm:mt-5 relative">
-              <IonFab horizontal="center" vertical="bottom" slot="fixed" >
-              <IonFabButton
-                onClick={() => {
-                  // setOpenReport(!openReport)
-                  setOpenReport(true);
-                  debugger;
-                  console.log('ff')
-                }}
-                size="small"
-                color={"medium"}
-              >
-                <IonIcon icon={flag} size="small"/>
-              </IonFabButton>
-              </IonFab>
-            </div> */}
 
-            </div>
+          </div>
         </IonContent>
 
       </IonModal>

@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 import UserProfile from '../modals/UserProfile';
 import { FabUgcMessageActions } from '../cards/FabUgcMessageActions';
 
-export const Message = ({ message }) => {
+export const Message = ({ message, author }) => {
   const user = useUser();
   const [open, setOpen] = useState(false);
   const [isMyMessage, setIsMyMessage] = useState(false);
@@ -43,15 +43,15 @@ export const Message = ({ message }) => {
       return (
         <>
         <div className="flex-shrink-0" onClick={toggleUserModal}>
-            <UserProfileAvatar userProfile={message?.author} /><br/>
-            <UserProfile open={open} onDidDismiss={onDidDismiss} userProfile={message?.author} />
+            <UserProfileAvatar userProfile={author} /><br/>
+            <UserProfile open={open} onDidDismiss={onDidDismiss} userProfile={author} />
         </div>
         <div className="min-w-0 flex-1" onClick={toggleFab}>
             <p className="text-sm text-gray-800">{message.text}</p>
             <p className="text-sm text-white pt-2">{formatDistanceToNow(new Date(message.inserted_at),{addSuffix: true})}</p>
         </div>    
         {!isMyMessage && isActionsVisible &&
-          <FabUgcMessageActions message={message} creator={message?.author}  />
+          <FabUgcMessageActions message={message} creator={author}  />
         }
         </>
       )

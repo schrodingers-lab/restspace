@@ -4,8 +4,6 @@ import type { NextRequest } from 'next/server'
 import { fetchUser } from './store/user'
 
 export async function middleware(req: NextRequest) {
-  debugger;
-  // console.log("middleware me, req:",req)
   // We need to create a response and hand it to the supabase client to be able to modify the response headers.
   const res = NextResponse.next()
   // Create authenticated Supabase Client.

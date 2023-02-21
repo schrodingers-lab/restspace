@@ -139,7 +139,6 @@ export const updateReport = async (report, supabase) => {
  */
 export const createReport = async (reportData, supabase) => {
     try {
-      debugger;
       const result = await supabase.from('reports')
             .insert(reportData).select().single();
       ReportStore.update(s => {

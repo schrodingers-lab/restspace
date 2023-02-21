@@ -16,6 +16,7 @@ export const Chat = ({ chatId }) => {
   const {userIds} = useChatStore({chatId: chatId});
   const activeNotifications = useStoreState(NotificationStore, selectors.getActiveNotifications);
   const messages = useStoreState(ChatStore, selectors.getMessages);
+  const authors = useStoreState(ChatStore, selectors.getAuthors);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -40,7 +41,7 @@ export const Chat = ({ chatId }) => {
       {chatId && user &&
         <div className="mx-2">
           <ul>
-            {messages && messages.length > 0 && messages.map((message) => <Message message={message} key={message.id} />)}
+            {messages && messages.length > 0 && messages.map((message) => <Message message={message} author={authors?.get(message?.user_id)} key={message.id} />)}
             {messages && messages.length == 0 && 
               <div className="flex items-center justify-center border-dotted border-2 m-4 pb-2 rounded-md">
                 <span className="mt-2 block text-sm font-medium text-gray-900 dark:text-gray-200">Start the Conversation</span>

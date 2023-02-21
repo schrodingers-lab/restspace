@@ -1,7 +1,7 @@
 import { Redirect, Route } from 'react-router-dom';
 import { IonRouterOutlet, IonTabs, IonTabBar, IonTabButton, IonIcon, IonLabel, IonToast, IonContent, IonPopover } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { person, bookmark, map, chatbox, add, home  } from 'ionicons/icons';
+import { person, bookmark, map, chatbox, add, home, chatbubbles  } from 'ionicons/icons';
 import Bookmarked from './Bookmarked';
 import Map from './Map';
 import Lists from './Lists';
@@ -58,7 +58,7 @@ const Tabs = () => {
           <IonLabel>Home</IonLabel>
         </IonTabButton>
         <IonTabButton tab="tab2" href="/tabs/chats">
-          <IonIcon icon={chatbox} />
+          <IonIcon icon={chatbubbles} />
           <IonLabel>Messages</IonLabel>
         </IonTabButton>
         <IonTabButton tab="tab3" href="/tabs/new">

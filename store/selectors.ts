@@ -6,7 +6,9 @@ export const getIncidents = createSelector(getState, state => state.incidents);
 
 export const getChats = createSelector(getState, state => state.chats);
 export const getPublicChats = createSelector(getState, state => state.chats.filter(chat =>  chat?.public));
+export const getMembershipChats = createSelector(getState, state => state.membershipChats);
 export const getMessages = createSelector(getState, state => state.messages);
+export const getAuthors = createSelector(getState, state => state.authors);
 
 export const getSettings = createSelector(getState, state => state.settings);
 

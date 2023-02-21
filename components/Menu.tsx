@@ -12,7 +12,7 @@ import {
   IonToolbar,
 } from '@ionic/react';
 import { useEffect, useState } from 'react';
-import { cog, bookmark, map,home, list, logOut, logIn, newspaper, person, earthOutline, construct, chatboxEllipses, chatbox, create } from 'ionicons/icons';
+import { cog, bookmark, map,home, list, logOut, logIn, newspaper, person, earthOutline, construct, chatbubbles, chatbox, create } from 'ionicons/icons';
 
 import { useUser, useSupabaseClient } from '@supabase/auth-helpers-react'
 import { useRouter } from 'next/router';
@@ -50,7 +50,7 @@ const pages = [
   }, 
   {
     title: 'Messages',
-    icon: chatbox,
+    icon: chatbubbles,
     url: '/tabs/chats',
   }, 
   {
@@ -116,7 +116,7 @@ const Menu = () => {
           <IonTitle>WeWatch</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent>
+      <IonContent >
         <IonList>
           { user &&
             <IonMenuToggle autoHide={false} key='user'>

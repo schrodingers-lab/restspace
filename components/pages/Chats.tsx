@@ -22,13 +22,13 @@ import {
             <IonButtons slot="start">
               <IonMenuButton />
             </IonButtons>
-            <IonTitle>Chats</IonTitle>
+            <IonTitle>Messages</IonTitle>
           </IonToolbar>
         </IonHeader>
         <IonContent fullscreen>
           <IonHeader collapse="condense">
             <IonToolbar>
-              <IonTitle size="large">Chats</IonTitle>
+              <IonTitle size="large">Messages</IonTitle>
             </IonToolbar>
           </IonHeader>
             <Chats/>

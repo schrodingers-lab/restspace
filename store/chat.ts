@@ -4,7 +4,8 @@ import { useState, useEffect } from 'react'
 import { arrayToMap } from '../components/util/data'
 
 export const ChatStore = new Store({
-  userProfiles: new Map(),
+  authors: new Map(),
+  membershipChats: [],
   userIds: [],
   chats: [],
   messages: [],
@@ -84,16 +85,16 @@ export const useChatStore = (props) => {
   useEffect(() => {
     if (props?.chatId > 0) {
       fetchMessages(props.chatId, (messages) => {
-        // setMessages(messages);
         //Update the store
         ChatStore.update(s => {
           s.messages = messages;
         });
         const userIds = messages.map(message => message.user_id);
         if(userIds?.length > 0){
-            setUserIds(Array.from(new Set(userIds)));
+            const _userIds = Array.from(new Set(userIds));
+            setUserIds(_userIds);
             ChatStore.update(s => {
-              s.userIds = Array.from(new Set(userIds));
+              s.userIds = _userIds;
             });
         } else {
             setUserIds([]);
@@ -102,6 +103,24 @@ export const useChatStore = (props) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.chatId])
+
+
+
+  // Update when the route changes
+  useEffect(() => {
+    const handleAsync = async () => {
+      const result = await fetchUserChatMemberships(props.userId,null, supabase);
+      ChatStore.update(s => {
+        s.membershipChats = result.data;
+      });
+      return result
+    }
+
+    if (props?.userId?.length > 0) {
+      handleAsync()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.userId])
 
   // New message received from Postgres
   useEffect(() => {
@@ -154,7 +173,7 @@ export const useChatStore = (props) => {
         if (!userIds.includes(newOrUpdatedUser.id)){
              ChatStore.update(s => {
               s.userIds = [...s.userIds, newOrUpdatedUser.id];
-              s.userProfiles = s.userProfiles.set(newOrUpdatedUser.id, newOrUpdatedUser);
+              s.authors = s.authors.set(newOrUpdatedUser.id, newOrUpdatedUser);
             });
             
         }
@@ -164,12 +183,14 @@ export const useChatStore = (props) => {
 
   useEffect( () => {
     const handleAsync = async () => {
+      debugger;
       const result = await fetchUsers(userIds, null, supabase);
       ChatStore.update(s => {
-        s.userProfiles = arrayToMap( result.data,'id');
+        s.authors = arrayToMap( result.data,'id');
       });
     }
     if (userIds && userIds.length > 0){
+      debugger;
       handleAsync();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -248,7 +269,6 @@ export const findObjectChat = async (object_type, object_id, setState, supabase)
   return data
 }
 
-
 /**
  * Fetch all messages and their authors
  * @param {number} chatId
@@ -263,6 +283,27 @@ export const fetchMessages = async (chatId, setState, supabase) => {
       .order('inserted_at')
     if (setState) setState(data)
     return data
+  } catch (error) {
+    console.log('error', error)
+  }
+}
+
+/**
+ * Fetch all messages and their authors
+ * @param {number} userId
+ * @param {function} setState Optionally pass in a hook or callback to set the state
+ */
+export const fetchUserChatMemberships = async (userId, setState, supabase) => {
+  try {
+
+    let { data, error } = await supabase
+      .from('chats')
+      .select('*, chat_members!inner(*)')
+      .eq('chat_members.user_id', userId)
+      .eq('public', false)
+      .order('inserted_at', {ascending: false})
+    if (setState) setState(data)
+    return {data, error}
   } catch (error) {
     console.log('error', error)
   }
