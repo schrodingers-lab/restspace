@@ -37,12 +37,12 @@ import { convertIncidentToGeoJson } from '../util/data';
 import addHours from 'date-fns/addHours';
 import { dateString } from '../util/dates';
 import { useStoreState } from 'pullstate';
-import { UserStore } from '../../store/user';
 import * as selectors from '../../store/selectors';
 import { NotificationStore, useNotificationsStore } from '../../store/notifications';
+import { IncidentStore } from '../../store/incident';
 
 const MapPage = ({history}) => {
-  const incidents = Store.useState(getIncidents);
+  const incidents = useStoreState(IncidentStore, selectors.getIncidents);
   const [showNotifications, setShowNotifications] = useState(false);
 
   const mapContainer = useRef<any>(null);
@@ -123,7 +123,7 @@ const MapPage = ({history}) => {
       setError(error?.message);
     }
 
-    Store.update(s => {
+    IncidentStore.update(s => {
       s.incidents = data ? data : [];
     });
     console.log("Store.update incidents", data);

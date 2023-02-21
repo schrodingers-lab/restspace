@@ -3,6 +3,7 @@ import { createSelector } from 'reselect';
 const getState = state => state;
 
 export const getIncidents = createSelector(getState, state => state.incidents);
+export const getMyIncidents = createSelector(getState, state => state.incidents.filter(incident =>  incident?.user_id === state.authUser?.id));
 
 export const getChats = createSelector(getState, state => state.chats);
 export const getPublicChats = createSelector(getState, state => state.chats.filter(chat =>  chat?.public));

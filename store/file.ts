@@ -21,6 +21,12 @@ export const updateFileRelatedObject = async (file_id, object_type, object_id, s
       return res;
 }
 
+export const hideFileRecord = async (file_id, supabase) => {
+    const res =  await supabase.from('files')
+      .update({visible: false}).eq('id', file_id);
+    return res;
+}
+
 export const fileUrl = (file) => {
     return "https://raxdwowfheboqizcxlur.supabase.co"+ file?.file_name;
 }

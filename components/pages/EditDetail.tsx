@@ -18,13 +18,13 @@ import {
 } from '@ionic/react';
 
 
-import { locate, trash, information } from 'ionicons/icons';
+import { locate, trash, information, image } from 'ionicons/icons';
 import React, { useEffect, useState } from 'react';
 import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react';
 import NoUserCard from '../cards/NoUserCard';
 
 import { format, utcToZonedTime } from 'date-fns-tz';
-import { fileUrl, updateFileRelatedObject } from '../../store/file';
+import { fileUrl, hideFileRecord, updateFileRelatedObject } from '../../store/file';
 
 
 import { SingleImageUploader } from '../uploader/SingleImageUploader';
@@ -50,8 +50,8 @@ const EditDetail = ({history, match }) => {
   // Get the time zone set on the user's device
   const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
   const [files, setFiles] = useState<any[]>([]);
-
-  const [stolenvehicle, setStolenvehicle] = useState(false);
+  const [coverImageUrl, setCoverImageUrl] = useState<string | undefined>();
+  const [stolenvehicle, setStolenvehicle] = useState();
   const [breakenter, setBreakenter] = useState(false);
   const [propertydamage, setPropertydamage] = useState(false);
   const [violencethreat, setViolencethreat] = useState(false);
@@ -81,10 +81,11 @@ const EditDetail = ({history, match }) => {
   useEffect(() => {
     const fetchData = async() => {
       if(incidentId && supabase){
-        const { data, error} = await fetchIncident(incidentId, supabase);
-        setIncident(data);
+        debugger;
+        const result = await fetchIncident(incidentId, supabase);
+        setIncident(result?.data);
         loadFiles(incidentId);
-        resetData(data);
+        resetData(result?.data);
       }
     }
     fetchData();
@@ -94,10 +95,10 @@ const EditDetail = ({history, match }) => {
   useEffect(() => {
     const fetchData = async() => {
       if(incidentId && supabase){
-        const { data, error} = await fetchIncident(incidentId, supabase);
-        setIncident(data);
+        const result = await fetchIncident(incidentId, supabase);
+        setIncident(result?.data);
         loadFiles(incidentId);
-        resetData(data);
+        resetData(result?.data);
       }
     }
     fetchData();
@@ -125,8 +126,11 @@ const EditDetail = ({history, match }) => {
     setAbout(event.target.value || '');
   }
 
-  const addFile = (newFile) => {
+  const addFile = async (newFile) => {
     setFiles(previous => [...previous, newFile]);
+    // Update the file with the incident id
+    const fileRes = await updateFileRelatedObject(newFile.id, 'incidents', incident.id, supabase);
+    
   }
 
   const handleNewIncidentDate = (ionDatetimeEvent) => {
@@ -225,25 +229,9 @@ const EditDetail = ({history, match }) => {
       setError(error.message);
     } else{
     
-      console.log("updated - ",data)
-    
-      // Update uploaded files to reference the newly created active files.
-      files.forEach(async (file) => {
-        console.log('update file',file);
-        const fileRes = await updateFileRelatedObject(file.id, 'incidents', incidentId, supabase);
-        if (fileRes?.error){
-          console.error("failed to update files")
-        }
-      });
-
-
-   
       //Notify User
       setToastMessage("Updated incident #"+incidentId);
       setIsToastOpen(true);
-
-      //Reset State for next incident
-      // resetData();
 
       // Go to detail page
       history.push('/tabs/incidents/'+incidentId);
@@ -267,16 +255,12 @@ const EditDetail = ({history, match }) => {
       setDisturbance(incident.disturbance);
       setSuspicious(incident.suspicious);
       setUnfamiliar(incident.unfamiliar);
+      setCoverImageUrl(incident.cover_image_url);
     }
   }
 
   const recreatIncident = () => {
-    let cover_image_url;
-    if (files && files.length > 0){
-      cover_image_url = fileUrl(files[0]);
-    }
-
-    let incident = {
+    let _incident = {
       id: incidentId,
       name: name,
       about: about,
@@ -300,16 +284,40 @@ const EditDetail = ({history, match }) => {
       },
       longitude: lng,
       latitude:lat,
-      cover_image_url: cover_image_url
+      cover_image_url: coverImageUrl
     };
     
-    return incident;
+    return _incident;
   }
 
   const RenderImage: React.FC<any> = ({file}) => {
-    const removeFile = () => {
+    const removeFile = async () => {
+      //Remove from visuals
       setFiles(files.filter((existFile) => existFile.id !== file.id));
+      // Update the file with the incident id
+      const fileRes = await hideFileRecord(file.id, supabase);
+      if (incident.cover_image_url == fileUrl(file)) {
+        removeCoverImage()
+      }
+
+      //Notify User
+      setToastMessage("Removed File");
+      setIsToastOpen(true);
     }
+
+    const makeCoverImage = () => {
+      setCoverImageUrl(fileUrl(file));
+
+      //Notify User
+      setToastMessage("Updated Cover Image, Save Incident to Effect");
+      setIsToastOpen(true);
+    }
+
+    const removeCoverImage = () => {
+      setCoverImageUrl(null);
+    }
+
+
     return (
       <div className="flex flex-col items-center justify-center my-2 border-2">
         
@@ -323,6 +331,16 @@ const EditDetail = ({history, match }) => {
         >
           <IonIcon icon={trash} />
         </IonButton>
+
+        <IonButton
+          fill="clear"
+          size="small"
+          className="text-white bg-gray-500 rounded-full p-2 mt-2"
+          onClick={() => makeCoverImage()}
+        >
+          <IonIcon icon={image} />
+        </IonButton>
+        
       </div>
     )
   };
