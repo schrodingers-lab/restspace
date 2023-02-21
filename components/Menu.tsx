@@ -110,7 +110,7 @@ const Menu = () => {
   // }, []);
 
   return (
-    <IonMenu side="start" contentId="main" onIonDidOpen={handleOpen} onIonDidClose={handleClose} swipeGesture={false}>
+    <IonMenu side="start" contentId="main" onIonDidOpen={handleOpen} onIonDidClose={handleClose} swipeGesture={false} >
       <IonHeader>
         <IonToolbar>
           <IonTitle>WeWatch</IonTitle>

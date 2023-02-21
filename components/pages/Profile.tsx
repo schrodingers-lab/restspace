@@ -186,6 +186,28 @@ import {
                   </div>
 
                   <div className="space-y-6 sm:space-y-5">
+
+                  <div className="sm:grid sm:grid-cols-3 sm:items-center sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
+                      <label htmlFor="photo" className="block text-sm font-medium text-gray-700 dark:text-gray-200">
+                        Avatar
+                      </label>
+                      <div className="mt-1 sm:col-span-2 sm:mt-0">
+                        <div className="flex items-center w-full justify-center">
+                          <UserProfileAvatar userProfile={newProfile} size={16}/>
+                        </div>
+                        <div className="flex items-center w-full justify-center">
+                          <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">How will you be seen in the App.</p>
+                        </div>
+                        <div className="flex items-center justify-center mt-2">
+                          <SingleImageUploader 
+                            authUser={authUser} 
+                            supabase={supabase} 
+                            addFileFnc={selectAvatarFile}/>
+                        </div>
+                      </div>
+                    </div>
+
+                    
                     <div className="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
                       <label htmlFor="username" className="block text-sm font-medium text-gray-700 dark:text-gray-300 sm:mt-px sm:pt-2">
                         Username
@@ -223,27 +245,9 @@ import {
                       </div>
                     </div>
 
-                    <div className="sm:grid sm:grid-cols-3 sm:items-center sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
-                      <label htmlFor="photo" className="block text-sm font-medium text-gray-700 dark:text-gray-200">
-                        Avatar
-                      </label>
-                      <div className="mt-1 sm:col-span-2 sm:mt-0">
-                        <div className="flex items-center w-full justify-center">
-                          <UserProfileAvatar userProfile={newProfile} size={16}/>
-                        </div>
-                        <div className="flex items-center w-full justify-center">
-                          <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">How will you be seen in the App.</p>
-                        </div>
-                        <div className="flex items-center justify-center mt-2">
-                          <SingleImageUploader 
-                            authUser={authUser} 
-                            supabase={supabase} 
-                            addFileFnc={selectAvatarFile}/>
-                        </div>
-                      </div>
-                    </div>
 
-                    <div className="sm:grid sm:grid-cols-3 sm:items-center sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
+
+                    <div className="grid grid-cols-1 sm:items-center sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
                       <label htmlFor="location" className="block text-sm font-medium text-gray-700 dark:text-gray-200">
                         Location
                       </label>
@@ -273,7 +277,7 @@ import {
                            />
                         }
                       </div>
-                      <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">Drag marker to you base location for notifications.</p>
+                      <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">Drag marker to your base location for notifications (not public).</p>
                       
                     </div>
                   </div>

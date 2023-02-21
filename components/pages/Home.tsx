@@ -46,6 +46,7 @@ import {
     const [localIncidents, setLocalIncidents] = useState([]);
     const [myIncidents, setMyIncidents] = useState([]);
     const [loading, setLoading] = useState<boolean>(false);
+    const [showRefreshTrigger, setShowRefreshTrigger] = useState<boolean>(true);
     
     const user = useUser();
     const authUserProfile = useStoreState(UserStore, selectors.getAuthUserProfile);
@@ -88,6 +89,15 @@ import {
       }, 2000);
     }
 
+    // Hide the pull trigger after 3 seconds
+    useEffect(() => {
+      setShowRefreshTrigger(true)
+      setTimeout(async () => {
+        setShowRefreshTrigger(false)
+      }, 5000);
+    }, []);
+  
+
     useEffect(() => {
       //Check for share web api
       const handleAsync = async () => {
@@ -122,15 +132,18 @@ import {
           <IonRefresherContent></IonRefresherContent>
         </IonRefresher>
         <Notifications open={showNotifications} history={history} onDidDismiss={() => setShowNotifications(false)} />
-        <div className="flex items-center">
-            <div className="rounded-md bg-gray-50 dark:bg-gray-900 p-4 w-full">
-              <div className="flex w-full justify-between">
-                <p className="text-sm text-gray-500 w-fill">Pull this down to trigger a refresh.</p>
-              </div>
-            </div>
-          </div>  
         
-        <div className="mx-2" key="recent-incidents">
+        { showRefreshTrigger &&
+            <div className="flex items-center ease-in-out">
+              <div className=" rounded-md bg-gray-50 dark:bg-gray-900 p-4 w-full">
+                <div className="flex w-full justify-between">
+                  <p className="text-sm text-gray-500 w-fill">Pull this down to trigger a refresh.</p>
+                </div>
+              </div>
+          </div>  
+        }
+        
+        <div className="my-2 max-w-xl mx-auto" key="recent-incidents">
           { user && authUserProfile?.username && <div className="px-4 pt-4 pb-4 ">
               <h2 className="font-bold text-xl text-gray-600 dark:text-gray-100">Welcome back <span className="font-bold text-xl text-ww-secondary">{authUserProfile?.username}</span></h2>
             </div>
@@ -143,9 +156,11 @@ import {
 
 
           { user &&
-            <label className="block text-sm px-6 font-medium text-gray-700 dark:text-white"  key="recent-incident-label">
-                Recent Incidents Nearby
-            </label>
+            <div className="max-w-xl my-4 mx-auto" key="recent-incidents">
+              <label className="block text-sm px-6 font-medium text-gray-700 dark:text-white"  key="recent-incident-label">
+                  Recent Incidents Nearby
+              </label>
+            </div>
           }
           { user && localIncidents && localIncidents.map((i, index) => (
             <IncidentCardMini key={"local-"+index} onClickFnc={goToIncident} incident={i} />
@@ -180,9 +195,11 @@ import {
           </Card>
 
           { user &&
-            <label className="block text-sm px-4 font-medium text-gray-700 dark:text-white"  key="my-incident-label">
-                Your Recent Incidents
-            </label>
+            <div className="my-4 mx-auto" key="Your-incidents">
+              <label className="block text-sm px-4 font-medium text-gray-700 dark:text-white"  key="my-incident-label">
+                  Your Recent Incidents
+              </label>
+            </div>
           }
 
           { user && myIncidents && myIncidents.map((i, index) => (
@@ -190,7 +207,7 @@ import {
           ))}
 
           { !loading &&  user && myIncidents && myIncidents.length === 0 &&
-            <Card className="my-4 mx-auto rounded-b-xl" key="my-incident-empy">
+            <Card className="my-4 mx-auto rounded-b-xl" key="my-incident-empty">
               <div className="px-4 pt-10 pb-4  rounded-xl ">
                 <h2 className="font-bold text-l text-gray-800 dark:text-gray-100">No Incidents created ..</h2>
                 <p className="font-bold text-gray-800 dark:text-gray-100">let us know if there is an issue near by</p>

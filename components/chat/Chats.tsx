@@ -56,7 +56,7 @@ import { useUser } from "@supabase/auth-helpers-react";
   
     
     return (
-      <div>
+      <div className="max-w-xl my-4 mx-auto">
 
         <label className="block text-sm px-6 font-medium text-gray-700 dark:text-white"  key="public-channel-label">
           Public Channels
@@ -68,9 +68,10 @@ import { useUser } from "@supabase/auth-helpers-react";
           ))}
         </ul>
 
-        <hr></hr>
+        <br/>
+        <br/>
 
-        <label className="block text-sm px-6 font-medium text-gray-700 dark:text-white"  key="member-channel-label">
+        {/* <label className="block text-sm px-6 font-medium text-gray-700 dark:text-white"  key="member-channel-label">
           Your Incident Channels
         </label>
   
@@ -78,7 +79,7 @@ import { useUser } from "@supabase/auth-helpers-react";
           {publicChats.map((chatItem) => (
             <ChatItem chat={chatItem} key={chatItem.id} />
           ))}
-        </ul>
+        </ul> */}
       </div>
     )
   }

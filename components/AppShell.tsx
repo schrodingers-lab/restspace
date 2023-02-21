@@ -81,7 +81,7 @@ const AppShell = ({history}) => {
   return (
     <IonApp>
       <IonReactRouter>
-        <IonSplitPane contentId="main">
+        <IonSplitPane contentId="main" when={'xl'}>
           <Menu />
           <IonModal
             isOpen={showModal}
