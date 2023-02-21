@@ -48,9 +48,9 @@ export const ListEntry = ({ incident, ...props }) => {
 )};
 
 const AllLists = () => {
-  const incidents = useStoreState(IncidentStore, selectors.getIncidents);
+  const incidentsMap = useStoreState(IncidentStore, selectors.getIncidents);
+  const incidents =  Array.from(incidentsMap.values());
 
-  console.log("incidents",incidents);
   return (
     <>
       {incidents?.length > 0 && incidents.map((incident, i) => (

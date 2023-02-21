@@ -31,7 +31,7 @@ import { getRoundedTime } from '../util/dates';
 import { addChat } from '../../store/chat';
 import IconKey from '../modals/IconKey';
 import MapDraggableMarker from '../map/MapDraggableMarker';
-import { distanceMaxIncident } from '../util/mapbox';
+import { defaultInitialLat, defaultInitialLng, distanceMaxIncident } from '../util/mapbox';
 import { generateRandomName } from '../util/data';
 import { useRouter } from 'next/router';
 import { ErrorCard } from '../cards/ErrorCard';
@@ -68,6 +68,10 @@ const NewDetail = ({history}) => {
   const authUser = useUser();
 
   const [openIconKey, setOpenIconKey] = useState(false);
+
+  // Randomize initial location
+  const initialLat = defaultInitialLat + (Math.random() - 0.5) * 0.01;
+  const initialLng = defaultInitialLng + (Math.random() - 0.5) * 0.01;
 
 
   const handleName = (event) => {
@@ -424,7 +428,7 @@ const NewDetail = ({history}) => {
                     </IonLabel>
                   </IonItem>
                       
-                  <MapDraggableMarker sendLocationFnc={locationSetter} autoLocate={true} />
+                  <MapDraggableMarker sendLocationFnc={locationSetter} autoLocate={true} initialLat={initialLat} initialLng={initialLng}/>
                   <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">Drag map pin to approximate location.</p>
                   
                 </div>

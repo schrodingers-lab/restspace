@@ -23,8 +23,6 @@ import { search, filter, information } from 'ionicons/icons';
 import Notifications from '../modals/Notifications';
 import React, {useRef, useEffect, useState } from 'react';
 import { notificationsOutline } from 'ionicons/icons';
-import { getIncidents } from '../../store/selectors';
-import Store from '../../store';
 import * as turfdistance from '@turf/distance';
 import { useDebouncedCallback } from 'use-debounce';
 import MapInfo from "../map/MapInfo";
@@ -122,7 +120,7 @@ const MapPage = ({history}) => {
     if (error){
       setError(error?.message);
     }
-
+    
     IncidentStore.update(s => {
       s.incidents = data ? arrayToMap(data,'id') : new Map();
     });
@@ -225,6 +223,7 @@ const MapPage = ({history}) => {
     // setMarkers(newMarkers);
     loadSourceData(incidents);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [incidents]);
 
   map.current?.on('render', function () {
@@ -233,16 +232,17 @@ const MapPage = ({history}) => {
   });
 
   map.current?.on('load', function () {
-    // search for rest areas
-    geoSearch();
+    map.current.resize();
+    debouncedSearch();
     setLoaded(true);
     loadSources();
   });
 
   const loadSourceData = (incidents) => {
     if (loaded === false) return;
-    const incidentsGeoJson = incidents?.map(mapIncident => {
-      return convertIncidentToGeoJson(mapIncident);
+    const incidentsGeoJson = [];
+    incidents?.forEach((mapIncident, key) => {
+      incidentsGeoJson.push(convertIncidentToGeoJson(mapIncident));
     });
 
     const geoJson = {
@@ -251,7 +251,7 @@ const MapPage = ({history}) => {
     }
     map.current?.getSource('incidents').setData(geoJson);
 
-    if (!incidents || incidents.length === 0) return;
+    if (!incidents || incidents.size === 0) return;
 
     map.current.on('click', 'unclustered-point', (e) => {
       const coordinates = e.features[0].geometry.coordinates.slice();
@@ -264,7 +264,7 @@ const MapPage = ({history}) => {
         coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
       }
 
-      const mapIncident = incidents.find(entry => entry.id == incidentRef)
+      const mapIncident = incidents.get(incidentRef)
       if(mapIncident){
         //Should always be here
         const m_popup = addPopup(<MapInfo incident={mapIncident} history={history} />)

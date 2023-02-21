@@ -28,7 +28,7 @@ export const addToNewMap = (existingMap: Map<string, any>, additionKey: string, 
 }
 
 export const convertIncidentToGeoJson = ( incident) => {
-  
+
   // const mapIncident = incidents[0];
 
   // const m_popup = addPopup(<MapInfo incident={mapIncident} history={history} />)
@@ -38,7 +38,6 @@ export const convertIncidentToGeoJson = ( incident) => {
   //   .setPopup(m_popup)
   //   .addTo(map.current);
   // newMarkers.push(marker);
-
 
   return (
     {
