@@ -18,4 +18,4 @@ export const getActiveNotifications = createSelector(getState, state => state.no
 export const getAuthUser = createSelector(getState, state => state.authUser);
 export const getAuthUserProfile = createSelector(getState, state => state.authUserProfile);
 export const getUserIds = createSelector(getState, state => state.userIds);
-export const getUserProfiles = createSelector(getState, state => state.users);
+export const getUserProfiles = createSelector(getState, state => state.userProfiles);

@@ -147,7 +147,8 @@ export const IncidentDetail = ({incident, files, supabase}) => {
 
   useEffect(() => {
     if(incident?.user_id) {
-      if(userProfiles && userProfiles.length > 0 && userProfiles.has(incident?.user_id)){
+
+      if(userProfiles && userProfiles.size > 0 && userProfiles.has(incident?.user_id)){
         // Set the creator profile
         const creator = userProfiles.get(incident?.user_id)
         setCreator(creator);
