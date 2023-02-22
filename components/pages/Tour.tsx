@@ -48,7 +48,7 @@ const TourPage = () => {
               >
           <SwiperSlide  >
 
-              <div className="h-full bg-gradient-to-b from-black to-blue-900 via-gray-700 flex flex-col justify-center content-center ">
+              <div className="h-full bg-gradient-to-b from-black to-gray-700 flex flex-col justify-center content-center ">
 
                 <section
                   className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
@@ -74,7 +74,7 @@ const TourPage = () => {
           </SwiperSlide>
           <SwiperSlide>
           
-                <div className="h-full bg-gradient-to-b from-black to-blue-900 via-gray-700 flex flex-col justify-center content-center ">
+                <div className="h-full bg-gradient-to-b from-black to-gray-700  flex flex-col justify-center content-center ">
                   {/* <div className="h-full">
                     <img
                       className="h-full w-auto object-fill"
@@ -109,7 +109,7 @@ const TourPage = () => {
               </div>
           </SwiperSlide>
           <SwiperSlide>
-          <div className="h-full bg-gradient-to-b from-black to-blue-900 via-gray-700 flex flex-col justify-center content-center ">
+          <div className="h-full bg-gradient-to-b from-black to-gray-700 flex flex-col justify-center content-center ">
                   {/* <div className="h-full">
                     <img
                       className="h-full w-auto object-fill"
@@ -144,7 +144,7 @@ const TourPage = () => {
               </div>
           </SwiperSlide>
           <SwiperSlide>
-          <div className="h-full bg-gradient-to-b from-black to-blue-900 via-gray-700 flex flex-col justify-center content-center ">
+          <div className="h-full bg-gradient-to-b from-black to-gray-700 flex flex-col justify-center content-center ">
                   {/* <div className="h-full">
                     <img
                       className="h-full w-auto object-fill"
