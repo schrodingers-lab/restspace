@@ -77,7 +77,6 @@ const AppShell = () => {
 
   useEffect(() => {
     if(authUserProfile?.banned_to && (router.pathname !== '/banned' || router.pathname.startsWith('/admin') )) {
-      debugger
       if (new Date(authUserProfile?.banned_to) > new Date()) {
         router.push('/banned');
       }
