@@ -10,8 +10,12 @@ import UpgradeCard from './cards/UpgradeCard';
 import Tabs from './pages/Tabs';
 import Store from '../store';
 import * as selectors from '../store/selectors';
-import { useSupabaseClient } from '@supabase/auth-helpers-react';
+import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react';
 import TourPage from './pages/Tour';
+import BannedPage from './pages/Banned';
+import { useStoreState } from 'pullstate';
+import { UserStore } from '../store/user';
+import { useRouter } from 'next/router';
 
 // window.matchMedia("(prefers-color-scheme: dark)").addListener(async (status) => {
 //   try {
@@ -23,7 +27,7 @@ import TourPage from './pages/Tour';
 
 
 
-const AppShell = ({history}) => {
+const AppShell = () => {
 
   setupIonicReact({
     mode: 'md'
@@ -51,6 +55,9 @@ const AppShell = ({history}) => {
   const [remoteAppVersion, setRemoteAppVersion] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const settings = Store.useState(selectors.getSettings);
+  const router = useRouter();
+  const user = useUser();
+  const authUserProfile = useStoreState(UserStore, selectors.getAuthUserProfile);
 
   useEffect(() => {
     const fetchData = async() => {
@@ -66,6 +73,16 @@ const AppShell = ({history}) => {
     }
     fetchData();
   }, []);
+
+
+  useEffect(() => {
+    if(authUserProfile?.banned_to && (router.pathname !== '/banned' || router.pathname.startsWith('/admin') )) {
+      debugger
+      if (new Date(authUserProfile?.banned_to) > new Date()) {
+        router.push('/banned');
+      }
+    }
+  }, [authUserProfile]);
 
   useEffect(() => { 
     if (remoteAppVersion && settings.appVersion) {
@@ -90,6 +107,7 @@ const AppShell = ({history}) => {
            <UpgradeCard/>
           </IonModal>
           <IonRouterOutlet id="main">
+            <Route path="/banned" component={BannedPage}  exact={true} /> 
             <Route path="/tour" component={TourPage}  exact={true} />
             <Route path="/tabs" render={() => <Tabs />} />
             <Route exact path="/" render={() => <Redirect to="/tabs" />} />

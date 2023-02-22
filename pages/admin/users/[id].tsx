@@ -31,14 +31,16 @@ const UserPage = (props) => {
   }
 
   const shadowBan = (hours: number) => {
-    userProfile.banned_to = addHours(new Date(),  hours)
-    const res = updateProfile(userProfile, supabase);
+    const updatedProfile = {...userProfile}
+    updatedProfile.banned_to = addHours(new Date(),  hours)
+    const res = updateProfile(updatedProfile, supabase);
     handleReturn();
   }
 
   const removeAvatar = () => {
-    userProfile.avatar_url = null;
-    const res = updateProfile(userProfile, supabase);
+    const updatedProfile = {...userProfile}
+    updatedProfile.avatar_url = null;
+    const res = updateProfile(updatedProfile, supabase);
     handleReturn();
   }
 
