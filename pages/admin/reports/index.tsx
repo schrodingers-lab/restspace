@@ -13,7 +13,7 @@ import UserProfileAvatar from "../../../components/ui/UserProfileAvatar";
     // Update when the route changes
     useEffect(() => {
         const handleAsync = async () => {
-            let { data } = await supabase.from('reports').select(`*`);
+            let { data } = await supabase.from('reports').select(`*`).order('created_at');
             setReports(data);
             console.log(data)
         }
@@ -24,13 +24,25 @@ import UserProfileAvatar from "../../../components/ui/UserProfileAvatar";
         router.push('/admin/dashboard');
     }
 
+    const viewReportObject = (report) => {
+      debugger;
+      if (report){
+        if (report.object_type == "incidents"){
+          window.open(`/tabs/incidents/${report.object_id}`, "_blank");
+        } else if (report.object_type == "person"){
+          window.open(`/admin/users/${report.object_id}`, "_blank");
+        }
+      
+      }
+    }
+
     return (
       <div className="px-4 sm:px-6 lg:px-8 mt-8">
 
         <div className="sm:flex sm:items-center">
           <div className="sm:flex-auto">
-            <h1 className="text-2xl font-semibold text-gray-900">Manage Reports</h1>
-            <p className="mt-2 text-sm text-gray-700">
+            <h1 className="text-2xl font-semibold text-gray-900 dark:text-gray-200">Manage Reports</h1>
+            <p className="mt-2 text-sm text-gray-700 dark:text-gray-300">
               A list of all the users reports in the app, plus the action functions.
             </p>
           </div>
@@ -112,8 +124,8 @@ import UserProfileAvatar from "../../../components/ui/UserProfileAvatar";
                     <a href={`/admin/reports/${report.id}`} className="text-indigo-600 hover:text-indigo-900 px-2">
                       Delete
                     </a>
-                    <a href={`/admin/reports/${report.id}`} className="text-indigo-600 hover:text-indigo-900  px-2">
-                      Hide
+                    <a onClick={()=>{viewReportObject(report)}} className="text-indigo-600 hover:text-indigo-900  px-2">
+                      View
                     </a>
                   </td>
                 </tr>

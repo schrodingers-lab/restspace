@@ -60,7 +60,7 @@ export const FabUgcIncidentActions = ({incident, creator}) => {
         </IonFabButton>
       </IonFabList>
     </IonFab>
-    <Report open={openReporter} onDidDismiss={() => setOpenReporter(false)} reportMode={reportMode} incident={incident} />
+    <Report open={openReporter} onDidDismiss={() => setOpenReporter(false)} reportMode={reportMode} person={creator} incident={incident} />
     </>
   );
 };

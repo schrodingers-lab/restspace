@@ -34,7 +34,7 @@ export const IncidentCarousel = ({files, creator}) => {
             <div key={index} className="w-full my-2 mx-auto relative">
               {/* assuming the files are only the incident creator */}
               <FabUgcAvatar profile={creator} />
-              <FabUgcFileActions file={file} />
+              <FabUgcFileActions file={file} creator={creator} />
               <img src={fileUrl(file)} alt="Incident Photo" />
             </div>
           );

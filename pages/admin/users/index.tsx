@@ -28,8 +28,8 @@ import UserProfileAvatar from "../../../components/ui/UserProfileAvatar";
 
         <div className="sm:flex sm:items-center">
           <div className="sm:flex-auto">
-            <h1 className="text-2xl font-semibold text-gray-900">Manage Users</h1>
-            <p className="mt-2 text-sm text-gray-700">
+            <h1 className="text-2xl font-semibold text-gray-900 dark:text-gray-200">Manage Users</h1>
+            <p className="mt-2 text-sm text-gray-700 dark:text-gray-300">
               A list of all the users in the app, plus the user admin functions.
             </p>
           </div>

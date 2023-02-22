@@ -20,6 +20,7 @@ export const useChatStore = (props) => {
   const messages = ChatStore.useState(s => s.messages);
 
   const [newMessage, handleNewMessage] = useState(null)
+  const [updateMessage, handleUpdatedMessage] = useState(null)
   const [newChat, handleNewChat] = useState(null)
   const [newOrUpdatedUser, handleNewOrUpdatedUser] = useState(null)
   const [deletedChat, handleDeletedChat] = useState(null)
@@ -46,6 +47,10 @@ export const useChatStore = (props) => {
         'postgres_changes',
         { event: 'INSERT', schema: 'public', table: 'messages' },
         (payload) => handleNewMessage(payload.new)
+      ).on(
+        'postgres_changes',
+        { event: 'UPDATE', schema: 'public', table: 'messages' },
+        (payload) => handleUpdatedMessage(payload.new)
       )
       .on(
         'postgres_changes',
@@ -136,6 +141,32 @@ export const useChatStore = (props) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [newMessage])
+
+  // Updated message received from Postgres
+  useEffect(() => {
+    if (updateMessage && updateMessage.chat_id === Number(props.chatId)) {
+      const handleAsync = async () => {
+        let authorId = newMessage.user_id
+        if (!userIds.includes(authorId)) await fetchUser(authorId, (user) => handleNewOrUpdatedUser(user), supabase)
+
+        const index = messages.findIndex(rect => rect?.id === updateMessage?.id)
+        if (index !== -1) {
+          // Object exists in the array, replace it
+          const newMessages = [...messages]
+          newMessages[index] = updateMessage;
+          //Update the store
+
+          ChatStore.update(s => {
+            s.messages = newMessages;
+          });
+        }
+      }
+      handleAsync()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [updateMessage])
+
+
 
   // Deleted message received from postgres
   useEffect(() => {
@@ -355,7 +386,7 @@ export const deleteChat = async (chat_id, supabase) => {
  */
 export const deleteMessage = async (message_id, supabase) => {
   try {
-    let { data } = await supabase.from('messages').delete().match({ id: message_id })
+    let { data } = await supabase.from('messages').delete().match({ id: message_id });
     return data
   } catch (error) {
     console.log('error', error)

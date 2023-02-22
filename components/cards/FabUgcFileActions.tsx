@@ -48,7 +48,7 @@ export const FabUgcFileActions = ({file, creator=null}) => {
         </IonFabButton>
       </IonFabList>
     </IonFab>
-    <Report open={openReporter} onDidDismiss={() => setOpenReporter(false)} reportMode={reportMode} file={file} />
+    <Report open={openReporter} onDidDismiss={() => setOpenReporter(false)} reportMode={reportMode} person={creator} file={file} />
     </>
   );
 };

@@ -20,7 +20,7 @@ export const Message = ({ message, supabase }) => {
         </div>
 
         <div className="min-w-0 flex-1">
-            <p className="text-sm text-gray-800">{message.text}</p>
+            <p className="text-sm text-gray-800">#{message.id} - {message.text}</p>
             <p className="text-sm text-white">{formatDistanceToNow(new Date(message.inserted_at),{addSuffix: true})}</p>
             <div className="mt-2 flex">
                 <span className="inline-flex items-center text-sm">

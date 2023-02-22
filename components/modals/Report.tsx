@@ -85,7 +85,7 @@ import * as selectors from '../../store/selectors';
         object_id=incident?.id;
       } else if (reportMode == 'person'){
         object_type='person';
-        object_id= personId ? personId : person?.id;
+        object_id = personId ? personId : person?.id;
       } else if (reportMode == 'message'){
         object_type='message';
         object_id=message?.id;
@@ -142,7 +142,7 @@ import * as selectors from '../../store/selectors';
                 <div>
                   {/* <h3 className="text-lg font-medium leading-6 text-gray-900">My Public Profile</h3> */}
                   <p className="mt-1 max-w-2xl text-sm text-gray-500 dark:text-gray-200">
-                    This information will be sent to moderators.
+                    This information will be sent to moderators. {personId} : {person?.id}
                   </p>
                 </div>
 
