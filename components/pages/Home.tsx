@@ -77,7 +77,7 @@ import {
         setLocalIncidents(data);
       }
 
-      const result = await fetchUserIncidentsPages(authUserProfile.id, null, 0, 3, supabase);
+      const result = await fetchUserIncidentsPages(authUserProfile?.id, null, 0, 3, supabase);
       setMyIncidents(result.data)
       setLoading(false);
     }

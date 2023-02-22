@@ -131,7 +131,7 @@ export const Signup = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
 
     return (
       <>
-        <div className="flex flex-col justify-center py-12 sm:px-6 lg:px-8 bg-gradient-to-br from-fuchsia-500 to-purple-600">
+        <div className="h-full  bg-air bg-center bg-cover flex flex-col justify-center py-12 sm:px-6 lg:px-8">
           <div className="sm:mx-auto sm:w-full sm:max-w-md">
             <img
               className="mx-auto h-12 w-auto"
