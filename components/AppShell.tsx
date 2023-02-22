@@ -55,9 +55,6 @@ const AppShell = ({history}) => {
   const [remoteAppVersion, setRemoteAppVersion] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const settings = Store.useState(selectors.getSettings);
-  const router = useRouter();
-  const user = useUser();
-  const authUserProfile = useStoreState(UserStore, selectors.getAuthUserProfile);
 
   useEffect(() => {
     const fetchData = async() => {
@@ -73,16 +70,6 @@ const AppShell = ({history}) => {
     }
     fetchData();
   }, []);
-
-
-  useEffect(() => {
-    debugger;
-    if(authUserProfile?.banned_to && (router.pathname !== '/banned' || router.pathname.startsWith('/admin') )) {
-      if (new Date(authUserProfile?.banned_to) > new Date()) {
-        router.push('/banned');
-      }
-    }
-  }, [authUserProfile]);
 
   useEffect(() => { 
     if (remoteAppVersion && settings.appVersion) {
