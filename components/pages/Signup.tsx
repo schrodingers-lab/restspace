@@ -29,7 +29,7 @@ export const SignupPage = ({history}) => {
   }
 
   const handlePost = async() => {
-    history.push('/tabs/profile');
+    history.push('/tour');
     //reset state to login
     setTimeout(async () => {
       setAuthMode('login');
