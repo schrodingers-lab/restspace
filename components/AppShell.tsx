@@ -27,7 +27,7 @@ import { useRouter } from 'next/router';
 
 
 
-const AppShell = () => {
+const AppShell = ({history}) => {
 
   setupIonicReact({
     mode: 'md'
