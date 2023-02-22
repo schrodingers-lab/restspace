@@ -263,7 +263,7 @@ const EditDetail = ({history, match }) => {
       id: incidentId,
       name: name,
       about: about,
-      user_id: authUser.id,
+      user_id: incident?.user_id,
 
       stolenvehicle: stolenvehicle,
       breakenter: breakenter,
@@ -381,6 +381,8 @@ const EditDetail = ({history, match }) => {
                       className="block w-full text-black dark:text-white dark:bg-black rounded-md border-gray-300 shadow-sm focus:border-ww-secondary focus:ring-ww-secondary caret-ww-secondary sm:text-sm"
                     />
                   </div>
+
+                  <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">Feel free to change the name to something more relevant.</p>
                 </div>
 
                 <label htmlFor="categories" className="block font-medium text-gray-700 dark:text-gray-300 sm:mt-px sm:pt-2 mt-4">

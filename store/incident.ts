@@ -162,3 +162,31 @@ export const geoTimedSearch = async (lng, lat, distance, caller_id, ageInHours=7
 
     return  result;
   }
+
+  /**
+ * hide a message from the display
+ * @param {number} incident_id
+ */
+export const hideIncident = async (incident_id, supabase) => {
+  try {
+    let { data } = await supabase.from('incidents')
+          .update({visible: false} ).eq('id', incident_id);
+    return data
+  } catch (error) {
+    console.log('error', error)
+  }
+}
+
+/**
+* unhide a message from the display
+* @param {number} incident_id
+*/
+export const unhideIncident = async (incident_id, supabase) => {
+  try {
+    let { data } = await supabase.from('incidents')
+          .update({visible: true} ).eq('id', incident_id);
+    return data
+  } catch (error) {
+    console.log('error', error)
+  }
+}

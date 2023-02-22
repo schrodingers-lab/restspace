@@ -39,7 +39,7 @@ export const ListEntry = ({ incident, ...props }) => {
       <CategoriesIcons incident={incident} showAll={false}/>
     </IonLabel>
     <div className="text-ww-primary float-right text-xs">
-      {formatDistanceToNow(new Date(incident.inserted_at),{addSuffix: true})}
+      {incident?.inserted_at && formatDistanceToNow(new Date(incident.inserted_at),{addSuffix: true})}
     </div>
     <IonThumbnail slot="end">
         <IonImg src={img0} />

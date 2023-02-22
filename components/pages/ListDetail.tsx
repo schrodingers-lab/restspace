@@ -14,16 +14,18 @@ import {
   IonPage,
   IonPopover,
   IonTitle,
+  IonToast,
   IonToolbar,
 } from '@ionic/react';
 
 import React, { useRef, useEffect, useState } from 'react';
 import IncidentDetail from '../cards/IncidentDetail';
 import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react';
-import { create, bookmark, bookmarkOutline } from 'ionicons/icons';
+import { create, bookmark, bookmarkOutline, eye, eyeOff } from 'ionicons/icons';
 import { useStoreState } from 'pullstate';
 import { useUserStore, UserStore } from '../../store/user';
 import * as selectors from '../../store/selectors';
+import { hideIncident, unhideIncident } from '../../store/incident';
 
 
 
@@ -38,6 +40,9 @@ const ListDetail = ({ history, match }) => {
   const [isEditor, setIsEditor] = useState(false);
   const popover = useRef<HTMLIonPopoverElement>(null);
   const [popoverOpen, setPopoverOpen] = useState(false);
+
+  const [isToastOpen, setIsToastOpen] = useState<boolean>(false);
+  const [toastMessage, setToastMessage] = useState<string | undefined>();
 
   const [error, setError] = useState("");
   const user = useUser();
@@ -154,6 +159,22 @@ const ListDetail = ({ history, match }) => {
     }
   }
 
+  const makeHidden = async(incidentId) => {
+    const result = await hideIncident(incidentId, supabase);
+
+    //Notify User
+    setToastMessage("Removed / Hidden, Refresh to see changes  ");
+    setIsToastOpen(true);
+        
+  }
+  const makeUnhidden = async(incidentId) => {
+    const result = await unhideIncident(incidentId, supabase);
+
+    //Notify User
+    setToastMessage("Visible Again, Refresh to see changes  ");
+    setIsToastOpen(true);
+  }
+  
 
   useEffect(() => {
   if (user?.id == selectedIncident?.user_id) {
@@ -179,7 +200,7 @@ const ListDetail = ({ history, match }) => {
           <IonButtons slot="start">
             <IonBackButton defaultHref="/tabs/incidents" />
           </IonButtons>
-          <IonTitle>#{selectedIncident?.id} - {selectedIncident?.name}</IonTitle>
+          <IonTitle>{(selectedIncident?.visible == false) ? 'Hidden: ' : ''}#{selectedIncident?.id} - {selectedIncident?.name} </IonTitle>
 
           <IonButtons slot="end">
             <IonButton onClick={() => toggleBookmark()}>
@@ -199,7 +220,7 @@ const ListDetail = ({ history, match }) => {
           </IonToolbar>
         </IonHeader>
 
-        { isEditor && 
+        { (isEditor || authUserProfile?.admin ) && 
           <IonFab horizontal="start" vertical="top" slot="fixed" >
           <IonFabButton
             onClick={() => {
@@ -212,10 +233,46 @@ const ListDetail = ({ history, match }) => {
           </IonFabButton>
         </IonFab>
         }
+        { ( authUserProfile?.admin && selectedIncident?.visible == false ) && 
+          <IonFab horizontal="end" vertical="top" slot="fixed" >
+          <IonFabButton
+            onClick={() => {
+              makeUnhidden(selectedIncident?.id)
+            }}
+            size="small"
+            color={"medium"}
+          >
+            <IonIcon icon={eye} />
+          </IonFabButton>
+        </IonFab>
+        }
+
+        { ( authUserProfile?.admin && selectedIncident?.visible == true ) && 
+          <IonFab horizontal="end" vertical="top" slot="fixed" >
+          <IonFabButton
+            onClick={() => {
+              makeHidden(selectedIncident?.id)
+            }}
+            size="small"
+            color={"medium"}
+          >
+            <IonIcon icon={eyeOff} />
+          </IonFabButton>
+        </IonFab>
+        }
+          
           
           {selectedIncident && <IncidentDetail incident={selectedIncident}  files={files} supabase={supabase}/>}
-         
+          <IonToast
+            isOpen={isToastOpen}
+            message={toastMessage}
+            duration={2000}
+            position={'bottom'}
+            color={'success'}
+            onDidDismiss={() => setIsToastOpen(false)}
+        /> 
       </IonContent>
+      
     </IonPage>
   );
 };

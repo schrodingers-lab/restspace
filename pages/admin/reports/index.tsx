@@ -35,12 +35,13 @@ import MessageRow from "./MessageRow";
     }
 
     const viewReportObject = (report) => {
+      debugger;
       if (report){
-        if (report.object_type == "incidents"){
-          window.open(`/tabs/incidents/${report.object_id}`, "_blank");
-        } else if (report.object_type == "person"){
+        if (report.mode == "person"){
           window.open(`/admin/users/${report.object_id}`, "_blank");
-        } 
+        } else {
+          window.open(`/tabs/incidents/${report.object_id}`, "_blank");
+        }
       }
     }
 
