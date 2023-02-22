@@ -24,6 +24,8 @@ const ChatsPage = (props) => {
   const { id: chatId } = router.query
   const authUser = useUser();
   const {userIds} = useChatStore({chatId: chatId});
+
+  const authors = useStoreState(ChatStore, selectors.getAuthors);
   const activeNotifications = useStoreState(NotificationStore, selectors.getActiveNotifications);
   const messages = useStoreState(ChatStore, selectors.getMessages);
   const chats = useStoreState(ChatStore, selectors.getChats);
@@ -35,6 +37,7 @@ const ChatsPage = (props) => {
   //     behavior: 'smooth',
   //   })
   // }, [messages])
+  
 
   // redirect to public chat when current chat is deleted
   useEffect(() => {
@@ -79,7 +82,7 @@ const ChatsPage = (props) => {
         <div className="messages h-full pb-24 overflow-y-scroll">
           <div className="p-2 h-auto ">
             {messages.map((x) => (
-              <Message key={x.id} message={x} supabase={supabase}/>
+              <Message key={x.id} message={x} author={authors?.get(x.user_id)} supabase={supabase}/>
             ))}
             <div ref={messagesEndRef} style={{ height: 0 }} />
           </div>

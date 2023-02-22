@@ -146,7 +146,7 @@ export const useChatStore = (props) => {
   useEffect(() => {
     if (updateMessage && updateMessage.chat_id === Number(props.chatId)) {
       const handleAsync = async () => {
-        let authorId = newMessage.user_id
+        let authorId = updateMessage.user_id
         if (!userIds.includes(authorId)) await fetchUser(authorId, (user) => handleNewOrUpdatedUser(user), supabase)
 
         const index = messages.findIndex(rect => rect?.id === updateMessage?.id)

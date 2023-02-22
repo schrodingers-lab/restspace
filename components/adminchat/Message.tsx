@@ -9,14 +9,19 @@ import { formatDistanceToNow } from 'date-fns';
 import UserProfile from '../modals/UserProfile';
 import { useState } from 'react';
 
-export const Message = ({ message, supabase }) => {
+export const Message = ({ message, author, supabase }) => {
   if (!message.id) return <></>
+
+    const openUserTab = (userId) => {
+        window.open(`/admin/users/${userId}`, "_blank");  
+    }
   
   return (
     <div key={message.id} className="flex space-x-3 py-4 bg-gray-400 m-4 p-4 rounded-lg">
 
-        <div className="flex-shrink-0">
-            <UserProfileAvatar userProfile={message?.author} /><br/>
+        <div className="flex-shrink-0" onClick={()=> openUserTab(message?.user_id)} >
+            <UserProfileAvatar userProfile={author} /><br/>
+            
         </div>
 
         <div className="min-w-0 flex-1">
