@@ -130,12 +130,12 @@ const TourPage = () => {
                           </div>
                           <h3 className="text-xl font-medium text-gray-900">Location</h3>
                           <p className="mt-4 text-base text-gray-500">
-                            Lets get your location based notifications, so you can keep nofity about live incidents in your area.
+                            Keep notified about live incidents in your area, enable notifications for you. 
                           </p>
                         </div>
                         <div className="rounded-bl-2xl rounded-br-2xl bg-gray-50 p-6 md:px-8">
                           <a href={"/tabs/profile"} className="text-base font-medium text-ww-primary hover:text-ww-secondary">
-                            <span>Let get complete your profile ></span>
+                            <span>Lets complete your profile </span>
                           </a>
                         </div>
                       </div>
