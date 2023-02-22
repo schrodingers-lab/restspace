@@ -117,7 +117,8 @@ export const Login = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
             </p>
           </div>
   
-          <div className="bg-white dark:bg-black mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+          {/* <div className="bg-white dark:bg-black mt-8 sm:mx-auto sm:w-full sm:max-w-md"> */}
+          <div className=" mt-8 sm:mx-auto sm:w-full sm:max-w-md">
             <div className="py-8 px-4 shadow sm:rounded-lg sm:px-10">
               <form className="space-y-6" onSubmit={handleSubmit}>
                 <div>
