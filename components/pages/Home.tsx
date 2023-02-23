@@ -105,7 +105,7 @@ import {
       }
       if (authUserProfile) {
         handleAsync();
-        console.log('new user profile',authUserProfile)
+        // console.log('new user profile',authUserProfile)
       }
     }, [authUserProfile]);
   

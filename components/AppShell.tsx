@@ -74,7 +74,7 @@ const AppShell = ({history}) => {
   useEffect(() => { 
     if (remoteAppVersion && settings.appVersion) {
       if (parseFloat(remoteAppVersion) <= parseFloat(settings.appVersion) ){        
-        console.log("all good App")
+        // console.log("all good App")
       }else{
         console.log("upgrade App");
         setShowModal(true);

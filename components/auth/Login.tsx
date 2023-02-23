@@ -27,7 +27,6 @@ export const Login = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
 
     useEffect(() => {
       if(sendAuthStateFnc){
-        console.log("send auth",sendAuthStateFnc);
         sendAuthStateFnc(authState);
       }
     }, [authState, sendAuthStateFnc]);
