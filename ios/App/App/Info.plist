@@ -27,12 +27,20 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>We can access your photos to allow you to publish them to the App</string>
+	<key>NSCameraUsageDescription</key>
+	<string>We can access your photos to allow you to publish them to the App</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Location is used for localised map search only</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Location is used for localised map search only</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Location is used for localised map search only</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>We can access your photos to allow you to publish them to the App</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>We can access your photos to allow you to publish them to the App</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

@@ -37,6 +37,7 @@ import {
   import { notificationsOutline } from 'ionicons/icons';
   import Notifications from '../modals/Notifications';
   import { useStoreState } from 'pullstate';
+import HomeNonUser from '../auth/HomeNonUser';
   
   const Home = ({history}) => {
     const supabase = useSupabaseClient();
@@ -109,41 +110,29 @@ import {
       }
     }, [authUserProfile]);
   
-    return (
-      <IonPage>
-        <IonHeader>
-          <IonToolbar>
-            <IonTitle><img  src="/imgs/WeWatch/WeWatch_LogoStrap_orange.svg" className="h-8"/></IonTitle>
-            <IonButtons slot="start">
-              <IonMenuButton />
-            </IonButtons>
-            <IonButtons slot="end">
-              <IonButton onClick={() => setShowNotifications(true)}>
-                <IonIcon icon={notificationsOutline} />
-                {activeNotifications.length > 0 && 
-                  <IonBadge color="primary">{activeNotifications.length}</IonBadge>
-                }
-              </IonButton>
-            </IonButtons>
-          </IonToolbar>
-        </IonHeader>
-        <IonContent className='dark:bg-black bg-red mx-auto'>
-        <IonRefresher slot="fixed" onIonRefresh={handleRefresh}>
-          <IonRefresherContent></IonRefresherContent>
-        </IonRefresher>
-        <Notifications open={showNotifications} history={history} onDidDismiss={() => setShowNotifications(false)} />
-        
-        { showRefreshTrigger &&
-            <div className="flex items-center ease-in-out">
-              <div className=" rounded-md bg-gray-50 dark:bg-gray-900 p-4 w-full">
-                <div className="flex w-full justify-between">
-                  <p className="text-sm text-gray-500 w-fill">Pull this down to trigger a refresh.</p>
+
+    const nonUserHomepage = () => {
+      return (
+        <>
+          <HomeNonUser history={history} />
+        </>
+      )
+    }
+
+    const userHomepage = () => {
+      return (
+        <>
+          { showRefreshTrigger &&
+              <div className="flex items-center ease-in-out">
+                <div className=" rounded-md bg-gray-50 dark:bg-gray-900 p-4 w-full">
+                  <div className="flex w-full justify-between">
+                    <p className="text-sm text-gray-500 w-fill">Pull this down to trigger a refresh.</p>
+                  </div>
                 </div>
-              </div>
-          </div>  
-        }
+            </div>  
+          }
         
-        <div className="my-2 max-w-xl mx-auto" key="recent-incidents">
+
           { user && authUserProfile?.username && <div className="px-4 pt-4 pb-4 ">
               <h2 className="font-bold text-xl text-gray-600 dark:text-gray-100">Welcome back <span className="font-bold text-xl text-ww-secondary">{authUserProfile?.username}</span></h2>
             </div>
@@ -175,7 +164,7 @@ import {
             </Card>
           }
 
-        {!loading && localIncidents && localIncidents.length === 0 && authUserProfile && authUserProfile.longitude  &&
+          {!loading && localIncidents && localIncidents.length === 0 && authUserProfile && authUserProfile.longitude  &&
             <Card className="my-4 mx-auto" key="profile-no-recent">
               <div className="px-4 pt-10 pb-4  rounded-xl ">
                 <h2 className="font-bold text-l text-gray-800 dark:text-gray-100">No recent incidents..</h2>
@@ -215,9 +204,35 @@ import {
             </Card>
           }
 
-
-
-          </div>
+        </>
+      )
+    }
+    return (
+      <IonPage>
+        <IonHeader>
+          <IonToolbar>
+            <IonTitle><img  src="/imgs/WeWatch/WeWatch_LogoStrap_orange.svg" className="h-8"/></IonTitle>
+            <IonButtons slot="start">
+              <IonMenuButton />
+            </IonButtons>
+            <IonButtons slot="end">
+              <IonButton onClick={() => setShowNotifications(true)}>
+                <IonIcon icon={notificationsOutline} />
+                {activeNotifications.length > 0 && 
+                  <IonBadge color="primary">{activeNotifications.length}</IonBadge>
+                }
+              </IonButton>
+            </IonButtons>
+          </IonToolbar>
+        </IonHeader>
+        <IonContent className='dark:bg-black bg-red mx-auto'>
+        <IonRefresher slot="fixed" onIonRefresh={handleRefresh}>
+          <IonRefresherContent></IonRefresherContent>
+        </IonRefresher>
+         <Notifications open={showNotifications} history={history} onDidDismiss={() => setShowNotifications(false)} />
+        
+           {user && userHomepage()}
+           {!user && nonUserHomepage()}
         </IonContent>
       </IonPage>
     );

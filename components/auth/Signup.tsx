@@ -131,7 +131,7 @@ export const Signup = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
 
     return (
       <>
-        <div className="h-full  bg-air bg-center bg-cover flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+        <div className="h-full  bg-air bg-center bg-cover flex flex-col justify-content:center align-items:center py-12 sm:px-6 lg:px-8">
           <div className="sm:mx-auto sm:w-full sm:max-w-md">
             <img
               className="mx-auto h-12 w-auto"
@@ -147,7 +147,7 @@ export const Signup = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
             </p>
           </div>
   
-          <div className="bg-white dark:bg-black mt-4 sm:mx-auto sm:w-full sm:max-w-md">
+          <div className="bg-white dark:bg-black mt-4 sm:mx-4 mx-auto sm:w-full sm:max-w-md">
             <div className="py-8 px-4 shadow  sm:px-10">
               <form className="space-y-6" onSubmit={handleSubmit}>
                 <div>

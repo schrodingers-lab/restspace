@@ -17,6 +17,7 @@ import { useStoreState } from 'pullstate';
 import { UserStore } from '../store/user';
 import { useRouter } from 'next/router';
 
+
 // window.matchMedia("(prefers-color-scheme: dark)").addListener(async (status) => {
 //   try {
 //     await StatusBar.setStyle({
@@ -69,6 +70,8 @@ const AppShell = ({history}) => {
      }
     }
     fetchData();
+
+
   }, []);
 
   useEffect(() => { 
