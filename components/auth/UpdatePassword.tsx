@@ -155,13 +155,13 @@ export const UpdatePassword = ( {phoneNumber, displayPhoneNumber, sendAuthStateF
               src="/imgs/WeWatch/WeWatch_LogoStrap_orange.svg"
               alt="WeWatch"
             />
-            <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-200">Verify</h2>
+            <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-200">Secure Code Update</h2>
             <p className="mt-2 text-center text-sm text-gray-600 dark:text-gray-300">
             </p>
           </div>
   
-          <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-            <div className="bg-white dark:bg-black py-8 px-4 shadow sm:rounded-lg sm:px-10">
+          <div className="mt-8 px-4 sm:mx-auto sm:w-full sm:max-w-md">
+            <div className="bg-white dark:bg-black py-8 px-4 shadow rounded-lg sm:px-10">
               <form className="space-y-6" onSubmit={handleSubmit}>
                 <div className="flex flex-col mt-4">
                   <span>Enter the verification code you received at</span>

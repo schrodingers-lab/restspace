@@ -155,7 +155,7 @@ export const Verify = ( {phoneNumber, displayPhoneNumber, sendAuthStateFnc}) => 
 
     return (
       <>
-        <div className="h-full  bg-air bg-center bg-cover  flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+        <div className="h-full bg-air bg-center bg-cover flex flex-col justify-center py-12 sm:px-6 lg:px-8">
           <div className="sm:mx-auto sm:w-full sm:max-w-md">
             <img
               className="mx-auto h-12 w-auto"
@@ -168,8 +168,8 @@ export const Verify = ( {phoneNumber, displayPhoneNumber, sendAuthStateFnc}) => 
             </p>
           </div>
   
-          <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-            <div className="bg-white dark:bg-black py-8 px-4 shadow sm:rounded-lg sm:px-10">
+          <div className="mt-8 px-4  sm:mx-auto sm:w-full sm:max-w-md">
+            <div className="bg-white dark:bg-black py-8 px-4 shadow rounded-lg sm:px-10">
               <form className="space-y-6" onSubmit={handleSubmit}>
                 <div className="flex flex-col mt-4">
                   <span>Enter the verification code you received at</span>
