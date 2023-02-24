@@ -52,9 +52,11 @@ export const ForgotPage = ({history}) => {
           </IonToolbar>
         </IonHeader>
         <IonContent>
+          <div className='h-full'>
             { authMode == 'forgot' && <Forgot sendPhoneNumberFnc={callSetPhoneNumber} sendAuthStateFnc={callSetAuthMode} />}
             { authMode == 'update' && <UpdatePassword phoneNumber={phoneNumber} displayPhoneNumber={displayPhoneNumber} sendAuthStateFnc={callSetAuthMode}/>}
             { authMode == 'post' && <p>loading...</p>}
+          </div>
         </IonContent>
     </IonPage>
     );

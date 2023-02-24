@@ -51,7 +51,7 @@ export const SignupPage = ({history}) => {
           </IonToolbar>
         </IonHeader>
         <IonContent>
-          <div className='mx-2'>
+          <div className='h-full'>
             { authMode == 'login' && <Login sendPhoneNumberFnc={callSetPhoneNumber} sendAuthStateFnc={callSetAuthMode} />}
             { authMode == 'signup' && <Signup sendPhoneNumberFnc={callSetPhoneNumber} sendAuthStateFnc={callSetAuthMode} />}
             { authMode == 'verify' && <Verify phoneNumber={phoneNumber} displayPhoneNumber={displayPhoneNumber} sendAuthStateFnc={callSetAuthMode}/>}

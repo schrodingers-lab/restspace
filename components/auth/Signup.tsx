@@ -8,6 +8,7 @@ import { Icon } from 'ionicons/dist/types/components/icon/icon';
 import { eye } from 'ionicons/icons';
 import { IonIcon } from '@ionic/react';
 import 'react-phone-number-input/style.css';
+import { Link } from 'react-router-dom';
 
 export const Signup = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
     const supabaseClient = useSupabaseClient();
@@ -131,24 +132,25 @@ export const Signup = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
 
     return (
       <>
-        <div className="h-full  bg-air bg-center bg-cover flex flex-col justify-content:center align-items:center py-12 sm:px-6 lg:px-8">
+        <div className="h-full bg-air bg-center bg-cover flex flex-col justify-center py-12 sm:px-6 lg:px-8">
           <div className="sm:mx-auto sm:w-full sm:max-w-md">
             <img
               className="mx-auto h-12 w-auto"
               src="/imgs/WeWatch/WeWatch_LogoStrap_orange.svg"
               alt="WeWatch"
             />
-            <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-200">Sign up for an account</h2>
-            <p className="mt-2 text-center text-sm text-gray-600 dark:text-gray-300">
+            <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-100">Sign up for an account</h2>
+            <p className="mt-2 text-center text-sm text-gray-600 dark:text-gray-200">
               Or{' '}
-              <a href="/tabs/login" className="font-medium text-ww-primary hover:text-ww-secondary">
-               Sign in to an existing account
-              </a>  
+              <Link to={"/tabs/login"} className="font-medium text-ww-primary hover:text-ww-secondary">
+                Sign in to an existing account
+              </Link> 
             </p>
           </div>
   
-          <div className="bg-white dark:bg-black mt-4 sm:mx-4 mx-auto sm:w-full sm:max-w-md">
-            <div className="py-8 px-4 shadow  sm:px-10">
+  
+          <div className="mt-4 sm:mx-auto sm:w-full px-4 sm:max-w-md">
+            <div className="bg-white dark:bg-black py-8 px-4 shadow rounded-lg sm:px-10">
               <form className="space-y-6" onSubmit={handleSubmit}>
                 <div>
                   <label htmlFor="tel" className="block text-sm font-medium text-gray-700 dark:text-white">
@@ -202,9 +204,9 @@ export const Signup = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
   
                 <div className="flex items-center justify-between pb-6">
                   <div className="text-sm">
-                    <a href="/tabs/forgot" className="font-medium text-ww-primary hover:text-ww-secondary">
+                    <Link to={"/tabs/forgot"} className="font-medium text-ww-primary hover:text-ww-secondary">
                       Forgot your password?
-                    </a>
+                    </Link>
                   </div>
                 </div>
 

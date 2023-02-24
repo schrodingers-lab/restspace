@@ -50,8 +50,10 @@ export const UpdatePasswordPage = ({history}) => {
           </IonToolbar>
         </IonHeader>
         <IonContent>
+          <div className='mx-2 h-full'>
             { authMode == 'update' && <UpdatePassword phoneNumber={phoneNumber} displayPhoneNumber={displayPhoneNumber} sendAuthStateFnc={callSetAuthMode}/>}
             { authMode == 'post' && <p>Password reset...</p>}
+          </div>
         </IonContent>
     </IonPage>
     );
