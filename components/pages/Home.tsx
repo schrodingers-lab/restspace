@@ -133,12 +133,12 @@ import HomeNonUser from '../auth/HomeNonUser';
           }
         
 
-          { user && authUserProfile?.username && <div className="px-4 pt-4 pb-4 ">
+          { user && authUserProfile?.username && <div className="max-w-xl my-4 mx-auto px-4 pt-4 pb-4 ">
               <h2 className="font-bold text-xl text-gray-600 dark:text-gray-100">Welcome back <span className="font-bold text-xl text-ww-secondary">{authUserProfile?.username}</span></h2>
             </div>
           }
 
-          { user && !authUserProfile?.username && <div className="px-4 pt-4 pb-4 ">
+          { user && !authUserProfile?.username && <div className="max-w-xl my-4 mx-auto px-4 pt-4 pb-4 ">
               <h2 className="font-bold text-xl text-gray-600 dark:text-gray-100" onClick={() => gotoProfile()}>Lets get you a <span className="font-bold text-xl text-ww-secondary">Username</span></h2>
             </div>
           }
@@ -184,7 +184,7 @@ import HomeNonUser from '../auth/HomeNonUser';
           </Card>
 
           { user &&
-            <div className="my-4 mx-auto" key="Your-incidents">
+            <div className="max-w-xl my-4 mx-auto my-4 mx-auto" key="Your-incidents">
               <label className="block text-sm px-4 font-medium text-gray-700 dark:text-white"  key="my-incident-label">
                   Your Recent Incidents
               </label>
