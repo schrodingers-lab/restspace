@@ -95,7 +95,7 @@ const TourPage = () => {
                           </div>
                           <h3 className="text-xl font-medium text-gray-900">Community</h3>
                           <p className="mt-4 text-base text-gray-500">
-                            Create an account and chat with neighbours, and keep in the loop with the latest information
+                            Create an account, chat with neighbours, and keep in the loop with the latest information
                           </p>
                         </div>
                         {/* <div className="rounded-bl-2xl rounded-br-2xl bg-gray-50 p-6 md:px-8">

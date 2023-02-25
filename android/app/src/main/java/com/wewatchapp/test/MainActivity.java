@@ -1,4 +1,4 @@
-package com.example.app;
+package com.wewatchapp.test;
 
 import com.getcapacitor.BridgeActivity;
 

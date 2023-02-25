@@ -368,14 +368,14 @@ const EditDetail = ({history, match }) => {
 
               <div className="mt-8 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
                 <div className="sm:col-span-6">
-                  <label htmlFor="name" className="block pt-4 text-sm font-medium text-gray-700 dark:text-white">
-                    Name
+                  <label htmlFor="locationName" className="block pt-4 text-sm font-medium text-gray-700 dark:text-white">
+                    Where did this happen
                   </label>
                   <div className="mt-1">
                     <input
                       type="text"
-                      name="name"
-                      id="name"
+                      name="locationName"
+                      id="locationName"
                       value={name}
                       onChange={handleName}
                       className="block w-full text-black dark:text-white dark:bg-black rounded-md border-gray-300 shadow-sm focus:border-ww-secondary focus:ring-ww-secondary caret-ww-secondary sm:text-sm"

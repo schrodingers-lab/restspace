@@ -4,9 +4,41 @@ import { displayLevelColor } from './display';
 import { addPopup } from './mapbox';
 
 export const generateRandomName = () => {
+  const snameDictionary = [
+    'Queen',
+    "Victoria",
+    "John",
+    "Elizabeth",
+    "King",
+    "Church",
+    "William",
+    "George"
+  ]
+  const streetDictionary = [
+    'Road',
+    'Street',
+    'Drive',
+    'Avenue',
+    'Boulevard',
+    'Lane',
+    'Parkway',
+    'Square',
+    'Way',
+    'Court',
+    'Place',
+    'Circle',
+    'Highway',
+    'Trail',
+    'Park',
+    'Commons',
+    'Terrace',
+    'Grove',
+    'Gardens',
+  ];
+
     const customConfig: Config = {
-        dictionaries: [adjectives, colors],
-        separator: '-',
+        dictionaries: [snameDictionary, streetDictionary],
+        separator: ' ',
         length: 2,
       };
 

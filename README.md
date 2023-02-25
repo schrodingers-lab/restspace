@@ -71,3 +71,22 @@ postgresql://postgres:postgres@localhost:54322/postgres
 
 # Default URL:
 http://localhost:54321
+
+
+# App Config
+## Android
+```
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+```
+
+
+## iOS
+```
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Allow We Watch to access your photo library</string>
+    <key>NSCameraUsageDescription</key>
+    <string>Allow We Watch to access your camera</string>
+    <key>NSPhotoLibraryAddUsageDescription</key>
+    <string>Allow We Watch to save photos to your photo library</string>
+``` 
