@@ -211,7 +211,7 @@ import HomeNonUser from '../auth/HomeNonUser';
       <IonPage>
         <IonHeader>
           <IonToolbar>
-            <IonTitle><img  src="/imgs/WeWatch/WeWatch_LogoStrap_orange.svg" className="h-8"/></IonTitle>
+            <IonTitle>{user && <img  src="/imgs/WeWatch/WeWatch_LogoStrap_orange.svg" className="h-8"/>}</IonTitle>
             <IonButtons slot="start">
               <IonMenuButton />
             </IonButtons>
