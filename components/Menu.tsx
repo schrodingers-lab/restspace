@@ -125,14 +125,7 @@ const Menu = () => {
       </IonHeader>
       <IonContent >
         <IonList>
-          { user &&
-            <IonMenuToggle autoHide={false} key='user'>
-              <IonItem onClick={signOut} detail={false} lines="none">
-                <IonIcon icon={logOut} slot="start" />
-                <IonLabel>Sign Out</IonLabel>
-              </IonItem>
-            </IonMenuToggle>
-          }
+
 
            { !user &&
             <IonMenuToggle autoHide={false} key='user'>
@@ -152,6 +145,15 @@ const Menu = () => {
             </IonMenuToggle>
           ))}
 
+          { user &&
+            <IonMenuToggle autoHide={false} key='user'>
+              <IonItem onClick={signOut} detail={false} lines="none">
+                <IonIcon icon={logOut} slot="start" />
+                <IonLabel>Sign Out</IonLabel>
+              </IonItem>
+            </IonMenuToggle>
+          }
+          
           { authUserProfile?.admin &&
             <IonMenuToggle autoHide={false} key='admin'>
               <IonItem onClick={goToAdmin} detail={false} lines="none">
