@@ -89,4 +89,6 @@ http://localhost:54321
     <string>Allow We Watch to access your camera</string>
     <key>NSPhotoLibraryAddUsageDescription</key>
     <string>Allow We Watch to save photos to your photo library</string>
+    <key>NSMediaLibraryUsageDescription</key>
+    <string>Allow We Watch to save photos to your photo library</string>
 ``` 
