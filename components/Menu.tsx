@@ -113,7 +113,14 @@ const Menu = () => {
     <IonMenu side="start" contentId="main" onIonDidOpen={handleOpen} onIonDidClose={handleClose} swipeGesture={false} >
       <IonHeader>
         <IonToolbar>
-          <IonTitle>WeWatch</IonTitle>
+          <IonTitle>
+          <img
+            height={'10px'}
+                className="h-6 w-auto"
+                src="/imgs/WeWatch/WeWatch_LogoStrap_white.svg"
+                alt="WeWatch"
+              />
+          </IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent >
