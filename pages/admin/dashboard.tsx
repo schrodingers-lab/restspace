@@ -30,7 +30,7 @@ const DashboardPage = (props) => {
 
   // Render the chats and messages
   return (
-    <div className="mx-auto pt-8 px-8" >
+    <div className="mx-auto pt-8 px-8  " >
 
       <div className="md:flex md:items-center md:justify-between">
         <div className="min-w-0 flex-1">
@@ -55,7 +55,7 @@ const DashboardPage = (props) => {
           {/* First Admin Module */}
           <div
             key='users'
-            className="relative overflow-hidden rounded-lg bg-white px-4 pt-5 pb-12 shadow sm:px-6 sm:pt-6"
+            className="relative   rounded-lg bg-white px-4 pt-5 pb-12 shadow sm:px-6 sm:pt-6"
             onClick={goToAdminUsers}
           >
             <dt>
@@ -80,7 +80,7 @@ const DashboardPage = (props) => {
 
           <div
             key='chats'
-            className="relative overflow-hidden rounded-lg bg-white px-4 pt-5 pb-12 shadow sm:px-6 sm:pt-6"
+            className="relative   rounded-lg bg-white px-4 pt-5 pb-12 shadow sm:px-6 sm:pt-6"
             onClick={goToAdminChat}
           >
             <dt>
@@ -105,7 +105,7 @@ const DashboardPage = (props) => {
 
           <div
             key='reports'
-            className="relative overflow-hidden rounded-lg bg-white px-4 pt-5 pb-12 shadow sm:px-6 sm:pt-6"
+            className="relative   rounded-lg bg-white px-4 pt-5 pb-12 shadow sm:px-6 sm:pt-6"
             onClick={goToUgcReports}
           >
             <dt>

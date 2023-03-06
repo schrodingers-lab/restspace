@@ -24,7 +24,7 @@ import UserProfileAvatar from "../../../components/ui/UserProfileAvatar";
     }
 
     return (
-      <div className="px-4 sm:px-6 lg:px-8 mt-8">
+      <div className="px-4 sm:px-6 lg:px-8 mt-8  ">
 
         <div className="sm:flex sm:items-center">
           <div className="sm:flex-auto">
@@ -49,7 +49,7 @@ import UserProfileAvatar from "../../../components/ui/UserProfileAvatar";
             </button> */}
           </div>
         </div>
-        <div className="-mx-4 mt-8 overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:-mx-6 md:mx-0 md:rounded-lg">
+        <div className="-mx-4 mt-8   shadow ring-1 ring-black ring-opacity-5 sm:-mx-6 md:mx-0 md:rounded-lg">
           <table className="min-w-full divide-y divide-gray-300">
             <thead className="bg-gray-50">
               <tr>
