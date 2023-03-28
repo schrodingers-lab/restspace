@@ -46,7 +46,7 @@ import MessageRow from "./MessageRow";
     }
 
     return (
-      <div className="px-4 sm:px-6 lg:px-8 mt-8">
+      <div className="px-4 sm:px-6 lg:px-8 mt-8 overflow-scroll max-h-full">
 
         <div className="sm:flex sm:items-center">
           <div className="sm:flex-auto">
@@ -98,7 +98,7 @@ import MessageRow from "./MessageRow";
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-200 bg-white">
+            <tbody className="divide-y divide-gray-200 bg-white mb-10">
               { reports.map((report) => {
                 if (report.mode == "message")
                   return <MessageRow report={report} completeReport={completeReport} supabase={supabase} />
