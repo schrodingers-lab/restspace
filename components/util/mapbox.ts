@@ -8,7 +8,7 @@ export const mapboxglStyle = 'mapbox://styles/mapbox/streets-v11'
 
 export const defaultInitialLat = -16.935682;
 export const defaultInitialLng = 145.749049;
-export const defaultInitialZoom = 11;
+export const defaultInitialZoom = 13;
 
 export const distanceMaxBase = 2.5;
 export const distanceMaxIncident = 1.25;
