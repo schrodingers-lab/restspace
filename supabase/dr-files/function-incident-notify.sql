@@ -10,7 +10,7 @@ CREATE OR REPLACE FUNCTION geo_users(x numeric, y numeric, distance int)
       );
 $$ language sql;
 
-
+-- Triggers need to be ROW level, not STATEMENT level
 CREATE OR REPLACE FUNCTION public.notify_incident()
  RETURNS trigger
  LANGUAGE plpgsql

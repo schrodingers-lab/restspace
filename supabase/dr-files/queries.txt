@@ -8,3 +8,7 @@ and ST_DWithin(
         ST_MakePoint(-71.064544, 42.3150676015829)::geography,
         20000, 
         true );
+
+SELECT *
+FROM information_schema.triggers
+WHERE trigger_schema = 'public'
