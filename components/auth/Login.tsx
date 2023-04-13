@@ -72,7 +72,7 @@ export const Login = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
         if (error?.name == "AuthApiError"){
           if (error?.message == "Phone not confirmed"){
             // verify phone
-            await supabaseClient.auth.signInWithOtp({
+            const result = await supabaseClient.auth.signInWithOtp({
               phone: phoneNumber
             });
             setAuthState('verify');
@@ -85,6 +85,20 @@ export const Login = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
           }
         }
       } else {
+        const ses = await supabaseClient.auth.getSession();
+        console.log('ses', ses);
+        console.log('data', data);
+        if(ses.data.session == null) {
+          const refresh_token = data.session.refresh_token
+          const res1 = await supabaseClient.auth.refreshSession({refresh_token})
+          // console.log('data', data);
+          // console.log('set Session');`
+          // const res1 = await supabaseClient.auth.setSession(data?.session);
+          console.log('res1', res1);
+        } 
+
+        const ses2 = await supabaseClient.auth.getSession();
+        console.log('ses2', ses2);
         setAuthState('post');
       }
       setLoading(false);
