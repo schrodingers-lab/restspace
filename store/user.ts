@@ -1,9 +1,9 @@
 import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react'
 import { useState, useEffect } from 'react'
 import { addToNewMap, arrayToMap } from '../components/util/data'
-import { Store } from 'pullstate';
+import { Store, useStoreState } from 'pullstate';
 import { enableMapSet } from 'immer';
-
+import * as selectors from './selectors';
 enableMapSet();
 
 export const UserStore = new Store({
@@ -11,6 +11,8 @@ export const UserStore = new Store({
   userIds: [],
   authUser: undefined,
   authUserProfile: undefined,
+  userSession: undefined,
+  supa: undefined,
 });
 
 /**
@@ -134,3 +136,36 @@ export const updateProfile = async (newProfile, supabase) => {
   }
 }
 
+
+export const updateSession = async (session) => {
+  try {
+    UserStore.update(s => {
+      s.userSession = session
+    });
+    return session
+  } catch (error) {
+    console.log('error', error)
+  }
+}
+
+export const updateUser = async (authUser) => {
+  try {
+    UserStore.update(s => {
+      s.authUser = authUser
+    });
+    return authUser
+  } catch (error) {
+    console.log('error', error)
+  }
+}
+
+export const updateClient = async (supa) => {
+  try {
+    UserStore.update(s => {
+      s.supa = supa
+    });
+    return supa
+  } catch (error) {
+    console.log('error', error)
+  }
+}

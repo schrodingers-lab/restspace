@@ -18,5 +18,8 @@
       "splashImmersive": true
     }
   },
+  "server": {
+    "hostname": "wewatchapp.com"
+  },
   "cordova": {}
 }

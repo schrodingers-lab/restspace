@@ -190,3 +190,14 @@ export const unhideIncident = async (incident_id, supabase) => {
     console.log('error', error)
   }
 }
+
+
+export const createIncident = async (insertData, supabase) => {
+  try {
+    let { data, error } = await supabase.from('incidents')
+          .insert(insertData ).select();
+    return  { data, error } 
+  } catch (error) {
+    console.log('error', error)
+  }
+}

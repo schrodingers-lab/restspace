@@ -14,13 +14,21 @@ import '../styles/global.css';
 import '../styles/mapbox.css';
 import '../styles/variables.css';
 import React, { useState } from 'react';
-import { createBrowserSupabaseClient } from '@supabase/auth-helpers-nextjs'
+
+import { SupabaseClient, createBrowserSupabaseClient } from '@supabase/auth-helpers-nextjs'
 import { SessionContextProvider, Session } from '@supabase/auth-helpers-react'
+import { createCapacitorSupabaseClient } from '../components/util/supabase';
 
 function MyApp({ Component, pageProps }) {
 
-  // Create a new supabase browser client on every first render.
-  const [supabaseClient] = useState(() => createBrowserSupabaseClient())
+  // const [supabaseClient] = useState(() => createBrowserSupabaseClient())
+  const SUPABASE_url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const SUPABASE_anon_key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;  
+  const [supabaseClient] = useState(() => createCapacitorSupabaseClient({
+    supabaseUrl: SUPABASE_url,
+    supabaseKey: SUPABASE_anon_key
+  }))
+
   
   return (
     <>
