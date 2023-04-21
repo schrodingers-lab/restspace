@@ -5,7 +5,7 @@ import { Preferences } from '@capacitor/preferences';
 import { Capacitor } from '@capacitor/core';
 import { createBrowserSupabaseClient } from '@supabase/auth-helpers-nextjs';
 
-class InMemoryStorage implements Storage {
+  class InMemoryStorage implements Storage {
     private data: Record<string, string> = {};
   
     get length(): number {
