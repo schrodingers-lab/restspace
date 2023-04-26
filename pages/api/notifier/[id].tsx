@@ -8,11 +8,12 @@ export default async function sendPushNotification(req: NextApiRequest, res: Nex
     return res.status(401).json({ error: 'Invalid API Route Secret.' });
   }
 
+  console.log("sendPushNotification");
   // Initialize Supabase client
   const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
 
   // Initialize Firebase Admin SDK
-  const serviceAccount = require('./wewatchapp-7d13a-firebase-adminsdk-6do2h-8507094c5d');
+  const serviceAccount = require('./wewatchapp-7d13a-firebase-adminsdk-6do2h-8507094c5d.json');
   admin.initializeApp({
     credential: admin.credential.cert(serviceAccount)
   });
