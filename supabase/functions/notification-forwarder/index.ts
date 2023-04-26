@@ -38,17 +38,26 @@ serve(async (req) => {
     const headers = {
         'Content-Type': 'application/json',
         'API_ROUTE_SECRET': FORWARD_API_KEY,
-      };
+    };
 
     const id = notification?.id;
+
+    if (notification.user_id !== '91c65167-20b2-421c-a77d-bcf95ea98723') {
+
+        console.log('skipped. - not user_id')
+        return new Response(
+            JSON.stringify({message: 'Not user_id .'}),
+            { headers: { "Content-Type": "application/json" } },
+          )
+    }
 
     if(notification?.mode !== 'create' || notification?.object_type !== 'incidents'){
         // Return success response
         console.log('Push notification skipped. - not indicents - create')
         return new Response('Push notification skipped. - not indicents - create ',{ status: 200});
     }
-    
-    const server_url = `${FORWARD_URL}/${id}`
+
+    const server_url = `${FORWARD_URL}${id}`
     console.log(`call vercel api function ${server_url}`, headers)
     const response = await fetch(server_url, { headers });
     const api_data = await response.json();

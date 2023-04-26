@@ -35,10 +35,10 @@ export default async function sendPushNotification(req: NextApiRequest, res: Nex
     }
 
     // Determine if I should send an notification
-    if(notification?.mode !== 'create' || notification?.object_type !== 'incidents'){
-      // Return success response
-      res.status(200).json({ message: 'Push notification skipped.' });
-    }
+    // if(notification?.mode !== 'create' || notification?.object_type !== 'incidents'){
+    //   // Return success response
+    //   res.status(200).json({ message: 'Push notification skipped.' });
+    // }
 
     const notification_user_id = notification.user_id;
     // Retrieve user record associated with the notification
@@ -64,7 +64,7 @@ export default async function sendPushNotification(req: NextApiRequest, res: Nex
           object_id: ""+notification?.object_id,
         },
         notification: {
-          title: 'New Incident Reported',
+          title: 'New Notification',
           body: ""+notification.message
         },
         token: user.push_token
