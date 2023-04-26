@@ -26,18 +26,18 @@ export default async function sendPushNotification(req: NextApiRequest, res: Nex
       .from('notifications')
       .select('*')
       .eq('id', id)
-      .single();
     console.log("notifications", notifications);
     console.log("error", error);
     if (error) {
       throw new Error(error.message);
     }
 
+    const notification_user_id = '91c65167-20b2-421c-a77d-bcf95ea98723'
     // Retrieve user record associated with the notification
     const { data: user, error: userError } = await supabase
       .from('users')
       .select('*')
-      .eq('id', notifications.user_id)
+      .eq('id', notification_user_id)
       .single();
     console.log("users", user);
     if (userError) {
