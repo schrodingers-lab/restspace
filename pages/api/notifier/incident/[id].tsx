@@ -39,53 +39,52 @@ export default async function processIncidentCreation(req: NextApiRequest, res: 
 
     const query = supabase.rpc('geo_users', { x: incident.longitude, y: incident.latitude, distance: distance });
     query.not('push_token', 'is', null); // only users with push_token
-    
+
     // temporary-order-creation (not incidented_at, so we see newest, top for clicking)
     const result = await query.select("*").order('inserted_at',{ascending: false});
     console.log("result", result);
 
+    const pushUsers = result.data;
 
-    const incident_user_id = incident.user_id;
-    // Retrieve user record associated with the incident
-    const { data: user, error: userError } = await supabase
-      .from('users')
-      .select('*')
-      .eq('id', incident_user_id)
-      .single();
-    console.log("user", user);
-    if (userError) {
-      throw new Error(userError.message);
-    }
 
-    // Check if user has a token
-    if (user?.push_token) {
-      // Construct message payload
-      const message = {
-        data: {
-          type: 'incident',
-          incident_id: ""+incident?.id,
-          mode: ""+incident?.mode,
-          object_type: ""+incident?.object_type,
-          object_id: ""+incident?.object_id,
-        },
-        notification: {
-          title: 'New Incident Reported #' + incident?.id,
-          body: ""+incident?.name
-        },
-        token: user.push_token
-      };
+    // const incident_user_id = incident.user_id;
+    // // Retrieve user record associated with the incident
+    // const { data: user, error: userError } = await supabase
+    //   .from('users')
+    //   .select('*')
+    //   .eq('id', incident_user_id)
+    //   .single();
+    // console.log("user", user);
+    // if (userError) {
+    //   throw new Error(userError.message);
+    // }
+    //     if (user?.push_token) {
+
+    const userTokens = pushUsers.map((user) => user.push_token);
+    // Construct message payload
+    const message = {
+      data: {
+        type: 'incident',
+        incident_id: ""+incident?.id,
+        mode: ""+incident?.mode,
+        object_type: ""+incident?.object_type,
+        object_id: ""+incident?.object_id,
+      },
+      notification: {
+        title: 'New Incident Reported #' + incident?.id,
+        body: ""+incident?.name
+      },
+      tokens: userTokens
+    };
+
+    
 
       // Send message using Firebase Admin Messaging
-     const resp = await admin.messaging().send(message);
+     const resp = await admin.messaging().sendEachForMulticast(message);
      console.log("resp", resp)
 
       // Return success response
-      res.status(200).json({ message: 'Push notification sent.' });
-    } else {
-      // Return error response
-      // res.status(400).json({ error: 'User does not have a token.' });
-      res.status(200).json({ message: 'User does not have a token.' });
-    }
+      res.status(200).json({ message: 'Push notification sent. #' + userTokens.length });
   } catch (err) {
     // Handle errors
     res.status(500).json({ error: err.message });
