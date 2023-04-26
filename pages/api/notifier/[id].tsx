@@ -35,7 +35,7 @@ export default async function sendPushNotification(req: NextApiRequest, res: Nex
     }
 
     // Determine if I should send an notification
-    if(notification?.type !== 'create' || notification?.object_type !== 'incidents'){
+    if(notification?.mode !== 'create' || notification?.object_type !== 'incidents'){
       // Return success response
       res.status(200).json({ message: 'Push notification skipped.' });
     }

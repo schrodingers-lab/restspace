@@ -24,6 +24,8 @@ serve(async (req) => {
     const data = await req.json()
     console.log("req from Functions!", JSON.stringify(data, null, 2))
 
+    const notification = data?.notification
+
     const FORWARD_URL =  Deno.env.get('FORWARD_URL') ?? '';
     const FORWARD_API_KEY =  Deno.env.get('FORWARD_API_KEY') ?? '';
 
@@ -32,7 +34,13 @@ serve(async (req) => {
         'Authorization': `Bearer ${FORWARD_API_KEY}`,
         'API_ROUTE_SECRET': FORWARD_API_KEY,
       };
-    const id = 1294;
+    const id = 1288;
+
+    if(notification?.mode !== 'create' || notification?.object_type !== 'incidents'){
+        // Return success response
+         return new Response('Push notification skipped. - not indicents - create ',{ status: 200});
+      }
+
     const response = await fetch(`${FORWARD_URL}/${id}`, { headers });
     const api_data = await response.json();
 
