@@ -3,16 +3,22 @@
 // This enables autocomplete, go to definition, etc.
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
 
-
-// type InsertPayload = {
-//   type: 'INSERT'
-//   table: string
-//   schema: string
-//   record: TableRecord<T>
-//   old_record: null
-// }
-
-
+//Webhook attached to Notification (with request data)
+// "type": "INSERT",
+//   "table": "notifications",
+//   "record": {
+//     "id": 1301,
+//     "mode": "create",
+//     "message": "King Commons",
+//     "user_id": "70fa28b7-cc0c-4fbc-8350-742757f98f99",
+//     "completed": false,
+//     "object_id": "223",
+//     "created_at": "2023-04-26T06:55:36.388425+00:00",
+//     "updated_at": "2023-04-26T06:55:36.388425+00:00",
+//     "object_type": "incidents"
+//   },
+//   "schema": "public",
+//   "old_record": null
 
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
@@ -24,25 +30,29 @@ serve(async (req) => {
     const data = await req.json()
     console.log("req from Functions!", JSON.stringify(data, null, 2))
 
-    const notification = data?.notification
+    const notification = data?.record
 
     const FORWARD_URL =  Deno.env.get('FORWARD_URL') ?? '';
     const FORWARD_API_KEY =  Deno.env.get('FORWARD_API_KEY') ?? '';
 
     const headers = {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${FORWARD_API_KEY}`,
         'API_ROUTE_SECRET': FORWARD_API_KEY,
       };
-    const id = 1288;
+
+    const id = notification?.id;
 
     if(notification?.mode !== 'create' || notification?.object_type !== 'incidents'){
         // Return success response
+         console.log('Push notification skipped. - not indicents - create')
          return new Response('Push notification skipped. - not indicents - create ',{ status: 200});
       }
 
+    console.log(`call vercel api function ${FORWARD_URL}/${id}`, headers)
     const response = await fetch(`${FORWARD_URL}/${id}`, { headers });
     const api_data = await response.json();
+    console.log('call vercel api function response', response)
+
 
     return new Response(
       JSON.stringify(api_data),
