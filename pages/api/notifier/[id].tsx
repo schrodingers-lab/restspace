@@ -2,26 +2,24 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { createClient } from '@supabase/supabase-js';
 import admin from 'firebase-admin';
 
+// Initialize Supabase client
+const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
+
+// Initialize Firebase Admin SDK
+const serviceAccount = require('./wewatchapp-7d13a-firebase-adminsdk-6do2h-8507094c5d.json');
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount)
+});
+
 
 export default async function sendPushNotification(req: NextApiRequest, res: NextApiResponse) {
   if (req.query.API_ROUTE_SECRET !== process.env.API_ROUTE_SECRET) {
     return res.status(401).json({ error: 'Invalid API Route Secret.' });
   }
 
-  console.log("sendPushNotification");
-  // Initialize Supabase client
-  const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
-
-  // Initialize Firebase Admin SDK
-  const serviceAccount = require('./wewatchapp-7d13a-firebase-adminsdk-6do2h-8507094c5d.json');
-  admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount)
-  });
-
-
-    // Retrieve notification ID from query parameters
+  // Retrieve notification ID from query parameters
   const { id } = req.query;
-  console.log("id", id);
+  console.log("sendPushNotification id", id);
   try {
     // Retrieve notification record from Supabase
     const { data: notifications, error } = await supabase
@@ -30,7 +28,6 @@ export default async function sendPushNotification(req: NextApiRequest, res: Nex
       .eq('id', id)
       .single();
     console.log("notifications", notifications);
-
     console.log("error", error);
     if (error) {
       throw new Error(error.message);
