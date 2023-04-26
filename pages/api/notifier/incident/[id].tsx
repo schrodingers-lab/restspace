@@ -34,6 +34,9 @@ export default async function processIncidentCreation(req: NextApiRequest, res: 
     }
 
     // Determine if I should send an incident
+    // Also needs to match the notify_incident function 
+    // same distance for notification and incident push
+    // FROM geo_users(new.longitude, new.latitude, 1000) gu;
     const distance = 1000;
 
     const query = supabase.rpc('geo_users', { x: incident.longitude, y: incident.latitude, distance: distance });
