@@ -30,6 +30,8 @@ export default async function sendPushNotification(req: NextApiRequest, res: Nex
       .eq('id', id)
       .single();
     console.log("notifications", notifications);
+
+    console.log("error", error);
     if (error) {
       throw new Error(error.message);
     }
