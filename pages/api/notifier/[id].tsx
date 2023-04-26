@@ -3,7 +3,7 @@ import { createClient } from '@supabase/supabase-js';
 import admin from 'firebase-admin';
 
 // Initialize Supabase client
-const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
+const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
 
 // Initialize Firebase Admin SDK
 const serviceAccount = require('./wewatchapp-7d13a-firebase-adminsdk-6do2h-8507094c5d');
