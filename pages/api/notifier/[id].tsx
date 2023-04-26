@@ -58,14 +58,14 @@ export default async function sendPushNotification(req: NextApiRequest, res: Nex
       const message = {
         data: {
           type: 'notification',
-          notification_id: notification?.id,
-          mode: notification?.mode,
-          object_type: notification?.object_type,
-          object_id: notification?.object_id,
+          notification_id: ""+notification?.id,
+          mode: ""+notification?.mode,
+          object_type: ""+notification?.object_type,
+          object_id: ""+notification?.object_id,
         },
         notification: {
           title: 'New Incident Reported',
-          body: notification.message
+          body: ""+notification.message
         },
         token: user.push_token
       };
