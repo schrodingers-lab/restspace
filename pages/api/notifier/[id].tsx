@@ -19,13 +19,14 @@ export default async function sendPushNotification(req: NextApiRequest, res: Nex
 
   // Retrieve notification ID from query parameters
   const { id } = req.query;
+  const cid = 1288
   console.log("sendPushNotification id", id);
   try {
     // Retrieve notification record from Supabase
     const { data: notifications, error } = await supabase
       .from('notifications')
       .select('*')
-      .eq('id', id)
+      .eq('id',  cid)
     console.log("notifications", notifications);
     console.log("error", error);
     if (error) {
@@ -50,14 +51,14 @@ export default async function sendPushNotification(req: NextApiRequest, res: Nex
 
 
     // Check if user has a token
-    if (user.token) {
+    if (user?.push_token) {
       // Construct message payload
       const message = {
         notification: {
           title: 'New Notification',
           body: "notifications.message"
         },
-        token: user.token
+        token: user.push_token
       };
 
       // Send message using Firebase Admin Messaging
