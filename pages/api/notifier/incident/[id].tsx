@@ -35,10 +35,7 @@ export default async function processIncidentCreation(req: NextApiRequest, res: 
     }
 
     // Determine if I should send an incident
-    if(incident?.mode !== 'create' || incident?.object_type !== 'incidents'){
-      // Return success response
-      res.status(200).json({ message: 'Push incident skipped.' });
-    }
+
 
     const incident_user_id = incident.user_id;
     // Retrieve user record associated with the incident
