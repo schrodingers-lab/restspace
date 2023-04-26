@@ -89,7 +89,7 @@ serve(async (req) => {
 
     // //Initialize firebase app
     var serviceAccount = GOOGLE_FIRE_BASE_JSON;
-    const firebaseApp = firebase.initializeApp({credential: firebase.credential.cert(serviceAccount)});
+    // const firebaseApp = firebase.initializeApp({credential: firebase.credential.cert(serviceAccount)});
 
     // //Can send up to 500 messages at a time (TODO check this)
     // const response = await firebase.messaging().sendEachForMulticast(message, {

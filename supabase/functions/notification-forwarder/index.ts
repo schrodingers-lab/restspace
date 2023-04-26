@@ -36,7 +36,6 @@ serve(async (req) => {
     const FORWARD_API_KEY =  Deno.env.get('FORWARD_API_KEY') ?? '';
 
     const headers = {
-        'Content-Type': 'application/json',
         'API_ROUTE_SECRET': FORWARD_API_KEY,
     };
 
@@ -57,7 +56,7 @@ serve(async (req) => {
         return new Response('Push notification skipped. - not indicents - create ',{ status: 200});
     }
 
-    const server_url = `${FORWARD_URL}${id}`
+    const server_url = `${FORWARD_URL}${id}?API_ROUTE_SECRET=${FORWARD_API_KEY}`
     console.log(`call vercel api function ${server_url}`, headers)
     const response = await fetch(server_url, { headers });
     const api_data = await response.json();
