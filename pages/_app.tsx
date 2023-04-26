@@ -13,23 +13,75 @@ import '@ionic/react/css/display.css';
 import '../styles/global.css';
 import '../styles/mapbox.css';
 import '../styles/variables.css';
-import React, { useState } from 'react';
-
-import { SupabaseClient, createBrowserSupabaseClient } from '@supabase/auth-helpers-nextjs'
-import { SessionContextProvider, Session } from '@supabase/auth-helpers-react'
+import React, { useEffect, useState } from 'react';
+import { updatePushToken } from '../store/user';
+import { SessionContextProvider,  } from '@supabase/auth-helpers-react'
 import { createCapacitorSupabaseClient } from '../components/util/supabase';
+import { ActionPerformed, PushNotifications, PushNotificationSchema, Token } from '@capacitor/push-notifications';
+import { Capacitor } from '@capacitor/core';
 
 function MyApp({ Component, pageProps }) {
 
-  // const [supabaseClient] = useState(() => createBrowserSupabaseClient())
-  const SUPABASE_url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const SUPABASE_anon_key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;  
+  useEffect(() => {
+    
+  // Request permission to use push notifications
+  if (Capacitor.getPlatform() != 'web') {
+    // iOS will prompt user and return if they granted permission or not
+    PushNotifications.requestPermissions().then(result => {
+      if (result.receive === 'granted') {
+          // Register with Apple / Google to receive push via APNS/FCM
+          PushNotifications.register();
+
+          // On success, we should be able to receive notifications
+          PushNotifications.addListener('registration', 
+            (token: Token) => {
+              console.log('Push registration success, token:', token);
+              updatePushToken(token.value);
+            }
+          );
+
+          // Some issue with our setup and push will not work
+          PushNotifications.addListener('registrationError', 
+            (error: any) => {
+              console.log('Error on registration:', JSON.stringify(error));
+              updatePushToken(null);
+            }
+          );
+
+          // Show us the notification payload if the app is open on our device
+          PushNotifications.addListener('pushNotificationReceived', 
+            (notification: PushNotificationSchema) => {
+              console.log('Push received:', notification);
+            }
+          );
+
+          // Method called when tapping on a notification
+          PushNotifications.addListener('pushNotificationActionPerformed', 
+            (action: ActionPerformed) => {
+              console.log('Push action performed:', JSON.stringify(action));
+
+              console.log('Push action data:', JSON.stringify(action?.notification?.data));
+              // TODO: Can be used for logic and deep links (we decide data and logic)
+
+
+              // TODO: probably use a pullstate store for global data then later component can decide what to do with it
+
+
+              // Remove notification from the notification center (as you have actioned one)
+              PushNotifications.removeAllListeners();
+            }
+          );
+        }
+      });
+    }
+  }, []);
+
+  // have custom supabase client for capacitor ios (uses perferences over cookies otherwise nextjs client)  
   const [supabaseClient] = useState(() => createCapacitorSupabaseClient({
-    supabaseUrl: SUPABASE_url,
-    supabaseKey: SUPABASE_anon_key
+    supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL,
+    supabaseKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
   }))
 
-  
   return (
     <>
       <Head>

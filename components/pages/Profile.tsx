@@ -37,6 +37,7 @@ import {
     const authUser = useUser();
     const {userIds} = useUserStore({userId: authUser?.id});
     const authUserProfile = useStoreState(UserStore, selectors.getAuthUserProfile);
+    const pushToken = useStoreState(UserStore, selectors.getPushToken);
 
     const supabase = useSupabaseClient();
     const [error, setError] = useState("");
@@ -134,6 +135,10 @@ import {
         };
         newProfile.longitude = location.longitude;
         newProfile.latitude = location.latitude;
+      }
+
+      if (pushToken){
+        newProfile.push_token = pushToken;
       }
 
       //Update user profile (RLS active)

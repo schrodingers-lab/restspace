@@ -11,8 +11,7 @@ export const UserStore = new Store({
   userIds: [],
   authUser: undefined,
   authUserProfile: undefined,
-  userSession: undefined,
-  supa: undefined,
+  pushToken: undefined,
 });
 
 /**
@@ -136,18 +135,6 @@ export const updateProfile = async (newProfile, supabase) => {
   }
 }
 
-
-export const updateSession = async (session) => {
-  try {
-    UserStore.update(s => {
-      s.userSession = session
-    });
-    return session
-  } catch (error) {
-    console.log('error', error)
-  }
-}
-
 export const updateUser = async (authUser) => {
   try {
     UserStore.update(s => {
@@ -159,12 +146,12 @@ export const updateUser = async (authUser) => {
   }
 }
 
-export const updateClient = async (supa) => {
+export const updatePushToken = async (pushToken) => {
   try {
     UserStore.update(s => {
-      s.supa = supa
+      s.pushToken = pushToken
     });
-    return supa
+    return pushToken
   } catch (error) {
     console.log('error', error)
   }

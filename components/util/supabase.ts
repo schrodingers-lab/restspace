@@ -92,14 +92,9 @@ export function createCapacitorSupabaseClient<
     }
 
     const Storage = new PreferenceStorage();
-    console.log("used PreferenceStorage")
-
-    // const Storage = new InMemoryStorage();
-    // console.log("used memory storage")
 
     //use device to determine if I should use auth-helper-nextjs or preference storage
     // only ios capacitor uses preference storage
-    console.log('Capacitor.getPlatform() = ', Capacitor.getPlatform())
     if (Capacitor.getPlatform() != 'ios') {
 
         return createBrowserSupabaseClient( {supabaseUrl, supabaseKey, options});

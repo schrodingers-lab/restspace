@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "394364452164",
+    "project_id": "wewatchapp-7d13a",
+    "storage_bucket": "wewatchapp-7d13a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:394364452164:android:70015cc3536a8332866b11",
+        "android_client_info": {
+          "package_name": "com.wewatchapp.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "394364452164-dk83fnqt6uinesucknv9nionjgk83d0i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJCmBgipwjQuWv18unt9Yfpc6q-KNsjvI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "394364452164-dk83fnqt6uinesucknv9nionjgk83d0i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:394364452164:android:533d0b50ae657907866b11",
+        "android_client_info": {
+          "package_name": "com.wewatchapp.test"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "394364452164-dk83fnqt6uinesucknv9nionjgk83d0i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJCmBgipwjQuWv18unt9Yfpc6q-KNsjvI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "394364452164-dk83fnqt6uinesucknv9nionjgk83d0i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

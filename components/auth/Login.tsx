@@ -1,7 +1,6 @@
 import 'react-phone-number-input/style.css';
 import PhoneInput, { formatPhoneNumber, formatPhoneNumberIntl, isValidPhoneNumber } from 'react-phone-number-input';
 import React, {useState,useRef, useEffect} from 'react';
-import { SupabaseClient } from '@supabase/supabase-js';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import { IonIcon } from '@ionic/react';
 import { eye } from 'ionicons/icons';
@@ -85,20 +84,9 @@ export const Login = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
           }
         }
       } else {
-        const ses = await supabaseClient.auth.getSession();
-        console.log('ses', ses);
-        console.log('data', data);
-        if(ses.data.session == null) {
-          const refresh_token = data.session.refresh_token
-          const res1 = await supabaseClient.auth.refreshSession({refresh_token})
-          // console.log('data', data);
-          // console.log('set Session');`
-          // const res1 = await supabaseClient.auth.setSession(data?.session);
-          console.log('res1', res1);
-        } 
-
-        const ses2 = await supabaseClient.auth.getSession();
-        console.log('ses2', ses2);
+        // const ses = await supabaseClient.auth.getSession();
+        // console.log('ses', ses);
+        // console.log('data', data);
         setAuthState('post');
       }
       setLoading(false);

@@ -20,5 +20,4 @@ export const getAuthUser = createSelector(getState, state => state.authUser);
 export const getAuthUserProfile = createSelector(getState, state => state.authUserProfile);
 export const getUserIds = createSelector(getState, state => state.userIds);
 export const getUserProfiles = createSelector(getState, state => state.userProfiles);
-export const getUserSession = createSelector(getState, state => state.userSession);
-export const getClient = createSelector(getState, state => state.supa);
+export const getPushToken = createSelector(getState, state => state.pushToken);

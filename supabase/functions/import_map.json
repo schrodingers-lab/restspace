@@ -1,0 +1,6 @@
+{
+  "imports": {
+
+    "typescript": "https://cdn.skypack.dev/typescript@4.3.2"
+  }
+}
