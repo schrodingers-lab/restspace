@@ -78,7 +78,8 @@ export default async function sendPushNotification(req: NextApiRequest, res: Nex
       res.status(200).json({ message: 'Push notification sent.' });
     } else {
       // Return error response
-      res.status(400).json({ error: 'User does not have a token.' });
+      // res.status(400).json({ error: 'User does not have a token.' });
+      res.status(200).json({ message: 'User does not have a token.' });
     }
   } catch (err) {
     // Handle errors

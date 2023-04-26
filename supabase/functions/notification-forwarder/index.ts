@@ -44,12 +44,13 @@ serve(async (req) => {
 
     if(notification?.mode !== 'create' || notification?.object_type !== 'incidents'){
         // Return success response
-         console.log('Push notification skipped. - not indicents - create')
-         return new Response('Push notification skipped. - not indicents - create ',{ status: 200});
-      }
-
-    console.log(`call vercel api function ${FORWARD_URL}/${id}`, headers)
-    const response = await fetch(`${FORWARD_URL}/${id}`, { headers });
+        console.log('Push notification skipped. - not indicents - create')
+        return new Response('Push notification skipped. - not indicents - create ',{ status: 200});
+    }
+    
+    const server_url = `${FORWARD_URL}/${id}`
+    console.log(`call vercel api function ${server_url}`, headers)
+    const response = await fetch(server_url, { headers });
     const api_data = await response.json();
     console.log('call vercel api function response', response)
 
