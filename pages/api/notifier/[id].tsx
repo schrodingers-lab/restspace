@@ -19,21 +19,28 @@ export default async function sendPushNotification(req: NextApiRequest, res: Nex
 
   // Retrieve notification ID from query parameters
   const { id } = req.query;
-  const cid = 1288
   console.log("sendPushNotification id", id);
   try {
     // Retrieve notification record from Supabase
-    const { data: notifications, error } = await supabase
+    const { data: notification, error } = await supabase
       .from('notifications')
       .select('*')
-      .eq('id',  cid)
-    console.log("notifications", notifications);
+      .eq('id',  id)
+      .single();
+    console.log("notification", notification);
     console.log("error", error);
     if (error) {
+      console.error("can't find notification "+ id);
       throw new Error(error.message);
     }
 
-    const notification_user_id = '91c65167-20b2-421c-a77d-bcf95ea98723'
+    // Determine if I should send an notification
+    if(notification?.type !== 'create' || notification?.object_type !== 'incident'){
+      // Return success response
+      res.status(200).json({ message: 'Push notification skipped.' });
+    }
+
+    const notification_user_id = notification.user_id;
     // Retrieve user record associated with the notification
     const { data: user, error: userError } = await supabase
       .from('users')
@@ -45,18 +52,17 @@ export default async function sendPushNotification(req: NextApiRequest, res: Nex
       throw new Error(userError.message);
     }
 
-    // const registrationTokens = [
-    //   'fRiAmVRiPkSMpgivRkFQBA:APA91bFCiZTi0h-7HTabkkgJriediSv7QdL-iBO4DQ70ICc8zLdAOZcyu4yIcSglDSD1a9DC4hvGfHd1mUVCniSJKVuMiOJrNQ53UbquEtw6fLUfbjXpKWbQIjCkKjQDW266VOJGCo93',
-    // ];
-
-
     // Check if user has a token
     if (user?.push_token) {
       // Construct message payload
       const message = {
+        data: {
+          type: 'notification',
+          notification
+        },
         notification: {
-          title: 'New Notification',
-          body: "notifications.message"
+          title: 'New Incident Reported',
+          body: notification.message
         },
         token: user.push_token
       };
