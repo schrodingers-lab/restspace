@@ -33,6 +33,10 @@ FOR SELECT
 TO authenticated 
 using ( auth.uid() = user_id );
 
+create policy "notifications are viewable by everyone."
+  on public.notifications for select
+  using ( true );
+
 create policy "Users can update own notifications."
   on notifications for update
   TO authenticated 
