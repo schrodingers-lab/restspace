@@ -35,6 +35,18 @@ export default async function processIncidentCreation(req: NextApiRequest, res: 
     }
 
     // Determine if I should send an incident
+    const distance = 1000;
+
+    const query = supabase.rpc('geo_users', { x: incident.longitude, y: incident.latitude, distance: distance });
+    // still visible
+    query.eq('visible', true);
+    query.not('push_token', 'is', null);
+    // number of hours visible
+    // query.gt('inserted_at', dateString(addHours(new Date(), -ageInHours)));
+
+    // temporary-order-creation (not incidented_at, so we see newest, top for clicking)
+    const result = await query.select("*").order('inserted_at',{ascending: false});
+    console.log("result", result);
 
 
     const incident_user_id = incident.user_id;
