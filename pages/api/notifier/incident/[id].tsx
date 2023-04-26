@@ -11,7 +11,6 @@ admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
 });
 
-
 export default async function processIncidentCreation(req: NextApiRequest, res: NextApiResponse) {
   if (req.query.API_ROUTE_SECRET !== process.env.API_ROUTE_SECRET) {
     return res.status(401).json({ error: 'Invalid API Route Secret.' });
@@ -77,7 +76,7 @@ export default async function processIncidentCreation(req: NextApiRequest, res: 
       tokens: userTokens
     };
 
-    
+
 
       // Send message using Firebase Admin Messaging
      const resp = await admin.messaging().sendEachForMulticast(message);

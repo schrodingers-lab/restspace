@@ -153,3 +153,27 @@ export const completeNotification = async (notification, supabase) => {
   }
 }
 
+
+
+/**
+ * complete a notification from the display
+ * @param {number} notification_id
+ */
+export const completeUserNotifications = async (user_id, supabase) => {
+  try {
+    const completedNotification = {completed: true}
+    let { data } = await supabase.from('notifications')
+          .update(completedNotification)
+          .eq('user_id', user_id)
+          .eq('completed', false);
+
+    //Update should come back via realtime
+    // Notification state is updated in teh realtime
+
+    return data
+  } catch (error) {
+    console.error('error', error)
+  }
+  
+}
+

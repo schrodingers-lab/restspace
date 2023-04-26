@@ -19,7 +19,7 @@ AS $$
 begin
     insert into public.notifications(user_id, message, mode, object_type, object_id)
     select gu.id, new.name, 'create', 'incidents', new.id
-    FROM geo_users(new.longitude, new.latitude, 1000000) gu;
+    FROM geo_users(new.longitude, new.latitude, 1000) gu;
 
  return new;
 end;

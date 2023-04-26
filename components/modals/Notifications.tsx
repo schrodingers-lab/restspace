@@ -14,7 +14,7 @@ import {
 
 import { close, closeCircleOutline, mailUnread } from 'ionicons/icons';
 import React from 'react';
-import { completeNotification, NotificationStore } from '../../store/notifications';
+import { completeNotification, completeUserNotifications, NotificationStore } from '../../store/notifications';
 import {  UserStore, useUserStore } from '../../store/user';
 import { SupabaseClient, useSupabaseClient, useUser } from '@supabase/auth-helpers-react';
 import { useRouter } from 'next/router';
@@ -37,6 +37,13 @@ const Notifications = ({ open, onDidDismiss, history }) => {
   const doCompleteNotification = async(notification, supabase) => {
     if (notification?.id) {
       const result = await completeNotification(notification, supabase);
+    }
+    return true;
+  }
+
+  const doCompleteAllNotifications = async(user_id, supabase) => {
+    if (user_id) {
+      const result = await completeUserNotifications(user_id, supabase);
     }
     return true;
   }
@@ -91,6 +98,9 @@ const Notifications = ({ open, onDidDismiss, history }) => {
       <IonHeader>
         <IonToolbar>
           <IonTitle>Notifications</IonTitle>
+          <IonButton slot="end" color="dark" onClick={(e) => {e.preventDefault(); doCompleteAllNotifications(user?.id, supabaseClient)}}>
+            Mark All Read
+          </IonButton>
           <IonButton slot="end" color="dark" onClick={onDidDismiss}>
             <IonIcon icon={close}/>
           </IonButton>
