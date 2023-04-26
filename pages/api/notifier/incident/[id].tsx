@@ -73,8 +73,8 @@ export default async function processIncidentCreation(req: NextApiRequest, res: 
           object_id: ""+incident?.object_id,
         },
         notification: {
-          title: 'New Incident Reported',
-          body: ""+incident.message
+          title: 'New Incident Reported #' + incident?.id,
+          body: ""+incident.name
         },
         token: user.push_token
       };
