@@ -27,8 +27,13 @@ serve(async (req) => {
     const FORWARD_URL =  Deno.env.get('FORWARD_URL') ?? '';
     const FORWARD_API_KEY =  Deno.env.get('FORWARD_API_KEY') ?? '';
 
-
-    const response = await fetch(`${FORWARD_URL}/${id}`);
+    const headers = {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${FORWARD_API_KEY}`,
+        'API_ROUTE_SECRET': FORWARD_API_KEY,
+      };
+    const id = 1294;
+    const response = await fetch(`${FORWARD_URL}/${id}`, { headers });
     const api_data = await response.json();
 
     return new Response(
