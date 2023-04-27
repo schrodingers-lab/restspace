@@ -48,11 +48,31 @@ import HomeNonUser from '../auth/HomeNonUser';
     const [myIncidents, setMyIncidents] = useState([]);
     const [loading, setLoading] = useState<boolean>(false);
     const [showRefreshTrigger, setShowRefreshTrigger] = useState<boolean>(true);
+
+
+    const [advertData, setAdvertData] = useState<any>(null);
     
     const user = useUser();
     const authUserProfile = useStoreState(UserStore, selectors.getAuthUserProfile);
     const activeNotifications = useStoreState(NotificationStore, selectors.getActiveNotifications);
     const {userId} = useNotificationsStore({userId: user?.id});
+
+    useEffect(() => {
+      const fetchData = async() => {
+        // You can await here
+        const { data, error } = await supabase
+          .from('ref_data')
+          .select('data')
+          .eq('ref', 'advert')
+        if(data && data.length > 0){
+          const remoteAdvertData = data[0]?.data;
+          setAdvertData(JSON.parse(remoteAdvertData));
+       }
+      }
+      fetchData();
+  
+  
+    }, []);
     
 
     const goToIncident = (incident) => {
@@ -174,14 +194,35 @@ import HomeNonUser from '../auth/HomeNonUser';
        
           {(!user && !loading) && <NoUserCard/>}
 
-          <Card className="my-4 mx-auto" key="advert">
-            <a href='mailto:admin@wewatchapp.com?subject=WeWatch Advert' target='_blank' rel='noreferrer noopener'>
-            <div className="px-4 pt-12 pb-4 bg-ww-secondary rounded-xl ">
-              <h2 className="font-bold text-l text-gray-800 dark:text-gray-100">This is Ad Space...</h2>
-              <p className="font-bold text-gray-800 dark:text-gray-100">Support us and advertise here</p>
-            </div>
-            </a>
-          </Card>
+          { !advertData &&
+            <Card className="my-4 mx-auto" key="advert">
+              <a href='mailto:admin@wewatchapp.com?subject=WeWatch Advert' target='_blank' rel='noreferrer noopener'>
+              <div className="px-4 pt-12 pb-4 bg-ww-secondary rounded-xl ">
+                <h2 className="font-bold text-l text-gray-800 dark:text-gray-100">This is Ad Space...</h2>
+                <p className="font-bold text-gray-800 dark:text-gray-100">Support us and advertise here</p>
+              </div>
+              </a>
+            </Card>
+          }
+
+          { advertData && advertData?.url &&
+            <>
+              <div className="max-w-xl my-4 mx-auto" key="recent-incidents">
+                <a href='mailto:admin@wewatchapp.com?subject=WeWatch Advert' target='_blank' rel='noreferrer noopener'>
+                  <label className="block text-sm px-6 font-medium text-gray-700 dark:text-white"  key="recent-incident-label">
+                    Advert
+                  </label>
+                </a>
+              </div>
+              <Card className="my-4 mx-auto max-h-48 " key="advert">
+                <a href={advertData?.url} target='_blank' rel='noreferrer noopener'>
+                <div className="rounded-xl ">
+                  <img src={advertData?.img} className='object-cover w-full h-48 rounded-xl' alt='advert' />
+                </div>
+                </a>
+              </Card>
+            </>
+          }
 
           { user &&
             <div className="max-w-xl my-4 mx-auto my-4 mx-auto" key="Your-incidents">
