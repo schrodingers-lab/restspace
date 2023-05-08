@@ -5,9 +5,8 @@ import admin from 'firebase-admin';
 // Initialize Supabase client
 const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
 
-//TODO move to vercel env vars (before going live)
+
 // Initialize Firebase Admin SDK
-const serviceAccount1 = require('./wewatchapp-7d13a-firebase-adminsdk-6do2h-8507094c5d.json');
 const serviceAccount = {
   "type": "service_account",
   "project_id": process.env.FIREBASE_PROJECT_ID,

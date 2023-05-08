@@ -5,7 +5,6 @@ import admin from 'firebase-admin';
 // Initialize Supabase client
 const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
 
-//TODO move to vercel env vars (before going live)
 // Initialize Firebase Admin SDK
 const serviceAccount = {
   "type": "service_account",
