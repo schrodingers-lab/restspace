@@ -6,7 +6,7 @@ import admin from 'firebase-admin';
 const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
 
 // Initialize Firebase Admin SDK
-const serviceAccount = process.env.FIREBASE_SERVICE_ACCOUNT as any;
+const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
 // const serviceAccount = {
 //   "type": "service_account",
 //   "project_id": process.env.FIREBASE_PROJECT_ID,
