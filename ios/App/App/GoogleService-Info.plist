@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.wewatch.app</string>
+	<string>com.wewatchapp.app</string>
 	<key>PROJECT_ID</key>
 	<string>wewatchapp-7d13a</string>
 	<key>STORAGE_BUCKET</key>

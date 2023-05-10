@@ -29,6 +29,13 @@
             {
               "client_id": "394364452164-dk83fnqt6uinesucknv9nionjgk83d0i.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "394364452164-07su26pqnn0gpf555nmn93git3k4slni.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.wewatch.app"
+              }
             }
           ]
         }
@@ -58,6 +65,13 @@
             {
               "client_id": "394364452164-dk83fnqt6uinesucknv9nionjgk83d0i.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "394364452164-07su26pqnn0gpf555nmn93git3k4slni.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.wewatch.app"
+              }
             }
           ]
         }
