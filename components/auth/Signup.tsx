@@ -231,7 +231,7 @@ export const Signup = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
                 <div>
                   <button
                     type="submit"
-                    className="flex w-full justify-center rounded-md border border-transparent bg-yellow-600 text-white py-2 px-4 text-sm font-medium "
+                    className="flex w-full justify-center rounded-md border border-transparent bg-ww-primary text-white py-2 px-4 text-sm font-medium "
                   >
                     Sign up
                   </button>

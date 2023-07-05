@@ -6,8 +6,38 @@ import { IonIcon } from '@ionic/react';
 import { eye } from 'ionicons/icons';
 import { ErrorCard } from '../cards/ErrorCard';
 import { Link } from 'react-router-dom';
+import { useAnimate, usePresence } from "framer-motion";
 
 export const Login = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
+  // Animation  
+  const [isPresent, safeToRemove] = usePresence();
+  const [scope, animate] = useAnimate();
+
+  useEffect( () => {
+    if (isPresent) {
+      const enterAnimation = async () => {
+          
+        // animate('.login-box', 
+        //   { opacity: [0,1]},
+        //   { duration: 0.5, delay: 0.2 }
+        // );
+        animate('.login-btn', 
+          { opacity: [0,1]},
+          { duration: 0.3, delay: 0.5 }
+        );
+      }
+      enterAnimation();
+    } else {
+      const exitAnimation = async () => {
+        animate('.login-box', 
+          { opacity: [1,0]},
+          { duration: 0.5, delay: 0.3 }
+        );
+      }
+      exitAnimation();
+    }
+  });
+  
     const supabaseClient = useSupabaseClient();
 
     const [phoneNumber, setPhoneNumber] = useState<string>();
@@ -44,6 +74,8 @@ export const Login = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
     }
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+      errorMessage && setErrorMessage('');
+      
       event.preventDefault()
       if (!phoneNumber){
         setErrorMessage("Phone number required");
@@ -102,7 +134,7 @@ export const Login = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
 
     return (
       <>
-        <div className="h-full bg-air bg-center bg-cover flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+        <div ref={scope} className="h-full bg-air bg-center bg-cover flex flex-col justify-center py-12 sm:px-6 lg:px-8">
           <div className="sm:mx-auto sm:w-full sm:max-w-md">
             <img
               className="mx-auto h-12 w-auto"
@@ -119,7 +151,7 @@ export const Login = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
           </div>
   
           {/* <div className="bg-white dark:bg-black mt-8 sm:mx-auto sm:w-full sm:max-w-md"> */}
-          <div className="mt-4 sm:mx-auto sm:w-full px-4 sm:max-w-md">
+          <div className="login-box mt-4 sm:mx-auto sm:w-full px-4 sm:max-w-md">
             <div className="bg-white dark:bg-black py-8 px-4 shadow rounded-lg sm:px-10">
               <form className="space-y-6" onSubmit={handleSubmit}>
                 <div>
@@ -174,7 +206,7 @@ export const Login = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
                 <div>
                   <button
                     type="submit"
-                    className="flex w-full justify-center rounded-md border border-transparent bg-ww-primary py-2 px-4 text-sm font-medium text-white shadow-sm hover:ww-secondary focus:outline-none focus:ring-2 focus:ww-secondary focus:ring-offset-2"
+                    className="login-btn flex w-full justify-center rounded-md border border-transparent bg-ww-primary py-2 px-4 text-sm font-medium text-white shadow-sm hover:ww-secondary focus:outline-none focus:ring-2 focus:ww-secondary focus:ring-offset-2"
                   >
                     Sign in
                   </button>
