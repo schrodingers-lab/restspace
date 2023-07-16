@@ -30,7 +30,7 @@ import * as mapboxgl from 'mapbox-gl';
 import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react';
 import IconKey from '../modals/IconKey';
 import { displayLevelColor } from '../util/display';
-import { addPopup, ageInHours, mapboxglAccessToken, mapboxglStyle } from '../util/mapbox';
+import { addPopup, ageInHours, defaultInitialLat, defaultInitialLng, mapboxglAccessToken, mapboxglStyle } from '../util/mapbox';
 import { arrayToMap, convertIncidentToGeoJson } from '../util/data';
 import addHours from 'date-fns/addHours';
 import { dateString } from '../util/dates';
@@ -39,6 +39,11 @@ import * as selectors from '../../store/selectors';
 import { NotificationStore, useNotificationsStore } from '../../store/notifications';
 import { IncidentStore } from '../../store/incident';
 
+import { Capacitor } from '@capacitor/core';
+import { Geolocation } from '@capacitor/geolocation';
+import { UserStore, updateLocation } from '../../store/user';
+
+
 const MapPage = ({history}) => {
   const incidents = useStoreState(IncidentStore, selectors.getIncidents);
   const [showNotifications, setShowNotifications] = useState(false);
@@ -46,8 +51,10 @@ const MapPage = ({history}) => {
   const mapContainer = useRef<any>(null);
   const map = useRef<any>(null);
   const filterFabRef = useRef<any>(null);
-  const [lng, setLng] = useState(145.749049);
-  const [lat, setLat] = useState(-16.935682);
+
+  const currentLocation = useStoreState(UserStore, selectors.getLocation);
+  const [lng, setLng] = useState<number | undefined>();
+  const [lat, setLat] = useState<number | undefined>();
   const [distance, setDistance] = useState(10000);
   const [zoom, setZoom] = useState(13);
   const [markers, setMarkers] = useState<any[]>([]);
@@ -75,7 +82,7 @@ const MapPage = ({history}) => {
   const supabase = useSupabaseClient();
   const user = useUser();
   const {userId} = useNotificationsStore({userId: user?.id});
-  const activeNotifications = useStoreState(NotificationStore, selectors.getActiveNotifications);
+  const activeNotifications = useStoreState(NotificationStore, selectors.getActiveNotifications)
 
 
   const geoSearch = async () => {
@@ -152,8 +159,7 @@ const MapPage = ({history}) => {
     { maxWait: 2000 }
   );
 
-  useEffect(() => {
-    if (map.current) return; // initialize map only once
+  const loadMap = async (lng, lat) => {
     map.current = new mapboxgl.Map({
       accessToken: mapboxglAccessToken,
       container: mapContainer.current,
@@ -187,8 +193,37 @@ const MapPage = ({history}) => {
       // Add the loaded image to the style's sprite with the ID 'pin-wewatch'.
       map.current.addImage('pin-wewatch', image);
     });
+  }
+
+  useEffect(() => {
+    if (map.current) return; // initialize map only once
+
+    let longitude = defaultInitialLng;
+    let latitude = defaultInitialLat;
+
+    if (currentLocation){
+      longitude = currentLocation.coords.longitude
+      latitude = currentLocation.coords.latitude
+    } 
+
+    setLng(longitude);
+    setLat(latitude);
+    loadMap(longitude,latitude);
 
   }, []);
+
+  useEffect(() => {
+    if (map.current) {
+      if (currentLocation) {
+        map.current.flyTo({
+          center: [currentLocation.coords.longitude, currentLocation.coords.latitude],
+          zoom: zoom
+        });
+      }
+    }
+
+  }, [currentLocation]);
+
 
   useEffect(() => {
     // if (!map.current) return; // initialize map only once

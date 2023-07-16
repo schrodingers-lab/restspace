@@ -23,30 +23,26 @@ import Mine from './Mine';
 import EditDetail from './EditDetail';
 import { useUser } from '@supabase/auth-helpers-react';
 import { useStoreState } from 'pullstate';
-import { UserStore } from '../../store/user';
+import { UserStore, updateLocation } from '../../store/user';
 
 import * as selectors from '../../store/selectors';
+import { checkLocationPermissions, getCurrentLocation } from '../util/location';
 
-const Tabs = () => {
-  // const user = useUser();
-  // const authUserProfile = useStoreState(UserStore, selectors.getAuthUserProfile);
-  
-  // useEffect(() => {
-  //   debugger;
-  //   const pathname = history.location.pathname;
-  //   // No admin page logic
-  //   if (!pathname.startsWith('/admin')) {
-  //     if (authUserProfile){
-  //       // BAD BAN CHECK
-  //         if(authUserProfile?.banned_to && (pathname !== '/banned' || pathname.startsWith('/admin') )) {
-  //           if (new Date(authUserProfile?.banned_to) > new Date()) {
-  //             console.error('gtfo');
-  //           }
-  //         }
-  //       }
+const Tabs = ({history}) => {
+  const user = useUser();
+  const authUserProfile = useStoreState(UserStore, selectors.getAuthUserProfile);
 
-  //     }
-  // },  [history])
+  useEffect(() => {
+    const asnycfn = async () => {
+        if (await checkLocationPermissions()) {
+          const position = await getCurrentLocation();
+          updateLocation(position);
+          console.log('set location', position)
+        }
+    }
+    asnycfn();
+  }, []);
+
 
   return (
     <IonTabs>

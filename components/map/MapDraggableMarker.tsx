@@ -9,6 +9,7 @@ import { reload, search } from 'ionicons/icons';
 
 
 export const MapDraggableMarker = ({initialLat=defaultInitialLat, initialLng=defaultInitialLng, initialZoom=defaultInitialZoom, sendLocationFnc, autoLocate=false, resetCenter=null}) => {
+    console.log('initial L L', initialLng, initialLat)
     const [lng, setLng] = useState(initialLng);
     const [lat, setLat] = useState(initialLat);
     const [zoom, setZoom] = useState(initialZoom);
@@ -182,6 +183,11 @@ export const MapDraggableMarker = ({initialLat=defaultInitialLat, initialLng=def
 
 
       map.current?.on('render', function () {
+        // Resize to fill space
+        map.current.resize();
+      });
+
+      map.current?.on('load', function () {
         // Resize to fill space
         map.current.resize();
       });

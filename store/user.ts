@@ -12,6 +12,7 @@ export const UserStore = new Store({
   authUser: undefined,
   authUserProfile: undefined,
   pushToken: undefined,
+  location: undefined,
 });
 
 /**
@@ -152,6 +153,17 @@ export const updatePushToken = async (pushToken) => {
       s.pushToken = pushToken
     });
     return pushToken
+  } catch (error) {
+    console.log('error', error)
+  }
+}
+
+export const updateLocation = async (location) => {
+  try {
+    UserStore.update(s => {
+      s.location = location
+    });
+    return location
   } catch (error) {
     console.log('error', error)
   }

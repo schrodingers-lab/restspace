@@ -99,7 +99,7 @@ const AppShell = ({history}) => {
           <IonRouterOutlet id="main">
             <Route path="/banned" component={BannedPage}  exact={true} /> 
             <Route path="/tour" component={TourPage}  exact={true} />
-            <Route path="/tabs" render={() => <Tabs />} />
+            <Route path="/tabs" render={() => <Tabs history={history} />} />
             <Route exact path="/" render={() => <Redirect to="/tabs" />} />
           </IonRouterOutlet>
         </IonSplitPane>

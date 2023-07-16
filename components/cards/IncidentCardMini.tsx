@@ -14,7 +14,7 @@ export const IncidentCardMini = ({incident, onClickFnc},{key="incident-key-1"}) 
   }
   return (
     <Card className="my-2 mx-auto" key={key} onClick={internalOnClick}>
-      <div className="px-4 py-4 bg-gray-100 rounded-xl dark:bg-gray-900">
+      <div className="px-4 py-4 bg-gray-100 rounded-xl dark:bg-black">
        <h2 className="font-bold text-l text-gray-800 dark:text-gray-100">#{incident.id} - {incident.name}</h2>
         <div className='w-full pt-2'>
           <ToggleDateDisplay input_date={incident?.inserted_at} enableToggle={false} className="float-right" />

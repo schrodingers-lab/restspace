@@ -36,6 +36,13 @@ import { generateRandomName } from '../util/data';
 import { useRouter } from 'next/router';
 import { ErrorCard } from '../cards/ErrorCard';
 
+import { Capacitor } from '@capacitor/core';
+import { Geolocation } from '@capacitor/geolocation';
+import { getCurrentLocation } from '../util/location';
+import { useStoreState } from 'pullstate';
+import { UserStore } from '../../store/user';
+import * as selectors from '../../store/selectors';
+
 const NewDetail = ({history}) => {
   const router = useRouter();
   const supabase = useSupabaseClient();
@@ -59,8 +66,7 @@ const NewDetail = ({history}) => {
   const [about, setAbout] = useState<string>('');
   const [whenStr, setWhenStr] = useState<string>();
 
-  const [lng, setLng] = useState();
-  const [lat, setLat] = useState();
+
   const [distanceToIncident, setDistanceToIncident] = useState<number>();
 
   const [isToastOpen, setIsToastOpen] = useState<boolean>(false);
@@ -70,9 +76,12 @@ const NewDetail = ({history}) => {
   const [openIconKey, setOpenIconKey] = useState(false);
 
   // Randomize initial location
-  const initialLat = defaultInitialLat + (Math.random() - 0.5) * 0.01;
-  const initialLng = defaultInitialLng + (Math.random() - 0.5) * 0.01;
 
+  const location = useStoreState(UserStore, selectors.getLocation);
+  console.log("location", location)
+
+  const [lng, setLng] = useState(location?.coord?.longitude);
+  const [lat, setLat] = useState(location?.coord?.latitude);
 
   const handleName = (event) => {
     setName(event.target.value || '');
@@ -244,11 +253,40 @@ const NewDetail = ({history}) => {
     return dateStr;
   }
 
+  interface PermissionStatus {
+    state: string;
+  }
+
+  const checkLocationPermission = async () => {
+    const platform = Capacitor.getPlatform();
+    console.log(`Current platform: ${platform}`);
+    if (platform === 'ios' || platform === 'android') {
+      const state = await Geolocation.requestPermissions();
+      console.log('Location permission status: ', state);
+      if (state.location !== 'granted') {
+        console.log('Location permission not granted');
+        return false;
+      }
+    }
+    if (platform === 'web') {
+      console.log('navigator?.geolocation:',navigator?.geolocation);
+      navigator?.geolocation?.getCurrentPosition(
+        (position) => {
+          console.log('Latitude:', position.coords.latitude);
+          console.log('Longitude:', position.coords.longitude);
+        },
+        (error) => {
+          console.error('Error getting location:', error);
+        });
+      }
+    return true;
+  };
+
   useEffect(() => {   
     // setWhenStr(getCurrentDateStr); 
+    checkLocationPermission();
     resetData();
   },[]);
-
 
 
   const RenderImage: React.FC<any> = ({file}) => {
@@ -431,7 +469,7 @@ const NewDetail = ({history}) => {
                     </IonLabel>
                   </IonItem>
                       
-                  <MapDraggableMarker sendLocationFnc={locationSetter} autoLocate={true} initialLat={initialLat} initialLng={initialLng}/>
+                  <MapDraggableMarker sendLocationFnc={locationSetter} autoLocate={true} initialLat={lat} initialLng={lng}/>
                   <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">Drag map pin to approximate location.</p>
                   
                 </div>
