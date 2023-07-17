@@ -256,8 +256,6 @@ export const fetchPagedChats = async (page=0, pageSize = 20, supabase) => {
     let { data } = await supabase.from('chats').select('*').order('inserted_at').range(from, to);
     let { count } = await supabase.from('chats').select('*', { count: 'exact' });
 
-    console.log("ff", data, count)
-
     return { data, count, page, pageSize }
 
   } catch (error) {
