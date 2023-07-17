@@ -76,12 +76,13 @@ export const fetchUserIncidents = async (userId, setState, supabase) => {
     console.log('error', error)
   }
 }
-export const fetchUserIncidentsPages = async (userId, setState, page=0, pageSize=100, supabase) => {
+export const fetchUserIncidentsPages = async (userId, page=0, pageSize=100, supabase) => {
     try {
       const { from, to } = getPagination(page, pageSize);
-      let result= await supabase.from('incidents').select(`*`).eq('user_id', userId).range(from, to);
+      let count = await supabase.from('incidents').select(`*`).eq('user_id', userId).range(from, to);
+      let data = await supabase.from('incidents').select(`*`).eq('user_id', userId).range(from, to);
       
-      return result
+      return {data, count, page, pageSize}
     } catch (error) {
       console.log('error', error)
     }

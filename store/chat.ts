@@ -1,7 +1,7 @@
 import { useSupabaseClient } from '@supabase/auth-helpers-react'
 import { Store } from 'pullstate';
 import { useState, useEffect } from 'react'
-import { arrayToMap } from '../components/util/data'
+import { arrayToMap, getPagination } from '../components/util/data'
 
 export const ChatStore = new Store({
   authors: new Map(),
@@ -238,12 +238,33 @@ export const useChatStore = (props) => {
 export const fetchChats = async (setState, supabase) => {
   try {
     let { data } = await supabase.from('chats').select('*').order('inserted_at');
+
+    console.log("ff", data)
     if (setState) setState(data)
     return data
   } catch (error) {
     console.log('error', error)
   }
 }
+
+/**
+ * Fetch paged chats
+ */
+export const fetchPagedChats = async (page=0, pageSize = 20, supabase) => {
+  try {
+    const { from, to } = getPagination(page, pageSize);
+    let { data } = await supabase.from('chats').select('*').order('inserted_at').range(from, to);
+    let { count } = await supabase.from('chats').select('*', { count: 'exact' });
+
+    console.log("ff", data, count)
+
+    return { data, count, page, pageSize }
+
+  } catch (error) {
+    console.log('error', error)
+  }
+}
+
 
 /**
  * Fetch a single chat

@@ -98,8 +98,8 @@ import HomeNonUser from '../auth/HomeNonUser';
         setLocalIncidents(data);
       }
 
-      const result = await fetchUserIncidentsPages(authUserProfile?.id, null, 0, 3, supabase);
-      setMyIncidents(result.data)
+      const {data, count, page} = await fetchUserIncidentsPages(authUserProfile?.id, 0, 3, supabase);
+      setMyIncidents(data)
       setLoading(false);
     }
 
