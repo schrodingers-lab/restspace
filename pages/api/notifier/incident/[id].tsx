@@ -75,19 +75,7 @@ export default async function processIncidentCreation(req: NextApiRequest, res: 
       },
       notification: {
         title: 'New Incident Reported #' + incident?.id,
-        body: ""+incident?.name,
-        android: {
-          notification: {
-            sound: 'default'
-          }
-        },
-        apns: {
-          payload: {
-            aps: {
-              sound: 'default'
-            }
-          }
-        }
+        body: ""+incident?.name
       },
       tokens: userTokens
     };
