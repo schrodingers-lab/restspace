@@ -88,6 +88,8 @@ const MapPage = ({history}) => {
   const activeNotifications = useStoreState(NotificationStore, selectors.getActiveNotifications)
 
 
+  const [width, setWidth] = useState<undefined|number>();
+
   const geoSearch = async () => {
     const query = supabase
       .rpc('geo_caller_incidents', { x: lng, y: lat, distance: distance, caller_id: user?.id });
@@ -162,7 +164,11 @@ const MapPage = ({history}) => {
     { maxWait: 2000 }
   );
 
-
+  const getScreenSize = () => {
+    const width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+    const height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+    return { width, height };
+  };
 
   const loadMap = async (lng, lat) => {
     map.current = new mapboxgl.Map({
@@ -214,6 +220,11 @@ const MapPage = ({history}) => {
     setLng(longitude);
     setLat(latitude);
     loadMap(longitude,latitude);
+
+    const screenSize = getScreenSize();
+    console.log('Screen width:', screenSize.width);
+    console.log('Screen height:', screenSize.height);
+    setWidth(screenSize.width);
 
   }, []);
 
@@ -442,6 +453,8 @@ const MapPage = ({history}) => {
     history.push('/tabs/incidents');
   }
 
+
+
   return (
     <IonPage>
       <IonHeader>
@@ -470,7 +483,7 @@ const MapPage = ({history}) => {
             List
           </IonSegmentButton>
         </IonSegment>
-        <div className="map-section">
+        <div className="map-section" style={{width: width}} >
           <div ref={mapContainer} className="map-container"/>
         </div>
         {/*-- fab placed to the (vertical) center and end --*/}
