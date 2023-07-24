@@ -68,7 +68,18 @@ export default async function sendPushNotification(req: NextApiRequest, res: Nex
         notification: {
           title: 'New Notification',
           body: ""+notification.message,
-          sound: 'default'
+          android: {
+            notification: {
+              sound: 'default'
+            }
+          },
+          apns: {
+            payload: {
+              aps: {
+                sound: 'default'
+              }
+            }
+          }
         },
         token: user.push_token
       };
@@ -85,6 +96,7 @@ export default async function sendPushNotification(req: NextApiRequest, res: Nex
       res.status(200).json({ message: 'User does not have a token.' });
     }
   } catch (err) {
+    if (err)
     // Handle errors
     res.status(500).json({ error: err.message });
   }
