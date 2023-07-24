@@ -67,7 +67,8 @@ export default async function sendPushNotification(req: NextApiRequest, res: Nex
         },
         notification: {
           title: 'New Notification',
-          body: ""+notification.message
+          body: ""+notification.message,
+          sound: 'default'
         },
         token: user.push_token
       };
