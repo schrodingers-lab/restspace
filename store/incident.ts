@@ -79,8 +79,8 @@ export const fetchUserIncidents = async (userId, setState, supabase) => {
 export const fetchUserIncidentsPages = async (userId, page=0, pageSize=100, supabase) => {
     try {
       const { from, to } = getPagination(page, pageSize);
-      let count = await supabase.from('incidents').select(`*`).eq('user_id', userId).range(from, to);
-      let data = await supabase.from('incidents').select(`*`).eq('user_id', userId).range(from, to);
+      let {count} = await supabase.from('incidents').select(`*`, { count: 'exact', head: true }).eq('user_id', userId);
+      let {data} = await supabase.from('incidents').select(`*`).eq('user_id', userId).order('inserted_at', { ascending: false }).range(from, to);
       
       return {data, count, page, pageSize}
     } catch (error) {

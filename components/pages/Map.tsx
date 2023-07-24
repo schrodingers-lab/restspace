@@ -19,7 +19,7 @@ import {
   IonSegmentButton,
   IonBadge
 } from '@ionic/react';
-import { search, filter, information } from 'ionicons/icons';
+import { search, filter, information, locate } from 'ionicons/icons';
 import Notifications from '../modals/Notifications';
 import React, {useRef, useEffect, useState } from 'react';
 import { notificationsOutline } from 'ionicons/icons';
@@ -42,6 +42,7 @@ import { IncidentStore } from '../../store/incident';
 import { Capacitor } from '@capacitor/core';
 import { Geolocation } from '@capacitor/geolocation';
 import { UserStore, updateLocation } from '../../store/user';
+import { getCurrentLocation } from '../util/location';
 
 
 const MapPage = ({history}) => {
@@ -59,6 +60,8 @@ const MapPage = ({history}) => {
   const [zoom, setZoom] = useState(13);
   const [markers, setMarkers] = useState<any[]>([]);
   const [markersMap, setMarkersMap] = useState<Map<number,mapboxgl.Marker>>(new Map());
+
+  const [userMarker, setUserMarker] = useState<mapboxgl.Marker | undefined>();
 
   const [error, setError] = useState<string>();
   const [filterOpen, setFilterOpen] = useState(false);
@@ -168,17 +171,17 @@ const MapPage = ({history}) => {
       zoom: zoom
     });
 
-    map.current.addControl(
-      new mapboxgl.GeolocateControl({
-      positionOptions: {
-      enableHighAccuracy: true
-      },
-      // When active the map will receive updates to the device's location as it changes.
-      trackUserLocation: true,
-      // Draw an arrow next to the location dot to indicate which direction the device is heading.
-      showUserHeading: true
-      })
-    );
+    // map.current.addControl(
+    //   new mapboxgl.GeolocateControl({
+    //   positionOptions: {
+    //   enableHighAccuracy: true
+    //   },
+    //   // When active the map will receive updates to the device's location as it changes.
+    //   trackUserLocation: true,
+    //   // Draw an arrow next to the location dot to indicate which direction the device is heading.
+    //   showUserHeading: true
+    //   })
+    // );
 
     map.current.on('zoomend', () => {
       setSearchRadius();
@@ -219,6 +222,28 @@ const MapPage = ({history}) => {
           center: [currentLocation.coords.longitude, currentLocation.coords.latitude],
           zoom: zoom
         });
+
+        if (currentLocation){
+          if(map.current && userMarker) {
+            userMarker.setLngLat([ currentLocation.coords.longitude, currentLocation.coords.latitude])
+        
+          } else {
+
+            const el = document.createElement('div');
+            el.className = 'marker';
+            el.style.backgroundColor = `blue`;
+            el.style.width = `10px`;
+            el.style.height = `10px`;
+            el.style.borderRadius = `10px`;
+            el.style.backgroundSize = '100%';
+
+
+            const marker = new mapboxgl.Marker(el)
+              .setLngLat([ currentLocation.coords.longitude, currentLocation.coords.latitude])
+              .addTo(map.current);
+            setUserMarker(marker);
+          }
+        }
       }
     }
 
@@ -397,6 +422,20 @@ const MapPage = ({history}) => {
     });
   }
 
+  const centerMap = async () => {
+    const position = await getCurrentLocation();
+    const center = new mapboxgl.LngLat(position?.coords?.longitude, position?.coords?.latitude)
+    map.current.flyTo({
+      center: center,
+      zoom: zoom,
+      essential: true // this animation is considered essential with respect to prefers-reduced-motion
+    });
+
+    setLat(position?.coords?.latitude);
+    setLng(position?.coords?.longitude);
+
+  }
+
   const handleListSegment = () =>{
     history.push('/tabs/incidents');
   }
@@ -439,11 +478,18 @@ const MapPage = ({history}) => {
           </IonFabButton>
         </IonFab>
 
+
         <IonFab  vertical="bottom" horizontal="start" slot="fixed">
           <IonFabButton onClick={() => { setOpenIconKey(!openIconKey) }} size="small" color={"medium" } >
             <IonIcon icon={information} />
           </IonFabButton>
         </IonFab>
+
+        <IonFab slot="fixed" horizontal="end" vertical="top">
+            <IonFabButton size="small" color={'medium'} onClick={centerMap}>
+                <IonIcon icon={locate} />
+            </IonFabButton>
+        </IonFab>  
 
         <IonFab ref={filterFabRef} horizontal="start" vertical="top"  slot="fixed" activated={filterOpen}>
           

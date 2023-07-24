@@ -98,7 +98,8 @@ import HomeNonUser from '../auth/HomeNonUser';
         setLocalIncidents(data);
       }
 
-      const {data, count, page} = await fetchUserIncidentsPages(authUserProfile?.id, 0, 3, supabase);
+      const {data, count, page, pageSize} = await fetchUserIncidentsPages(authUserProfile?.id, 0, 3, supabase);
+      console.log("myIncidents",{data, count, page, pageSize});
       setMyIncidents(data)
       setLoading(false);
     }
@@ -232,10 +233,9 @@ import HomeNonUser from '../auth/HomeNonUser';
             </div>
           }
 
-          { user && myIncidents && myIncidents.map((i, index) => (
+          { user && myIncidents && myIncidents?.length> 0 &&  myIncidents?.map((i, index) => (
             <IncidentCardMini key={"my-"+index} onClickFnc={goToIncident} incident={i} />
           ))}
-
           { !loading &&  user && myIncidents && myIncidents.length === 0 &&
             <Card className="my-4 mx-auto rounded-b-xl" key="my-incident-empty">
               <div className="px-4 pt-10 pb-4  rounded-xl ">

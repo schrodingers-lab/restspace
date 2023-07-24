@@ -1,11 +1,11 @@
 import React, {useEffect, useRef, useState} from 'react';
 import * as turfdistance from '@turf/distance';
-import { Geolocation } from '@capacitor/geolocation';
 
 import * as mapboxgl from 'mapbox-gl'; 
 import { mapboxglAccessToken, mapboxglStyle, defaultInitialLat, defaultInitialLng, defaultInitialZoom } from '../util/mapbox';
 import { IonFab, IonFabButton, IonIcon } from '@ionic/react';
-import { reload, search } from 'ionicons/icons';
+import { locate, navigate, reload, search } from 'ionicons/icons';
+import { getCurrentLocation } from '../util/location';
 
 
 export const MapDraggableMarker = ({initialLat=defaultInitialLat, initialLng=defaultInitialLng, initialZoom=defaultInitialZoom, sendLocationFnc, autoLocate=false, resetCenter=null}) => {
@@ -22,6 +22,22 @@ export const MapDraggableMarker = ({initialLat=defaultInitialLat, initialLng=def
     
     const mapContainer = useRef<any>(null);
     const map = useRef<any>(null);
+
+    const centerMap = async () => {
+      const position = await getCurrentLocation();
+      const center = new mapboxgl.LngLat(position?.coords?.longitude, position?.coords?.latitude)
+      map.current.flyTo({
+        center: center,
+        zoom: zoom,
+        essential: true // this animation is considered essential with respect to prefers-reduced-motion
+      });
+
+      setCurrentLocation(position?.coords);
+      setLat(position?.coords?.latitude);
+      setLng(position?.coords?.longitude);
+      setUserLocation(position?.coords);
+
+    }
 
     const reloadPosition = () => {
         const center = new mapboxgl.LngLat(initialLng, initialLat)
@@ -70,6 +86,7 @@ export const MapDraggableMarker = ({initialLat=defaultInitialLat, initialLng=def
             // map.current.setCenter(center);
             map.current.flyTo({
                 center: center,
+                zoom: zoom,
                 essential: true // this animation is considered essential with respect to prefers-reduced-motion
             });
     
@@ -120,25 +137,25 @@ export const MapDraggableMarker = ({initialLat=defaultInitialLat, initialLng=def
             sendLocationFnc({ latitude: lat, longitude: lng});
         }
     
-        const geoLocate = new mapboxgl.GeolocateControl({
-          positionOptions: {
-          enableHighAccuracy: true
-          },
-          // When active the map will receive updates to the device's location as it changes.
-          trackUserLocation: false,
-          // Draw an arrow next to the location dot to indicate which direction the device is heading.
-          showUserHeading: true
-        });
+        // const geoLocate = new mapboxgl.GeolocateControl({
+        //   positionOptions: {
+        //   enableHighAccuracy: true
+        //   },
+        //   // When active the map will receive updates to the device's location as it changes.
+        //   trackUserLocation: false,
+        //   // Draw an arrow next to the location dot to indicate which direction the device is heading.
+        //   showUserHeading: true
+        // });
     
-        setGeoLocateCtl(geoLocate);
-        map.current.addControl(geoLocate);
+        // setGeoLocateCtl(geoLocate);
+        // map.current.addControl(geoLocate);
     
-        geoLocate.on('geolocate', (geo) => {
-            console.log('A geolocate event has occurred.', geo);
-            let geo_coords = geo as any;
-            setCurrentLocation(geo_coords?.coords);
-            setUserLocation(geo_coords?.coords);
-        });
+        // geoLocate.on('geolocate', (geo) => {
+        //     console.log('A geolocate event has occurred.', geo);
+        //     let geo_coords = geo as any;
+        //     setCurrentLocation(geo_coords?.coords);
+        //     setUserLocation(geo_coords?.coords);
+        // });
     
         const mapMarker = new mapboxgl.Marker({draggable: true, color: '#F15A24'})
             .setLngLat([lng, lat])
@@ -165,9 +182,9 @@ export const MapDraggableMarker = ({initialLat=defaultInitialLat, initialLng=def
 
       useEffect(() => {
         //default to location of user.
-        const getCurrentLocation = async () => {
+        const getAsyncCurrentLocation = async () => {
           try {
-            const position = await Geolocation.getCurrentPosition();
+            const position = await getCurrentLocation();
             if(autoLocate){
                 setCurrentLocation(position?.coords);
                 setLat(position?.coords?.latitude);
@@ -178,7 +195,7 @@ export const MapDraggableMarker = ({initialLat=defaultInitialLat, initialLng=def
             console.error(error);
           }
         };
-        getCurrentLocation();
+        getAsyncCurrentLocation();
       }, []);
 
 
@@ -196,9 +213,14 @@ export const MapDraggableMarker = ({initialLat=defaultInitialLat, initialLng=def
         <div className="area-map-section h-64">
              
             <div ref={mapContainer} className="w-full h-64">
-                <IonFab slot="fixed" horizontal="start" vertical="top">
+                {/* <IonFab slot="fixed" horizontal="start" vertical="top">
                     <IonFabButton size="small" color={'medium'} onClick={reloadPosition}>
                         <IonIcon icon={reload} />
+                    </IonFabButton>
+                </IonFab>   */}
+                <IonFab slot="fixed" horizontal="end" vertical="top">
+                    <IonFabButton size="small" color={'medium'} onClick={centerMap}>
+                        <IonIcon icon={locate} />
                     </IonFabButton>
                 </IonFab>  
             </div> 

@@ -362,7 +362,7 @@
 				CODE_SIGN_ENTITLEMENTS = App/App.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = YV827LFRT6;
+				DEVELOPMENT_TEAM = 458QB5BXSA;
 				INFOPLIST_FILE = App/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = WeWatch;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.news";
@@ -390,7 +390,7 @@
 				CODE_SIGN_ENTITLEMENTS = App/App.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = YV827LFRT6;
+				DEVELOPMENT_TEAM = 458QB5BXSA;
 				INFOPLIST_FILE = App/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = WeWatch;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.news";

@@ -30,9 +30,14 @@
 	<string>Allow We Watch to access your photo</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Allow We Watch to access your photo</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Allow We Watch to access your location to search for nearby incidents</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Allow We Watch to access your location to  search for nearby incidents</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
+		<string>location</string>
 		<string>processing</string>
 		<string>remote-notification</string>
 	</array>
