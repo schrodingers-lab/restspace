@@ -57,7 +57,6 @@ export const IncidentDetail = ({incident, files, supabase}) => {
   const map = useRef<any>(null);
 
   const [marker, setMarker] = useState<any>();
-  const [geoLocateCtl, setGeoLocateCtl] = useState<any>();
   const [currentLocation, setCurrentLocation] = useState<any>();
   const [isToastOpen, setIsToastOpen] = useState<boolean>(false);
   const [toastMessage, setToastMessage] = useState<string | undefined>();
@@ -67,6 +66,9 @@ export const IncidentDetail = ({incident, files, supabase}) => {
   const [creator, setCreator] = useState<any>();
   const [openIconKey, setOpenIconKey] = useState(false);
   const [openCreator, setOpenCreator] = useState(false);
+  const [userMarker, setUserMarker] = useState<mapboxgl.Marker | undefined>();
+
+  const location = useStoreState(UserStore, selectors.getLocation);
 
   const reloadPosition = () => {
     const center = new mapboxgl.LngLat(incident?.longitude, incident?.latitude)
@@ -118,29 +120,56 @@ export const IncidentDetail = ({incident, files, supabase}) => {
       zoom: 13
     });
 
-    const geoLocate = new mapboxgl.GeolocateControl({
-      positionOptions: {
-      enableHighAccuracy: true
-      },
-      // When active the map will receive updates to the device's location as it changes.
-      trackUserLocation: true,
-      // Draw an arrow next to the location dot to indicate which direction the device is heading.
-      showUserHeading: true
-    });
+    // const geoLocate = new mapboxgl.GeolocateControl({
+    //   positionOptions: {
+    //   enableHighAccuracy: true
+    //   },
+    //   // When active the map will receive updates to the device's location as it changes.
+    //   trackUserLocation: true,
+    //   // Draw an arrow next to the location dot to indicate which direction the device is heading.
+    //   showUserHeading: true
+    // });
 
-    setGeoLocateCtl(geoLocate);
-    map.current.addControl(geoLocate);
+    // setGeoLocateCtl(geoLocate);
+    // map.current.addControl(geoLocate);
 
-    geoLocate.on('geolocate', (geo) => {
-        console.log('A geolocate event has occurred.', geo);
-        let geo_coords = geo as any;
-        setCurrentLocation(geo_coords?.coords);
-    });
+    // geoLocate.on('geolocate', (geo) => {
+    //     console.log('A geolocate event has occurred.', geo);
+    //     let geo_coords = geo as any;
+    //     setCurrentLocation(geo_coords?.coords);
+    // });
     const markerColor = displayLevelColor(incident);
     const marker = new mapboxgl.Marker({color: markerColor})
         .setLngLat([incident.longitude, incident.latitude])
         .addTo(map.current);
     setMarker(marker);
+
+    if (incident.longitude && incident.latitude && location) {
+      map.current.flyTo({
+        center: [incident.longitude, incident.latitude]
+      });
+
+      if(map.current && userMarker) {
+        userMarker.setLngLat([ location.coords.longitude, location.coords.latitude])
+    
+      } else {
+
+        const el = document.createElement('div');
+        el.className = 'marker';
+        el.style.backgroundColor = `blue`;
+        el.style.width = `10px`;
+        el.style.height = `10px`;
+        el.style.borderRadius = `10px`;
+        el.style.backgroundSize = '100%';
+
+
+        const marker = new mapboxgl.Marker(el)
+          .setLngLat([ location.coords.longitude, location.coords.latitude])
+          .addTo(map.current);
+        setUserMarker(marker);
+        
+      }
+    }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [incident]);
@@ -156,7 +185,13 @@ export const IncidentDetail = ({incident, files, supabase}) => {
     }
   }, [userProfiles, incident, authUser, authUserProfile]);
 
-  
+  const flyToMe = () => {
+    if (incident.longitude && incident.latitude && location) {
+      map?.current.flyTo({
+        center: [incident.longitude, incident.latitude]
+      });
+    }
+  }
 
   const externalMaps = ()=>{
     window.open(`http://maps.apple.com/?ll=${incident.latitude},${incident.longitude}`)
@@ -247,6 +282,13 @@ export const IncidentDetail = ({incident, files, supabase}) => {
                     <IonIcon icon={reload} />
                 </IonFabButton>
             </IonFab>  
+
+            <IonFab slot="fixed" horizontal="end" vertical="top">
+              <IonFabButton size="small" color={'medium'} onClick={flyToMe}>
+                  <IonIcon icon={locate} />
+              </IonFabButton>
+            </IonFab>  
+            
           </div> 
         </div>
 

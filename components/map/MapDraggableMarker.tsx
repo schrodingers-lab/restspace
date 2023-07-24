@@ -213,11 +213,11 @@ export const MapDraggableMarker = ({initialLat=defaultInitialLat, initialLng=def
         <div className="area-map-section h-64">
              
             <div ref={mapContainer} className="w-full h-64">
-                {/* <IonFab slot="fixed" horizontal="start" vertical="top">
+                <IonFab slot="fixed" horizontal="start" vertical="top">
                     <IonFabButton size="small" color={'medium'} onClick={reloadPosition}>
                         <IonIcon icon={reload} />
                     </IonFabButton>
-                </IonFab>   */}
+                </IonFab>  
                 <IonFab slot="fixed" horizontal="end" vertical="top">
                     <IonFabButton size="small" color={'medium'} onClick={centerMap}>
                         <IonIcon icon={locate} />

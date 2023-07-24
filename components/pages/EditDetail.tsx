@@ -148,6 +148,8 @@ const EditDetail = ({history, match }) => {
     console.log('cancelled')
   }
 
+
+
   const locationSetter = (location, distance) => {
     //Location from mapDraggableMarker
     // console.log("location", location, distance);
@@ -367,23 +369,6 @@ const EditDetail = ({history, match }) => {
             <div className="space-y-8 divide-y divide-gray-200">
 
               <div className="mt-8 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
-                <div className="sm:col-span-6">
-                  <label htmlFor="locationName" className="block pt-4 text-sm font-medium text-gray-700 dark:text-white">
-                    Where did this happen
-                  </label>
-                  <div className="mt-1">
-                    <input
-                      type="text"
-                      name="locationName"
-                      id="locationName"
-                      value={name}
-                      onChange={handleName}
-                      className="block w-full text-black dark:text-white dark:bg-black rounded-md border-gray-300 shadow-sm focus:border-ww-secondary focus:ring-ww-secondary caret-ww-secondary sm:text-sm"
-                    />
-                  </div>
-
-                  <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">Feel free to change the name to something more relevant.</p>
-                </div>
 
                 <label htmlFor="categories" className="block font-medium text-gray-700 dark:text-gray-300 sm:mt-px sm:pt-2 mt-4">
                     <IonButton onClick={()=>{setOpenIconKey(!openIconKey)}} slot="icon-only" shape="round" color={"warning" } fill={"outline"}  size="small" className='float-right'>
@@ -475,9 +460,33 @@ const EditDetail = ({history, match }) => {
                 </div> 
 
                 <div className="sm:col-span-6">
+                  <label htmlFor="locationName" className="block pt-4 text-sm font-medium text-gray-700 dark:text-white">
+                    Where did this happen
+                  </label>
+                  <div className="mt-1">
+                    <input
+                      type="text"
+                      name="locationName"
+                      id="locationName"
+                      value={name}
+                      onChange={handleName}
+                      className="block w-full text-black dark:text-white dark:bg-black rounded-md border-gray-300 shadow-sm focus:border-ww-secondary focus:ring-ww-secondary caret-ww-secondary sm:text-sm"
+                    />
+                  </div>
+
+                  <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">Feel free to change the name to something more relevant.</p>
+                </div>
+
+
+                <div className="sm:col-span-6">
                   <label htmlFor="about" className="block text-sm font-medium text-gray-700 dark:text-white">
                     Where (approximately)?
                   </label>
+
+
+                      
+                 {incident?.latitude && <MapDraggableMarker sendLocationFnc={locationSetter} autoLocate={true} initialLat={incident?.latitude} initialLng={incident?.longitude}/>}
+                  <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">Drag map pin to desired location.</p>
 
                   <IonItem color={"light"} className="my-8">
                     <IonIcon slot="end" icon={locate} />
@@ -496,10 +505,6 @@ const EditDetail = ({history, match }) => {
 
                     </IonLabel>
                   </IonItem>
-                      
-                  <MapDraggableMarker sendLocationFnc={locationSetter} autoLocate={true} />
-                  <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">Drag map pin to approximate location.</p>
-                  
                 </div>
 
                 <div className="sm:col-span-6">
