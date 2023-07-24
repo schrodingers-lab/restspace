@@ -67,17 +67,17 @@ export default async function sendPushNotification(req: NextApiRequest, res: Nex
         },
         notification: {
           title: 'New Notification',
-          body: ""+notification.message,
-          android: {
-            notification: {
+          body: ""+notification.message
+        },
+        android: {
+          notification: {
+            sound: 'default'
+          }
+        },
+        apns: {
+          payload: {
+            aps: {
               sound: 'default'
-            }
-          },
-          apns: {
-            payload: {
-              aps: {
-                sound: 'default'
-              }
             }
           }
         },
