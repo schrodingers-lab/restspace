@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>BGTaskSchedulerPermittedIdentifiers</key>
+	<array>
+		<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -26,14 +30,14 @@
 	<string>Allow We Watch to access your photo</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Allow We Watch to access your photo</string>
-	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Allow We Watch to access your photo</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Allow We Watch to access your photo</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Allow We Watch to access your location to search for nearby incidents</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Allow We Watch to access your location to  search for nearby incidents</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Allow We Watch to access your photo</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Allow We Watch to access your photo</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
@@ -52,9 +56,12 @@
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
 		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
