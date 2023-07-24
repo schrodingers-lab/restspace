@@ -162,6 +162,8 @@ const MapPage = ({history}) => {
     { maxWait: 2000 }
   );
 
+
+
   const loadMap = async (lng, lat) => {
     map.current = new mapboxgl.Map({
       accessToken: mapboxglAccessToken,
