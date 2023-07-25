@@ -89,6 +89,8 @@ const MapPage = ({history}) => {
 
 
   const [width, setWidth] = useState<undefined|number>();
+  const [height, setHeight] = useState<undefined|number>();
+  
 
   const geoSearch = async () => {
     const query = supabase
@@ -225,6 +227,7 @@ const MapPage = ({history}) => {
     console.log('Screen width:', screenSize.width);
     console.log('Screen height:', screenSize.height);
     setWidth(screenSize.width);
+    setHeight(screenSize.height - 156);
 
   }, []);
 
@@ -483,7 +486,7 @@ const MapPage = ({history}) => {
             List
           </IonSegmentButton>
         </IonSegment>
-        <div className="map-section" style={{width: width}} >
+        <div className="map-section" style={{width: width, height: height}} >
           <div ref={mapContainer} className="map-container"/>
         </div>
         {/*-- fab placed to the (vertical) center and end --*/}
