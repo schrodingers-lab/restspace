@@ -43,6 +43,7 @@ import { useUser } from '@supabase/auth-helpers-react';
 import { useStoreState } from 'pullstate';
 import { useUserStore, UserStore } from '../../store/user';
 import * as selectors from '../../store/selectors';
+import NoUserCard from './NoUserCard';
 
 export const IncidentDetail = ({incident, files, supabase}) => {
   
@@ -288,7 +289,7 @@ export const IncidentDetail = ({incident, files, supabase}) => {
                   <IonIcon icon={locate} />
               </IonFabButton>
             </IonFab>  
-            
+
           </div> 
         </div>
 
@@ -340,15 +341,19 @@ export const IncidentDetail = ({incident, files, supabase}) => {
           </IonSegmentButton>
         </IonSegment>
         
+        { !authUser &&
+            <div className="mx-2">
+              <NoUserCard  />
+            </div>
+        }
 
-        {segmentMode == 'photos' && 
+        {authUser && segmentMode == 'photos' && 
           <div className="my-4 mx-auto mt-10 w-full" >
             <IncidentCarousel files={files} creator={creator} />
           </div>
         }
 
-
-        {segmentMode == 'messages' &&
+        {authUser && segmentMode == 'messages' &&
           <div className="my-4 mx-auto mt-10 w-full" >
             <Chat chatId={chatId}/>
           </div>

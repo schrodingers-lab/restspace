@@ -10,10 +10,12 @@ import {
  
   import React from 'react';
   import Chats from '../chat/Chats';
+  import { useUser } from '@supabase/auth-helpers-react';
+  import NoUserCard from '../cards/NoUserCard';
   
 
   const ChatsPage = () => {
-
+    const authUser = useUser();
 
     return (
       <IonPage>
@@ -31,7 +33,15 @@ import {
               <IonTitle size="large">Messages</IonTitle>
             </IonToolbar>
           </IonHeader>
+          { !authUser &&
+            <div className="mx-2">
+              <NoUserCard  />
+            </div>
+        }
+
+        {authUser && 
             <Chats/>
+        }
         </IonContent>
       </IonPage>
     );

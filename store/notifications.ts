@@ -167,8 +167,9 @@ export const completeUserNotifications = async (user_id, supabase) => {
           .eq('user_id', user_id)
           .eq('completed', false);
 
-    //Update should come back via realtime
-    // Notification state is updated in teh realtime
+    NotificationStore.update(s => {
+      s.notifications = [];
+    });
 
     return data
   } catch (error) {
