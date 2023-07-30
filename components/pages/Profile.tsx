@@ -14,11 +14,12 @@ import {
     IonToast,
     IonButtons,
     IonMenuButton,
+    IonToggle,
   } from '@ionic/react';
   import Store from '../../store';
   import { getNotifications } from '../../store/selectors';
   
-  import { close, locate } from 'ionicons/icons';
+  import { close, locate, moon, notifications } from 'ionicons/icons';
   import React, { useEffect, useState } from 'react';
   import { updateProfile, UserStore, useUserStore } from '../../store/user';
   import UserProfileAvatar from '../ui/UserProfileAvatar';
@@ -31,6 +32,7 @@ import {
   import { ErrorCard } from '../cards/ErrorCard';
   import { useStoreState } from 'pullstate';
   import * as selectors from '../../store/selectors';
+import { set } from 'date-fns';
 
   const ProfilePage = ({history}) => {
  
@@ -46,6 +48,7 @@ import {
     const [ username, setUsername] = useState<string >('');
     const [ about, setAbout] = useState<string >('');
     const [ location, setLocation] = useState<any >();
+    const [ pushEnabled, setPushEnabled] = useState<boolean>(false);
 
 
     const [ distance, setDistance] = useState<number >();
@@ -65,6 +68,11 @@ import {
           latitude: (authUserProfile.latitude ? authUserProfile.latitude : defaultInitialLat)
         };
         setLocation(location);
+        if (authUserProfile.push_token){
+          setPushEnabled(true);
+        } else {
+          setPushEnabled(false);
+        }
       }
     }
 
@@ -115,6 +123,10 @@ import {
       // history.push('/tabs/home');
     }
 
+    const handleToggleNotification = () => {
+      setPushEnabled(!pushEnabled);
+    }
+
     const handleSubmit = async (event) => {
       event.preventDefault();
       setError('');
@@ -137,9 +149,12 @@ import {
         newProfile.latitude = location.latitude;
       }
 
-      if (pushToken){
+      if (pushEnabled && pushToken){
         newProfile.push_token = pushToken;
+      } else if (pushEnabled === false ){
+        newProfile.push_token = null;
       }
+     
 
       //Update user profile (RLS active)
       const res = await updateProfile(newProfile, supabase);
@@ -251,7 +266,6 @@ import {
                     </div>
 
 
-
                     <div className="grid grid-cols-1 sm:items-center sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
                       <label htmlFor="location" className="block text-sm font-medium text-gray-700 dark:text-gray-200">
                         Location
@@ -284,6 +298,24 @@ import {
                       </div>
                       <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">Drag marker to your base location for notifications (not public).</p>
                       
+                    </div>
+
+
+                    <div className="w-full sm:border-t sm:border-gray-200 pt-4">
+                      <IonList>
+                        <IonItem>
+                          <IonIcon slot="start" icon={notifications}/>
+                          <IonLabel>Incident Push Notifications</IonLabel>
+                          <IonToggle
+                            checked={pushEnabled}
+                            disabled = {!pushToken}
+                            onIonChange={e => {handleToggleNotification()}}
+                          />
+                        </IonItem>
+                        
+                      </IonList>
+                      {pushToken && <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">for Incident within radius of 1km from location.</p>}
+                      {!pushToken && <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">Push notifications are not available on this device.</p>}
                     </div>
                   </div>
                 </div>
