@@ -460,12 +460,6 @@ const MapPage = ({history}) => {
     history.push('/tabs/incidents');
   }
 
-
-  const ssd = () => {
-    map.current?.
-  }
-
-
   return (
     <IonPage>
       <IonHeader>
