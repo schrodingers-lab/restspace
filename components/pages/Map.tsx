@@ -307,6 +307,10 @@ const MapPage = ({history}) => {
     map.current.resize();
   });
 
+  map.current?.on('webglcontextrestored', () => {
+    map.current.resize();
+  });
+
   map.current?.on('load', function () {
     map.current.resize();
     debouncedSearch();
@@ -456,6 +460,10 @@ const MapPage = ({history}) => {
     history.push('/tabs/incidents');
   }
 
+
+  const ssd = () => {
+    map.current?.
+  }
 
 
   return (
