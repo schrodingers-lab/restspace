@@ -33,7 +33,7 @@ export const SingleImageUploader = ({authUser, supabase, addFileFnc}) => {
   const uploadPublicImage = async (path: string, format: string) => {
     const response = await fetch(path);
     const blob = await response.blob();
-    const filename = path.substring(path.lastIndexOf("/") + 1) + "."+format;
+    const filename = generateRandomFilename(path.substring(path.lastIndexOf("/") + 1) + "."+format);
 
     setToastMessage("Uploading image, please wait..")
     setIsToastOpen(true)
