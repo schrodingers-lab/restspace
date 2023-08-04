@@ -170,6 +170,7 @@ const EditDetail = ({history, match }) => {
       
       if(error){
         setError(error.message)
+        setFiles([]);
       }else {
         setFiles(data);
       }
@@ -179,7 +180,7 @@ const EditDetail = ({history, match }) => {
     if (incident?.id) {
       loadData();
     } else{
-      setFiles(undefined);
+      setFiles([]);
     }
   }, [incident])
 
@@ -524,7 +525,7 @@ const EditDetail = ({history, match }) => {
                   <IonList className="bg-white dark:bg-black dark:text-white">
                     {files.map((s: any) => (
                       <div key={s?.id}>
-                        <div style={{width : 400, margin : 'auto'}}>
+                        <div style={{width : '100%', margin : 'auto'}}>
                           <RenderImage file={s} />
                         </div>
                       </div>

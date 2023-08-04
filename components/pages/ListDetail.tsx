@@ -97,6 +97,7 @@ const ListDetail = ({ history, match }) => {
         
         if(error){
           setError(error.message)
+          setFiles([]);
         }else {
           setFiles(data);
         }
@@ -106,7 +107,7 @@ const ListDetail = ({ history, match }) => {
     if (user) {
       loadData();
     } else{
-      setFiles(undefined);
+      setFiles([]);
     }
   }, [user, user?.id, incidentId])
 
