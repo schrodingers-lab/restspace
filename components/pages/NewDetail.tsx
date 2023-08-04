@@ -216,7 +216,7 @@ const NewDetail = ({history}) => {
       resetData();
 
       // Go to detail page
-      history.push('/tabs/incidents/'+newId);
+      history.replace('/tabs/incidents/'+newId);
     }
   }
 
