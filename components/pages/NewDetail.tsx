@@ -523,7 +523,7 @@ const NewDetail = ({history}) => {
                   <IonList className="bg-white dark:bg-black dark:text-white">
                     {files.map((s: any) => (
                       <div key={s?.id}>
-                        <div style={{width : 400, margin : 'auto'}}>
+                        <div style={{width : '100%', margin : 'auto'}}>
                           <RenderImage file={s} />
                         </div>
                       </div>

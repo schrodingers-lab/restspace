@@ -15,6 +15,7 @@ import { cog, bookmark, map, filter, notifications, person, people, locate } fro
 import React from 'react';
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import Link from 'next/link'
 
 import 'swiper/swiper.min.css';
 import '@ionic/react/css/ionic-swiper.css';
@@ -134,9 +135,9 @@ const TourPage = () => {
                           </p>
                         </div>
                         <div className="rounded-bl-2xl rounded-br-2xl bg-gray-50 p-6 md:px-8">
-                          <a href={"/tabs/profile"} className="text-base font-medium text-ww-primary hover:text-ww-secondary">
+                          <Link href="/tabs/profile" className="text-base font-medium text-ww-primary hover:text-ww-secondary">
                             <span>Lets complete your profile </span>
-                          </a>
+                          </Link>
                         </div>
                       </div>
                   </div>

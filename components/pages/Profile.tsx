@@ -40,6 +40,7 @@ import { set } from 'date-fns';
     const {userIds} = useUserStore({userId: authUser?.id});
     const authUserProfile = useStoreState(UserStore, selectors.getAuthUserProfile);
     const pushToken = useStoreState(UserStore, selectors.getPushToken);
+    const currentLocation = useStoreState(UserStore, selectors.getLocation);
 
     const supabase = useSupabaseClient();
     const [error, setError] = useState("");
@@ -64,9 +65,13 @@ import { set } from 'date-fns';
         setAbout(authUserProfile.about);
         setNewProfile({...authUserProfile});
         const location = {
-          longitude: (authUserProfile.longitude ? authUserProfile.longitude : defaultInitialLng),
-          latitude: (authUserProfile.latitude ? authUserProfile.latitude : defaultInitialLat)
+          longitude:
+          (authUserProfile.longitude ? authUserProfile.longitude : (currentLocation?.coords?.longitude ? currentLocation.coords.longitude : defaultInitialLng)),
+          latitude:
+          (authUserProfile.latitude ? authUserProfile.latitude : (currentLocation?.coords?.latitude ? currentLocation.coords.latitude : defaultInitialLat))
+         
         };
+        
         setLocation(location);
         if (authUserProfile.push_token){
           setPushEnabled(true);
@@ -291,8 +296,10 @@ import { set } from 'date-fns';
                         {authUserProfile && 
                           <MapDraggableMarker 
                             sendLocationFnc={locationSetter} 
-                            initialLng={authUserProfile.longitude ? authUserProfile.longitude : defaultInitialLng} 
-                            initialLat={authUserProfile.latitude ? authUserProfile.latitude : defaultInitialLat}
+                            initialLng={
+                              authUserProfile.longitude ? authUserProfile.longitude : (currentLocation?.coords?.longitude ? currentLocation.coords.longitude : defaultInitialLng)} 
+                            initialLat=
+                            {authUserProfile.latitude ? authUserProfile.latitude : (currentLocation?.coords?.latitude ? currentLocation.coords.latitude : defaultInitialLat)}
                            />
                         }
                       </div>
