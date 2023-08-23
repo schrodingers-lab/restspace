@@ -11,7 +11,7 @@ import {
 } from '@ionic/react';
  
 
-import { cog, bookmark, map, filter, notifications, person, people, locate } from 'ionicons/icons';
+import { cog, bookmark, map, filter, notifications, person, people, locate, alarm } from 'ionicons/icons';
 import React from 'react';
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -46,34 +46,74 @@ const TourPage = () => {
               pagination={{ clickable: true }}
               className="h-full"
               >
-          <SwiperSlide  >
 
-              <div className="h-full bg-cairns2 bg-center bg-cover flex flex-col justify-center content-center ">
+              <SwiperSlide className="h-full w-full bg-air bg-center bg-cover " >
+                <div className="h-full  flex flex-col justify-center content-center ">
+                  <img src='/imgs/tour/1.png' className='h-full p-4'/>
+                </div>
+              </SwiperSlide> 
 
-                <section
-                  className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
-                  aria-labelledby="contact-heading"
-                >
-                  <div className="grid grid-cols-1 gap-y-20 ">
-                      <div  className="flex flex-col rounded-2xl bg-white shadow-xl">
-                        <div className="relative flex-1 px-6 pt-16 pb-8 md:px-8 ">
-                          <div className="top-0 inline-block -translate-y-1/2 transform rounded-xl bg-ww-primary p-5 shadow-lg">
-                            <IonIcon icon={map} color="light"  />
-                          </div>
-                          <h3 className="text-xl font-medium text-gray-900">Live Data</h3>
-                          <p className="mt-4 text-base text-gray-500">
-                            Find out about the incidents around your area, added by the community
-                          </p>
-                        </div>
-                       
-                      </div>
-                  </div>
-                </section>
-              </div>
+              <SwiperSlide className="h-full w-full bg-air bg-center bg-cover " >
+                <div className="h-full  flex flex-col justify-center content-center ">
+                  <img src='/imgs/tour/2.png' className='h-full p-4'/>
+                </div>
+              </SwiperSlide> 
 
-          </SwiperSlide>
+              <SwiperSlide className="h-full w-full bg-air bg-center bg-cover " >
+                <div className="h-full  flex flex-col justify-center content-center ">
+                  <img src='/imgs/tour/3.png' className='h-full p-4'/>
+                </div>
+              </SwiperSlide> 
+
+              <SwiperSlide className="h-full w-full bg-air bg-center bg-cover " >
+                <div className="h-full  flex flex-col justify-center content-center ">
+                  <img src='/imgs/tour/4.png' className='h-full p-4'/>
+                </div>
+              </SwiperSlide> 
+
+              <SwiperSlide className="h-full w-full bg-air bg-center bg-cover " >
+                <div className="h-full  flex flex-col justify-center content-center ">
+                  <img src='/imgs/tour/5.png' className='h-full p-4'/>
+                </div>
+              </SwiperSlide> 
+
+              <SwiperSlide className="h-full w-full bg-air bg-center bg-cover " >
+                <div className="h-full  flex flex-col justify-center content-center ">
+                  <img src='/imgs/tour/6.png' className='h-full p-4'/>
+                </div>
+              </SwiperSlide> 
+
+              <SwiperSlide className="h-full w-full bg-air bg-center bg-cover " >
+                <div className="h-full  flex flex-col justify-center content-center ">
+                  <img src='/imgs/tour/7.png' className='h-full p-4'/>
+                </div>
+              </SwiperSlide> 
+
+              <SwiperSlide className="h-full w-full bg-air bg-center bg-cover " >
+                <div className="h-full  flex flex-col justify-center content-center ">
+                  <img src='/imgs/tour/8.png' className='h-full p-4'/>
+                </div>
+              </SwiperSlide> 
+
+              <SwiperSlide className="h-full w-full bg-air bg-center bg-cover " >
+                <div className="h-full  flex flex-col justify-center content-center ">
+                  <img src='/imgs/tour/9.png' className='h-full p-4'/>
+                </div>
+              </SwiperSlide> 
+
+              <SwiperSlide className="h-full w-full bg-air bg-center bg-cover " >
+                <div className="h-full  flex flex-col justify-center content-center ">
+                  <img src='/imgs/tour/10.png' className='h-full p-4'/>
+                </div>
+              </SwiperSlide> 
+
+              <SwiperSlide className="h-full w-full bg-air bg-center bg-cover " >
+                <div className="h-full  flex flex-col justify-center content-center ">
+                  <img src='/imgs/tour/11.png' className='h-full p-4'/>
+                </div>
+              </SwiperSlide> 
          
-          <SwiperSlide>
+          {/* <SwiperSlide>
           <div className="h-full bg-cairns2 bg-center bg-cover  flex flex-col justify-center content-center ">
                   {/* <div className="h-full">
                     <img
@@ -81,7 +121,7 @@ const TourPage = () => {
                       src="/imgs/locations/splash.png"
                       alt=""
                     />
-                </div> */}
+                </div> 
 
                 <section
                   className=" mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
@@ -102,14 +142,14 @@ const TourPage = () => {
                           <a href={"/tabs/map"} className="text-base font-medium text-ww-primary hover:text-ww-secondary">
                             Filtering on Map<span aria-hidden="true"></span>
                           </a>
-                        </div> */}
+                        </div> 
                       </div>
                   </div>
                 </section>
               </div>
-          </SwiperSlide>
+          </SwiperSlide> */}
           <SwiperSlide>
-          <div className="h-full bg-air bg-center bg-cover  flex flex-col justify-center content-center ">
+          <div className="h-full w-full bg-air bg-center bg-cover  flex flex-col justify-center content-center ">
                   {/* <div className="h-full">
                     <img
                       className="h-full w-auto object-fill"
@@ -126,9 +166,9 @@ const TourPage = () => {
                       <div  className="flex flex-col rounded-2xl bg-white shadow-xl">
                         <div className="relative flex-1 px-6 pt-16 pb-8 md:px-8">
                           <div className="top-0 inline-block -translate-y-1/2 transform rounded-xl bg-ww-primary p-5 shadow-lg">
-                            <IonIcon icon={locate} color="light" />
+                            <IonIcon icon={notifications} color="light" />
                           </div>
-                          <h3 className="text-xl font-medium text-gray-900">Location</h3>
+                          <h3 className="text-xl font-medium text-gray-900">Alerts</h3>
                           <p className="mt-4 text-base text-gray-500">
                             Keep notified about live incidents in your area, enable notifications for you. 
                           </p>

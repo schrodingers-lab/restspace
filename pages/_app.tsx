@@ -89,13 +89,14 @@ function MyApp({ Component, pageProps }) {
           name="viewport"
           content="width=device-width, initial-scale=1.0, viewport-fit=cover"
         ></meta>
-      </Head>
-        <SessionContextProvider
+    </Head>
+      <SessionContextProvider
         supabaseClient={supabaseClient}
         initialSession={pageProps.initialSession}
-      >
-        <Component {...pageProps} />
+        >
+          <Component {...pageProps} />
       </SessionContextProvider>
+      
       <Script type="module" src="https://unpkg.com/ionicons@6.0.3/dist/ionicons/ionicons.esm.js"></Script>
       <Script src="https://unpkg.com/ionicons@6.0.3/dist/ionicons/ionicons.js"></Script>
 
