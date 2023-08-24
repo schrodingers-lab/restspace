@@ -49,67 +49,67 @@ const TourPage = () => {
 
               <SwiperSlide className="h-full w-full bg-air bg-center bg-cover " >
                 <div className="h-full  flex flex-col justify-center content-center ">
-                  <img src='/imgs/tour/1.png' className='h-full p-4'/>
+                 <img src='/imgs/tour/opt/1.png' className='h-full p-4'/>
                 </div>
               </SwiperSlide> 
 
               <SwiperSlide className="h-full w-full bg-air bg-center bg-cover " >
                 <div className="h-full  flex flex-col justify-center content-center ">
-                  <img src='/imgs/tour/2.png' className='h-full p-4'/>
+                 <img src='/imgs/tour/opt/2.png' className='h-full p-4'/>
                 </div>
               </SwiperSlide> 
 
               <SwiperSlide className="h-full w-full bg-air bg-center bg-cover " >
                 <div className="h-full  flex flex-col justify-center content-center ">
-                  <img src='/imgs/tour/3.png' className='h-full p-4'/>
+                 <img src='/imgs/tour/opt/3.png' className='h-full p-4'/>
                 </div>
               </SwiperSlide> 
 
               <SwiperSlide className="h-full w-full bg-air bg-center bg-cover " >
                 <div className="h-full  flex flex-col justify-center content-center ">
-                  <img src='/imgs/tour/4.png' className='h-full p-4'/>
+                 <img src='/imgs/tour/opt/4.png' className='h-full p-4'/>
                 </div>
               </SwiperSlide> 
 
               <SwiperSlide className="h-full w-full bg-air bg-center bg-cover " >
                 <div className="h-full  flex flex-col justify-center content-center ">
-                  <img src='/imgs/tour/5.png' className='h-full p-4'/>
+                 <img src='/imgs/tour/opt/5.png' className='h-full p-4'/>
                 </div>
               </SwiperSlide> 
 
               <SwiperSlide className="h-full w-full bg-air bg-center bg-cover " >
                 <div className="h-full  flex flex-col justify-center content-center ">
-                  <img src='/imgs/tour/6.png' className='h-full p-4'/>
+                 <img src='/imgs/tour/opt/6.png' className='h-full p-4'/>
                 </div>
               </SwiperSlide> 
 
               <SwiperSlide className="h-full w-full bg-air bg-center bg-cover " >
                 <div className="h-full  flex flex-col justify-center content-center ">
-                  <img src='/imgs/tour/7.png' className='h-full p-4'/>
+                 <img src='/imgs/tour/opt/7.png' className='h-full p-4'/>
                 </div>
               </SwiperSlide> 
 
               <SwiperSlide className="h-full w-full bg-air bg-center bg-cover " >
                 <div className="h-full  flex flex-col justify-center content-center ">
-                  <img src='/imgs/tour/8.png' className='h-full p-4'/>
+                 <img src='/imgs/tour/opt/8.png' className='h-full p-4'/>
                 </div>
               </SwiperSlide> 
 
               <SwiperSlide className="h-full w-full bg-air bg-center bg-cover " >
                 <div className="h-full  flex flex-col justify-center content-center ">
-                  <img src='/imgs/tour/9.png' className='h-full p-4'/>
+                 <img src='/imgs/tour/opt/9.png' className='h-full p-4'/>
                 </div>
               </SwiperSlide> 
 
               <SwiperSlide className="h-full w-full bg-air bg-center bg-cover " >
                 <div className="h-full  flex flex-col justify-center content-center ">
-                  <img src='/imgs/tour/10.png' className='h-full p-4'/>
+                 <img src='/imgs/tour/opt/10.png' className='h-full p-4'/>
                 </div>
               </SwiperSlide> 
 
               <SwiperSlide className="h-full w-full bg-air bg-center bg-cover " >
                 <div className="h-full  flex flex-col justify-center content-center ">
-                  <img src='/imgs/tour/11.png' className='h-full p-4'/>
+                 <img src='/imgs/tour/opt/11.png' className='h-full p-4'/>
                 </div>
               </SwiperSlide> 
          
