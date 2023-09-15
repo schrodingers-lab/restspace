@@ -195,7 +195,7 @@ export const IncidentDetail = ({incident, files, supabase}) => {
   }
 
   const externalMaps = ()=>{
-    window.open(`http://maps.apple.com/?ll=${incident.latitude},${incident.longitude}`)
+    window.open(`http://maps.apple.com/?q=${incident.latitude},${incident.longitude}`)
   }
 
   const toggleUserModal = () => {
