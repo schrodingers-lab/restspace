@@ -170,15 +170,15 @@ const TourPage = () => {
 
 
         <IonFab vertical="center" horizontal="end" slot="fixed">
-          <IonFabButton onClick={()=> {nextSlide()}} disabled={nextDisabled} color="transparent" >
-            <IonIcon icon={chevronForward} color="primary" size="large" />
+          <IonFabButton onClick={()=> {nextSlide()}} disabled={nextDisabled}  className={(nextDisabled ? 'opacity-30' : 'opacity-70')}>
+            <IonIcon icon={chevronForward} size="large" />
           </IonFabButton>
         </IonFab>
 
 
         <IonFab vertical="center" horizontal="start" slot="fixed">
-          <IonFabButton onClick={()=>{prevSlide()}} disabled={prevDisabled} color="transparent" >
-            <IonIcon icon={chevronBack} color="primary" size="large" />
+          <IonFabButton onClick={()=>{prevSlide()}} disabled={prevDisabled}   className={(prevDisabled ? 'opacity-30' : 'opacity-70')}>
+            <IonIcon icon={chevronBack} size="large" />
           </IonFabButton>
         </IonFab>
 
