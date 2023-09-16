@@ -22,3 +22,4 @@ export const getUserIds = createSelector(getState, state => state.userIds);
 export const getUserProfiles = createSelector(getState, state => state.userProfiles);
 export const getPushToken = createSelector(getState, state => state.pushToken);
 export const getLocation = createSelector(getState, state => state.location);
+export const getUpdatedTab = createSelector(getState, state => state.updatedTab);

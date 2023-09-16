@@ -13,6 +13,7 @@ export const UserStore = new Store({
   authUserProfile: undefined,
   pushToken: undefined,
   location: undefined,
+  updatedTab: undefined,
 });
 
 /**
@@ -164,6 +165,18 @@ export const updateLocation = async (location) => {
       s.location = location
     });
     return location
+  } catch (error) {
+    console.log('error', error)
+  }
+}
+
+
+export const updateTab = async (updated) => {
+  try {
+    UserStore.update(s => {
+      s.updatedTab = updated
+    });
+    return updated
   } catch (error) {
     console.log('error', error)
   }

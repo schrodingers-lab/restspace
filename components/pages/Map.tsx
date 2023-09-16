@@ -45,8 +45,9 @@ import { UserStore, updateLocation } from '../../store/user';
 import { getCurrentLocation } from '../util/location';
 
 
-const MapPage = ({history}) => {
+const MapPage = ({triggerMap: number, history}) => {
   const incidents = useStoreState(IncidentStore, selectors.getIncidents);
+  const updatedTab = useStoreState(UserStore, selectors.getUpdatedTab);
   const [showNotifications, setShowNotifications] = useState(false);
 
   const mapContainer = useRef<any>(null);
@@ -226,8 +227,8 @@ const MapPage = ({history}) => {
     const screenSize = getScreenSize();
     console.log('Screen width:', screenSize.width);
     console.log('Screen height:', screenSize.height);
-    setWidth(screenSize.width);
-    setHeight(screenSize.height - 156);
+    if (width == undefined) { setWidth(screenSize.width)};
+    if (height == undefined) { setHeight(screenSize.height - 156);}
 
   }, []);
 
@@ -302,17 +303,27 @@ const MapPage = ({history}) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [incidents]);
 
+  const mapResize = (attempt = 0) => {
+    if (!map.current) return;
+    map.current.resize();
+    if (attempt < 2) {
+      console.log(`delayed resize attempt ${attempt + 1}`);
+      setTimeout(() => mapResize(attempt + 1), 500);
+    }
+  }
+
+  useEffect(() => {
+    mapResize();
+  }, [updatedTab]);
+
   map.current?.on('render', function () {
     // Resize to fill space
-    map.current.resize();
+    mapResize(2);
   });
 
-  map.current?.on('webglcontextrestored', () => {
-    map.current.resize();
-  });
 
   map.current?.on('load', function () {
-    map.current.resize();
+    mapResize(1);
     debouncedSearch();
     setLoaded(true);
     loadSources();
@@ -489,7 +500,7 @@ const MapPage = ({history}) => {
           </IonSegmentButton>
         </IonSegment>
         <div className="map-section" style={{width: width, height: height}} >
-          <div ref={mapContainer} className="map-container"/>
+          <div ref={mapContainer} className="map-container" style={{width: width, height: height}} />
         </div>
         {/*-- fab placed to the (vertical) center and end --*/}
         <IonFab  vertical="bottom" horizontal="center" slot="fixed">

@@ -1,4 +1,4 @@
-import { Redirect, Route } from 'react-router-dom';
+import { Redirect, Route, useLocation } from 'react-router-dom';
 import { IonRouterOutlet, IonTabs, IonTabBar, IonTabButton, IonIcon, IonLabel, IonToast, IonContent, IonPopover } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import { person, bookmark, map, chatbox, add, home, chatbubbles  } from 'ionicons/icons';
@@ -23,7 +23,7 @@ import Mine from './Mine';
 import EditDetail from './EditDetail';
 import { useUser } from '@supabase/auth-helpers-react';
 import { useStoreState } from 'pullstate';
-import { UserStore, updateLocation } from '../../store/user';
+import { UserStore, updateLocation, updateTab } from '../../store/user';
 
 import * as selectors from '../../store/selectors';
 import { checkLocationPermissions, getCurrentLocation } from '../util/location';
@@ -31,6 +31,7 @@ import { checkLocationPermissions, getCurrentLocation } from '../util/location';
 const Tabs = ({history}) => {
   const user = useUser();
   const authUserProfile = useStoreState(UserStore, selectors.getAuthUserProfile);
+  const location = useLocation();
 
   useEffect(() => {
     const asnycfn = async () => {
@@ -43,9 +44,14 @@ const Tabs = ({history}) => {
     asnycfn();
   }, []);
 
+  const handleTabsDidChange = () => {
+    if (location.pathname === '/tabs/map') {
+      updateTab(Math.random());
+    }
+  }
 
   return (
-    <IonTabs>
+    <IonTabs onIonTabsDidChange={handleTabsDidChange}>
       <IonRouterOutlet>
         <Route path="/tabs/login" component={LoginPage}  exact={true} />
         <Route path="/tabs/signup" component={SignupPage}  exact={true} />
