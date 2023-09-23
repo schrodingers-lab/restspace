@@ -9,7 +9,7 @@ import { getCurrentLocation } from '../util/location';
 
 
 export const MapDraggableMarker = ({initialLat=defaultInitialLat, initialLng=defaultInitialLng, initialZoom=defaultInitialZoom, sendLocationFnc, autoLocate=false, resetCenter=null}) => {
-    console.log('initial L L', initialLng, initialLat)
+    // console.log('initial L L', initialLng, initialLat)
     const [lng, setLng] = useState(initialLng);
     const [lat, setLat] = useState(initialLat);
     const [zoom, setZoom] = useState(initialZoom);
@@ -20,13 +20,13 @@ export const MapDraggableMarker = ({initialLat=defaultInitialLat, initialLng=def
     const [userLocation, setUserLocation] = useState<any>();
     const [distanceToIncident, setDistanceToIncident] = useState<number>();
     
-    const mapContainer = useRef<any>(null);
-    const map = useRef<any>(null);
+    const draggableMapContainer = useRef<any>(null);
+    const draggableMap = useRef<any>(null);
 
     const centerMap = async () => {
       const position = await getCurrentLocation();
       const center = new mapboxgl.LngLat(position?.coords?.longitude, position?.coords?.latitude)
-      map.current.flyTo({
+      draggableMap.current.flyTo({
         center: center,
         zoom: zoom,
         essential: true // this animation is considered essential with respect to prefers-reduced-motion
@@ -43,7 +43,7 @@ export const MapDraggableMarker = ({initialLat=defaultInitialLat, initialLng=def
         const center = new mapboxgl.LngLat(initialLng, initialLat)
         marker?.setLngLat([initialLng, initialLat])
         // Center the map
-        map.current.flyTo({
+        draggableMap.current.flyTo({
             center: center,
             essential: true // this animation is considered essential with respect to prefers-reduced-motion
         });
@@ -79,12 +79,12 @@ export const MapDraggableMarker = ({initialLat=defaultInitialLat, initialLng=def
           setLat(currentLocation.latitude);
           setLng(currentLocation.longitude);
     
-          if (map.current && currentLocation.longitude && currentLocation.latitude){
+          if (draggableMap.current && currentLocation.longitude && currentLocation.latitude){
             const center = new mapboxgl.LngLat(currentLocation.longitude, currentLocation.latitude);
             
             // Center the map
-            // map.current.setCenter(center);
-            map.current.flyTo({
+            // draggableMap.current.setCenter(center);
+            draggableMap.current.flyTo({
                 center: center,
                 zoom: zoom,
                 essential: true // this animation is considered essential with respect to prefers-reduced-motion
@@ -97,7 +97,7 @@ export const MapDraggableMarker = ({initialLat=defaultInitialLat, initialLng=def
 
             const mapMarker = new mapboxgl.Marker({draggable: true, color: '#F15A24'})
               .setLngLat([lng, lat])
-              .addTo(map.current);
+              .addTo(draggableMap.current);
     
             mapMarker.on('dragend', ()=>{
               const lngLat = mapMarker.getLngLat();
@@ -117,16 +117,16 @@ export const MapDraggableMarker = ({initialLat=defaultInitialLat, initialLng=def
             
           }
         }
-      },[map, currentLocation])
+      },[draggableMap, currentLocation])
 
 
       useEffect(() => {
         
-        if (map.current) return; // initialize map only once
-        if (!mapContainer.current) return; // initialize map only once container is there
-        map.current = new mapboxgl.Map({
+        if (draggableMap.current) return; // initialize map only once
+        if (!draggableMapContainer.current) return; // initialize map only once container is there
+        draggableMap.current = new mapboxgl.Map({
           accessToken: mapboxglAccessToken,
-          container: mapContainer.current,
+          container: draggableMapContainer.current,
           style: mapboxglStyle,
           center: [lng, lat],
           zoom: zoom
@@ -148,7 +148,7 @@ export const MapDraggableMarker = ({initialLat=defaultInitialLat, initialLng=def
         // });
     
         // setGeoLocateCtl(geoLocate);
-        // map.current.addControl(geoLocate);
+        // draggableMap.current.addControl(geoLocate);
     
         // geoLocate.on('geolocate', (geo) => {
         //     console.log('A geolocate event has occurred.', geo);
@@ -159,7 +159,7 @@ export const MapDraggableMarker = ({initialLat=defaultInitialLat, initialLng=def
     
         const mapMarker = new mapboxgl.Marker({draggable: true, color: '#F15A24'})
             .setLngLat([lng, lat])
-            .addTo(map.current);
+            .addTo(draggableMap.current);
         
         mapMarker.on('dragend', ()=>{
           const lngLat = mapMarker.getLngLat();
@@ -178,7 +178,7 @@ export const MapDraggableMarker = ({initialLat=defaultInitialLat, initialLng=def
     
         setMarker(mapMarker);
     
-      }, [map, mapContainer]);
+      }, [draggableMap, draggableMapContainer]);
 
       useEffect(() => {
         //default to location of user.
@@ -199,20 +199,20 @@ export const MapDraggableMarker = ({initialLat=defaultInitialLat, initialLng=def
       }, []);
 
 
-      map.current?.on('render', function () {
+      draggableMap.current?.on('render', function () {
         // Resize to fill space
-        map.current.resize();
+        draggableMap.current.resize();
       });
 
-      map.current?.on('load', function () {
+      draggableMap.current?.on('load', function () {
         // Resize to fill space
-        map.current.resize();
+        draggableMap.current.resize();
       });
 
     return (
         <div className="area-map-section h-64">
              
-            <div ref={mapContainer} className="w-full h-64">
+            <div ref={draggableMapContainer} className="w-full h-64">
                 <IonFab slot="fixed" horizontal="start" vertical="top">
                     <IonFabButton size="small" color={'medium'} onClick={reloadPosition}>
                         <IonIcon icon={reload} />

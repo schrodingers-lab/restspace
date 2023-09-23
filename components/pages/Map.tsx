@@ -303,27 +303,27 @@ const MapPage = ({triggerMap: number, history}) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [incidents]);
 
-  const mapResize = (attempt = 0) => {
+  const mapResize = (attempt = 0, max = 5) => {
     if (!map.current) return;
     map.current.resize();
-    if (attempt < 2) {
+    if (attempt < max) {
       console.log(`delayed resize attempt ${attempt + 1}`);
       setTimeout(() => mapResize(attempt + 1), 500);
     }
   }
 
   useEffect(() => {
-    mapResize();
+    mapResize(0,6);
   }, [updatedTab]);
 
   map.current?.on('render', function () {
     // Resize to fill space
-    mapResize(2);
+    mapResize(2,3);
   });
 
 
   map.current?.on('load', function () {
-    mapResize(1);
+    mapResize(0,1);
     debouncedSearch();
     setLoaded(true);
     loadSources();

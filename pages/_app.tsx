@@ -22,57 +22,72 @@ import { Capacitor } from '@capacitor/core';
 
 function MyApp({ Component, pageProps }) {
 
-  useEffect(() => {
-    
-  // Request permission to use push notifications
-  if (Capacitor.getPlatform() != 'web') {
-    // iOS will prompt user and return if they granted permission or not
-    PushNotifications.requestPermissions().then(result => {
-      if (result.receive === 'granted') {
-          // Register with Apple / Google to receive push via APNS/FCM
-          PushNotifications.register();
+  const registerPush = () => {
+    {
+      // Register with Apple / Google to receive push via APNS/FCM
+      PushNotifications.register();
 
-          // On success, we should be able to receive notifications
-          PushNotifications.addListener('registration', 
-            (token: Token) => {
-              console.log('Push registration success, token:', token);
-              updatePushToken(token.value);
-            }
-          );
-
-          // Some issue with our setup and push will not work
-          PushNotifications.addListener('registrationError', 
-            (error: any) => {
-              console.log('Error on registration:', JSON.stringify(error));
-              updatePushToken(null);
-            }
-          );
-
-          // Show us the notification payload if the app is open on our device
-          PushNotifications.addListener('pushNotificationReceived', 
-            (notification: PushNotificationSchema) => {
-              console.log('Push received:', notification);
-            }
-          );
-
-          // Method called when tapping on a notification
-          PushNotifications.addListener('pushNotificationActionPerformed', 
-            (action: ActionPerformed) => {
-              console.log('Push action performed:', JSON.stringify(action));
-
-              console.log('Push action data:', JSON.stringify(action?.notification?.data));
-              // TODO: Can be used for logic and deep links (we decide data and logic)
-
-
-              // TODO: probably use a pullstate store for global data then later component can decide what to do with it
-
-
-              // Remove notification from the notification center (as you have actioned one)
-              PushNotifications.removeAllListeners();
-            }
-          );
+      // On success, we should be able to receive notifications
+      PushNotifications.addListener('registration', 
+        (token: Token) => {
+          console.log('Push registration success, token:', token);
+          updatePushToken(token.value);
         }
-      });
+      );
+
+      // Some issue with our setup and push will not work
+      PushNotifications.addListener('registrationError', 
+        (error: any) => {
+          console.log('Error on registration:', JSON.stringify(error));
+          updatePushToken(null);
+        }
+      );
+
+      // Show us the notification payload if the app is open on our device
+      PushNotifications.addListener('pushNotificationReceived', 
+        (notification: PushNotificationSchema) => {
+          console.log('Push received:', notification);
+        }
+      );
+
+      // Method called when tapping on a notification
+      PushNotifications.addListener('pushNotificationActionPerformed', 
+        (action: ActionPerformed) => {
+          console.log('Push action performed:', JSON.stringify(action));
+
+          console.log('Push action data:', JSON.stringify(action?.notification?.data));
+          // TODO: Can be used for logic and deep links (we decide data and logic)
+
+
+          // TODO: probably use a pullstate store for global data then later component can decide what to do with it
+
+
+          // Remove notification from the notification center (as you have actioned one)
+          PushNotifications.removeAllListeners();
+        }
+      );
+    }
+  }
+
+  const requestPermissions = async () => {
+    let permStatus = await PushNotifications.checkPermissions();
+
+    if (permStatus.receive === 'prompt') {
+      permStatus = await PushNotifications.requestPermissions();
+    }
+  
+    if (permStatus.receive === 'granted') {
+      registerPush();  
+    } else {
+      console.error('User denied permissions!');
+    }
+
+  };  
+
+  useEffect(() => {
+    // Request permission to use push notifications
+    if (Capacitor.getPlatform() !== 'web') {
+      requestPermissions();
     }
   }, []);
 
