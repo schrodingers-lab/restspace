@@ -59,8 +59,6 @@ const MapPage = ({history}) => {
   const [lat, setLat] = useState<number | undefined>();
   const [distance, setDistance] = useState(10000);
   const [zoom, setZoom] = useState(13);
-  const [markers, setMarkers] = useState<any[]>([]);
-  const [markersMap, setMarkersMap] = useState<Map<number,mapboxgl.Marker>>(new Map());
 
   const [userMarker, setUserMarker] = useState<mapboxgl.Marker | undefined>();
 
@@ -87,10 +85,6 @@ const MapPage = ({history}) => {
   const user = useUser();
   const {userId} = useNotificationsStore({userId: user?.id});
   const activeNotifications = useStoreState(NotificationStore, selectors.getActiveNotifications)
-
-
-  const [width, setWidth] = useState<undefined|number>();
-  const [height, setHeight] = useState<undefined|number>();
   
 
   const geoSearch = async () => {
@@ -167,12 +161,6 @@ const MapPage = ({history}) => {
     { maxWait: 2000 }
   );
 
-  const getScreenSize = () => {
-    const width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-    const height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-    return { width, height };
-  };
-
   const loadMap = async (lng, lat) => {
     map.current = new mapboxgl.Map({
       accessToken: mapboxglAccessToken,
@@ -210,7 +198,11 @@ const MapPage = ({history}) => {
 
     setTimeout(function(){
     	mapResize();
-    }, 3000);
+    }, 100);
+    
+    setTimeout(function(){
+    	debouncedMapResize();
+    }, 1000);
   }
 
   useEffect(() => {
@@ -227,12 +219,6 @@ const MapPage = ({history}) => {
     setLng(longitude);
     setLat(latitude);
     loadMap(longitude,latitude);
-
-    const screenSize = getScreenSize();
-    console.log('Screen width:', screenSize.width);
-    console.log('Screen height:', screenSize.height);
-    if (width == undefined) { setWidth(screenSize.width)};
-    if (height == undefined) { setHeight(screenSize.height - 156);}
 
   
   }, []);
