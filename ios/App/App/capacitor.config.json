@@ -18,5 +18,11 @@
 			"splashImmersive": true
 		}
 	},
-	"cordova": {}
+	"cordova": {},
+	"packageClassList": [
+		"CAPCameraPlugin",
+		"GeolocationPlugin",
+		"StatusBarPlugin",
+		"SplashScreenPlugin"
+	]
 }

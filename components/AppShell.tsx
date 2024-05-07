@@ -1,4 +1,4 @@
-import { IonApp, IonRouterOutlet, IonSplitPane, IonToast, IonModal } from '@ionic/react';
+import { IonApp, IonRouterOutlet, IonSplitPane, IonToast, IonModal, IonMenu, IonContent } from '@ionic/react';
 import { StatusBar, Style } from '@capacitor/status-bar';
 import { setupIonicReact } from '@ionic/react';
 import React, { useEffect, useState } from 'react';
@@ -83,7 +83,6 @@ const AppShell = ({history}) => {
           />
           <IonModal
             isOpen={showModal}
-            swipeToClose={true}
             onDidDismiss={() => setShowModal(false)}>
            <UpgradeCard/>
           </IonModal>

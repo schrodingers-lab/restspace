@@ -29,8 +29,6 @@
 	</dict>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Location is used for localised map search only</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Location is used for localised map search only</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Location is used for localised map search only</string>
 	<key>UILaunchStoryboardName</key>

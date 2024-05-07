@@ -37,9 +37,16 @@ export const Login = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
     }, [phoneNumber, sendPhoneNumberFnc]);
 
     const handlePhone = (value) => {
-      let parsedNumber = parsePhoneNumber(value);
-      setPhoneNumber(parsedNumber?.number);
-
+      debugger;
+      if(value){
+        let parsedNumber = parsePhoneNumber(value);
+        if(parsedNumber?.number) {
+          setPhoneNumber(parsedNumber?.number);
+        }
+     
+      }else{
+        setPhoneNumber(null);
+      }
     }
     const handlePassword = (event) => {
       setPassword(event.target.value);

@@ -1,7 +1,8 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
+    namespace "com.proroute.restspace"
+    compileSdk rootProject.ext.compileSdkVersion
     defaultConfig {
         applicationId "com.proroute.restspace"
         minSdkVersion rootProject.ext.minSdkVersion
