@@ -24,7 +24,7 @@ import React, { useRef, useEffect, useState } from 'react';
 
 // import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
 import * as mapboxgl from 'mapbox-gl'; 
-const mapboxglAccessToken = 'pk.eyJ1IjoicmVzdHNwYWNlIiwiYSI6ImNsdnZ0emlkdDIxNTMyam82cjE0amp5dW0ifQ.GmwpkEaVBP7xCUGyGICQtw';
+const mapboxglAccessToken = 'pk.eyJ1IjoiZGFycmVuLXByb3JvdXRlIiwiYSI6ImNsM2M2cjRhOTAxd3YzY3JvYjl1OXQ3Y3oifQ.lerkA3MPLmhRgla3jQnCGg';
 
 
 export const RestAreaDetail = ({restarea}) => {
@@ -195,9 +195,9 @@ export const RestAreaDetail = ({restarea}) => {
                 setIsToastOpen(true);
               }
             }>
-          <IonItem color={"light"} className="my-8" placeholder={undefined} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined}>
-            <IonIcon slot="end" icon={locate} placeholder={undefined} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} />
-            <IonLabel className="ion-text-wrap" placeholder={undefined} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined}>
+          <IonItem color={"light"} className="my-8">
+            <IonIcon slot="end" icon={locate} />
+            <IonLabel className="ion-text-wrap">
               Longitude: {restarea.longitude} <br/>
               Latitude: {restarea.latitude}
             </IonLabel>

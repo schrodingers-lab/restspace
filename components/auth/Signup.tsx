@@ -1,14 +1,15 @@
 import 'react-phone-number-input/style.css';
-import PhoneInput, { formatPhoneNumber, formatPhoneNumberIntl, isValidPhoneNumber } from 'react-phone-number-input';
+import PhoneInput, { formatPhoneNumber, formatPhoneNumberIntl, isValidPhoneNumber, parsePhoneNumber } from 'react-phone-number-input';
 import React, {useState,useRef, useEffect} from 'react';
 import { SupabaseClient } from '@supabase/supabase-js';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
+import { E164Number } from 'libphonenumber-js';
 
 
 export const Signup = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
     const supabaseClient = useSupabaseClient();
 
-    const [phoneNumber, setPhoneNumber] = useState<string>();
+    const [phoneNumber, setPhoneNumber] = useState<E164Number>();
     const [password, setPassword] = useState<string>();
     const passwordRef = useRef<HTMLInputElement>(null);
 
@@ -39,7 +40,8 @@ export const Signup = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
     } 
 
     const handlePhone = (value) => {
-      setPhoneNumber(value);
+      let parsedNumber = parsePhoneNumber(value);
+      setPhoneNumber(parsedNumber?.number);
     }
     const handlePassword = (event) => {
       setPassword(event.target.value);
