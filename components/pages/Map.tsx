@@ -30,7 +30,7 @@ import RestAreaMarker from "../cards/RestAreaMarker";
 import MapInfo from "../map/MapInfo";
 import * as mapboxgl from 'mapbox-gl'; 
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
-const mapboxglAccessToken = 'pk.eyJ1IjoiZGFycmVuLXByb3JvdXRlIiwiYSI6ImNsM2M2cjRhOTAxd3YzY3JvYjl1OXQ3Y3oifQ.lerkA3MPLmhRgla3jQnCGg';
+const mapboxglAccessToken = 'pk.eyJ1IjoicmVzdHNwYWNlIiwiYSI6ImNsdnZ0emlkdDIxNTMyam82cjE0amp5dW0ifQ.GmwpkEaVBP7xCUGyGICQtw';
 
 
 const Map = ({history}) => {
