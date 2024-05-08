@@ -79,6 +79,9 @@ export const Login = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
           } else if (error?.message == "Invalid login credentials") {
             //failed to login
             setError('Invalid login credentials');
+          }else {
+            //failed to login
+            setError(error?.message);
           }
         }
       } else {
