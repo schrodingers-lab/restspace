@@ -110,7 +110,7 @@ export const RestAreaDetail = ({restarea}) => {
     // an arbitrary start will always be the same
     // only the end or destination will change
     const query = await fetch(
-      `https://api.mapbox.com/directions/v5/mapbox/driving-traffic/${currentLocation.longitude},${currentLocation.latitude};${restarea.longitude},${restarea.latitude}?steps=true&geometries=geojson&access_token=${mapboxgl.accessToken}`,
+      `https://api.mapbox.com/directions/v5/mapbox/driving-traffic/${currentLocation.longitude},${currentLocation.latitude};${restarea.longitude},${restarea.latitude}?steps=true&geometries=geojson&access_token=${mapboxglAccessToken}`,
       { method: 'GET' }
     );
 

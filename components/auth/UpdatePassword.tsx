@@ -9,19 +9,7 @@ export const UpdatePassword = ( {phoneNumber, displayPhoneNumber, sendAuthStateF
     const supabaseClient = useSupabaseClient();
 
     // const [phoneNumber, setPhoneNumber] = useState<string>();
-    const [token1, setToken1] = useState<undefined|0|1|2|3|4|5|6|7|8|9>();
-    const [token2, setToken2] = useState<undefined|0|1|2|3|4|5|6|7|8|9>();
-    const [token3, setToken3] = useState<undefined|0|1|2|3|4|5|6|7|8|9>();
-    const [token4, setToken4] = useState<undefined|0|1|2|3|4|5|6|7|8|9>();
-    const [token5, setToken5] = useState<undefined|0|1|2|3|4|5|6|7|8|9>();
-    const [token6, setToken6] = useState<undefined|0|1|2|3|4|5|6|7|8|9>();
-
-    const token1Ref = useRef<HTMLInputElement>(null);
-    const token2Ref = useRef<HTMLInputElement>(null);
-    const token3Ref = useRef<HTMLInputElement>(null);
-    const token4Ref = useRef<HTMLInputElement>(null);
-    const token5Ref = useRef<HTMLInputElement>(null);
-    const token6Ref = useRef<HTMLInputElement>(null);
+    const [tokens, setTokens] = useState(Array(6).fill(''));
 
     const [password, setPassword] = useState<string>();
     const passwordRef = useRef<HTMLInputElement>(null);
@@ -31,19 +19,7 @@ export const UpdatePassword = ( {phoneNumber, displayPhoneNumber, sendAuthStateF
     const [authState, setAuthState] = useState<string>('update');
 
     const clearToken = async () => {
-      setToken1(undefined);
-      setToken2(undefined);
-      setToken3(undefined);
-      setToken4(undefined);
-      setToken5(undefined);
-      setToken6(undefined);
-
-      token1Ref.current.value = '';
-      token2Ref.current.value = '';
-      token3Ref.current.value = '';
-      token4Ref.current.value = '';
-      token5Ref.current.value = '';
-      token6Ref.current.value = '';
+      setTokens(Array(6).fill(''));
     }
 
     useEffect(() => {
@@ -63,41 +39,28 @@ export const UpdatePassword = ( {phoneNumber, displayPhoneNumber, sendAuthStateF
       console.log("supaState",  results );
     }
 
-    const inputfocus = (elmnt) => {
-        if (elmnt.key === "Delete" || elmnt.key === "Backspace") {
-          const next = elmnt.target.tabIndex - 2;
-          if (next > -1) {
-            elmnt.target.form.elements[next].focus()
-          }
-        }
-        else {
-          console.log("next");
-         
-            const next = elmnt.target.tabIndex;
-            if (next < 6) {
-              elmnt.target.form.elements[next].focus()
-            }
-        }
-    }
+    const handleTokenChange = (index) => (e) => {
+      const newTokens = [...tokens];
+      newTokens[index] = e.target.value;
+      setTokens(newTokens);
+    };
+
+    const inputfocus = (e, index) => {
+      if (e.target.nextSibling && e.key !== 'Backspace') {
+        e.target.nextSibling.focus();
+      } else if (e.key === 'Backspace' && e.target.previousSibling) {
+        e.target.previousSibling.focus();
+      }
+    };
     
-    const handleToken1 = (event) => {
-      setToken1(event.target.value);
-    }
-    const handleToken2 = (event) => {
-      setToken2(event.target.value);
-    }
-    const handleToken3 = (event) => {
-      setToken3(event.target.value);
-    }
-    const handleToken4 = (event) => {
-      setToken4(event.target.value);
-    }
-    const handleToken5 = (event) => {
-      setToken5(event.target.value);
-    }
-    const handleToken6 = (event) => {
-      setToken6(event.target.value);
-    }
+    const handlePaste = (e) => {
+      e.preventDefault();
+      const pastedData = e.clipboardData.getData('text');
+      const pastedArray = pastedData.split('');
+      if (pastedArray.length === 6) {
+        setTokens(pastedArray);
+      }
+    };
 
     const handlePassword = (event) => {
       setPassword(event.target.value);
@@ -118,7 +81,7 @@ export const UpdatePassword = ( {phoneNumber, displayPhoneNumber, sendAuthStateF
       setLoading(true)
 
       console.log("phoneNumber", phoneNumber);
-      let token = ""+token1+token2+token3+token4+token5+token6
+      let token = ""+tokens.join('');
       console.log("token", token);
 
       const {data ,error}  = await supabaseClient.auth.verifyOtp({
@@ -174,13 +137,21 @@ export const UpdatePassword = ( {phoneNumber, displayPhoneNumber, sendAuthStateF
                 </div>
   
                 <div id="otp" className="flex flex-row justify-center text-center px-2 mt-5">
-                  <input ref={token1Ref} onChange={handleToken1} value={token1} onKeyUp={e => inputfocus(e)}  autoComplete="off" tabIndex={1} className="m-2 border h-10 w-10 text-center form-control rounded dark:text-gray-200 dark:bg-black" type="text" id="first" maxLength={1} /> 
-                  <input ref={token2Ref} onChange={handleToken2} value={token2} onKeyUp={e => inputfocus(e)}  autoComplete="off" tabIndex={2} className="m-2 border h-10 w-10 text-center form-control rounded dark:text-gray-200 dark:bg-black" type="text" id="second" maxLength={1} /> 
-                  <input ref={token3Ref} onChange={handleToken3} value={token3} onKeyUp={e => inputfocus(e)}  autoComplete="off" tabIndex={3}  className="m-2 border h-10 w-10 text-center form-control rounded dark:text-gray-200 dark:bg-black" type="text" id="third" maxLength={1} /> 
-                  <input ref={token4Ref} onChange={handleToken4} value={token4} onKeyUp={e => inputfocus(e)}  autoComplete="off" tabIndex={4}  className="m-2 border h-10 w-10 text-center form-control rounded dark:text-gray-200 dark:bg-black" type="text" id="fourth" maxLength={1} />
-                  <input ref={token5Ref} onChange={handleToken5} value={token5} onKeyUp={e => inputfocus(e)}  autoComplete="off" tabIndex={5}  className="m-2 border h-10 w-10 text-center form-control rounded dark:text-gray-200 dark:bg-black" type="text" id="fifth" maxLength={1} /> 
-                  <input ref={token6Ref} onChange={handleToken6} value={token6} onKeyUp={e => inputfocus(e)}  autoComplete="off" tabIndex={6}  className="m-2 border h-10 w-10 text-center form-control rounded dark:text-gray-200 dark:bg-black" type="text" id="sixth" maxLength={1} />
-                </div>
+        {tokens.map((token, index) => (
+          <input
+            key={index}
+            onChange={handleTokenChange(index)}
+            onPaste={index === 0 ? handlePaste : null}
+            value={token}
+            onKeyUp={(e) => inputfocus(e, index)}
+            autoComplete="off"
+            tabIndex={index + 1}
+            className="m-2 border h-10 w-10 text-center form-control rounded dark:text-gray-200 dark:bg-black"
+            type="text"
+            maxLength={1}
+          />
+        ))}
+      </div>
 
                 <div>
                   <label htmlFor="password" className="block text-sm font-medium text-gray-700">
