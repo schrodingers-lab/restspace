@@ -22,9 +22,12 @@ export const UpdatePasswordPage = ({history}) => {
   const [displayPhoneNumber, setDisplayPhoneNumber] = useState<string>();
   const [authMode, setAuthMode] = useState< 'update' | 'post'>('update');
 
+
   const displayPhone = (phoneNumber: string) => {
-    return phoneNumber+"TODO***s";
-  }
+    if (!phoneNumber) return '';
+    if (phoneNumber?.length < 4) return phoneNumber;
+    return `${'*'.repeat(phoneNumber.length - 4)}${phoneNumber.slice(-4)}`;
+  };
 
   const callSetPhoneNumber = (phoneNumber) => {
     setPhoneNumber(phoneNumber);

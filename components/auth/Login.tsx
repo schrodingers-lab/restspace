@@ -54,6 +54,20 @@ export const Login = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault()
 
+      if (!phoneNumber){
+        setError("Phone number required");
+        return;
+      } else {
+        if (!isValidPhoneNumber(phoneNumber)){
+          setError("Invalid phone number");
+          return;
+        }
+      }
+      if (!password){
+        setError("Password is required");
+        return;
+      }
+
       setError('')
       setLoading(true)
 
@@ -99,12 +113,12 @@ export const Login = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
         <div className="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8 bg-gradient-to-br from-fuchsia-500 to-purple-600">
           <div className="sm:mx-auto sm:w-full sm:max-w-md">
           <img
-            className="mx-auto h-12 w-auto dark:hidden"
+            className="mx-auto h-12 w-auto hidden dark:block"
             src="/svgs/restspace__logo.svg"
             alt="RestSpace"
           />
           <img
-            className="mx-auto h-12 w-auto hidden dark:block"
+            className="mx-auto h-12 w-auto dark:hidden"
             src="/svgs/restspace_logo_blk.svg"
             alt="RestSpace"
           />
@@ -149,7 +163,7 @@ export const Login = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
                       onChange={handlePassword}
                       ref={passwordRef}
                       required
-                      className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                      className="block w-full dark:bg-black appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                     />
                   </div>
                 </div>

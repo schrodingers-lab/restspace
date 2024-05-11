@@ -22,12 +22,12 @@ export const HomeNonUser = ({history}) => {
         <div className="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8 bg-gradient-to-br from-fuchsia-500 to-purple-600">
           <div className="sm:mx-auto sm:w-full sm:max-w-md">
           <img
-            className="mx-auto h-12 w-auto dark:hidden"
+            className="mx-auto h-12 w-auto hidden dark:block"
             src="/svgs/restspace__logo.svg"
             alt="RestSpace"
           />
           <img
-            className="mx-auto h-12 w-auto hidden dark:block"
+            className="mx-auto h-12 w-auto dark:hidden"
             src="/svgs/restspace_logo_blk.svg"
             alt="RestSpace"
           />

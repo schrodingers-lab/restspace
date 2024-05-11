@@ -54,7 +54,17 @@ export const Forgot = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
     }
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-      event.preventDefault()
+      event.preventDefault();
+
+      if (!phoneNumber){
+        setError("Phone number required");
+        return;
+      } else {
+        if (!isValidPhoneNumber(phoneNumber)){
+          setError("Invalid phone number");
+          return;
+        }
+      }
 
       setError('')
       setLoading(true)
@@ -85,12 +95,12 @@ export const Forgot = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
         <div className="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8 bg-gradient-to-br from-fuchsia-500 to-purple-600">
           <div className="sm:mx-auto sm:w-full sm:max-w-md">
           <img
-            className="mx-auto h-12 w-auto dark:hidden"
+            className="mx-auto h-12 w-auto hidden dark:block"
             src="/svgs/restspace__logo.svg"
             alt="RestSpace"
           />
           <img
-            className="mx-auto h-12 w-auto hidden dark:block"
+            className="mx-auto h-12 w-auto dark:hidden"
             src="/svgs/restspace_logo_blk.svg"
             alt="RestSpace"
           />
@@ -143,7 +153,7 @@ export const Forgot = ({sendPhoneNumberFnc, sendAuthStateFnc}) => {
                     type="submit"
                     className="flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                   >
-                    Send Verification
+                    Send Reset Code
                   </button>
                 </div>
               </form>

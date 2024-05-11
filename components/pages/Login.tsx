@@ -23,9 +23,12 @@ export const LoginPage = ({history}) => {
     const [displayPhoneNumber, setDisplayPhoneNumber] = useState<string>();
     const [authMode, setAuthMode] = useState<'login' | 'verify' | 'signup' | 'post'>('login');
 
+
     const displayPhone = (phoneNumber: string) => {
-      return phoneNumber+"TODO***s";
-    }
+      if (!phoneNumber) return '';
+      if (phoneNumber?.length < 4) return phoneNumber;
+      return `${'*'.repeat(phoneNumber.length - 4)}${phoneNumber.slice(-4)}`;
+    };
 
     const callSetPhoneNumber = (phoneNumber) => {
       setPhoneNumber(phoneNumber);

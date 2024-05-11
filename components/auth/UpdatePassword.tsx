@@ -150,12 +150,12 @@ export const UpdatePassword = ( {phoneNumber, displayPhoneNumber, sendAuthStateF
         <div className="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8 bg-gradient-to-br from-fuchsia-500 to-purple-600">
           <div className="sm:mx-auto sm:w-full sm:max-w-md">
           <img
-            className="mx-auto h-12 w-auto dark:hidden"
+            className="mx-auto h-12 w-auto hidden dark:block"
             src="/svgs/restspace__logo.svg"
             alt="RestSpace"
           />
           <img
-            className="mx-auto h-12 w-auto hidden dark:block"
+            className="mx-auto h-12 w-auto dark:hidden"
             src="/svgs/restspace_logo_blk.svg"
             alt="RestSpace"
           />
@@ -174,12 +174,12 @@ export const UpdatePassword = ( {phoneNumber, displayPhoneNumber, sendAuthStateF
                 </div>
   
                 <div id="otp" className="flex flex-row justify-center text-center px-2 mt-5">
-                  <input ref={token1Ref} onChange={handleToken1} value={token1} onKeyUp={e => inputfocus(e)}  autoComplete="off" tabIndex={1} className="m-2 border h-10 w-10 text-center form-control rounded" type="text" id="first" maxLength={1} /> 
-                  <input ref={token2Ref} onChange={handleToken2} value={token2} onKeyUp={e => inputfocus(e)}  autoComplete="off" tabIndex={2} className="m-2 border h-10 w-10 text-center form-control rounded" type="text" id="second" maxLength={1} /> 
-                  <input ref={token3Ref} onChange={handleToken3} value={token3} onKeyUp={e => inputfocus(e)}  autoComplete="off" tabIndex={3}  className="m-2 border h-10 w-10 text-center form-control rounded" type="text" id="third" maxLength={1} /> 
-                  <input ref={token4Ref} onChange={handleToken4} value={token4} onKeyUp={e => inputfocus(e)}  autoComplete="off" tabIndex={4}  className="m-2 border h-10 w-10 text-center form-control rounded" type="text" id="fourth" maxLength={1} />
-                  <input ref={token5Ref} onChange={handleToken5} value={token5} onKeyUp={e => inputfocus(e)}  autoComplete="off" tabIndex={5}  className="m-2 border h-10 w-10 text-center form-control rounded" type="text" id="fifth" maxLength={1} /> 
-                  <input ref={token6Ref} onChange={handleToken6} value={token6} onKeyUp={e => inputfocus(e)}  autoComplete="off" tabIndex={6}  className="m-2 border h-10 w-10 text-center form-control rounded" type="text" id="sixth" maxLength={1} />
+                  <input ref={token1Ref} onChange={handleToken1} value={token1} onKeyUp={e => inputfocus(e)}  autoComplete="off" tabIndex={1} className="m-2 border h-10 w-10 text-center form-control rounded dark:text-gray-200 dark:bg-black" type="text" id="first" maxLength={1} /> 
+                  <input ref={token2Ref} onChange={handleToken2} value={token2} onKeyUp={e => inputfocus(e)}  autoComplete="off" tabIndex={2} className="m-2 border h-10 w-10 text-center form-control rounded dark:text-gray-200 dark:bg-black" type="text" id="second" maxLength={1} /> 
+                  <input ref={token3Ref} onChange={handleToken3} value={token3} onKeyUp={e => inputfocus(e)}  autoComplete="off" tabIndex={3}  className="m-2 border h-10 w-10 text-center form-control rounded dark:text-gray-200 dark:bg-black" type="text" id="third" maxLength={1} /> 
+                  <input ref={token4Ref} onChange={handleToken4} value={token4} onKeyUp={e => inputfocus(e)}  autoComplete="off" tabIndex={4}  className="m-2 border h-10 w-10 text-center form-control rounded dark:text-gray-200 dark:bg-black" type="text" id="fourth" maxLength={1} />
+                  <input ref={token5Ref} onChange={handleToken5} value={token5} onKeyUp={e => inputfocus(e)}  autoComplete="off" tabIndex={5}  className="m-2 border h-10 w-10 text-center form-control rounded dark:text-gray-200 dark:bg-black" type="text" id="fifth" maxLength={1} /> 
+                  <input ref={token6Ref} onChange={handleToken6} value={token6} onKeyUp={e => inputfocus(e)}  autoComplete="off" tabIndex={6}  className="m-2 border h-10 w-10 text-center form-control rounded dark:text-gray-200 dark:bg-black" type="text" id="sixth" maxLength={1} />
                 </div>
 
                 <div>
@@ -194,7 +194,7 @@ export const UpdatePassword = ( {phoneNumber, displayPhoneNumber, sendAuthStateF
                       onChange={handlePassword}
                       ref={passwordRef}
                       required
-                      className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                      className="block w-full dark:bg-black appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                     />
                   </div>
                 </div>

@@ -24,8 +24,11 @@ export const ForgotPage = ({history}) => {
     const [authMode, setAuthMode] = useState<'forgot' | 'update' | 'post'>('forgot');
 
     const displayPhone = (phoneNumber: string) => {
-      return phoneNumber+"TODO***s";
-    }
+      if (!phoneNumber) return '';
+      if (phoneNumber?.length < 4) return phoneNumber;
+      return `${'*'.repeat(phoneNumber.length - 4)}${phoneNumber.slice(-4)}`;
+    };
+    
 
     const callSetPhoneNumber = (phoneNumber) => {
       setPhoneNumber(phoneNumber);
