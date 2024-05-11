@@ -34,6 +34,23 @@ const AppShell = ({history}) => {
     mode: 'md'
   });
 
+  //default to 'dark'
+  if(!('theme' in localStorage)){
+    localStorage.theme = 'dark'
+  }
+
+  // Theme detection
+  if (localStorage.theme === 'dark' || (!('theme' in localStorage) || window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    document.documentElement.classList.add('dark'); //tailwind
+    document.body.classList.add('dark'); //ionic
+    localStorage.theme = 'dark'
+  } else {
+    document.documentElement.classList.remove('dark'); //tailwind
+    document.body.classList.remove('dark'); //ionic
+    localStorage.theme = 'light'
+  };
+
+
   // Create a single supabase client for interacting with your database 
   // const supabase = createClient('https://arvqjbylexvdpyooykji.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFydnFqYnlsZXh2ZHB5b295a2ppIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NTMxMTk1MzUsImV4cCI6MTk2ODY5NTUzNX0.09341SKltY0PCODodzrDD1RQDXB5tA5dnMc-jQbKPag');
   const supabase = useSupabaseClient();
@@ -70,7 +87,7 @@ const AppShell = ({history}) => {
 
 
   return (
-    <IonApp>
+    <IonApp  className="dark:bg-black bg-white">
       <IonReactRouter>
         <IonSplitPane contentId="main">
           <Menu />

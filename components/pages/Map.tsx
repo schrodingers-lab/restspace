@@ -160,7 +160,30 @@ const Map = ({history}) => {
       setSearchRadius();
     });
 
+    setTimeout(function(){
+    	mapResize();
+    }, 100);
+    
+    setTimeout(function(){
+    	debouncedMapResize();
+    }, 1000);
+
   }, []);
+
+  const debouncedMapResize = useDebouncedCallback(
+    () => {
+      mapResize();
+    },
+    200,
+    // The maximum time func is allowed to be delayed before it's invoked:
+    { maxWait: 1000 }
+  );
+
+  const mapResize = () => {
+    if (!map.current) return;
+    console.log('resize map')
+    map.current.resize();
+  }
 
   useEffect(() => {
     if (!map.current) return; // initialize map only once

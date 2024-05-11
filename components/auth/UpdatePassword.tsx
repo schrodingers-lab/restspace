@@ -149,11 +149,16 @@ export const UpdatePassword = ( {phoneNumber, displayPhoneNumber, sendAuthStateF
       <>
         <div className="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8 bg-gradient-to-br from-fuchsia-500 to-purple-600">
           <div className="sm:mx-auto sm:w-full sm:max-w-md">
-            <img
-              className="mx-auto h-12 w-auto"
-              src="/svgs/restspace_logo_blk.svg"
-              alt="RestSpace"
-            />
+          <img
+            className="mx-auto h-12 w-auto dark:hidden"
+            src="/svgs/restspace__logo.svg"
+            alt="RestSpace"
+          />
+          <img
+            className="mx-auto h-12 w-auto hidden dark:block"
+            src="/svgs/restspace_logo_blk.svg"
+            alt="RestSpace"
+          />
             <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">Verify</h2>
             <p className="mt-2 text-center text-sm text-gray-600">
   
@@ -161,7 +166,7 @@ export const UpdatePassword = ( {phoneNumber, displayPhoneNumber, sendAuthStateF
           </div>
   
           <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-            <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+            <div className="bg-white dark:bg-black py-8 px-4 shadow sm:rounded-lg sm:px-10">
               <form className="space-y-6" onSubmit={handleSubmit}>
                 <div className="flex flex-col mt-4">
                   <span>Enter the verification code you received at</span>

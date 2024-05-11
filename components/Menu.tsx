@@ -80,7 +80,7 @@ const Menu = () => {
   }, []);
 
   return (
-    <IonMenu side="start" contentId="main" onIonDidOpen={handleOpen} onIonDidClose={handleClose} swipeGesture={false}>
+    <IonMenu className="dark:bg-black bg-white" side="start" contentId="main" onIonDidOpen={handleOpen} onIonDidClose={handleClose} swipeGesture={false}>
       <IonHeader>
         <IonToolbar>
           <IonTitle>RestSpace</IonTitle>

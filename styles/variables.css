@@ -76,14 +76,15 @@ http://ionicframework.com/docs/theming/ */
   --ion-color-light-tint: #f5f6f9;
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) { */
+
   /*
    * Dark Colors
    * -------------------------------------------
    */
 
-  body {
-    --ion-color-primary: #428cff;
+  .body.dark {
+    --ion-color-primary:  #F15A24;
     --ion-color-primary-rgb: 66, 140, 255;
     --ion-color-primary-contrast: #ffffff;
     --ion-color-primary-contrast-rgb: 255, 255, 255;
@@ -152,7 +153,7 @@ http://ionicframework.com/docs/theming/ */
    * -------------------------------------------
    */
 
-  .ios body {
+   .ios body.dark {
     --ion-background-color: #000000;
     --ion-background-color-rgb: 0, 0, 0;
 
@@ -191,7 +192,7 @@ http://ionicframework.com/docs/theming/ */
    * -------------------------------------------
    */
 
-  .md body {
+  .md body.dark {
     --ion-background-color: #121212;
     --ion-background-color-rgb: 18, 18, 18;
 
@@ -228,4 +229,29 @@ http://ionicframework.com/docs/theming/ */
 
     --ion-card-background: #1e1e1e;
   }
-}
+
+  .dark .PhoneInputInput {
+    background-color: #000000;
+    color: white;
+  }
+
+  .dark .mapboxgl-popup-content {
+    background-color: #000000;
+    color: white;
+  }
+
+  .PhoneInputInput {
+    border-radius: 0.375rem;
+    border-width: 1px;
+
+    --PhoneInputCountryFlag-height: #F18F1E;
+    --PhoneInputCountryFlag-borderColor: #F18F1E;
+    --PhoneInputCountrySelectArrow-color: #F18F1E;
+    --PhoneInputCountrySelectArrow-opacity: #F18F1E;
+    --PhoneInput-color--focus: #F18F1E;
+  }
+
+  .PhoneInputInput:focus {
+    border-color: #F18F1E;
+    --tw-ring-color:#F18F1E!important;
+  }
