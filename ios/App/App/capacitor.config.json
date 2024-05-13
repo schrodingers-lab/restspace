@@ -22,6 +22,7 @@
 	"packageClassList": [
 		"CAPCameraPlugin",
 		"GeolocationPlugin",
+		"PreferencesPlugin",
 		"StatusBarPlugin",
 		"SplashScreenPlugin"
 	]

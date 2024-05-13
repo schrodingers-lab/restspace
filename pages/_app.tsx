@@ -16,11 +16,16 @@ import '../styles/variables.css';
 import React, { useState } from 'react';
 import { createPagesBrowserClient } from '@supabase/auth-helpers-nextjs'
 import { SessionContextProvider, Session } from '@supabase/auth-helpers-react'
+import { createCapacitorSupabaseClient } from '../components/util/supabase';
 
 function MyApp({ Component, pageProps }) {
 
   // Create a new supabase browser client on every first render.
-  const [supabaseClient] = useState(() => createPagesBrowserClient())
+  const [supabaseClient] = useState(() => createCapacitorSupabaseClient({
+    supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL,
+    supabaseKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  }))
+
   
   return (
     <>

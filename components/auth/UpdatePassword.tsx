@@ -147,7 +147,7 @@ export const UpdatePassword = ( {phoneNumber, displayPhoneNumber, sendAuthStateF
             autoComplete="off"
             tabIndex={index + 1}
             className="m-2 border h-10 w-10 text-center form-control rounded dark:text-gray-200 dark:bg-black"
-            type="text"
+            type="number" min="0" max="9"
             maxLength={1}
           />
         ))}

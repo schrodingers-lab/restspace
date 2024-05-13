@@ -6,6 +6,8 @@ PODS:
   - CapacitorCordova (6.0.0)
   - CapacitorGeolocation (6.0.0):
     - Capacitor
+  - CapacitorPreferences (6.0.0):
+    - Capacitor
   - CapacitorSplashScreen (6.0.0):
     - Capacitor
   - CapacitorStatusBar (6.0.0):
@@ -16,6 +18,7 @@ DEPENDENCIES:
   - "CapacitorCamera (from `../../node_modules/@capacitor/camera`)"
   - "CapacitorCordova (from `../../node_modules/@capacitor/ios`)"
   - "CapacitorGeolocation (from `../../node_modules/@capacitor/geolocation`)"
+  - "CapacitorPreferences (from `../../node_modules/@capacitor/preferences`)"
   - "CapacitorSplashScreen (from `../../node_modules/@capacitor/splash-screen`)"
   - "CapacitorStatusBar (from `../../node_modules/@capacitor/status-bar`)"
 
@@ -28,6 +31,8 @@ EXTERNAL SOURCES:
     :path: "../../node_modules/@capacitor/ios"
   CapacitorGeolocation:
     :path: "../../node_modules/@capacitor/geolocation"
+  CapacitorPreferences:
+    :path: "../../node_modules/@capacitor/preferences"
   CapacitorSplashScreen:
     :path: "../../node_modules/@capacitor/splash-screen"
   CapacitorStatusBar:
@@ -38,9 +43,10 @@ SPEC CHECKSUMS:
   CapacitorCamera: b61f125d92a0ef75d7becb7956fed7dd13187ee0
   CapacitorCordova: 8c4bfdf69368512e85b1d8b724dd7546abeb30af
   CapacitorGeolocation: 1f12bbe372b65116e851bd8e3a94cf0ef9bacebb
+  CapacitorPreferences: c9b839a80baa72e4ed4bdb117618e1950d3046b5
   CapacitorSplashScreen: 5431ab8d19c1c6e95777d53bfaa7a36a6c3d94c7
   CapacitorStatusBar: 2e4369f99166125435641b1908d05f561eaba6f6
 
-PODFILE CHECKSUM: f9c7ae0439c557db62812174d804191a47c59560
+PODFILE CHECKSUM: 7d1102c0a66bcf7edea78be8b73c97ca4cb327f9
 
 COCOAPODS: 1.13.0
