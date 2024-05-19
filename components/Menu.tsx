@@ -12,9 +12,10 @@ import {
   IonToolbar,
 } from '@ionic/react';
 import { useEffect, useState } from 'react';
-import { cog, bookmark, map, list, newspaper, person, earthOutline } from 'ionicons/icons';
+import { cog, bookmark, map, list, newspaper, person, earthOutline, trash } from 'ionicons/icons';
 
 import { useUser, useSupabaseClient } from '@supabase/auth-helpers-react'
+import RemoveUser from './modals/RemoveUser';
 
 const pages = [
   {
@@ -53,6 +54,7 @@ const pages = [
 
 const Menu = () => {
   const [isDark, setIsDark] = useState(false);
+  const [openReporter, setOpenReporter] = useState(false);
   const user = useUser();
   const supabase = useSupabaseClient();
 
@@ -115,7 +117,17 @@ const Menu = () => {
             </IonMenuToggle>
           ))}
 
+          { user &&
+              <IonMenuToggle autoHide={false} key='delete-account'>
+              <IonItem onClick={() => setOpenReporter(true)} routerDirection="none" detail={false} lines="none">
+                <IonIcon icon={trash} slot="start" />
+                <IonLabel>Remove Account</IonLabel>
+              </IonItem>
+            </IonMenuToggle>
+          }
+
         </IonList>
+        <RemoveUser open={openReporter} onDidDismiss={() => setOpenReporter(false)} person={user}/>
       </IonContent>
     </IonMenu>
   );
